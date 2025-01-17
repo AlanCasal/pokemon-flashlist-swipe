@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
+import PokemonCard from '@/src/components/PokemonCard';
 
 const Home = () => {
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -37,7 +38,7 @@ const Home = () => {
 		<SafeAreaView style={styles.container}>
 			<FlatList
 				data={pokemonList}
-				renderItem={({ item }) => <Text>{item.name}</Text>}
+				renderItem={({ item }) => <PokemonCard url={item.url} />}
 				keyExtractor={({ name }, index) => name + index.toString()}
 				onEndReached={handleLoadMore}
 				onEndReachedThreshold={0.5}
