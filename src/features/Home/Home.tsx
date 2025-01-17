@@ -1,5 +1,5 @@
 import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
@@ -41,6 +41,33 @@ const Home = () => {
 		return <PokemonCard url={item.url} />;
 	}, []);
 
+	const viewabilityConfigCallbackPairs = useMemo(
+		() => [
+			{
+				viewabilityConfig: {
+					// minimumViewTime: 500,
+					itemVisiblePercentThreshold: 50,
+				},
+				onViewableItemsChanged: ({
+					changed,
+				}: {
+					changed: Array<{ isViewable: boolean; item: Pokemon }>;
+				}) => {
+					changed.forEach(
+						(changedItem: { isViewable: boolean; item: Pokemon }) => {
+							changedItem.isViewable &&
+								console.log(
+									'\x1b[33m\x1b[44m\x1b[1m[changedItem]\x1b[0m',
+									changedItem.item.url
+								);
+						}
+					);
+				},
+			},
+		],
+		[]
+	);
+
 	useEffect(() => {
 		fetchPage(API_URL);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,6 +96,7 @@ const Home = () => {
 					offset: CARD_OFFSET * index,
 					index,
 				})}
+				viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
 				// windowSize={9}
 			/>
 		</SafeAreaView>
