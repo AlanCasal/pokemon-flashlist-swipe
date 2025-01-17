@@ -49,7 +49,7 @@ const Home = () => {
 	const viewabilityConfigCallbackPairs = useRef([
 		{
 			viewabilityConfig: {
-				minimumViewTime: 500,
+				// minimumViewTime: 500,
 				itemVisiblePercentThreshold: 50,
 			},
 			onViewableItemsChanged: ({
