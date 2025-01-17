@@ -1,10 +1,12 @@
+import sharedStyles from '@/src/constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: 'white',
-		justifyContent: 'center',
-		alignItems: 'center',
+	},
+	contentContainer: {
+		gap: 10,
+		...sharedStyles.hPadding,
 	},
 });

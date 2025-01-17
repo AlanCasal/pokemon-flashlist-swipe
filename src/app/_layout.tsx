@@ -2,7 +2,7 @@ import React from 'react';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 
-const _layout = () => {
+const RootLayout = () => {
 	return (
 		<>
 			<StatusBar style="dark" translucent />
@@ -11,4 +11,4 @@ const _layout = () => {
 	);
 };
 
-export default _layout;
+export default RootLayout;
