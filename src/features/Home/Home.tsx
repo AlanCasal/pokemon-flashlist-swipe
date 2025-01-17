@@ -1,4 +1,4 @@
-import { Text, SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
+import { SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
@@ -7,22 +7,11 @@ import PokemonCard from '@/src/components/PokemonCard';
 
 const Home = () => {
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-	const [next, setNext] = useState<string | null>(null);
+	const [next, setNext] = useState<string>(API_URL); // https://pokeapi.co/api/v2/pokemon?offset=20&limit=20
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	useEffect(() => {
-		const getPokemonList = async () => {
-			const response = await fetch(API_URL);
-			const data = await response.json();
-			setPokemonList(data.results);
-			setNext(data.next);
-		};
-
-		getPokemonList();
-	}, []);
-
-	const handleLoadMore = async () => {
-		if (isLoading || !next) return;
+	const fetchNextPage = async () => {
+		if (isLoading) return;
 
 		setIsLoading(true);
 
@@ -34,15 +23,20 @@ const Home = () => {
 		setIsLoading(false);
 	};
 
+	useEffect(() => {
+		fetchNextPage();
+	}, []);
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<FlatList
 				data={pokemonList}
 				renderItem={({ item }) => <PokemonCard url={item.url} />}
 				keyExtractor={({ name }, index) => name + index.toString()}
-				onEndReached={handleLoadMore}
+				onEndReached={fetchNextPage}
 				onEndReachedThreshold={0.5}
 				ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
+				contentContainerStyle={styles.contentContainer}
 			/>
 		</SafeAreaView>
 	);
