@@ -11,13 +11,13 @@ const Home = () => {
 	const [next, setNext] = useState<string>(API_URL); // https://pokeapi.co/api/v2/pokemon?offset=20&limit=20
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
-	const fetchNextPage = async () => {
+	const fetchPage = async (url: string) => {
 		if (isLoading) return;
 
 		setIsLoading(true);
 
 		try {
-			const response = await axios.get(next);
+			const response = await axios.get(url);
 			const data = response.data;
 			setPokemonList(prevPokemonList => [...prevPokemonList, ...data.results]);
 			setNext(data.next);
@@ -28,8 +28,14 @@ const Home = () => {
 		}
 	};
 
+	const handleRefresh = async () => {
+		setPokemonList([]);
+		setNext(API_URL);
+		fetchPage(API_URL);
+	};
+
 	useEffect(() => {
-		fetchNextPage();
+		fetchPage(API_URL);
 	}, []);
 
 	return (
@@ -37,11 +43,14 @@ const Home = () => {
 			<FlatList
 				data={pokemonList}
 				renderItem={({ item }) => <PokemonCard url={item.url} />}
-				onEndReached={fetchNextPage}
+				onEndReached={() => fetchPage(next)}
 				contentContainerStyle={styles.contentContainer}
 				ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
 				onEndReachedThreshold={0.7}
 				keyExtractor={({ name }, index) => name + index.toString()}
+				refreshing={isLoading}
+				onRefresh={handleRefresh}
+        // debug
 			/>
 		</SafeAreaView>
 	);
