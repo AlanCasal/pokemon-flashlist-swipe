@@ -38,6 +38,8 @@ const Home = () => {
 		fetchPage(API_URL);
 	}, []);
 
+  if (!pokemonList.length) return <ActivityIndicator size="large" />;
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<FlatList
@@ -50,7 +52,9 @@ const Home = () => {
 				keyExtractor={({ name }, index) => name + index.toString()}
 				refreshing={isLoading}
 				onRefresh={handleRefresh}
-        // debug
+				initialNumToRender={5}
+				debug
+				// windowSize={5}
 			/>
 		</SafeAreaView>
 	);
