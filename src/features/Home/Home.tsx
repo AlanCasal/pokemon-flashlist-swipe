@@ -4,6 +4,7 @@ import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokemonCard from '@/src/components/PokemonCard';
+import axios from 'axios';
 
 const Home = () => {
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -15,12 +16,16 @@ const Home = () => {
 
 		setIsLoading(true);
 
-		const response = await fetch(next);
-		const data = await response.json();
-		setPokemonList(prevPokemonList => [...prevPokemonList, ...data.results]);
-		setNext(data.next);
-
-		setIsLoading(false);
+		try {
+			const response = await axios.get(next);
+			const data = response.data;
+			setPokemonList(prevPokemonList => [...prevPokemonList, ...data.results]);
+			setNext(data.next);
+		} catch (error) {
+			console.error('Error fetching Pokemon:', error);
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	useEffect(() => {
@@ -32,11 +37,11 @@ const Home = () => {
 			<FlatList
 				data={pokemonList}
 				renderItem={({ item }) => <PokemonCard url={item.url} />}
-				keyExtractor={({ name }, index) => name + index.toString()}
 				onEndReached={fetchNextPage}
-				onEndReachedThreshold={0.5}
-				ListFooterComponent={isLoading ? <ActivityIndicator /> : null}
 				contentContainerStyle={styles.contentContainer}
+				ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+				onEndReachedThreshold={0.7}
+				keyExtractor={({ name }, index) => name + index.toString()}
 			/>
 		</SafeAreaView>
 	);
