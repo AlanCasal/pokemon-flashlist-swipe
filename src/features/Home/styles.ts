@@ -1,4 +1,4 @@
-import sharedStyles, { CARDS_GAP } from '@/src/constants/sharedStyles';
+import sharedStyles from '@/src/constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -7,7 +7,8 @@ export default StyleSheet.create({
 		flex: 1,
 	},
 	contentContainer: {
-		gap: CARDS_GAP,
+		// gap: CARDS_GAP, // not working in FlashList
+		backgroundColor: 'white',
 		...sharedStyles.hPadding,
 	},
 });

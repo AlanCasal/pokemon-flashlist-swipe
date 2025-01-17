@@ -12,6 +12,7 @@ export default StyleSheet.create({
 		backgroundColor: customColor.input,
 		...sharedStyles.roundBorders,
 		...sharedStyles.vPadding,
+		marginVertical: 10,
 	},
 	image: {
 		...sharedStyles.cardImageSize,
