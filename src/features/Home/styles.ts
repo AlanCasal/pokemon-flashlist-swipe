@@ -1,4 +1,4 @@
-import sharedStyles from '@/src/constants/sharedStyles';
+import sharedStyles, { CARDS_GAP } from '@/src/constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
@@ -7,7 +7,7 @@ export default StyleSheet.create({
 		flex: 1,
 	},
 	contentContainer: {
-		gap: 10,
+		gap: CARDS_GAP,
 		...sharedStyles.hPadding,
 	},
 });

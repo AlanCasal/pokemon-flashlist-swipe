@@ -31,7 +31,7 @@ const PokemonCard = ({ url }: PokemonCardProps) => {
 				}}
 				style={styles.image}
 			/>
-			<Text>{pokemon.name}</Text>
+			<Text style={styles.name}>{pokemon.name}</Text>
 		</View>
 	);
 };

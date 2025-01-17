@@ -1,18 +1,23 @@
 import { customColor } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
-import sharedStyles from '@/src/constants/sharedStyles';
+import sharedStyles, {
+	POKEMON_CARD_HEIGHT,
+} from '@/src/constants/sharedStyles';
 
 export default StyleSheet.create({
 	container: {
 		justifyContent: 'center',
 		alignItems: 'center',
+		height: POKEMON_CARD_HEIGHT,
 		backgroundColor: customColor.input,
 		...sharedStyles.roundBorders,
 		...sharedStyles.vPadding,
 	},
 	image: {
-		width: 100,
-		height: 100,
+		...sharedStyles.cardImageSize,
+	},
+	name: {
+		...sharedStyles.pokemonFontSize,
+		textTransform: 'capitalize',
 	},
 });
-

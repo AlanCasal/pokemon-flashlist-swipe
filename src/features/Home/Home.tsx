@@ -1,10 +1,13 @@
-import { SafeAreaView, FlatList, ActivityIndicator } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokemonCard from '@/src/components/PokemonCard';
 import axios from 'axios';
+import { CARDS_GAP, POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
+
+const CARD_OFFSET = POKEMON_CARD_HEIGHT + CARDS_GAP / 2;
 
 const Home = () => {
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -22,7 +25,7 @@ const Home = () => {
 			setPokemonList(prevPokemonList => [...prevPokemonList, ...data.results]);
 			setNext(data.next);
 		} catch (error) {
-			console.error('Error fetching Pokemon:', error);
+			Alert.alert('Error fetching Pokemon:', (error as Error).message);
 		} finally {
 			setIsLoading(false);
 		}
@@ -34,27 +37,39 @@ const Home = () => {
 		fetchPage(API_URL);
 	};
 
-	useEffect(() => {
-		fetchPage(API_URL);
+	const handleRenderItem = useCallback(({ item }: { item: Pokemon }) => {
+		return <PokemonCard url={item.url} />;
 	}, []);
 
-  if (!pokemonList.length) return <ActivityIndicator size="large" />;
+	useEffect(() => {
+		fetchPage(API_URL);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	if (!pokemonList.length) return <ActivityIndicator size="large" />;
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<FlatList
 				data={pokemonList}
-				renderItem={({ item }) => <PokemonCard url={item.url} />}
+				renderItem={handleRenderItem}
 				onEndReached={() => fetchPage(next)}
-				contentContainerStyle={styles.contentContainer}
-				ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+				ListFooterComponent={
+					isLoading ? <ActivityIndicator size="large" /> : null
+				}
 				onEndReachedThreshold={0.7}
 				keyExtractor={({ name }, index) => name + index.toString()}
 				refreshing={isLoading}
 				onRefresh={handleRefresh}
 				initialNumToRender={5}
 				debug
-				// windowSize={5}
+				contentContainerStyle={styles.contentContainer}
+				getItemLayout={(_, index) => ({
+					length: POKEMON_CARD_HEIGHT,
+					offset: CARD_OFFSET * index,
+					index,
+				})}
+				// windowSize={9}
 			/>
 		</SafeAreaView>
 	);
