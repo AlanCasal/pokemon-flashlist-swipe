@@ -1,22 +1,19 @@
 import { StyleSheet } from 'react-native';
 
-export const POKEMON_CARD_HEIGHT = 150;
-export const POKEMON_IMAGE_SIZE = 100;
-export const CARDS_GAP = 10;
+export const POKEMON_CARD_HEIGHT = 100;
+export const POKEMON_IMAGE_SIZE = 120;
+export const CARDS_GAP = 15;
+export const PRIMARY_FONT = 'FingerPaint_400Regular';
 
 export default StyleSheet.create({
-	hPadding: {
-		paddingHorizontal: 14,
+	hListPadding: {
+		paddingHorizontal: 40,
 	},
-	vPadding: {
+	vListPadding: {
 		paddingVertical: 14,
 	},
 	roundBorders: {
 		borderRadius: 10,
-	},
-	pokemonFontSize: {
-		fontSize: 16,
-		lineHeight: 16,
 	},
 	cardImageSize: {
 		width: POKEMON_IMAGE_SIZE,
