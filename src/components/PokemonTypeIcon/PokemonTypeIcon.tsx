@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import React, { lazy, Suspense } from 'react';
 import { PokemonType } from '@/src/types/pokemonTypes';
 
@@ -50,7 +50,7 @@ const PokemonTypeIcon = ({ type }: { type: PokemonType }) => {
 	if (!Icon) return null;
 
 	return (
-		<Suspense fallback={<Text>Loading...</Text>}>
+		<Suspense fallback={<ActivityIndicator size="small" />}>
 			<Icon fill="white" width={12} height={12} />
 		</Suspense>
 	);

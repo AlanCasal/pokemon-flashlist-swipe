@@ -55,22 +55,22 @@ const Home = () => {
 
 	if (!pokemonList.length) return <ActivityIndicator size="large" />;
 
+	const contentContainerStyle = {
+		...styles.contentContainer,
+		paddingTop: top,
+		paddingBottom: bottom,
+	};
+
 	return (
 		<View style={styles.container}>
 			<FlashList
 				// data
 				data={pokemonList}
 				renderItem={handleRenderItem}
-				ListFooterComponent={
-					isLoading ? <ActivityIndicator size="large" /> : null
-				}
 				estimatedItemSize={POKEMON_CARD_HEIGHT}
 				// content container style
-				contentContainerStyle={{
-					...styles.contentContainer,
-					paddingTop: top,
-					paddingBottom: bottom,
-				}}
+				onEndReachedThreshold={1}
+				contentContainerStyle={contentContainerStyle}
 				// pull to refresh
 				refreshing={isRefreshing}
 				onRefresh={handleRefresh}
