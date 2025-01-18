@@ -1,4 +1,4 @@
-import { ActivityIndicator, Alert } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
@@ -56,28 +56,30 @@ const Home = () => {
 	if (!pokemonList.length) return <ActivityIndicator size="large" />;
 
 	return (
-		<FlashList
-			// data
-			data={pokemonList}
-			renderItem={handleRenderItem}
-			ListFooterComponent={
-				isLoading ? <ActivityIndicator size="large" /> : null
-			}
-			estimatedItemSize={POKEMON_CARD_HEIGHT}
-			// content container style
-			contentContainerStyle={{
-				...styles.contentContainer,
-				paddingTop: top,
-				paddingBottom: bottom,
-			}}
-			// pull to refresh
-			refreshing={isRefreshing}
-			onRefresh={handleRefresh}
-			// onEndReached load more items
-			onEndReached={() => fetchPage(next)}
-			// Optimizations
-			keyExtractor={({ name }, index) => name + index.toString()}
-		/>
+		<View style={styles.container}>
+			<FlashList
+				// data
+				data={pokemonList}
+				renderItem={handleRenderItem}
+				ListFooterComponent={
+					isLoading ? <ActivityIndicator size="large" /> : null
+				}
+				estimatedItemSize={POKEMON_CARD_HEIGHT}
+				// content container style
+				contentContainerStyle={{
+					...styles.contentContainer,
+					paddingTop: top,
+					paddingBottom: bottom,
+				}}
+				// pull to refresh
+				refreshing={isRefreshing}
+				onRefresh={handleRefresh}
+				// onEndReached load more items
+				onEndReached={() => fetchPage(next)}
+				// Optimizations
+				keyExtractor={({ name }, index) => name + index.toString()}
+			/>
+		</View>
 	);
 };
 
