@@ -41,7 +41,7 @@ export const backgroundColors = {
 };
 
 export const textColor = {
-	white: '#FFF',
+	primary: '#FFF',
 	black: '#17171B',
 	grey: '#747476',
 	number: 'rgba(23, 23, 27, 0.6)',

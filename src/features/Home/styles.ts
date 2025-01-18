@@ -9,6 +9,6 @@ export default StyleSheet.create({
 	contentContainer: {
 		// gap: CARDS_GAP, // not working in FlashList
 		backgroundColor: 'white',
-		...sharedStyles.hPadding,
+		...sharedStyles.hListPadding,
 	},
 });
