@@ -12,7 +12,10 @@ import Tabs, { TabItem } from '@/src/components/Tabs';
 import { colors } from '@/src/constants/colors';
 
 const TABS_DATA: TabItem[] = [
-	{ icon: 'Dog', label: 'Pokémons' },
+	{
+		icon: 'Cat',
+		label: 'Pokémons',
+	},
 	{ icon: 'Star', label: 'Saved' },
 ];
 

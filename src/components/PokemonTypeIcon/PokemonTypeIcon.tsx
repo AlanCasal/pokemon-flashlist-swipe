@@ -2,24 +2,24 @@ import { ActivityIndicator } from 'react-native';
 import React, { lazy, Suspense } from 'react';
 import { PokemonType } from '@/src/types/pokemonTypes';
 
-const Bug = lazy(() => import('@/assets/icons/bug.svg'));
-const Dark = lazy(() => import('@/assets/icons/dark.svg'));
-const Dragon = lazy(() => import('@/assets/icons/dragon.svg'));
-const Electric = lazy(() => import('@/assets/icons/electric.svg'));
-const Fairy = lazy(() => import('@/assets/icons/fairy.svg'));
-const Fighting = lazy(() => import('@/assets/icons/fighting.svg'));
-const Fire = lazy(() => import('@/assets/icons/fire.svg'));
-const Flying = lazy(() => import('@/assets/icons/flying.svg'));
-const Ghost = lazy(() => import('@/assets/icons/ghost.svg'));
-const Grass = lazy(() => import('@/assets/icons/grass.svg'));
-const Ground = lazy(() => import('@/assets/icons/ground.svg'));
-const Ice = lazy(() => import('@/assets/icons/ice.svg'));
-const Normal = lazy(() => import('@/assets/icons/normal.svg'));
-const Poison = lazy(() => import('@/assets/icons/poison.svg'));
-const Psychic = lazy(() => import('@/assets/icons/psychic.svg'));
-const Rock = lazy(() => import('@/assets/icons/rock.svg'));
-const Steel = lazy(() => import('@/assets/icons/steel.svg'));
-const Water = lazy(() => import('@/assets/icons/water.svg'));
+const Bug = lazy(() => import('@/assets/icons/types/bug.svg'));
+const Dark = lazy(() => import('@/assets/icons/types/dark.svg'));
+const Dragon = lazy(() => import('@/assets/icons/types/dragon.svg'));
+const Electric = lazy(() => import('@/assets/icons/types/electric.svg'));
+const Fairy = lazy(() => import('@/assets/icons/types/fairy.svg'));
+const Fighting = lazy(() => import('@/assets/icons/types/fighting.svg'));
+const Fire = lazy(() => import('@/assets/icons/types/fire.svg'));
+const Flying = lazy(() => import('@/assets/icons/types/flying.svg'));
+const Ghost = lazy(() => import('@/assets/icons/types/ghost.svg'));
+const Grass = lazy(() => import('@/assets/icons/types/grass.svg'));
+const Ground = lazy(() => import('@/assets/icons/types/ground.svg'));
+const Ice = lazy(() => import('@/assets/icons/types/ice.svg'));
+const Normal = lazy(() => import('@/assets/icons/types/normal.svg'));
+const Poison = lazy(() => import('@/assets/icons/types/poison.svg'));
+const Psychic = lazy(() => import('@/assets/icons/types/psychic.svg'));
+const Rock = lazy(() => import('@/assets/icons/types/rock.svg'));
+const Steel = lazy(() => import('@/assets/icons/types/steel.svg'));
+const Water = lazy(() => import('@/assets/icons/types/water.svg'));
 
 const typeIcons = {
 	bug: Bug,
