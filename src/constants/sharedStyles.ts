@@ -19,4 +19,14 @@ export default StyleSheet.create({
 		width: POKEMON_IMAGE_SIZE,
 		height: POKEMON_IMAGE_SIZE,
 	},
+	shadow: {
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+		shadowOpacity: 0.6,
+		shadowRadius: 4.65,
+
+		elevation: 7,
+	},
 });

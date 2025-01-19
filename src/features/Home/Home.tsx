@@ -8,6 +8,13 @@ import axios from 'axios';
 import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Tabs, { TabItem } from '@/src/components/Tabs';
+import { colors } from '@/src/constants/colors';
+
+const TABS_DATA: TabItem[] = [
+	{ icon: 'Dog', label: 'Pokémons' },
+	{ icon: 'Star', label: 'Saved' },
+];
 
 const Home = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -16,6 +23,7 @@ const Home = () => {
 	const [next, setNext] = useState<string>(API_URL); // https://pokeapi.co/api/v2/pokemon?offset=20&limit=20
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+	const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
 	const fetchPage = async (url: string) => {
 		if (isLoading) return;
@@ -78,6 +86,14 @@ const Home = () => {
 				onEndReached={() => fetchPage(next)}
 				// Optimizations
 				keyExtractor={({ name }, index) => name + index.toString()}
+			/>
+
+			<Tabs
+				data={TABS_DATA}
+				selectedIndex={selectedIndex}
+				onChange={setSelectedIndex}
+				activeBackgroundColor={colors.dragon}
+				inactiveBackgroundColor={colors.dark}
 			/>
 		</View>
 	);
