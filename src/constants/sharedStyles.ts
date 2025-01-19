@@ -4,6 +4,7 @@ export const POKEMON_CARD_HEIGHT = 100;
 export const POKEMON_IMAGE_SIZE = 120;
 export const CARDS_GAP = 15;
 export const PRIMARY_FONT = 'FingerPaint_400Regular';
+export const ACTIVE_OPACITY = 0.8;
 
 export default StyleSheet.create({
 	hListPadding: {

@@ -13,7 +13,6 @@ export default StyleSheet.create({
 		right: 0,
 	},
 	animatedContainer: {
-		borderRadius: 8,
 		overflow: 'hidden',
 		...sharedStyles.shadow,
 	},

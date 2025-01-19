@@ -15,7 +15,13 @@ type IconNames = keyof typeof icons;
 
 export type TabItem = {
 	icon: IconNames;
-	label: string;
+	label?: string;
+	itemActiveColor?: string;
+	itemInactiveColor?: string;
+	itemActiveBackgroundColor?: string;
+	itemInactiveBackgroundColor?: string;
+	isRounded?: boolean;
+	action?: () => void;
 };
 
 type TabsProps = {
@@ -49,6 +55,11 @@ const Tabs = ({
 }: TabsProps) => {
 	const { bottom } = useSafeAreaInsets();
 
+	const handleOnPress = (index: number) => {
+		onChange(index);
+		data[index].action?.();
+	};
+
 	return (
 		<View style={[styles.container, { paddingBottom: bottom }]}>
 			{data.map((item, index) => {
@@ -63,40 +74,47 @@ const Tabs = ({
 							style={StyleSheet.absoluteFillObject}
 							animate={{
 								...styles.animatedContainer,
+								borderRadius: item.isRounded ? 100 : 8,
 								backgroundColor: isSelected
-									? activeBackgroundColor
-									: inactiveBackgroundColor,
+									? item.itemActiveBackgroundColor || activeBackgroundColor
+									: item.itemInactiveBackgroundColor || inactiveBackgroundColor,
 							}}
 						/>
 						<Pressable
-							onPress={() => onChange(index)}
+							onPress={() => handleOnPress(index)}
 							style={styles.buttonContainer}
 						>
 							<Icon
 								animate={{
-									color: isSelected ? activeColor : inactiveColor,
+									color: isSelected
+										? item.itemActiveColor || activeColor
+										: item.itemInactiveColor || inactiveColor,
 									...(isSelected && {
-										fill: isSelected ? activeColor : inactiveColor,
+										fill: isSelected
+											? item.itemActiveColor || activeColor
+											: item.itemInactiveColor || inactiveColor,
 									}),
 								}}
 								name={item.icon}
 							/>
 
-							<LayoutAnimationConfig skipEntering>
-								{isSelected && (
+							{isSelected && item.label && (
+								<LayoutAnimationConfig skipEntering>
 									<Animated.Text
 										entering={FadeInRight.springify()
 											.damping(80)
 											.stiffness(200)}
 										style={{
-											color: isSelected ? activeColor : inactiveColor,
+											color: isSelected
+												? item.itemActiveColor || activeColor
+												: item.itemInactiveColor || inactiveColor,
 											fontWeight: isSelected ? 'bold' : 'normal',
 										}}
 									>
 										{item.label}
 									</Animated.Text>
-								)}
-							</LayoutAnimationConfig>
+								</LayoutAnimationConfig>
+							)}
 						</Pressable>
 					</MotiView>
 				);

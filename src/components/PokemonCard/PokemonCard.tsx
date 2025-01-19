@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import React, { memo, useEffect, useState } from 'react';
 import styles from './styles';
 import PokemonImage from './Image';
@@ -7,6 +7,8 @@ import axios from 'axios';
 
 import { backgroundColors, colors } from '@/src/constants/colors';
 import Info from './Info';
+import { Link } from 'expo-router';
+import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
 
 interface PokemonCardProps {
 	url: string;
@@ -39,13 +41,17 @@ const PokemonCard = ({ url }: PokemonCardProps) => {
 	];
 
 	return (
-		<View style={containerStyles}>
-			<PokemonImage
-				uri={pokemon.sprites.other['official-artwork'].front_default}
-			/>
+		<Link href={`/details/${pokemon.id}`} asChild>
+			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
+				<View style={containerStyles}>
+					<PokemonImage
+						uri={pokemon.sprites.other['official-artwork'].front_default}
+					/>
 
-			<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
-		</View>
+					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
+				</View>
+			</TouchableOpacity>
+		</Link>
 	);
 };
 
