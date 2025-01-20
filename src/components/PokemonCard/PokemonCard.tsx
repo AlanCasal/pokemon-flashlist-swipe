@@ -41,7 +41,16 @@ const PokemonCard = ({ url }: PokemonCardProps) => {
 	];
 
 	return (
-		<Link href={`/details/${pokemon.id}`} asChild>
+		<Link
+			href={{
+				pathname: '/details',
+				params: {
+					id: pokemon.id,
+					type: pokemon.types[0].type.name,
+				},
+			}}
+			asChild
+		>
 			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
 				<View style={containerStyles}>
 					<PokemonImage

@@ -21,7 +21,7 @@ const RootLayout = () => {
 			<Stack screenOptions={{ headerShown: false }}>
 				<StatusBar style="dark" />
 				<Stack.Screen
-					name="details/[id]"
+					name="details"
 					options={{
 						presentation: 'modal',
 						animation: 'slide_from_bottom',
