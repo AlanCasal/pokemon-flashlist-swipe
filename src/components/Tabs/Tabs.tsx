@@ -61,7 +61,7 @@ const Tabs = ({
 	};
 
 	return (
-		<View style={[styles.container, { paddingBottom: bottom }]}>
+		<View style={[styles.container, { paddingBottom: bottom + 10 }]}>
 			{data.map((item, index) => {
 				const isSelected = index === selectedIndex;
 
