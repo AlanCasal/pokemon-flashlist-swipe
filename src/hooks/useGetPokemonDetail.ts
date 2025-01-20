@@ -9,7 +9,7 @@ export const useGetPokemonDetail = (id: string) => {
 	const { data, isLoading, error } = useQuery<PokemonDetails, Error>({
 		queryKey: [GET_POKEMON_DETAIL_KEY, id],
 		queryFn: async () => {
-			const response = await axios.get(`${BASE_URL}/${id}/`);
+			const response = await axios.get(`${BASE_URL}/${id}`);
 			return response.data;
 		},
 	});
