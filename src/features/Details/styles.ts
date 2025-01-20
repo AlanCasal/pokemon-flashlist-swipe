@@ -1,7 +1,7 @@
 import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
 import { StyleSheet } from 'react-native';
-import { LEVEL_TEXT_WIDTH } from './Details';
 
+const LEVEL_TEXT_WIDTH = 80;
 const SAFE_PADDING = 30;
 
 export default StyleSheet.create({
@@ -12,16 +12,20 @@ export default StyleSheet.create({
 		paddingBottom: SAFE_PADDING,
 	},
 
-	sectionHeader: {
-		fontSize: 20,
+	titleWrapper: {
 		position: 'absolute',
-		transformOrigin: 'left center',
-		transform: [{ rotate: '270deg' }],
 		left: 20,
 		top: '50%',
-		marginTop: SAFE_PADDING + 5,
-		textTransform: 'capitalize',
+		marginTop: SAFE_PADDING + 30,
+		transformOrigin: 'left center',
+		transform: [{ rotate: '270deg' }],
 		width: 'auto',
+	},
+	title: {
+		fontSize: 16,
+		lineHeight: 20,
+		textTransform: 'uppercase',
+		fontWeight: 'bold',
 	},
 
 	pokemonContainer: {
