@@ -81,4 +81,9 @@ export default StyleSheet.create({
 		paddingVertical: 5,
 		borderRadius: 5,
 	},
+
+	bottomTabContainer: {
+		position: 'absolute',
+		bottom: 0,
+	},
 });

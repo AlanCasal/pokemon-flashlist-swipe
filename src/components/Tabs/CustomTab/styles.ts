@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
 	animatedContainer: {
 		overflow: 'hidden',
+		borderRadius: 8,
 		...sharedStyles.shadow,
 	},
 	buttonContainer: {

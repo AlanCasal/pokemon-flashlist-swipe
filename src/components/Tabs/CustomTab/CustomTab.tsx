@@ -9,20 +9,20 @@ import Animated, {
 import { MotiView } from 'moti';
 import { typeColors } from '@/src/constants/colors';
 
-const activeBackgroundColor = typeColors.dragon;
-const inactiveBackgroundColor = typeColors.dark;
-const activeColor = '#FFF';
-const inactiveColor = '#999';
-
 interface CustomTabProps {
 	isFocused: boolean;
-	label: string;
+	label?: string;
 	tabBarIcon: (props: {
 		color: string;
 		size: number;
 		focused: boolean;
 	}) => React.ReactNode;
 	onPress: () => void;
+	isRounded?: boolean;
+	activeBackgroundColor?: string;
+	inactiveBackgroundColor?: string;
+	activeColor?: string;
+	inactiveColor?: string;
 }
 
 const CustomTab = ({
@@ -30,6 +30,11 @@ const CustomTab = ({
 	label,
 	tabBarIcon,
 	onPress,
+	isRounded,
+	activeBackgroundColor = typeColors.dragon,
+	inactiveBackgroundColor = typeColors.dark,
+	activeColor = '#FFF',
+	inactiveColor = '#999',
 }: CustomTabProps) => {
 	return (
 		<MotiView layout={LinearTransition.springify().damping(80).stiffness(200)}>
@@ -37,17 +42,17 @@ const CustomTab = ({
 				style={StyleSheet.absoluteFillObject}
 				animate={{
 					...styles.animatedContainer,
-					borderRadius: 8,
 					backgroundColor: isFocused
 						? activeBackgroundColor
 						: inactiveBackgroundColor,
+					...(isRounded ? { borderRadius: 100 } : {}),
 				}}
 			/>
 
 			<TouchableOpacity
 				activeOpacity={0.6}
 				onPress={onPress}
-				style={styles.buttonContainer}
+				style={[styles.buttonContainer]}
 			>
 				{tabBarIcon({
 					color: isFocused ? activeColor : inactiveColor,

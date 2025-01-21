@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity } from 'react-native';
-import React, { lazy, useState, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { TabItem } from '@/src/components/Tabs';
 import { typeBgColors, textColor, typeColors } from '@/src/constants/colors';
 import { useGetPokemonEvolutions } from '@/src/hooks/useGetPokemonEvolution';
 import { Image } from 'moti';
@@ -14,34 +13,19 @@ import Animated, {
 	FadeInLeft,
 	FadeInRight,
 } from 'react-native-reanimated';
+import CustomTab from '@/src/components/Tabs/CustomTab';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Pokeball = lazy(() => import('@/assets/images/poke-ball-full.svg'));
 
-enum TabName {
-	Evolution = 0,
-}
-
 const DELAY = 1000;
 
-const Details = () => {
+const EvolutionChart = () => {
 	const router = useRouter();
+	const { bottom } = useSafeAreaInsets();
+
 	const { id, type } = useLocalSearchParams();
 	const { data: evolutionData } = useGetPokemonEvolutions(id as string);
-
-	const [selectedIndex, setSelectedIndex] = useState(TabName.Evolution);
-
-	const TABS_DATA: TabItem[] = [
-		{ icon: 'arrow-up-bold', label: 'Evolution' },
-		{
-			icon: 'window-close',
-			isSameInactiveIcon: true,
-			itemActiveBackgroundColor: typeColors.fighting,
-			itemInactiveBackgroundColor: typeColors.fighting,
-			itemInactiveColor: textColor.primary,
-			isRounded: true,
-			action: () => router.back(),
-		},
-	];
 
 	const enteringAnimation = (delay = 300) => FadeIn.duration(500).delay(delay);
 
@@ -136,17 +120,21 @@ const Details = () => {
 						);
 					})}
 				</Animated.View>
-
-				{/* <Tabs
-					data={TABS_DATA}
-					selectedIndex={selectedIndex}
-					onChange={setSelectedIndex}
-					activeBackgroundColor={typeColors.dragon}
-					inactiveBackgroundColor={typeColors.dark}
-				/> */}
 			</LinearGradient>
+
+			<View style={[styles.bottomTabContainer, { paddingBottom: bottom + 10 }]}>
+				<CustomTab
+					isRounded
+					isFocused
+					activeBackgroundColor={typeColors.fighting}
+					tabBarIcon={({ color, size }) => (
+						<MaterialCommunityIcons name="close" size={size} color={color} />
+					)}
+					onPress={() => router.back()}
+				/>
+			</View>
 		</>
 	);
 };
 
-export default Details;
+export default EvolutionChart;
