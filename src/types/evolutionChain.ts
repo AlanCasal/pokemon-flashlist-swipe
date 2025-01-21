@@ -1,58 +1,56 @@
-export interface EvolutionDetail {
-	pokemon: string;
-	imgUrl: string;
-	minLevel: number;
-}
-
 export interface EvolutionChain {
 	baby_trigger_item: null;
 	chain: Chain;
 	id: number;
 }
 
-interface Chain {
-	evolution_details: any[];
-	evolves_to: Evolvesto2[];
-	is_baby: boolean;
-	species: Trigger;
-}
-
-interface Evolvesto2 {
+export interface Chain {
 	evolution_details: Evolutiondetail[];
-	evolves_to: Evolvesto[];
+	evolves_to: Chain[];
 	is_baby: boolean;
-	species: Trigger;
+	species: Species;
 }
 
-interface Evolvesto {
-	evolution_details: Evolutiondetail[];
-	evolves_to: any[];
-	is_baby: boolean;
-	species: Trigger;
-}
-
-interface Evolutiondetail {
+export interface Evolutiondetail {
 	gender: null;
 	held_item: null;
-	item: null;
+	item: Item;
 	known_move: null;
 	known_move_type: null;
 	location: null;
 	min_affection: null;
 	min_beauty: null;
 	min_happiness: null;
-	min_level: number;
+	min_level: number | null;
 	needs_overworld_rain: boolean;
 	party_species: null;
 	party_type: null;
 	relative_physical_stats: null;
-	time_of_day: string;
+	time_of_day: string | null;
 	trade_species: null;
 	trigger: Trigger;
 	turn_upside_down: boolean;
 }
 
-interface Trigger {
+export interface Trigger {
+	name: 'use-item' | 'level-up' | 'trade' | 'shed-skin' | 'other';
+	url: string;
+}
+
+export interface Species {
 	name: string;
 	url: string;
 }
+
+export interface Item {
+	name: string;
+	url: string;
+}
+
+export type CustomEvolutionChain = {
+	pokemon: string;
+	minLevel: number | null;
+	useItem: string | null;
+	imgUrl?: string;
+	evolvesTo: CustomEvolutionChain[];
+};

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { processEvolutionChain } from '../utils/evolutionChainProcessor';
 import { PokemonSpecies } from '../types/pokemonSpecies';
-import { EvolutionChain, EvolutionDetail } from '../types/evolutionChain';
+import { EvolutionChain, CustomEvolutionChain } from '../types/evolutionChain';
 import { PokemonDetails } from '../types/pokemon';
 
 const SPECIES_URL = 'https://pokeapi.co/api/v2/pokemon-species';
@@ -27,7 +28,7 @@ export const useGetPokemonEvolutions = (id: string) => {
 		},
 	});
 
-	const evolutionDetailsQuery = useQuery<EvolutionDetail[]>({
+	const evolutionDetailsQuery = useQuery<CustomEvolutionChain>({
 		queryKey: ['evolution-details', evolutionChainQuery.data],
 		enabled: !!evolutionChainQuery.data,
 		queryFn: async () => {
@@ -35,22 +36,23 @@ export const useGetPokemonEvolutions = (id: string) => {
 				evolutionChainQuery.data!.chain
 			);
 
-			const detailsPromises = evolutionStages.map(
-				async ({ pokemon, minLevel }) => {
-					const response = await axios.get<PokemonDetails>(
-						`${POKEMON_URL}/${pokemon}`
-					);
+			const addImages = async (
+				chain: CustomEvolutionChain
+			): Promise<CustomEvolutionChain> => {
+				const response = await axios.get<PokemonDetails>(
+					`${POKEMON_URL}/${chain.pokemon}`
+				);
 
-					return {
-						pokemon,
-						minLevel,
-						imgUrl:
-							response.data.sprites.other['official-artwork'].front_default,
-					};
-				}
-			);
+				return {
+					...chain,
+					imgUrl: response.data.sprites.other['official-artwork'].front_default,
+					evolvesTo: await Promise.all(
+						chain.evolvesTo.map(evolution => addImages(evolution))
+					),
+				};
+			};
 
-			return Promise.all(detailsPromises);
+			return addImages(evolutionStages);
 		},
 	});
 

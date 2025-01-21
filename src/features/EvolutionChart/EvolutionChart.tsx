@@ -1,33 +1,29 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React, { lazy, Suspense } from 'react';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { Fragment } from 'react';
 import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { typeBgColors, textColor, typeColors } from '@/src/constants/colors';
+import { typeBgColors, typeColors } from '@/src/constants/colors';
 import { useGetPokemonEvolutions } from '@/src/hooks/useGetPokemonEvolution';
-import { Image } from 'moti';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import Animated, {
-	FadeIn,
-	FadeInLeft,
-	FadeInRight,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import CustomTab from '@/src/components/Tabs/CustomTab';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import PokemonImage from './components/PokemonImage';
+import { fadeInAnim } from '@/src/utils/animations';
+import EvolveCondition from './components/EvolveCondition';
 
-const Pokeball = lazy(() => import('@/assets/images/poke-ball-full.svg'));
-
-const DELAY = 1000;
+const POKEMON_DELAY = 500;
 
 const EvolutionChart = () => {
 	const router = useRouter();
 	const { bottom } = useSafeAreaInsets();
 
 	const { id, type } = useLocalSearchParams();
-	const { data: evolutionData } = useGetPokemonEvolutions(id as string);
-
-	const enteringAnimation = (delay = 300) => FadeIn.duration(500).delay(delay);
+	const { data: evolutionData, isLoading } = useGetPokemonEvolutions(
+		id as string
+	);
 
 	return (
 		<>
@@ -51,75 +47,71 @@ const EvolutionChart = () => {
 				style={styles.container}
 			>
 				<Animated.View
-					entering={enteringAnimation()}
+					entering={fadeInAnim(POKEMON_DELAY)}
 					style={styles.titleWrapper}
 				>
 					<Text style={styles.title}>Evolution Chart</Text>
 				</Animated.View>
 
-				<Animated.View entering={enteringAnimation(600)}>
-					{evolutionData?.map((evolution, index) => {
-						const evolveAnim =
-							index % 2
-								? FadeInLeft.duration(500).delay(index * DELAY + DELAY / 2)
-								: FadeInRight.duration(500).delay(index * DELAY + DELAY / 2);
+				{isLoading && (
+					<View
+						style={{
+							flex: 1,
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<ActivityIndicator size="large" color={'white'} />
+					</View>
+				)}
 
-						return (
-							<View key={index}>
-								{index > 0 && (
-									<Animated.View
-										entering={evolveAnim}
-										style={styles.levelContainer}
-									>
-										<Text style={styles.evolvesAtText}>Evolves at</Text>
+				{!isLoading && evolutionData && (
+					<Animated.View entering={fadeInAnim(POKEMON_DELAY * 2)}>
+						<View>
+							<PokemonImage
+								imgUrl={evolutionData.imgUrl!}
+								pokemon={evolutionData.pokemon}
+								delay={0}
+							/>
 
-										<MaterialCommunityIcons
-											name="arrow-down-bold-circle-outline"
-											size={24}
-											color={textColor.black}
+							{evolutionData.evolvesTo.length > 0 &&
+								evolutionData.evolvesTo.map((evolution, index) => (
+									<Fragment key={index}>
+										<EvolveCondition
+											type={type as keyof typeof typeColors}
+											minLevel={evolution.minLevel}
+											direction="right"
+											delay={POKEMON_DELAY * 3}
 										/>
 
-										<Text
-											style={[
-												styles.levelText,
-												{
-													backgroundColor:
-														typeColors[type as keyof typeof typeColors],
-												},
-											]}
-										>
-											(Level {evolution.minLevel})
-										</Text>
-									</Animated.View>
-								)}
-
-								<Animated.View
-									entering={enteringAnimation((index + 1) * DELAY)}
-									style={styles.pokemonContainer}
-								>
-									<Suspense fallback={null}>
-										<Pokeball
-											width={100}
-											height={100}
-											style={{ position: 'absolute' }}
+										<PokemonImage
+											imgUrl={evolution.imgUrl!}
+											pokemon={evolution.pokemon}
+											delay={POKEMON_DELAY * 4}
 										/>
-									</Suspense>
-									<Image
-										src={evolution.imgUrl}
-										style={[styles.pokemonImage, { zIndex: 1 }]}
-									/>
-								</Animated.View>
 
-								<Animated.Text
-									entering={enteringAnimation((index + 1) * DELAY)}
-									style={styles.pokemonName}
-								>
-									{evolution.pokemon}
-								</Animated.Text>
-							</View>
-						);
-					})}
-				</Animated.View>
+										{evolution.evolvesTo.length > 0 &&
+											evolution.evolvesTo.map((evolution2, index2) => (
+												<Fragment key={index2}>
+													<EvolveCondition
+														type={type as keyof typeof typeColors}
+														minLevel={evolution2.minLevel}
+														direction="left"
+														delay={POKEMON_DELAY * 5}
+													/>
+
+													<PokemonImage
+														imgUrl={evolution2.imgUrl!}
+														pokemon={evolution2.pokemon}
+														delay={POKEMON_DELAY * 6}
+													/>
+												</Fragment>
+											))}
+									</Fragment>
+								))}
+						</View>
+					</Animated.View>
+				)}
 			</LinearGradient>
 
 			<View style={[styles.bottomTabContainer, { paddingBottom: bottom + 10 }]}>

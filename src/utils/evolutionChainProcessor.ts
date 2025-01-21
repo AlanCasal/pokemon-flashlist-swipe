@@ -1,24 +1,13 @@
-import { EvolutionChain } from '../types/evolutionChain';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Chain, CustomEvolutionChain } from '../types/evolutionChain';
 
-export const processEvolutionChain = (
-	chain: EvolutionChain['chain']
-): Array<{ pokemon: string; minLevel: number }> => {
-	const results: Array<{ pokemon: string; minLevel: number }> = [];
+export const processEvolutionChain = (chain: Chain): CustomEvolutionChain => {
+	const { evolution_details, evolves_to, species } = chain;
 
-	const processChain = (currentChain: typeof chain) => {
-		results.push({
-			pokemon: currentChain.species.name,
-			minLevel:
-				currentChain === chain
-					? 1
-					: (currentChain.evolution_details[0]?.min_level ?? 0),
-		});
-
-		if (currentChain.evolves_to.length > 0)
-			processChain(currentChain.evolves_to[0]);
+	return {
+		pokemon: species.name,
+		minLevel: evolution_details[0]?.min_level || null,
+		useItem: evolution_details[0]?.item?.name || null,
+		evolvesTo: evolves_to.map(evolution => processEvolutionChain(evolution)),
 	};
-
-	processChain(chain);
-
-	return results;
 };
