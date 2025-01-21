@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
-import PokemonCard from '@/src/components/PokemonCard';
+import PokemonCard from '@/src/components/PokeCard';
 import axios from 'axios';
 import { CARDS_GAP, POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 

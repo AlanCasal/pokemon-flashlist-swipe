@@ -1,107 +1,49 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import styles from './styles';
-import Animated, {
-	FadeInRight,
-	LayoutAnimationConfig,
-	LinearTransition,
-} from 'react-native-reanimated';
-import { MotiView } from 'moti';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import CustomTab from './CustomTab';
 
-export type TabItem = {
-	icon: keyof typeof MaterialCommunityIcons.glyphMap;
-	label?: string;
-	itemActiveColor?: string;
-	itemInactiveColor?: string;
-	itemActiveBackgroundColor?: string;
-	itemInactiveBackgroundColor?: string;
-	isRounded?: boolean;
-	isSameInactiveIcon?: boolean;
-	action?: () => void;
-};
-
-type TabsProps = {
-	data: TabItem[];
-	selectedIndex: number;
-	onChange: (index: number) => void;
-	activeColor?: string;
-	inactiveColor?: string;
-	activeBackgroundColor?: string;
-	inactiveBackgroundColor?: string;
-};
-
-const Tabs = ({
-	data,
-	selectedIndex,
-	onChange,
-	activeColor = '#FFF',
-	inactiveColor = '#999',
-	activeBackgroundColor = '#111',
-	inactiveBackgroundColor = '#DDD',
-}: TabsProps) => {
+const CustomTabs = ({ state, descriptors, navigation }: any) => {
 	const { bottom } = useSafeAreaInsets();
-
-	const handleOnPress = (index: number) => {
-		onChange(index);
-		data[index].action?.();
-	};
 
 	return (
 		<View style={[styles.container, { paddingBottom: bottom + 10 }]}>
-			{data.map((item, index) => {
-				const isSelected = index === selectedIndex;
-				const icon =
-					isSelected || item.isSameInactiveIcon
-						? item.icon
-						: (`${item.icon}-outline` as keyof typeof MaterialCommunityIcons.glyphMap);
+			{state.routes.map((route: any, index: any) => {
+				const { options } = descriptors[route.key];
+				const label =
+					options.tabBarLabel !== undefined
+						? options.tabBarLabel
+						: options.title !== undefined
+							? options.title
+							: route.name;
+
+				const isFocused = state.index === index;
+
+				const onPress = () => {
+					const event = navigation.emit({
+						type: 'tabPress',
+						target: route.key,
+						canPreventDefault: true,
+					});
+
+					if (!isFocused && !event.defaultPrevented)
+						navigation.navigate(route.name, route.params);
+				};
 
 				return (
-					<MotiView
+					<CustomTab
 						key={index}
-						layout={LinearTransition.springify().damping(80).stiffness(200)}
-					>
-						<MotiView
-							style={StyleSheet.absoluteFillObject}
-							animate={{
-								...styles.animatedContainer,
-								borderRadius: item.isRounded ? 100 : 8,
-								backgroundColor: isSelected
-									? item.itemActiveBackgroundColor || activeBackgroundColor
-									: item.itemInactiveBackgroundColor || inactiveBackgroundColor,
-							}}
-						/>
-						<Pressable
-							onPress={() => handleOnPress(index)}
-							style={styles.buttonContainer}
-						>
-							<MaterialCommunityIcons name={icon} color={'white'} size={18} />
-
-							{isSelected && item.label && (
-								<LayoutAnimationConfig skipEntering>
-									<Animated.Text
-										entering={FadeInRight.springify()
-											.damping(80)
-											.stiffness(200)}
-										style={{
-											color: isSelected
-												? item.itemActiveColor || activeColor
-												: item.itemInactiveColor || inactiveColor,
-											fontWeight: isSelected ? 'bold' : 'normal',
-										}}
-									>
-										{item.label}
-									</Animated.Text>
-								</LayoutAnimationConfig>
-							)}
-						</Pressable>
-					</MotiView>
+						isFocused={isFocused}
+						label={label}
+						tabBarIcon={options.tabBarIcon}
+						onPress={onPress}
+					/>
 				);
 			})}
 		</View>
 	);
 };
 
-export default Tabs;
+export default CustomTabs;

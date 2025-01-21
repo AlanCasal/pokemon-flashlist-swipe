@@ -9,13 +9,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
-import PokemonCard from '@/src/components/PokemonCard';
+import PokemonCard from '@/src/components/PokeCard';
 import axios from 'axios';
 import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Tabs from '@/src/components/Tabs';
-import { typeColors } from '@/src/constants/colors';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -87,11 +85,6 @@ const Pokedex = () => {
 				// Optimizations
 				keyExtractor={({ name }, index) => name + index.toString()}
 			/>
-
-			{/* <Tabs
-				activeBackgroundColor={typeColors.dragon}
-				inactiveBackgroundColor={typeColors.dark}
-			/> */}
 		</View>
 	);
 };
