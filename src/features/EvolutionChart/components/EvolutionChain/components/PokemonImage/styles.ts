@@ -2,6 +2,9 @@ import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+	pokeContainer: {
+		alignItems: 'center',
+	},
 	pokeName: {
 		fontSize: 20,
 		fontFamily: PRIMARY_FONT,
@@ -11,8 +14,5 @@ export default StyleSheet.create({
 	pokeImage: {
 		width: 100,
 		height: 100,
-	},
-	pokeContainer: {
-		alignItems: 'center',
 	},
 });

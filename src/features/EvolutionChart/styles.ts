@@ -30,10 +30,6 @@ export default StyleSheet.create({
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
 	},
-	pokeball: {
-		width: 100,
-		height: 100,
-	},
 	bottomTabContainer: {
 		position: 'absolute',
 		bottom: 0,
