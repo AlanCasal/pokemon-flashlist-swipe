@@ -14,25 +14,16 @@ import axios from 'axios';
 import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Tabs, { TabItem } from '@/src/components/Tabs';
+import Tabs from '@/src/components/Tabs';
 import { typeColors } from '@/src/constants/colors';
 
-const TABS_DATA: TabItem[] = [
-	{
-		icon: 'credit-card-chip',
-		label: 'Pokedex',
-	},
-	{ icon: 'star', label: 'Saved' },
-];
-
-const Home = () => {
+const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
 
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
 	const [next, setNext] = useState<string>(API_URL); // https://pokeapi.co/api/v2/pokemon?offset=20&limit=20
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-	const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
 	const fetchPage = async (url: string) => {
 		if (isLoading) return;
@@ -97,15 +88,12 @@ const Home = () => {
 				keyExtractor={({ name }, index) => name + index.toString()}
 			/>
 
-			<Tabs
-				data={TABS_DATA}
-				selectedIndex={selectedIndex}
-				onChange={setSelectedIndex}
+			{/* <Tabs
 				activeBackgroundColor={typeColors.dragon}
 				inactiveBackgroundColor={typeColors.dark}
-			/>
+			/> */}
 		</View>
 	);
 };
 
-export default Home;
+export default Pokedex;

@@ -12,6 +12,13 @@ export default StyleSheet.create({
 		paddingBottom: SAFE_PADDING,
 	},
 
+	starIconContainer: {
+		position: 'absolute',
+		right: 20,
+		top: 20,
+		zIndex: 1,
+	},
+
 	titleWrapper: {
 		position: 'absolute',
 		left: 20,

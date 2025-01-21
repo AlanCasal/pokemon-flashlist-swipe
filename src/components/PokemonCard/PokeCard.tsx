@@ -14,7 +14,7 @@ interface PokemonCardProps {
 	url: string;
 }
 
-const PokemonCard = ({ url }: PokemonCardProps) => {
+const PokeCard = ({ url }: PokemonCardProps) => {
 	const [pokemon, setPokemon] = useState<PokemonDetails>();
 
 	useEffect(() => {
@@ -61,6 +61,6 @@ const PokemonCard = ({ url }: PokemonCardProps) => {
 	);
 };
 
-export default memo(PokemonCard, (prevProps, nextProps) => {
+export default memo(PokeCard, (prevProps, nextProps) => {
 	return prevProps.url === nextProps.url;
 });
