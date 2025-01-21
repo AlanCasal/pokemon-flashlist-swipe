@@ -61,7 +61,6 @@ export default StyleSheet.create({
 		fontSize: 12,
 		width: LEVEL_TEXT_WIDTH,
 		paddingLeft: 20,
-		// fontFamily: PRIMARY_FONT,
 		textAlign: 'center',
 	},
 

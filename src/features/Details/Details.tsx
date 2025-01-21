@@ -3,7 +3,7 @@ import React, { lazy, useState, Suspense } from 'react';
 import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import Tabs, { TabItem } from '@/src/components/Tabs';
-import { backgroundColors, colors, textColor } from '@/src/constants/colors';
+import { typeBgColors, textColor, typeColors } from '@/src/constants/colors';
 import { useGetPokemonEvolutions } from '@/src/hooks/useGetPokemonEvolution';
 import { Image } from 'moti';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -31,11 +31,12 @@ const Details = () => {
 	const [selectedIndex, setSelectedIndex] = useState(TabName.Evolution);
 
 	const TABS_DATA: TabItem[] = [
-		{ icon: 'ArrowUpWideNarrow', label: 'Evolution' },
+		{ icon: 'arrow-up-bold', label: 'Evolution' },
 		{
-			icon: 'X',
-			itemActiveBackgroundColor: colors.fighting,
-			itemInactiveBackgroundColor: colors.fighting,
+			icon: 'window-close',
+			isSameInactiveIcon: true,
+			itemActiveBackgroundColor: typeColors.fighting,
+			itemInactiveBackgroundColor: typeColors.fighting,
 			itemInactiveColor: textColor.primary,
 			isRounded: true,
 			action: () => router.back(),
@@ -47,8 +48,8 @@ const Details = () => {
 	return (
 		<LinearGradient
 			colors={[
-				backgroundColors[type as keyof typeof backgroundColors],
-				colors[type as keyof typeof colors],
+				typeBgColors[type as keyof typeof typeBgColors],
+				typeColors[type as keyof typeof typeColors],
 			]}
 			start={{ x: 0, y: 0 }} // top left
 			end={{ x: 1, y: 1 }} // bottom right
@@ -81,7 +82,10 @@ const Details = () => {
 								<Text
 									style={[
 										styles.levelText,
-										{ backgroundColor: colors[type as keyof typeof colors] },
+										{
+											backgroundColor:
+												typeColors[type as keyof typeof typeColors],
+										},
 									]}
 								>
 									(Level {evolution.minLevel})
@@ -120,8 +124,8 @@ const Details = () => {
 				data={TABS_DATA}
 				selectedIndex={selectedIndex}
 				onChange={setSelectedIndex}
-				activeBackgroundColor={colors.dragon}
-				inactiveBackgroundColor={colors.dark}
+				activeBackgroundColor={typeColors.dragon}
+				inactiveBackgroundColor={typeColors.dark}
 			/>
 		</LinearGradient>
 	);

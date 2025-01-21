@@ -1,4 +1,10 @@
-import { ActivityIndicator, Alert, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Alert,
+	StyleProp,
+	View,
+	ViewStyle,
+} from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
@@ -9,14 +15,14 @@ import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Tabs, { TabItem } from '@/src/components/Tabs';
-import { colors } from '@/src/constants/colors';
+import { typeColors } from '@/src/constants/colors';
 
 const TABS_DATA: TabItem[] = [
 	{
-		icon: 'Cat',
-		label: 'Pokémons',
+		icon: 'credit-card-chip',
+		label: 'Pokedex',
 	},
-	{ icon: 'Star', label: 'Saved' },
+	{ icon: 'star', label: 'Saved' },
 ];
 
 const Home = () => {
@@ -66,7 +72,7 @@ const Home = () => {
 
 	if (!pokemonList.length) return <ActivityIndicator size="large" />;
 
-	const contentContainerStyle = {
+	const contentContainerStyle: StyleProp<ViewStyle> = {
 		...styles.contentContainer,
 		paddingTop: top,
 		paddingBottom: bottom,
@@ -95,8 +101,8 @@ const Home = () => {
 				data={TABS_DATA}
 				selectedIndex={selectedIndex}
 				onChange={setSelectedIndex}
-				activeBackgroundColor={colors.dragon}
-				inactiveBackgroundColor={colors.dark}
+				activeBackgroundColor={typeColors.dragon}
+				inactiveBackgroundColor={typeColors.dark}
 			/>
 		</View>
 	);

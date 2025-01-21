@@ -1,26 +1,25 @@
 import React from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
-import { icons } from 'lucide-react-native';
 import styles from './styles';
 import Animated, {
 	FadeInRight,
 	LayoutAnimationConfig,
 	LinearTransition,
 } from 'react-native-reanimated';
-import { MotiProps, MotiView } from 'moti';
-import { motifySvg } from 'moti/svg';
+import { MotiView } from 'moti';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-type IconNames = keyof typeof icons;
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export type TabItem = {
-	icon: IconNames;
+	icon: keyof typeof MaterialCommunityIcons.glyphMap;
 	label?: string;
 	itemActiveColor?: string;
 	itemInactiveColor?: string;
 	itemActiveBackgroundColor?: string;
 	itemInactiveBackgroundColor?: string;
 	isRounded?: boolean;
+	isSameInactiveIcon?: boolean;
 	action?: () => void;
 };
 
@@ -32,16 +31,6 @@ type TabsProps = {
 	inactiveColor?: string;
 	activeBackgroundColor?: string;
 	inactiveBackgroundColor?: string;
-};
-
-type IconProps = {
-	name: IconNames;
-} & MotiProps;
-
-const Icon = ({ name, ...rest }: IconProps) => {
-	const IconComponent = motifySvg(icons[name])(); // enables animations to icons
-
-	return <IconComponent size={16} {...rest} />;
 };
 
 const Tabs = ({
@@ -64,6 +53,10 @@ const Tabs = ({
 		<View style={[styles.container, { paddingBottom: bottom + 10 }]}>
 			{data.map((item, index) => {
 				const isSelected = index === selectedIndex;
+				const icon =
+					isSelected || item.isSameInactiveIcon
+						? item.icon
+						: (`${item.icon}-outline` as keyof typeof MaterialCommunityIcons.glyphMap);
 
 				return (
 					<MotiView
@@ -84,19 +77,7 @@ const Tabs = ({
 							onPress={() => handleOnPress(index)}
 							style={styles.buttonContainer}
 						>
-							<Icon
-								animate={{
-									color: isSelected
-										? item.itemActiveColor || activeColor
-										: item.itemInactiveColor || inactiveColor,
-									...(isSelected && {
-										fill: isSelected
-											? item.itemActiveColor || activeColor
-											: item.itemInactiveColor || inactiveColor,
-									}),
-								}}
-								name={item.icon}
-							/>
+							<MaterialCommunityIcons name={icon} color={'white'} size={18} />
 
 							{isSelected && item.label && (
 								<LayoutAnimationConfig skipEntering>

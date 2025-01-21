@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './styles';
 import PokemonTypeIcon from '@/src/components/PokemonTypeIcon';
 import { PokemonType } from '@/src/types/pokemonTypes';
-import { colors } from '@/src/constants/colors';
+import { typeColors } from '@/src/constants/colors';
 import { PokemonDetails } from '@/src/types/pokemon';
 
 interface InfoProps {
@@ -25,7 +25,8 @@ const Info = ({ name, types, id }: InfoProps) => {
 						style={[
 							styles.typeContainer,
 							{
-								backgroundColor: colors[type.type.name as keyof typeof colors],
+								backgroundColor:
+									typeColors[type.type.name as keyof typeof typeColors],
 							},
 						]}
 						key={index}

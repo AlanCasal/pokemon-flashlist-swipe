@@ -1,4 +1,4 @@
-export const colors = {
+export const typeColors = {
 	bug: '#8CB230',
 	dark: '#58575F',
 	dragon: '#0F6AC0',
@@ -19,7 +19,7 @@ export const colors = {
 	water: '#417D9A',
 };
 
-export const backgroundColors = {
+export const typeBgColors = {
 	bug: '#8BD674',
 	dark: '#6F6E78',
 	dragon: '#7383B9',

@@ -5,7 +5,7 @@ import PokemonImage from './Image';
 import { PokemonDetails } from '@/src/types/pokemon';
 import axios from 'axios';
 
-import { backgroundColors, colors } from '@/src/constants/colors';
+import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
@@ -28,15 +28,12 @@ const PokemonCard = ({ url }: PokemonCardProps) => {
 
 	if (!pokemon) return null;
 
+	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
 	const containerStyles = [
 		styles.container,
 		{
-			backgroundColor:
-				backgroundColors[
-					pokemon.types[0].type.name as keyof typeof backgroundColors
-				],
-			shadowColor:
-				backgroundColors[pokemon.types[0].type.name as keyof typeof colors],
+			backgroundColor: typeBgColors[type],
+			shadowColor: typeBgColors[type],
 		},
 	];
 
