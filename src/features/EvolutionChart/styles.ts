@@ -85,5 +85,6 @@ export default StyleSheet.create({
 	bottomTabContainer: {
 		position: 'absolute',
 		bottom: 0,
+		alignSelf: 'center',
 	},
 });
