@@ -26,7 +26,7 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	starIconWrapper: {
+	pokeballContainer: {
 		position: 'absolute',
 		top: 8,
 		right: 8,

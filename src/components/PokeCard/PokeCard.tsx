@@ -82,7 +82,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 					<PokeBall
 						isSaved={isSaved}
 						handleOnPress={handleOnPressPokeball}
-						containerStyles={styles.starIconWrapper}
+						containerStyles={styles.pokeballContainer}
 					/>
 
 					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
