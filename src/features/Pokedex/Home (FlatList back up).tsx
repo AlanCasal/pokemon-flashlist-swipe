@@ -5,9 +5,9 @@ import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokemonCard from '@/src/components/PokeCard';
 import axios from 'axios';
-import { CARDS_GAP, POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
+import { CARDS_GAP, POKE_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 
-const CARD_OFFSET = POKEMON_CARD_HEIGHT + CARDS_GAP / 2;
+const CARD_OFFSET = POKE_CARD_HEIGHT + CARDS_GAP / 2;
 
 const Home = () => {
 	const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
@@ -98,7 +98,7 @@ const Home = () => {
 				keyExtractor={({ name }, index) => name + index.toString()}
 				initialNumToRender={5}
 				getItemLayout={(_, index) => ({
-					length: POKEMON_CARD_HEIGHT, // pre calculation about items height, offset and index
+					length: POKE_CARD_HEIGHT, // pre calculation about items height, offset and index
 					offset: CARD_OFFSET * index,
 					index,
 				})}

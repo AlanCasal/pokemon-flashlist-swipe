@@ -1,22 +1,15 @@
-import {
-	ActivityIndicator,
-	Alert,
-	StyleProp,
-	View,
-	ViewStyle,
-} from 'react-native';
+import { ActivityIndicator, Alert, StyleProp, ViewStyle } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokemonCard from '@/src/components/PokeCard';
 import axios from 'axios';
-import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
+import { POKE_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { textColor, typeBgColors } from '@/src/constants/colors';
+import { typeBgColors } from '@/src/constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { typeColors } from '@/src/constants/colors';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -81,7 +74,7 @@ const Pokedex = () => {
 				// data
 				data={pokemonList}
 				renderItem={handleRenderItem}
-				estimatedItemSize={POKEMON_CARD_HEIGHT}
+				estimatedItemSize={POKE_CARD_HEIGHT}
 				// content container style
 				onEndReachedThreshold={1}
 				contentContainerStyle={contentContainerStyle}

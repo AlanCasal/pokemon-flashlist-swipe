@@ -17,7 +17,6 @@ export default StyleSheet.create({
 		fontFamily: PRIMARY_FONT,
 		color: textColor.primary,
 		fontSize: 24,
-		lineHeight: 28,
 		textTransform: 'capitalize',
 	},
 	starIcon: {

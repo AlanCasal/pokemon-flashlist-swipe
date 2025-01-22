@@ -1,5 +1,5 @@
 import { TouchableOpacity, View } from 'react-native';
-import React, { memo, useEffect, useState } from 'react';
+import React, { lazy, memo, Suspense, useEffect, useState } from 'react';
 import styles from './styles';
 import PokemonImage from './Image';
 import { PokemonDetails } from '@/src/types/pokemon';
@@ -9,6 +9,8 @@ import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
+
+const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
 
 interface PokemonCardProps {
 	url: string;
@@ -53,6 +55,12 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 					<PokemonImage
 						uri={pokemon.sprites.other['official-artwork'].front_default}
 					/>
+
+					<View style={styles.dotsContainer}>
+						<Suspense fallback={null}>
+							<Dots fill="white" width={90} />
+						</Suspense>
+					</View>
 
 					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
 				</View>

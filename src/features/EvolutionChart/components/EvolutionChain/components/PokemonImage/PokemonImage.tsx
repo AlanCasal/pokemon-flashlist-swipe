@@ -5,7 +5,7 @@ import { Image } from 'moti';
 import { fadeInAnim } from '@/src/utils/animations';
 import { View } from 'react-native';
 
-const Pokeball = lazy(() => import('@/assets/images/poke-ball-full.svg'));
+const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 const DEFAULT_SIZE = 100;
 
 interface PokemonImageProps {
@@ -15,6 +15,9 @@ interface PokemonImageProps {
 	size?: number;
 	fontSize?: number;
 	trigger?: string | null | undefined;
+	pokeballFillColor?: string;
+	pokeballStrokeColor?: string;
+	pokeballOpacity?: number;
 }
 
 const PokemonImage = ({
@@ -24,6 +27,9 @@ const PokemonImage = ({
 	size = DEFAULT_SIZE,
 	fontSize = 20,
 	trigger,
+	pokeballFillColor = 'white',
+	pokeballStrokeColor = 'white',
+	pokeballOpacity = 0.2,
 }: PokemonImageProps) => {
 	return (
 		<View>
@@ -33,6 +39,10 @@ const PokemonImage = ({
 						width={size}
 						height={size}
 						style={{ position: 'absolute' }}
+						fill={pokeballFillColor}
+						stroke={pokeballStrokeColor}
+						fillOpacity={pokeballOpacity}
+						strokeOpacity={pokeballOpacity}
 					/>
 				</Suspense>
 				<Image
