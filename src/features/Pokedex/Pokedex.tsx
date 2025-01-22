@@ -14,6 +14,9 @@ import axios from 'axios';
 import { POKEMON_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { textColor, typeBgColors } from '@/src/constants/colors';
+import { LinearGradient } from 'expo-linear-gradient';
+import { typeColors } from '@/src/constants/colors';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -68,7 +71,12 @@ const Pokedex = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<LinearGradient
+			colors={['white', typeBgColors.normal]}
+			start={{ x: 0, y: 0 }}
+			end={{ x: 2.5, y: 1 }}
+			style={styles.container}
+		>
 			<FlashList
 				// data
 				data={pokemonList}
@@ -85,7 +93,7 @@ const Pokedex = () => {
 				// Optimizations
 				keyExtractor={({ name }, index) => name + index.toString()}
 			/>
-		</View>
+		</LinearGradient>
 	);
 };
 
