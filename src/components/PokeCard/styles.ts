@@ -26,4 +26,9 @@ export default StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	starIconWrapper: {
+		position: 'absolute',
+		top: 6,
+		right: 6,
+	},
 });

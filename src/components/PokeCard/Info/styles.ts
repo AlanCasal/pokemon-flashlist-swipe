@@ -8,20 +8,12 @@ export default StyleSheet.create({
 		alignItems: 'flex-end',
 		gap: 5,
 	},
-	nameContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 5,
-	},
 	name: {
 		fontFamily: PRIMARY_FONT,
 		color: textColor.primary,
 		fontSize: 24,
 		textTransform: 'capitalize',
-	},
-	starIcon: {
-		bottom: 10,
-		left: 5,
+		marginRight: 17,
 	},
 	typesContainer: {
 		flexDirection: 'row',

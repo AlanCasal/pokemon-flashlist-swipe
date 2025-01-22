@@ -4,11 +4,12 @@ import styles from './styles';
 import PokemonImage from './Image';
 import { PokemonDetails } from '@/src/types/pokemon';
 import axios from 'axios';
-
 import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
 
@@ -61,6 +62,14 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 							<Dots fill="white" width={90} />
 						</Suspense>
 					</View>
+
+					<TouchableOpacity style={styles.starIconWrapper}>
+						<MaterialCommunityIcons
+							name="star-outline"
+							size={20}
+							color={'white'}
+						/>
+					</TouchableOpacity>
 
 					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
 				</View>
