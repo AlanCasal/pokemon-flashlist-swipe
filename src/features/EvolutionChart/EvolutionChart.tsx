@@ -10,7 +10,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
 import CustomTab from '@/src/components/Tabs/CustomTab';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BASE_DELAY, BASE_FADE_IN_DURATION, fadeInAnim } from '@/src/utils/animations';
+import {
+	BASE_DELAY,
+	BASE_FADE_IN_DURATION,
+	fadeInAnim,
+} from '@/src/utils/animations';
 import EvolutionChain from './components/EvolutionChain';
 
 const EvolutionChart = () => {
@@ -23,7 +27,15 @@ const EvolutionChart = () => {
 	);
 
 	return (
-		<>
+		<LinearGradient
+			colors={[
+				typeBgColors[type as keyof typeof typeBgColors],
+				typeColors[type as keyof typeof typeColors],
+			]}
+			start={{ x: 0, y: 0 }}
+			end={{ x: 2, y: 1 }}
+			style={{ flex: 1 }}
+		>
 			<View style={styles.starIconContainer}>
 				<TouchableOpacity>
 					<MaterialCommunityIcons
@@ -34,47 +46,38 @@ const EvolutionChart = () => {
 				</TouchableOpacity>
 			</View>
 
-			<LinearGradient
-				colors={[
-					typeBgColors[type as keyof typeof typeBgColors],
-					typeColors[type as keyof typeof typeColors],
-				]}
-				start={{ x: 0, y: 0 }}
-				end={{ x: 2, y: 1 }}
-				style={styles.container}
+			<Animated.View
+				entering={fadeInAnim(BASE_FADE_IN_DURATION)}
+				style={styles.titleWrapper}
 			>
-				<Animated.View
-					entering={fadeInAnim(BASE_FADE_IN_DURATION)}
-					style={styles.titleWrapper}
+				<Text style={styles.title}>Evolution Chart</Text>
+			</Animated.View>
+
+			{isLoading && (
+				<View
+					style={{
+						flex: 1,
+						justifyContent: 'center',
+						alignItems: 'center',
+					}}
 				>
-					<Text style={styles.title}>Evolution Chart</Text>
-				</Animated.View>
+					<ActivityIndicator size="large" color={'white'} />
+				</View>
+			)}
 
-				{isLoading && (
-					<View
-						style={{
-							flex: 1,
-							justifyContent: 'center',
-							alignItems: 'center',
-						}}
-					>
-						<ActivityIndicator size="large" color={'white'} />
-					</View>
-				)}
-
-				{!isLoading && evolutionData && (
-					<Animated.View entering={fadeInAnim(BASE_DELAY)}>
-						<View>
-							<EvolutionChain
-								evolution={evolutionData}
-								type={type as keyof typeof typeColors}
-								depth={0}
-								direction="right"
-							/>
-						</View>
-					</Animated.View>
-				)}
-			</LinearGradient>
+			{!isLoading && evolutionData && (
+				<Animated.ScrollView
+					entering={fadeInAnim(BASE_DELAY)}
+					contentContainerStyle={styles.contentContainer}
+				>
+					<EvolutionChain
+						evolution={evolutionData}
+						type={type as keyof typeof typeColors}
+						depth={0}
+						direction="right"
+					/>
+				</Animated.ScrollView>
+			)}
 
 			<View style={[styles.bottomTabContainer, { paddingBottom: bottom + 10 }]}>
 				<CustomTab
@@ -87,7 +90,7 @@ const EvolutionChart = () => {
 					onPress={() => router.back()}
 				/>
 			</View>
-		</>
+		</LinearGradient>
 	);
 };
 

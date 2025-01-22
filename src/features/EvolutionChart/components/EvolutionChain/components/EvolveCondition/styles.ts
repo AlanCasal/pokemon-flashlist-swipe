@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const LEVEL_TEXT_WIDTH = 80;
+const LEVEL_TEXT_WIDTH = 90;
 
 export default StyleSheet.create({
 	levelContainer: {

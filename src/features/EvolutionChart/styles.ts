@@ -3,10 +3,9 @@ import { StyleSheet } from 'react-native';
 const SAFE_PADDING = 30;
 
 export default StyleSheet.create({
-	container: {
+	contentContainer: {
 		flex: 1,
 		justifyContent: 'center',
-		alignItems: 'center',
 		paddingBottom: SAFE_PADDING,
 	},
 	starIconContainer: {

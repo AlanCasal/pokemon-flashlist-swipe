@@ -25,7 +25,14 @@ const EvolveCondition = ({
 			entering={evolveAnim(direction, delay)}
 			style={styles.levelContainer}
 		>
-			<Text style={styles.evolvesAtText}>Evolves at</Text>
+			<Text
+				style={styles.evolvesAtText}
+				numberOfLines={1}
+				adjustsFontSizeToFit
+				minimumFontScale={0.5}
+			>
+				{minLevel ? 'Evolves at' : 'Evolves into'}
+			</Text>
 
 			<MaterialCommunityIcons
 				name="arrow-down-bold-circle-outline"
@@ -37,11 +44,15 @@ const EvolveCondition = ({
 				style={[
 					styles.levelText,
 					{
-						backgroundColor: typeColors[type as keyof typeof typeColors],
+						backgroundColor: minLevel
+							? typeColors[type as keyof typeof typeColors]
+							: 'transparent',
 					},
 				]}
+				numberOfLines={1}
+				adjustsFontSizeToFit
 			>
-				(Level {minLevel})
+				{minLevel && `(Level ${minLevel})`}
 			</Text>
 		</Animated.View>
 	);
