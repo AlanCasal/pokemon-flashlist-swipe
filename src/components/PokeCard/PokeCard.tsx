@@ -9,9 +9,10 @@ import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
+const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const POKEBALL_SIZE = 17;
 
 interface PokemonCardProps {
 	url: string;
@@ -64,11 +65,15 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 					</View>
 
 					<TouchableOpacity style={styles.starIconWrapper}>
-						<MaterialCommunityIcons
-							name="star-outline"
-							size={20}
-							color={'white'}
-						/>
+						<Suspense fallback={null}>
+							<Pokeball
+								fill={'white'}
+								stroke={'white'}
+								strokeWidth={0}
+								width={POKEBALL_SIZE}
+								height={POKEBALL_SIZE}
+							/>
+						</Suspense>
 					</TouchableOpacity>
 
 					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />

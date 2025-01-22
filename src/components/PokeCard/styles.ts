@@ -28,7 +28,7 @@ export default StyleSheet.create({
 	},
 	starIconWrapper: {
 		position: 'absolute',
-		top: 6,
-		right: 6,
+		top: 8,
+		right: 8,
 	},
 });
