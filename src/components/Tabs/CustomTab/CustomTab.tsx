@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import styles from './styles';
 import Animated, {
 	FadeInRight,
@@ -39,9 +39,8 @@ const CustomTab = ({
 	return (
 		<MotiView layout={LinearTransition.springify().damping(80).stiffness(200)}>
 			<MotiView
-				style={StyleSheet.absoluteFillObject}
+				style={styles.animatedContainer}
 				animate={{
-					...styles.animatedContainer,
 					backgroundColor: isFocused
 						? activeBackgroundColor
 						: inactiveBackgroundColor,

@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	animatedContainer: {
+		...StyleSheet.absoluteFillObject,
 		overflow: 'hidden',
 		borderRadius: 8,
 		...sharedStyles.shadow,
