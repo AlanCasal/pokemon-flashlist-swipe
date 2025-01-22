@@ -16,11 +16,9 @@ import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
 import useSavedContext from '@/src/store/SavedContext/SavedContextContext';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import PokeBall from '../PokeBall';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
-const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
-const POKEBALL_SIZE = 17;
 
 interface PokemonCardProps {
 	url: string;
@@ -55,23 +53,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 		},
 	];
 
-	const pokeballColors = {
-		fillColor: 'white',
-		strokeColor: 'white',
-		strokeWidth: 0,
-		strokeOpacity: 0,
-		fillOpacity: 0.7,
-	};
-
-	if (isSaved) {
-		pokeballColors.fillColor = 'red';
-		pokeballColors.strokeColor = 'black';
-		pokeballColors.strokeWidth = 2;
-		pokeballColors.strokeOpacity = 1;
-		pokeballColors.fillOpacity = 1;
-	}
-
-	const handleOnPress = () => handleToggleSavedPokemon(pokemon.name);
+	const handleOnPressPokeball = () => handleToggleSavedPokemon(pokemon.name);
 
 	return (
 		<Link
@@ -97,22 +79,11 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 						</Suspense>
 					</View>
 
-					<TouchableOpacity
-						style={styles.starIconWrapper}
-						onPress={handleOnPress}
-					>
-						<Suspense fallback={null}>
-							<Pokeball
-								fill={pokeballColors.fillColor}
-								stroke={pokeballColors.strokeColor}
-								strokeWidth={pokeballColors.strokeWidth}
-								width={POKEBALL_SIZE}
-								height={POKEBALL_SIZE}
-								strokeOpacity={pokeballColors.strokeOpacity}
-								fillOpacity={pokeballColors.fillOpacity}
-							/>
-						</Suspense>
-					</TouchableOpacity>
+					<PokeBall
+						isSaved={isSaved}
+						handleOnPress={handleOnPressPokeball}
+						containerStyles={styles.starIconWrapper}
+					/>
 
 					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
 				</View>
