@@ -6,10 +6,13 @@ import {
 } from '@expo-google-fonts/finger-paint';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
-
+import SavedContext from '@/src/store/SavedContext';
+import useSavedContextValue from '@/src/store/SavedContext/SavedContextValue';
 const queryClient = new QueryClient();
 
 const RootLayout = () => {
+	const savedContextValue = useSavedContextValue();
+
 	const [fontsLoaded] = useFonts({
 		FingerPaint_400Regular,
 	});
@@ -24,17 +27,19 @@ const RootLayout = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<StatusBar style="dark" />
-			<Stack screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="(tabs)" />
-				<Stack.Screen
-					name="details"
-					options={{
-						presentation: 'modal',
-						animation: 'slide_from_bottom',
-					}}
-				/>
-			</Stack>
+			<SavedContext.Provider value={savedContextValue}>
+				<StatusBar style="dark" />
+				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="(tabs)" />
+					<Stack.Screen
+						name="details"
+						options={{
+							presentation: 'modal',
+							animation: 'slide_from_bottom',
+						}}
+					/>
+				</Stack>
+			</SavedContext.Provider>
 		</QueryClientProvider>
 	);
 };
