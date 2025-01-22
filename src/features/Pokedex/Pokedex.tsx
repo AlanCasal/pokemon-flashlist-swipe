@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import styles from './styles';
 import { API_URL } from '@/src/constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
-import PokemonCard from '@/src/components/PokeCard';
+import PokeCard from '@/src/components/PokeCard';
 import axios from 'axios';
 import { POKE_CARD_HEIGHT } from '@/src/constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
@@ -47,7 +47,7 @@ const Pokedex = () => {
 	};
 
 	const handleRenderItem = useCallback(({ item }: { item: Pokemon }) => {
-		return <PokemonCard url={item.url} />;
+		return <PokeCard url={item.url} />;
 	}, []);
 
 	useEffect(() => {

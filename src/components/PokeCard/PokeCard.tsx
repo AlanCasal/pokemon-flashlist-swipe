@@ -1,5 +1,12 @@
 import { TouchableOpacity, View } from 'react-native';
-import React, { lazy, memo, Suspense, useEffect, useState } from 'react';
+import React, {
+	lazy,
+	memo,
+	Suspense,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import styles from './styles';
 import PokemonImage from './Image';
 import { PokemonDetails } from '@/src/types/pokemon';
@@ -8,6 +15,7 @@ import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
+import useSavedContext from '@/src/store/SavedContext/SavedContextContext';
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
@@ -20,6 +28,7 @@ interface PokemonCardProps {
 
 const PokeCard = ({ url }: PokemonCardProps) => {
 	const [pokemon, setPokemon] = useState<PokemonDetails>();
+	const { savedPokemons, handleToggleSavedPokemon } = useSavedContext();
 
 	useEffect(() => {
 		const getPokemon = async () => {
@@ -29,6 +38,11 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 
 		getPokemon();
 	}, [url]);
+
+	const isSaved = useMemo(
+		() => savedPokemons.includes(pokemon?.name ?? ''),
+		[savedPokemons, pokemon?.name]
+	);
 
 	if (!pokemon) return null;
 
@@ -40,6 +54,8 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 			shadowColor: typeBgColors[type],
 		},
 	];
+
+	const handleOnPress = () => handleToggleSavedPokemon(pokemon.name);
 
 	return (
 		<Link
@@ -64,12 +80,15 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 						</Suspense>
 					</View>
 
-					<TouchableOpacity style={styles.starIconWrapper}>
+					<TouchableOpacity
+						style={styles.starIconWrapper}
+						onPress={handleOnPress}
+					>
 						<Suspense fallback={null}>
 							<Pokeball
-								fill={'white'}
-								stroke={'white'}
-								strokeWidth={0}
+								fill={isSaved ? 'red' : 'white'}
+								stroke={isSaved ? 'black' : 'white'}
+								strokeWidth={isSaved ? 2 : 0}
 								width={POKEBALL_SIZE}
 								height={POKEBALL_SIZE}
 							/>

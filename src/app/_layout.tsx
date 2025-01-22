@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { router, Stack } from 'expo-router';
 import {
 	useFonts,
@@ -17,6 +17,11 @@ const RootLayout = () => {
 		FingerPaint_400Regular,
 	});
 
+	const memoizedSavedContextValue = useMemo(
+		() => savedContextValue,
+		[savedContextValue]
+	);
+
 	useEffect(() => {
 		if (fontsLoaded) {
 			router.replace('/(tabs)/pokedex');
@@ -27,7 +32,7 @@ const RootLayout = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<SavedContext.Provider value={savedContextValue}>
+			<SavedContext.Provider value={memoizedSavedContextValue}>
 				<StatusBar style="dark" />
 				<Stack screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="(tabs)" />

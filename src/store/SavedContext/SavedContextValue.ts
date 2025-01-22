@@ -1,26 +1,27 @@
 import { useState } from 'react';
 
-type PokemonId = number;
+type PokemonId = string;
+
+const INITIAL_DATA: PokemonId[] = [];
 
 const useSavedContextValue = () => {
-	const [savedPokemons, setSavedPokemons] = useState<PokemonId[]>([]);
+	const [savedPokemons, setSavedPokemons] = useState<PokemonId[]>(INITIAL_DATA);
 
-	const handleSavePokemon = () => {
-		// ...
-	};
-
-	const handleRemovePokemon = () => {
-		// ...
+	const handleToggleSavedPokemon = (pokemonId: PokemonId) => {
+		setSavedPokemons(prev =>
+			prev.includes(pokemonId)
+				? prev.filter(id => id !== pokemonId)
+				: [...prev, pokemonId]
+		);
 	};
 
 	const handleClearSavedPokemons = () => {
-		// ...
+		setSavedPokemons(INITIAL_DATA);
 	};
 
 	return {
 		savedPokemons,
-		handleSavePokemon,
-		handleRemovePokemon,
+		handleToggleSavedPokemon,
 		handleClearSavedPokemons,
 	};
 };
