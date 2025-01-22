@@ -24,8 +24,9 @@ const RootLayout = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
+			<StatusBar style="dark" />
 			<Stack screenOptions={{ headerShown: false }}>
-				<StatusBar style="dark" />
+				<Stack.Screen name="(tabs)" />
 				<Stack.Screen
 					name="details"
 					options={{
