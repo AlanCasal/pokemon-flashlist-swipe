@@ -9,7 +9,7 @@ export default StyleSheet.create({
 	},
 	pokeballContainer: {
 		position: 'absolute',
-		top: 10,
+		top: 16,
 		left: 10,
 	},
 });

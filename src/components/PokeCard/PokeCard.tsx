@@ -55,6 +55,22 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 		},
 	];
 
+	const pokeballColors = {
+		fillColor: 'white',
+		strokeColor: 'white',
+		strokeWidth: 0,
+		strokeOpacity: 0,
+		fillOpacity: 0.7,
+	};
+
+	if (isSaved) {
+		pokeballColors.fillColor = 'red';
+		pokeballColors.strokeColor = 'black';
+		pokeballColors.strokeWidth = 2;
+		pokeballColors.strokeOpacity = 1;
+		pokeballColors.fillOpacity = 1;
+	}
+
 	const handleOnPress = () => handleToggleSavedPokemon(pokemon.name);
 
 	return (
@@ -72,6 +88,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 				<View style={containerStyles}>
 					<PokemonImage
 						uri={pokemon.sprites.other['official-artwork'].front_default}
+						isSaved={isSaved}
 					/>
 
 					<View style={styles.dotsContainer}>
@@ -86,11 +103,13 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 					>
 						<Suspense fallback={null}>
 							<Pokeball
-								fill={isSaved ? 'red' : 'white'}
-								stroke={isSaved ? 'black' : 'white'}
-								strokeWidth={isSaved ? 2 : 0}
+								fill={pokeballColors.fillColor}
+								stroke={pokeballColors.strokeColor}
+								strokeWidth={pokeballColors.strokeWidth}
 								width={POKEBALL_SIZE}
 								height={POKEBALL_SIZE}
+								strokeOpacity={pokeballColors.strokeOpacity}
+								fillOpacity={pokeballColors.fillOpacity}
 							/>
 						</Suspense>
 					</TouchableOpacity>

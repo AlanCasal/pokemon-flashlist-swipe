@@ -8,34 +8,41 @@ import {
 import styles from './styles';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
 
 interface PokemonImageProps {
 	uri: string;
-	fillColor?: string;
-	fillOpacity?: number;
-	strokeColor?: string;
-	strokeOpacity?: number;
+	isSaved?: boolean;
 }
 
-const PokemonImage = ({
-	uri,
-	fillColor = 'white',
-	strokeColor = 'transparent',
-	fillOpacity = SVG_DEFAULT_OPACITY,
-	strokeOpacity = SVG_DEFAULT_OPACITY,
-}: PokemonImageProps) => {
+const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
+	const pokeballColors = {
+		opacity: SVG_DEFAULT_OPACITY,
+		strokeColor: 'transparent',
+		strokeWidth: 0,
+		fillColor: 'white',
+	};
+
+	if (isSaved) {
+		pokeballColors.opacity = 1;
+		pokeballColors.strokeColor = 'black';
+		pokeballColors.strokeWidth = 1;
+		pokeballColors.fillColor = 'red';
+	}
+
 	return (
 		<View>
 			<Image source={{ uri }} style={styles.image} />
 			<View style={styles.pokeballContainer}>
 				<Suspense fallback={null}>
 					<Pokeball
-						width={POKE_CARD_HEIGHT}
-						height={POKE_CARD_HEIGHT}
-						fill={fillColor}
-						fillOpacity={fillOpacity}
-						stroke={strokeColor}
-						strokeOpacity={strokeOpacity}
+						width={POKEBALL_SIZE}
+						height={POKEBALL_SIZE}
+						fill={pokeballColors.fillColor}
+						fillOpacity={pokeballColors.opacity}
+						stroke={pokeballColors.strokeColor}
+						strokeOpacity={pokeballColors.opacity}
+						strokeWidth={pokeballColors.strokeWidth}
 					/>
 				</Suspense>
 			</View>
