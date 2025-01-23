@@ -7,11 +7,16 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import SavedContext from '@/src/store/SavedContext';
+import ToastContext from '@/src/store/ToastContext';
 import useSavedContextValue from '@/src/store/SavedContext/SavedContextValue';
+import useToastContextValue from '@/src/store/ToastContext/ToastContextValue';
+import Toast from '../components/Toast/Toast';
+
 const queryClient = new QueryClient();
 
 const RootLayout = () => {
 	const savedContextValue = useSavedContextValue();
+	const toastContextValue = useToastContextValue();
 
 	const [fontsLoaded] = useFonts({
 		FingerPaint_400Regular,
@@ -32,19 +37,22 @@ const RootLayout = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<SavedContext.Provider value={memoizedSavedContextValue}>
-				<StatusBar style="dark" />
-				<Stack screenOptions={{ headerShown: false }}>
-					<Stack.Screen name="(tabs)" />
-					<Stack.Screen
-						name="details"
-						options={{
-							presentation: 'modal',
-							animation: 'slide_from_bottom',
-						}}
-					/>
-				</Stack>
-			</SavedContext.Provider>
+			<ToastContext.Provider value={toastContextValue}>
+				<SavedContext.Provider value={memoizedSavedContextValue}>
+					<StatusBar style="dark" />
+					<Toast />
+					<Stack screenOptions={{ headerShown: false }}>
+						<Stack.Screen name="(tabs)" />
+						<Stack.Screen
+							name="details"
+							options={{
+								presentation: 'modal',
+								animation: 'slide_from_bottom',
+							}}
+						/>
+					</Stack>
+				</SavedContext.Provider>
+			</ToastContext.Provider>
 		</QueryClientProvider>
 	);
 };
