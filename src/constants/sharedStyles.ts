@@ -8,6 +8,8 @@ export const SVG_DEFAULT_OPACITY = 0.2;
 
 export const PRIMARY_FONT = 'FingerPaint_400Regular';
 
+export const TOAST_Z_INDEX = 9999;
+
 export default StyleSheet.create({
 	hListPadding: {
 		paddingHorizontal: 40,

@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 import React, {
 	lazy,
 	memo,
@@ -15,7 +15,8 @@ import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
-import useSavedContext from '@/src/store/SavedContext/SavedContextContext';
+import useSavedContext from '@/src/store/SavedContext/SavedContext';
+import useToastContext from '@/src/store/ToastContext/ToastContext';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
 
@@ -26,6 +27,7 @@ interface PokemonCardProps {
 const PokeCard = ({ url }: PokemonCardProps) => {
 	const [pokemon, setPokemon] = useState<PokemonDetails>();
 	const { savedPokemons, handleToggleSavedPokemon } = useSavedContext();
+	const { showToast } = useToastContext();
 
 	useEffect(() => {
 		const getPokemon = async () => {
@@ -52,7 +54,17 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 		},
 	];
 
-	const handleOnPressPokeball = () => handleToggleSavedPokemon(pokemon.name);
+	const handleOnPressPokeball = () => {
+		handleToggleSavedPokemon(pokemon.name);
+		showToast({
+			text: (
+				<Text>
+					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> saved !
+				</Text>
+			),
+			backgroundColor: typeBgColors[type],
+		});
+	};
 
 	return (
 		<Link
