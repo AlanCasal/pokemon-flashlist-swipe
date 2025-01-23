@@ -7,10 +7,9 @@ type ShowToastProps = {
 	isPokeballColored?: boolean;
 };
 
-type ToastConfig = ShowToastProps & { isVisible: boolean };
+type ToastConfig = ShowToastProps;
 
 const INITIAL_TOAST_CONFIG: ToastConfig = {
-	isVisible: false,
 	text: '',
 	icon: undefined,
 	backgroundColor: undefined,
@@ -24,7 +23,6 @@ const useToastContextValue = () => {
 	const showToast = useCallback(
 		({ text, icon, backgroundColor, isPokeballColored }: ShowToastProps) => {
 			setToastConfig({
-				isVisible: true,
 				text,
 				icon,
 				backgroundColor,
@@ -34,11 +32,7 @@ const useToastContextValue = () => {
 		[]
 	);
 
-	const hideToast = useCallback(() => {
-		setToastConfig(prev => ({ ...prev, isVisible: false }));
-	}, []);
-
-	return { showToast, hideToast, toastConfig };
+	return { showToast, toastConfig };
 };
 
 export default useToastContextValue;

@@ -24,10 +24,10 @@ const PokeBall = ({
 	isDisabled = false,
 	enablePopAnimation = false,
 }: PokeBallProps) => {
-	const { animatedStyle, triggerPop } = usePopAnimation();
+	const { animatedStyle, triggerPopAnimation } = usePopAnimation();
 
 	const handlePress = () => {
-		if (enablePopAnimation) triggerPop();
+		if (enablePopAnimation) triggerPopAnimation();
 		handleOnPress?.();
 	};
 
