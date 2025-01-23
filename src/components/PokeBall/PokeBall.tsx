@@ -21,7 +21,7 @@ const PokeBall = ({
 	isDisabled = false,
 }: PokeBallProps) => {
 	const pokeballColors = {
-		fillColor: 'white',
+		fillColor: POKEBALL_COLORS.white,
 		fillOpacity: 0.7,
 	};
 
