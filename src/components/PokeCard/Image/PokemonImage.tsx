@@ -3,6 +3,7 @@ import React, { lazy, Suspense } from 'react';
 import { Image } from 'expo-image';
 import {
 	POKE_CARD_HEIGHT,
+	POKEBALL_COLORS,
 	SVG_DEFAULT_OPACITY,
 } from '@/src/constants/sharedStyles';
 import styles from './styles';
@@ -18,16 +19,12 @@ interface PokemonImageProps {
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 	const pokeballColors = {
 		opacity: SVG_DEFAULT_OPACITY,
-		strokeColor: 'transparent',
-		strokeWidth: 0,
-		fillColor: 'white',
+		fillColor: POKEBALL_COLORS.white,
 	};
 
 	if (isSaved) {
 		pokeballColors.opacity = 1;
-		pokeballColors.strokeColor = 'black';
-		pokeballColors.strokeWidth = 1;
-		pokeballColors.fillColor = 'red';
+		pokeballColors.fillColor = POKEBALL_COLORS.red;
 	}
 
 	return (
@@ -40,9 +37,6 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 						height={POKEBALL_SIZE}
 						fill={pokeballColors.fillColor}
 						fillOpacity={pokeballColors.opacity}
-						stroke={pokeballColors.strokeColor}
-						strokeOpacity={pokeballColors.opacity}
-						strokeWidth={pokeballColors.strokeWidth}
 					/>
 				</Suspense>
 			</View>

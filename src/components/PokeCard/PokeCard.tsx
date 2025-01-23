@@ -98,7 +98,6 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 
 					<View style={styles.dotsContainer}>
 						<Suspense fallback={null}>
-							{/* <Dots fill="white" width={100} /> */}
 							<Dots fill="white" width={80} />
 						</Suspense>
 					</View>

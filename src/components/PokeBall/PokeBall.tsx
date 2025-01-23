@@ -1,5 +1,6 @@
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import React, { lazy, Suspense } from 'react';
+import { POKEBALL_COLORS } from '@/src/constants/sharedStyles';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 const POKEBALL_SIZE = 17;
@@ -21,17 +22,11 @@ const PokeBall = ({
 }: PokeBallProps) => {
 	const pokeballColors = {
 		fillColor: 'white',
-		strokeColor: 'white',
-		strokeWidth: 0,
-		strokeOpacity: 0,
 		fillOpacity: 0.7,
 	};
 
 	if (isSaved) {
-		pokeballColors.fillColor = 'red';
-		pokeballColors.strokeColor = 'black';
-		pokeballColors.strokeWidth = 2;
-		pokeballColors.strokeOpacity = 1;
+		pokeballColors.fillColor = POKEBALL_COLORS.red;
 		pokeballColors.fillOpacity = 1;
 	}
 
@@ -42,15 +37,7 @@ const PokeBall = ({
 			disabled={isDisabled}
 		>
 			<Suspense fallback={null}>
-				<Pokeball
-					fill={pokeballColors.fillColor}
-					stroke={pokeballColors.strokeColor}
-					strokeWidth={pokeballColors.strokeWidth}
-					width={size}
-					height={size}
-					strokeOpacity={pokeballColors.strokeOpacity}
-					fillOpacity={pokeballColors.fillOpacity}
-				/>
+				<Pokeball fill={pokeballColors.fillColor} width={size} height={size} />
 			</Suspense>
 		</TouchableOpacity>
 	);

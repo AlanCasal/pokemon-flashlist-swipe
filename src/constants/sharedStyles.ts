@@ -8,6 +8,12 @@ export const SVG_DEFAULT_OPACITY = 0.2;
 
 export const PRIMARY_FONT = 'FingerPaint_400Regular';
 
+export const POKEBALL_COLORS = {
+	red: '#ee1515',
+	black: '#222224',
+	white: '#f0f0f0',
+};
+
 export const TOAST_Z_INDEX = 9999;
 
 export default StyleSheet.create({
