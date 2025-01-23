@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
 import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -36,16 +36,6 @@ const EvolutionChart = () => {
 			end={{ x: 2, y: 1 }}
 			style={{ flex: 1 }}
 		>
-			<View style={styles.starIconContainer}>
-				<TouchableOpacity>
-					<MaterialCommunityIcons
-						name="star-outline"
-						size={30}
-						color={'white'}
-					/>
-				</TouchableOpacity>
-			</View>
-
 			<Animated.View
 				entering={fadeInAnim(BASE_FADE_IN_DURATION)}
 				style={styles.titleWrapper}
