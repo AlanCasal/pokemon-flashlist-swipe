@@ -11,6 +11,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 
+const RESET_SPEED = 200;
+const SHOW_SPEED = 500;
+const DISPLAY_DURATION = 2000;
+const HIDE_DELAY = RESET_SPEED + DISPLAY_DURATION;
+
 const Toast = () => {
 	const { top } = useSafeAreaInsets();
 
@@ -26,28 +31,47 @@ const Toast = () => {
 		opacity: opacity.value,
 	}));
 
+	const hideToastAnimation = () => {
+		opacity.value = withTiming(0, { duration: RESET_SPEED });
+		scale.value = withTiming(0, { duration: RESET_SPEED });
+	};
+
+	const showToastAnimation = () => {
+		translateY.value = withTiming(-20, { duration: SHOW_SPEED });
+		opacity.value = withTiming(1, { duration: SHOW_SPEED });
+		scale.value = withTiming(1, { duration: SHOW_SPEED });
+	};
+
 	useEffect(() => {
 		if (isVisible) {
-			// Show animation
-			translateY.value = withTiming(-20, { duration: 500 });
-			opacity.value = withTiming(1, { duration: 500 });
-			scale.value = withTiming(1, { duration: 500 });
-		}
+			// AbortController - Theo explanation https://www.youtube.com/watch?v=2sdXSczmvNc
+			const controller = new AbortController();
+			const { signal } = controller;
 
-		// Hide animation after delay
-		const hideToastAnimation = () => {
-			opacity.value = withTiming(0);
-			scale.value = withTiming(0);
-		};
-
-		const timeout = setTimeout(() => {
+			// Reset animations immediately if a toast is already showing
 			hideToastAnimation();
-			hideToast();
-		}, 2000);
 
-		return () => clearTimeout(timeout);
+			// Show new toast after a brief delay
+			(async () => {
+				await new Promise(resolve => setTimeout(resolve, RESET_SPEED));
+				if (signal.aborted) return;
+				showToastAnimation();
+			})();
+
+			// Hide animation after delay
+			(async () => {
+				await new Promise(resolve => setTimeout(resolve, HIDE_DELAY));
+				if (signal.aborted) return;
+				hideToastAnimation();
+				hideToast();
+			})();
+
+			return () => {
+				controller.abort();
+			};
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isVisible]);
+	}, [isVisible, text]);
 
 	if (!isVisible) return null;
 
