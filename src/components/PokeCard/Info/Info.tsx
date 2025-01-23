@@ -25,6 +25,7 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 					isSaved={isSaved}
 					handleOnPress={handleToggleSaved}
 					size={24}
+					enablePopAnimation
 				/>
 			</View>
 
