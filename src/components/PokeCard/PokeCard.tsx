@@ -56,14 +56,26 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 
 	const handleOnPressPokeball = () => {
 		handleToggleSavedPokemon(pokemon.name);
-		showToast({
-			text: (
+
+		let text = (
+			<Text>
+				<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> saved !
+			</Text>
+		);
+		let backgroundColor = typeBgColors[type];
+		let isPokeballColored = true;
+
+		if (isSaved) {
+			backgroundColor = typeBgColors.dark;
+			text = (
 				<Text>
-					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> saved !
+					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> removed
 				</Text>
-			),
-			backgroundColor: typeBgColors[type],
-		});
+			);
+			isPokeballColored = false;
+		}
+
+		showToast({ text, backgroundColor, isPokeballColored });
 	};
 
 	return (

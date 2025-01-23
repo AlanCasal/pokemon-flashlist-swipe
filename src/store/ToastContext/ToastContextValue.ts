@@ -4,6 +4,7 @@ type ShowToastProps = {
 	text: string | ReactNode;
 	icon?: ReactNode;
 	backgroundColor?: string;
+	isPokeballColored?: boolean;
 };
 
 type ToastConfig = ShowToastProps & { isVisible: boolean };
@@ -13,6 +14,7 @@ const INITIAL_TOAST_CONFIG: ToastConfig = {
 	text: '',
 	icon: undefined,
 	backgroundColor: undefined,
+	isPokeballColored: false,
 };
 
 const useToastContextValue = () => {
@@ -20,12 +22,13 @@ const useToastContextValue = () => {
 		useState<ToastConfig>(INITIAL_TOAST_CONFIG);
 
 	const showToast = useCallback(
-		({ text, icon, backgroundColor }: ShowToastProps) => {
+		({ text, icon, backgroundColor, isPokeballColored }: ShowToastProps) => {
 			setToastConfig({
 				isVisible: true,
 				text,
 				icon,
 				backgroundColor,
+				isPokeballColored,
 			});
 		},
 		[]

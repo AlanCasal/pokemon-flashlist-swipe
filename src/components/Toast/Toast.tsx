@@ -11,6 +11,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 
+const POKEBALL_SIZE = 20;
+
 const RESET_SPEED = 200;
 const SHOW_SPEED = 500;
 const DISPLAY_DURATION = 2000;
@@ -20,7 +22,7 @@ const Toast = () => {
 	const { top } = useSafeAreaInsets();
 
 	const { toastConfig, hideToast } = useToastContext();
-	const { isVisible, text, backgroundColor } = toastConfig;
+	const { isVisible, text, backgroundColor, isPokeballColored } = toastConfig;
 
 	const translateY = useSharedValue(-100);
 	const opacity = useSharedValue(0);
@@ -75,6 +77,9 @@ const Toast = () => {
 
 	if (!isVisible) return null;
 
+	let pokeballColor = { fill: 'white', stroke: 'white' };
+	if (isPokeballColored) pokeballColor = { fill: 'red', stroke: 'black' };
+
 	return (
 		<Animated.View
 			style={[
@@ -85,11 +90,9 @@ const Toast = () => {
 		>
 			<Suspense fallback={null}>
 				<Pokeball
-					width={20}
-					height={20}
-					fill="red"
-					stroke="black"
-					strokeWidth={2}
+					width={POKEBALL_SIZE}
+					height={POKEBALL_SIZE}
+					fill={pokeballColor.fill}
 				/>
 			</Suspense>
 
@@ -99,11 +102,9 @@ const Toast = () => {
 
 			<Suspense fallback={null}>
 				<Pokeball
-					width={20}
-					height={20}
-					fill="red"
-					stroke="black"
-					strokeWidth={2}
+					width={POKEBALL_SIZE}
+					height={POKEBALL_SIZE}
+					fill={pokeballColor.fill}
 				/>
 			</Suspense>
 		</Animated.View>
