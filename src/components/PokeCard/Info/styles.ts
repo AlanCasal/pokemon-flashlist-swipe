@@ -2,40 +2,47 @@ import { textColor } from '@/src/constants/colors';
 import { StyleSheet } from 'react-native';
 import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
 
+const SMALL_GAP = 5;
+
 export default StyleSheet.create({
 	infoContainer: {
 		flex: 1,
 		alignItems: 'flex-end',
-		gap: 5,
+	},
+	firstRowContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		gap: SMALL_GAP,
+	},
+	pokemonId: {
+		fontSize: 10,
+		color: textColor.number,
 	},
 	name: {
 		fontFamily: PRIMARY_FONT,
 		color: textColor.primary,
-		fontSize: 24,
+		letterSpacing: 1,
+		fontSize: 20,
 		textTransform: 'capitalize',
-		marginRight: 17,
+		marginBottom: SMALL_GAP,
 	},
-	typesContainer: {
+	thirdRowContainer: {
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		gap: 10,
+		gap: SMALL_GAP,
 	},
 	typeContainer: {
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		borderRadius: 5,
+		paddingHorizontal: 6,
+		paddingVertical: 4,
+		borderRadius: 3,
 		flexDirection: 'row',
 		alignItems: 'center',
-		gap: 5,
+		gap: SMALL_GAP,
 	},
 	typeText: {
-		fontSize: 9,
+		fontSize: 8,
 		textTransform: 'uppercase',
 		fontWeight: 'bold',
 		color: textColor.primary,
-	},
-	pokemonId: {
-		fontSize: 12,
-		color: textColor.number,
 	},
 });

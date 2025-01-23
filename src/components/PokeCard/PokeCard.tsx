@@ -16,7 +16,6 @@ import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
 import useSavedContext from '@/src/store/SavedContext/SavedContextContext';
-import PokeBall from '../PokeBall';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
 
@@ -75,17 +74,18 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 
 					<View style={styles.dotsContainer}>
 						<Suspense fallback={null}>
-							<Dots fill="white" width={90} />
+							{/* <Dots fill="white" width={100} /> */}
+							<Dots fill="white" width={80} />
 						</Suspense>
 					</View>
 
-					<PokeBall
+					<Info
+						handleToggleSaved={handleOnPressPokeball}
 						isSaved={isSaved}
-						handleOnPress={handleOnPressPokeball}
-						containerStyles={styles.pokeballContainer}
+						name={pokemon.name}
+						types={pokemon.types}
+						id={pokemon.id}
 					/>
-
-					<Info name={pokemon.name} types={pokemon.types} id={pokemon.id} />
 				</View>
 			</TouchableOpacity>
 		</Link>

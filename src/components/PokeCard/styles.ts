@@ -21,14 +21,10 @@ export default StyleSheet.create({
 	},
 	dotsContainer: {
 		position: 'absolute',
-		left: '44%',
-		bottom: -20,
 		justifyContent: 'center',
 		alignItems: 'center',
-	},
-	pokeballContainer: {
-		position: 'absolute',
-		top: 8,
-		right: 8,
+		left: '35%',
+		bottom: 12,
+		transform: [{ rotate: '-90deg' }],
 	},
 });

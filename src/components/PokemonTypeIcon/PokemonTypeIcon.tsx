@@ -51,7 +51,7 @@ const PokemonTypeIcon = ({ type }: { type: PokemonType }) => {
 
 	return (
 		<Suspense fallback={<ActivityIndicator size="small" />}>
-			<Icon fill="white" width={12} height={12} />
+			<Icon fill="white" width={10} height={10} />
 		</Suspense>
 	);
 };
