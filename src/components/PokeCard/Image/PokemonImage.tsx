@@ -1,11 +1,11 @@
-import { View } from 'react-native';
-import React, { lazy, Suspense } from 'react';
-import { Image } from 'expo-image';
+import { pokeballColors } from '@/src/constants/colors';
 import {
 	POKE_CARD_HEIGHT,
-	POKEBALL_COLORS,
 	SVG_DEFAULT_OPACITY,
 } from '@/src/constants/sharedStyles';
+import { Image } from 'expo-image';
+import React, { lazy, Suspense } from 'react';
+import { View } from 'react-native';
 import styles from './styles';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
@@ -17,14 +17,14 @@ interface PokemonImageProps {
 }
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
-	const pokeballColors = {
+	const colors = {
 		opacity: SVG_DEFAULT_OPACITY,
-		fillColor: POKEBALL_COLORS.white,
+		fillColor: pokeballColors.white,
 	};
 
 	if (isSaved) {
-		pokeballColors.opacity = 1;
-		pokeballColors.fillColor = POKEBALL_COLORS.red;
+		colors.opacity = 1;
+		colors.fillColor = pokeballColors.red;
 	}
 
 	return (
@@ -35,8 +35,8 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 					<Pokeball
 						width={POKEBALL_SIZE}
 						height={POKEBALL_SIZE}
-						fill={pokeballColors.fillColor}
-						fillOpacity={pokeballColors.opacity}
+						fill={colors.fillColor}
+						fillOpacity={colors.opacity}
 					/>
 				</Suspense>
 			</View>

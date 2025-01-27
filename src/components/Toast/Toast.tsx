@@ -1,11 +1,11 @@
-import { Text } from 'react-native';
-import React, { lazy, Suspense, useEffect } from 'react';
-import Animated from 'react-native-reanimated';
-import styles from './styles';
+import { pokeballColors } from '@/src/constants/colors';
 import useToastContext from '@/src/store/ToastContext/ToastContext';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { POKEBALL_COLORS } from '@/src/constants/sharedStyles';
 import { useToastAnimation } from '@/src/utils/animations';
+import React, { lazy, Suspense, useEffect } from 'react';
+import { Text } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import styles from './styles';
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 
@@ -31,14 +31,14 @@ const Toast = () => {
 	if (!text) return null;
 
 	let pokeballColor = {
-		fill: POKEBALL_COLORS.white,
-		stroke: POKEBALL_COLORS.white,
+		fill: pokeballColors.white,
+		stroke: pokeballColors.white,
 	};
 
 	if (isPokeballColored)
 		pokeballColor = {
-			fill: POKEBALL_COLORS.red,
-			stroke: POKEBALL_COLORS.black,
+			fill: pokeballColors.red,
+			stroke: pokeballColors.black,
 		};
 
 	return (
