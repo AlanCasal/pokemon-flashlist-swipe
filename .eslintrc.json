@@ -91,7 +91,12 @@
 		"quotes": ["error", "single"],
 		"@typescript-eslint/quotes": ["error", "single"],
 		"indent": ["error", "tab"],
-		"@typescript-eslint/no-unused-expressions": "off"
+		"@typescript-eslint/no-unused-expressions": "off",
+		"react/jsx-max-props-per-line": [
+			"error",
+			{ "maximum": 1, "when": "always" }
+		],
+		"jsx-quotes": ["error", "prefer-single"]
 	},
 	"ignorePatterns": ["todos.js", "metro.config.js", "babel.config.js"]
 }
