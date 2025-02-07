@@ -57,7 +57,10 @@ const Toast = () => {
 				/>
 			</Suspense>
 
-			<Text style={styles.text} numberOfLines={1}>
+			<Text
+				style={styles.text}
+				numberOfLines={1}
+			>
 				{text}
 			</Text>
 

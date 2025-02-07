@@ -75,7 +75,7 @@ const Home = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!pokemonList.length) return <ActivityIndicator size="large" />;
+	if (!pokemonList.length) return <ActivityIndicator size='large' />;
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -84,7 +84,7 @@ const Home = () => {
 				data={pokemonList}
 				renderItem={handleRenderItem}
 				ListFooterComponent={
-					isLoading ? <ActivityIndicator size="large" /> : null
+					isLoading ? <ActivityIndicator size='large' /> : null
 				}
 				// content container style
 				contentContainerStyle={styles.contentContainer}

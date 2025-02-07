@@ -29,7 +29,10 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 
 	return (
 		<View>
-			<Image source={{ uri }} style={styles.image} />
+			<Image
+				source={{ uri }}
+				style={styles.image}
+			/>
 			<View style={styles.pokeballContainer}>
 				<Suspense fallback={null}>
 					<Pokeball

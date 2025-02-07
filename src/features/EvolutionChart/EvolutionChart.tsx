@@ -51,7 +51,10 @@ const EvolutionChart = () => {
 						alignItems: 'center',
 					}}
 				>
-					<ActivityIndicator size="large" color={'white'} />
+					<ActivityIndicator
+						size='large'
+						color={'white'}
+					/>
 				</View>
 			)}
 
@@ -64,7 +67,7 @@ const EvolutionChart = () => {
 						evolution={evolutionData}
 						type={type as keyof typeof typeColors}
 						depth={0}
-						direction="right"
+						direction='right'
 					/>
 				</Animated.ScrollView>
 			)}
@@ -75,7 +78,11 @@ const EvolutionChart = () => {
 					isFocused
 					activeBackgroundColor={typeColors.fighting}
 					tabBarIcon={({ color, size }) => (
-						<MaterialCommunityIcons name="close" size={size} color={color} />
+						<MaterialCommunityIcons
+							name='close'
+							size={size}
+							color={color}
+						/>
 					)}
 					onPress={() => router.back()}
 				/>

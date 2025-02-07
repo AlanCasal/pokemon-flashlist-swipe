@@ -39,12 +39,12 @@ const RootLayout = () => {
 		<QueryClientProvider client={queryClient}>
 			<ToastContext.Provider value={toastContextValue}>
 				<SavedContext.Provider value={memoizedSavedContextValue}>
-					<StatusBar style="dark" />
+					<StatusBar style='dark' />
 					<Toast />
 					<Stack screenOptions={{ headerShown: false }}>
-						<Stack.Screen name="(tabs)" />
+						<Stack.Screen name='(tabs)' />
 						<Stack.Screen
-							name="details"
+							name='details'
 							options={{
 								presentation: 'modal',
 								animation: 'slide_from_bottom',

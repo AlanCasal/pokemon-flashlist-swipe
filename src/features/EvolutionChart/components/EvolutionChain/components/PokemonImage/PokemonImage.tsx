@@ -33,7 +33,10 @@ const PokemonImage = ({
 }: PokemonImageProps) => {
 	return (
 		<View>
-			<Animated.View entering={fadeInAnim(delay)} style={styles.pokeContainer}>
+			<Animated.View
+				entering={fadeInAnim(delay)}
+				style={styles.pokeContainer}
+			>
 				<Suspense fallback={null}>
 					<Pokeball
 						width={size}

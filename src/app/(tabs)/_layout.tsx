@@ -11,7 +11,7 @@ const TabsLayout = () => {
 			tabBar={props => <CustomTabBar {...props} />}
 		>
 			<Tabs.Screen
-				name="pokedex"
+				name='pokedex'
 				options={{
 					title: 'Pokedex',
 					tabBarIcon: ({ color, size, focused }) => (
@@ -24,7 +24,7 @@ const TabsLayout = () => {
 				}}
 			/>
 			<Tabs.Screen
-				name="saved"
+				name='saved'
 				options={{
 					title: 'Saved',
 					tabBarIcon: ({ color, size, focused }) => (

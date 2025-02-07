@@ -35,7 +35,7 @@ const EvolveCondition = ({
 			</Text>
 
 			<MaterialCommunityIcons
-				name="arrow-down-bold-circle-outline"
+				name='arrow-down-bold-circle-outline'
 				size={24}
 				color={textColor.black}
 			/>

@@ -29,7 +29,11 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 				/>
 			</View>
 
-			<Text style={styles.name} numberOfLines={1} adjustsFontSizeToFit>
+			<Text
+				style={styles.name}
+				numberOfLines={1}
+				adjustsFontSizeToFit
+			>
 				{name}
 			</Text>
 

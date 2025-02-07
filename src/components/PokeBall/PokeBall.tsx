@@ -52,7 +52,11 @@ const PokeBall = ({
 			disabled={isDisabled}
 		>
 			<Suspense fallback={null}>
-				<Pokeball fill={colors.fillColor} width={size} height={size} />
+				<Pokeball
+					fill={colors.fillColor}
+					width={size}
+					height={size}
+				/>
 			</Suspense>
 		</AnimatedTouchableOpacity>
 	);
