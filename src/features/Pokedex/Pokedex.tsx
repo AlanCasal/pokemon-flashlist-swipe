@@ -55,7 +55,7 @@ const Pokedex = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!pokemonList.length) return <ActivityIndicator size="large" />;
+	if (!pokemonList.length) return <ActivityIndicator size='large' />;
 
 	const contentContainerStyle: StyleProp<ViewStyle> = {
 		...styles.contentContainer,
