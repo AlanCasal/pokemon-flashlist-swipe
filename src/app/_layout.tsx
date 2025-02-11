@@ -45,10 +45,7 @@ const RootLayout = () => {
 						<Stack.Screen name='(tabs)' />
 						<Stack.Screen
 							name='details'
-							options={{
-								presentation: 'modal',
-								animation: 'slide_from_bottom',
-							}}
+							options={{ animation: 'fade' }}
 						/>
 					</Stack>
 				</SavedContext.Provider>
