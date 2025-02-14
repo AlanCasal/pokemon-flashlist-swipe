@@ -29,7 +29,7 @@ const RootLayout = () => {
 
 	useEffect(() => {
 		if (fontsLoaded) {
-			router.replace('/(tabs)/pokedex');
+			router.replace('/home');
 		}
 	}, [fontsLoaded]);
 
