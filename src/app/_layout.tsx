@@ -11,6 +11,8 @@ import ToastContext from '@/src/store/ToastContext';
 import useSavedContextValue from '@/src/store/SavedContext/SavedContextValue';
 import useToastContextValue from '@/src/store/ToastContext/ToastContextValue';
 import Toast from '../components/Toast/Toast';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const queryClient = new QueryClient();
 
@@ -37,19 +39,21 @@ const RootLayout = () => {
 		<QueryClientProvider client={queryClient}>
 			<ToastContext.Provider value={toastContextValue}>
 				<SavedContext.Provider value={memoizedSavedContextValue}>
-					<StatusBar style='dark' />
-					<Toast />
-					<Stack screenOptions={{ headerShown: false }}>
-						<Stack.Screen name='(tabs)' />
-						<Stack.Screen
-							name='home'
-							options={{ animation: 'fade' }}
-						/>
-						<Stack.Screen
-							name='details'
-							options={{ animation: 'fade' }}
-						/>
-					</Stack>
+					<GestureHandlerRootView style={{ flex: 1 }}>
+						<StatusBar style='dark' />
+						<Toast />
+						<Stack screenOptions={{ headerShown: false }}>
+							<Stack.Screen name='(tabs)' />
+							<Stack.Screen
+								name='home'
+								options={{ animation: 'fade' }}
+							/>
+							<Stack.Screen
+								name='details'
+								options={{ animation: 'fade' }}
+							/>
+						</Stack>
+					</GestureHandlerRootView>
 				</SavedContext.Provider>
 			</ToastContext.Provider>
 		</QueryClientProvider>
