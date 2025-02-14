@@ -1,11 +1,17 @@
-import { View, Text, Pressable, ActivityIndicator, Alert } from 'react-native';
+import {
+	View,
+	Text,
+	ActivityIndicator,
+	Alert,
+	TouchableOpacity,
+} from 'react-native';
 import React, { lazy, Suspense } from 'react';
-import { pokeballColors, typeColors } from '../../constants/colors';
-import Animated, {
-	FadeInDown,
-	FadeInLeft,
-	FadeInRight,
-} from 'react-native-reanimated';
+import {
+	pokeballColors,
+	typeBgColors,
+	typeColors,
+} from '../../constants/colors';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import usePokemonSprites from '@/src/hooks/usePokemonSprites';
 import { chunkArray } from '@/src/utils/helpers';
 import { Marquee } from '@animatereactnative/marquee';
@@ -13,15 +19,20 @@ import { LinearGradient } from 'expo-linear-gradient';
 import styles, { SPACING } from './styles';
 import { StatusBar } from 'expo-status-bar';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const AnimatedTouchableOpacity =
+	Animated.createAnimatedComponent(TouchableOpacity);
 
 const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
 
 const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
+	const router = useRouter();
+	const queryClient = useQueryClient();
 
 	if (isLoading || data.length === 0)
 		return (
@@ -41,19 +52,19 @@ const Home = () => {
 
 	const formattedArray = chunkArray(data, Math.floor(data.length / 3));
 
-	const enteringAnimation = (columnIndex: number) => {
-		const delay = 300 * (columnIndex + 1) + Math.random() * 100;
-
-		return columnIndex % 2 === 0
-			? FadeInRight.duration(500).delay(delay)
-			: FadeInLeft.duration(500).delay(delay);
+	const handleStart = () => {
+		queryClient.removeQueries({ queryKey: ['pokemon'] });
+		router.push('/pokedex');
 	};
 
 	return (
 		<View style={styles.container}>
 			<StatusBar style='light' />
 
-			<View style={styles.headerContainer}>
+			<Animated.View
+				style={styles.headerContainer}
+				entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
+			>
 				<View style={styles.marqueesContainer}>
 					{formattedArray.map((column, columnIndex) => (
 						<Marquee
@@ -70,7 +81,7 @@ const Home = () => {
 											styles.marqueeImageContainer,
 											{
 												backgroundColor:
-													typeColors[type as keyof typeof typeColors],
+													typeBgColors[type as keyof typeof typeColors],
 											},
 										]}
 									>
@@ -112,7 +123,7 @@ const Home = () => {
 					style={[styles.gradient, { bottom: 0 }]}
 					pointerEvents='none'
 				/>
-			</View>
+			</Animated.View>
 
 			<View style={styles.bottomContainer}>
 				<Image
@@ -124,15 +135,16 @@ const Home = () => {
 					Search for any Pokémon {'\n'} that exists on the planet !
 				</Text>
 
-				<AnimatedPressable
-					onPress={() => {}}
+				<AnimatedTouchableOpacity
+					onPress={handleStart}
 					entering={FadeInDown.springify().damping(12).delay(300)}
 					style={styles.button}
+					activeOpacity={0.8}
 				>
 					<View style={styles.buttonContent}>
 						<Text style={styles.buttonText}>Start</Text>
 					</View>
-				</AnimatedPressable>
+				</AnimatedTouchableOpacity>
 			</View>
 		</View>
 	);
