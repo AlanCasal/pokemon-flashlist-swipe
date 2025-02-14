@@ -7,7 +7,7 @@ const usePokemonSprites = () => {
 	const randomNumbers = useMemo(() => {
 		const uniqueNumbers = new Set<number>();
 
-		while (uniqueNumbers.size < 33) {
+		while (uniqueNumbers.size < 9) {
 			uniqueNumbers.add(Math.floor(Math.random() * TOTAL_POKEMON_COUNT) + 1);
 		}
 
