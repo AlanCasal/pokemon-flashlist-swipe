@@ -39,22 +39,30 @@ const Home = () => {
 
 	return (
 		<View style={styles.container}>
-			<Marquee spacing={SPACING}>
-				<View style={[styles.spritesContainer, { gap: SPACING }]}>
-					{images[0].slice(0, 3).map((image, index) => (
-						<Image
-							key={`image-row-0-${index}`}
-							source={image}
-							style={{
-								width: ITEM_SIZE,
-								aspectRatio: 1,
-								backgroundColor: '#fafafa',
-								borderRadius: SPACING,
-							}}
-						/>
-					))}
-				</View>
-			</Marquee>
+			<View style={{ gap: SPACING }}>
+				{images.map((column, columnIndex) => (
+					<Marquee
+						key={`marquee-${columnIndex}`}
+						spacing={SPACING}
+						reverse={columnIndex % 2 !== 0}
+					>
+						<View style={[styles.spritesContainer, { gap: SPACING }]}>
+							{column.map((image, imageIndex) => (
+								<Image
+									key={`image-column-${columnIndex}-${imageIndex}`}
+									source={image}
+									style={{
+										width: ITEM_SIZE,
+										aspectRatio: 1,
+										backgroundColor: '#fafafa',
+										borderRadius: SPACING,
+									}}
+								/>
+							))}
+						</View>
+					</Marquee>
+				))}
+			</View>
 		</View>
 	);
 };
