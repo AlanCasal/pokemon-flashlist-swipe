@@ -90,7 +90,6 @@
 		"import/no-cycle": "error",
 		"quotes": ["error", "single"],
 		"@typescript-eslint/quotes": ["error", "single"],
-		"indent": ["error", "tab"],
 		"@typescript-eslint/no-unused-expressions": "off",
 		"react/jsx-max-props-per-line": [
 			"error",
