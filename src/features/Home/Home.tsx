@@ -1,49 +1,45 @@
-import { View, Text, Pressable } from 'react-native';
-import React, { useMemo } from 'react';
-import styles, { SPACING } from './styles';
-import { SPRITE_URL, TOTAL_POKEMON_COUNT } from '@/src/constants/api';
-import { Image } from 'expo-image';
-import { Marquee } from '@animatereactnative/marquee';
-import { typeColors } from '../../constants/colors';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StatusBar } from 'expo-status-bar';
+import { View, Text, Pressable, ActivityIndicator, Alert } from 'react-native';
+import React, { lazy, Suspense } from 'react';
+import { pokeballColors, typeColors } from '../../constants/colors';
 import Animated, {
 	FadeInDown,
 	FadeInLeft,
 	FadeInRight,
 } from 'react-native-reanimated';
+import usePokemonSprites from '@/src/hooks/usePokemonSprites';
+import { chunkArray } from '@/src/utils/helpers';
+import { Marquee } from '@animatereactnative/marquee';
+import { LinearGradient } from 'expo-linear-gradient';
+import styles, { SPACING } from './styles';
+import { StatusBar } from 'expo-status-bar';
+import { Image } from 'expo-image';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
-const chunkArray = (array: string[], size: number) => {
-	const chunkArr = [];
-	let index = 0;
-
-	while (index < array.length) {
-		chunkArr.push(array.slice(index, index + size));
-		index += size;
-	}
-
-	return chunkArr;
-};
-
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
+const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+
 const Home = () => {
-	const initialArray = useMemo(() => {
-		return Array.from({ length: 33 }).map(() => {
-			const randomPokemon = Math.floor(Math.random() * TOTAL_POKEMON_COUNT) + 1;
+	const { data, isLoading, hasError } = usePokemonSprites();
 
-			return SPRITE_URL(randomPokemon);
-		});
-	}, []);
+	if (isLoading || data.length === 0)
+		return (
+			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<ActivityIndicator size='large' />
+			</View>
+		);
 
-	const images = useMemo(
-		() => chunkArray(initialArray, Math.floor(initialArray.length / 3)),
-		[initialArray]
-	);
+	if (hasError) {
+		Alert.alert('Error', 'Failed to fetch some Pokemon data.');
+		return (
+			<View>
+				<Text>An error occurred.</Text>
+			</View>
+		);
+	}
 
-	if (images.length === 0) return null;
+	const formattedArray = chunkArray(data, Math.floor(data.length / 3));
 
 	const enteringAnimation = (columnIndex: number) => {
 		const delay = 300 * (columnIndex + 1) + Math.random() * 100;
@@ -59,7 +55,7 @@ const Home = () => {
 
 			<View style={styles.headerContainer}>
 				<View style={styles.marqueesContainer}>
-					{images.map((column, columnIndex) => (
+					{formattedArray.map((column, columnIndex) => (
 						<Marquee
 							key={`marquee-${columnIndex}`}
 							spacing={SPACING}
@@ -67,13 +63,32 @@ const Home = () => {
 							speed={MARQUEE_SPEED}
 						>
 							<View style={styles.spritesContainer}>
-								{column.map((image, imageIndex) => (
-									<Animated.Image
+								{column.map(({ image, type }, imageIndex) => (
+									<View
 										key={`image-column-${columnIndex}-${imageIndex}`}
-										source={{ uri: image }}
-										entering={enteringAnimation(columnIndex)}
-										style={styles.marqueeImage}
-									/>
+										style={[
+											styles.marqueeImageContainer,
+											{
+												backgroundColor:
+													typeColors[type as keyof typeof typeColors],
+											},
+										]}
+									>
+										<Image
+											source={{ uri: image }}
+											style={[styles.marqueeImage]}
+										/>
+										<View style={styles.pokeballContainer}>
+											<Suspense fallback={null}>
+												<Pokeball
+													width='100%'
+													height='100%'
+													fill={pokeballColors.white}
+													fillOpacity={0.3}
+												/>
+											</Suspense>
+										</View>
+									</View>
 								))}
 							</View>
 						</Marquee>
@@ -81,7 +96,7 @@ const Home = () => {
 				</View>
 
 				<LinearGradient
-					colors={[BG_COLOR, BG_COLOR, 'transparent']}
+					colors={[BG_COLOR, BG_COLOR, '#00000000']}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}

@@ -26,11 +26,24 @@ export default StyleSheet.create({
 		flexDirection: 'row',
 		gap: SPACING,
 	},
+	marqueeImageContainer: {
+		borderRadius: SPACING,
+		position: 'relative',
+		overflow: 'hidden',
+	},
 	marqueeImage: {
 		width: ITEM_SIZE,
 		aspectRatio: 1,
-		backgroundColor: '#fafafa',
-		borderRadius: SPACING,
+		zIndex: 1,
+	},
+	pokeballContainer: {
+		position: 'absolute',
+		width: '100%',
+		height: '100%',
+		top: 0,
+		left: 0,
+		opacity: 0.5,
+		padding: 10,
 	},
 	gradient: {
 		position: 'absolute',
