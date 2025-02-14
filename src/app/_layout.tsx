@@ -28,9 +28,7 @@ const RootLayout = () => {
 	);
 
 	useEffect(() => {
-		if (fontsLoaded) {
-			router.replace('/home');
-		}
+		if (fontsLoaded) router.replace('/home');
 	}, [fontsLoaded]);
 
 	if (!fontsLoaded) return null;
