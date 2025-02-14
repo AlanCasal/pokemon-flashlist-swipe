@@ -1,22 +1,14 @@
 import { TouchableOpacity, View, Text } from 'react-native';
-import React, {
-	lazy,
-	memo,
-	Suspense,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import React, { lazy, memo, Suspense, useMemo } from 'react';
 import styles from './styles';
 import PokemonImage from './Image';
-import { PokemonDetails } from '@/src/types/pokemon';
-import axios from 'axios';
 import { typeBgColors } from '@/src/constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
 import useSavedContext from '@/src/store/SavedContext/SavedContext';
 import useToastContext from '@/src/store/ToastContext/ToastContext';
+import usePokemonDetails from '@/src/hooks/usePokemonDetails';
 
 const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
 
@@ -25,25 +17,16 @@ interface PokemonCardProps {
 }
 
 const PokeCard = ({ url }: PokemonCardProps) => {
-	const [pokemon, setPokemon] = useState<PokemonDetails>();
 	const { savedPokemons, handleToggleSavedPokemon } = useSavedContext();
 	const { showToast } = useToastContext();
-
-	useEffect(() => {
-		const getPokemon = async () => {
-			const response = await axios.get(url);
-			setPokemon(response.data);
-		};
-
-		getPokemon();
-	}, [url]);
+	const { data: pokemon, isLoading } = usePokemonDetails(url);
 
 	const isSaved = useMemo(
 		() => savedPokemons.includes(pokemon?.name ?? ''),
 		[savedPokemons, pokemon?.name]
 	);
 
-	if (!pokemon) return null;
+	if (isLoading || !pokemon) return null;
 
 	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
 	const containerStyles = [

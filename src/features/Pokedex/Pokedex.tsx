@@ -36,10 +36,10 @@ const Pokedex = () => {
 		}
 	}, [isError, error]);
 
-	const pokemonList = data?.pages.flatMap(page => page.results) ?? [];
-
 	if (isLoading && !isRefetching && !data)
 		return <ActivityIndicator size='large' />;
+
+	const pokemonList = data?.pages.flatMap(page => page.results) ?? [];
 
 	const contentContainerStyle: StyleProp<ViewStyle> = {
 		...styles.contentContainer,
