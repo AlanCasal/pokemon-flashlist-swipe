@@ -1,28 +1,28 @@
-import { View, Text, ActivityIndicator, Alert } from 'react-native';
-import React from 'react';
+import { View, Dimensions } from 'react-native';
+import React, { useMemo } from 'react';
 import styles from './styles';
-import usePokemonSprites from '@/src/hooks/usePokemonSprites';
+import { SPRITE_URL, TOTAL_POKEMON_COUNT } from '@/src/constants/api';
+import { Image } from 'expo-image';
+
+const { width } = Dimensions.get('window');
+const ITEM_SIZE = width * 0.55;
+const SPACING = 8;
 
 const Home = () => {
-	const { sprites, isLoading, hasError } = usePokemonSprites();
+	const sprites = useMemo(() => {
+		return Array.from({ length: 33 }).map(() => {
+			const randomPokemon = Math.floor(Math.random() * TOTAL_POKEMON_COUNT) + 1;
 
-	if (isLoading) return <ActivityIndicator size='large' />;
-
-	if (hasError) {
-		Alert.alert('Error', 'Failed to fetch some Pokemon data.');
-		return (
-			<View>
-				<Text>An error occurred.</Text>
-			</View>
-		);
-	}
+			return SPRITE_URL(randomPokemon);
+		});
+	}, []);
 
 	return (
 		<View style={styles.container}>
-			<Text>Home</Text>
-			{sprites.map((sprite, index) => (
-				<Text key={index}>{sprite}</Text>
-			))}
+			<Image
+				source={sprites[0]}
+				style={{ width: ITEM_SIZE, aspectRatio: 1, borderRadius: SPACING }}
+			/>
 		</View>
 	);
 };
