@@ -1,13 +1,13 @@
-import { pokeballColors } from '@/src/constants/colors';
-import useToastContext from '@/src/store/ToastContext/ToastContext';
-import { useToastAnimation } from '@/src/utils/animations';
+import { pokeballColors } from '@constants/colors';
+import useToastContext from '@store/ToastContext/ToastContext';
+import { useToastAnimation } from '@utils/animations';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import styles from './styles';
 
-const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 
 const POKEBALL_SIZE = 20;
 

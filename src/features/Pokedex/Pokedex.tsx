@@ -2,13 +2,13 @@ import { ActivityIndicator, Alert, StyleProp, ViewStyle } from 'react-native';
 import React, { useCallback, useEffect } from 'react';
 import styles from './styles';
 import { Pokemon } from '@/src/types/pokemonList';
-import PokeCard from '@/src/components/PokeCard';
-import { POKE_CARD_HEIGHT } from '@/src/constants/sharedStyles';
+import PokeCard from '@components/PokeCard';
+import { POKE_CARD_HEIGHT } from '@constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { typeBgColors } from '@/src/constants/colors';
+import { typeBgColors } from '@constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import { usePokemonList } from '@/src/hooks/usePokemonList';
+import { usePokemonList } from '@hooks/usePokemonList';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();

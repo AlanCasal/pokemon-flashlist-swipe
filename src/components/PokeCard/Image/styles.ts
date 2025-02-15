@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import sharedStyles from '@/src/constants/sharedStyles';
+import sharedStyles from '@constants/sharedStyles';
 
 export default StyleSheet.create({
 	image: {

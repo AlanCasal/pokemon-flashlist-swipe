@@ -1,11 +1,11 @@
 import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles';
-import { API_URL } from '@/src/constants/api';
+import { API_URL } from '@constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
-import PokemonCard from '@/src/components/PokeCard';
+import PokemonCard from '@components/PokeCard';
 import axios from 'axios';
-import { CARDS_GAP, POKE_CARD_HEIGHT } from '@/src/constants/sharedStyles';
+import { CARDS_GAP, POKE_CARD_HEIGHT } from '@constants/sharedStyles';
 
 const CARD_OFFSET = POKE_CARD_HEIGHT + CARDS_GAP / 2;
 

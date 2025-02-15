@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import styles from './styles';
-import PokemonTypeIcon from '@/src/components/PokemonTypeIcon';
+import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { PokemonType } from '@/src/types/pokemonTypes';
-import { typeColors } from '@/src/constants/colors';
+import { typeColors } from '@constants/colors';
 import { PokemonDetails } from '@/src/types/pokemon';
-import PokeBall from '@/src/components/PokeBall';
+import PokeBall from '@components/PokeBall';
 
 interface InfoProps {
 	name: string;

@@ -2,10 +2,10 @@ import React, { lazy, Suspense } from 'react';
 import styles from './styles';
 import Animated from 'react-native-reanimated';
 import { Image } from 'moti';
-import { fadeInAnim } from '@/src/utils/animations';
+import { fadeInAnim } from '@utils/animations';
 import { View } from 'react-native';
 
-const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const DEFAULT_SIZE = 100;
 
 interface PokemonImageProps {

@@ -1,9 +1,9 @@
-import { customColor } from '@/src/constants/colors';
+import { customColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 import sharedStyles, {
 	CARDS_GAP,
 	POKE_CARD_HEIGHT,
-} from '@/src/constants/sharedStyles';
+} from '@constants/sharedStyles';
 
 export default StyleSheet.create({
 	container: {

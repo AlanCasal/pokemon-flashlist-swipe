@@ -1,4 +1,4 @@
-import sharedStyles, { TOAST_Z_INDEX } from '@/src/constants/sharedStyles';
+import sharedStyles, { TOAST_Z_INDEX } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({

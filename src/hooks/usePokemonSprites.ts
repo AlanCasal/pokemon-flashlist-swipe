@@ -1,5 +1,5 @@
 import { useQueries } from '@tanstack/react-query';
-import { API_URL, TOTAL_POKEMON_COUNT } from '@/src/constants/api';
+import { API_URL, TOTAL_POKEMON_COUNT } from '@constants/api';
 import { useMemo } from 'react';
 import axios from 'axios';
 

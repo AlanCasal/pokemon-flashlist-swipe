@@ -2,8 +2,8 @@ import { Text } from 'react-native';
 import React from 'react';
 import styles from './styles';
 import Animated from 'react-native-reanimated';
-import { evolveAnim } from '@/src/utils/animations';
-import { textColor, typeColors } from '@/src/constants/colors';
+import { evolveAnim } from '@utils/animations';
+import { textColor, typeColors } from '@constants/colors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

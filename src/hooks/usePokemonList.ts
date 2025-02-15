@@ -1,6 +1,6 @@
 import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
 import axios from 'axios';
-import { API_URL } from '@/src/constants/api';
+import { API_URL } from '@constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import { useRef } from 'react';
 

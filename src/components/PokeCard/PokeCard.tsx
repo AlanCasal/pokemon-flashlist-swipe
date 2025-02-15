@@ -2,15 +2,15 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import React, { lazy, memo, Suspense, useMemo } from 'react';
 import styles from './styles';
 import PokemonImage from './Image';
-import { typeBgColors } from '@/src/constants/colors';
+import { typeBgColors } from '@constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
-import { ACTIVE_OPACITY } from '@/src/constants/sharedStyles';
-import useSavedContext from '@/src/store/SavedContext/SavedContext';
-import useToastContext from '@/src/store/ToastContext/ToastContext';
-import usePokemonDetails from '@/src/hooks/usePokemonDetails';
+import { ACTIVE_OPACITY } from '@constants/sharedStyles';
+import useSavedContext from '@store/SavedContext/SavedContext';
+import useToastContext from '@store/ToastContext/ToastContext';
+import usePokemonDetails from '@hooks/usePokemonDetails';
 
-const Dots = lazy(() => import('@/assets/images/dots-big.svg'));
+const Dots = lazy(() => import('@assets/images/dots-big.svg'));
 
 interface PokemonCardProps {
 	url: string;

@@ -1,6 +1,6 @@
-import { textColor } from '@/src/constants/colors';
+import { textColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
-import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
 
 const SMALL_GAP = 5;
 

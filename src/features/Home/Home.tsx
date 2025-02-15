@@ -12,8 +12,8 @@ import {
 	typeColors,
 } from '../../constants/colors';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-import usePokemonSprites from '@/src/hooks/usePokemonSprites';
-import { chunkArray } from '@/src/utils/helpers';
+import usePokemonSprites from '@hooks/usePokemonSprites';
+import { chunkArray } from '@utils/helpers';
 import { Marquee } from '@animatereactnative/marquee';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles, { SPACING } from './styles';
@@ -27,7 +27,7 @@ const MARQUEE_SPEED = 0.5;
 const AnimatedTouchableOpacity =
 	Animated.createAnimatedComponent(TouchableOpacity);
 
-const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 
 const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
@@ -127,7 +127,7 @@ const Home = () => {
 
 			<View style={styles.bottomContainer}>
 				<Image
-					source={require('@/assets/images/pokedex-logo.png')}
+					source={require('@assets/images/pokedex-logo.png')}
 					contentFit='contain'
 					style={styles.logo}
 				/>

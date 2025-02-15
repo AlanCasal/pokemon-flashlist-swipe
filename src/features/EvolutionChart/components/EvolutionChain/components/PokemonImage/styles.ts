@@ -1,4 +1,4 @@
-import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({

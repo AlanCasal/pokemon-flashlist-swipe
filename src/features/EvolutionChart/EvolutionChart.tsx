@@ -2,19 +2,19 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
 import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { typeBgColors, typeColors } from '@/src/constants/colors';
-import { useGetPokemonEvolutions } from '@/src/hooks/useGetPokemonEvolution';
+import { typeBgColors, typeColors } from '@constants/colors';
+import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import Animated from 'react-native-reanimated';
-import CustomTab from '@/src/components/Tabs/CustomTab';
+import CustomTab from '@components/Tabs/CustomTab';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {
 	BASE_DELAY,
 	BASE_FADE_IN_DURATION,
 	fadeInAnim,
-} from '@/src/utils/animations';
+} from '@utils/animations';
 import EvolutionChain from './components/EvolutionChain';
 
 const EvolutionChart = () => {

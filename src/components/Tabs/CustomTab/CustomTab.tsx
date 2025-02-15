@@ -7,7 +7,7 @@ import Animated, {
 	LinearTransition,
 } from 'react-native-reanimated';
 import { MotiView } from 'moti';
-import { typeColors } from '@/src/constants/colors';
+import { typeColors } from '@constants/colors';
 
 interface CustomTabProps {
 	isFocused: boolean;

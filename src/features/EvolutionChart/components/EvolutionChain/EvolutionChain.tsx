@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import PokemonImage from './components/PokemonImage';
 import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 import EvolveCondition from './components/EvolveCondition';
-import { typeColors } from '@/src/constants/colors';
+import { typeColors } from '@constants/colors';
 import { View } from 'react-native';
 import styles from './styles';
 

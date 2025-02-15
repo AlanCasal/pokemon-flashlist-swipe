@@ -1,14 +1,11 @@
-import { pokeballColors } from '@/src/constants/colors';
-import {
-	POKE_CARD_HEIGHT,
-	SVG_DEFAULT_OPACITY,
-} from '@/src/constants/sharedStyles';
+import { pokeballColors } from '@constants/colors';
+import { POKE_CARD_HEIGHT, SVG_DEFAULT_OPACITY } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
 import React, { lazy, Suspense } from 'react';
 import { View } from 'react-native';
 import styles from './styles';
 
-const Pokeball = lazy(() => import('@/assets/images/pokeball-full.svg'));
+const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
 
 interface PokemonImageProps {

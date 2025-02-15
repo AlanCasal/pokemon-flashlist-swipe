@@ -6,10 +6,10 @@ import {
 } from '@expo-google-fonts/finger-paint';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
-import SavedContext from '@/src/store/SavedContext';
-import ToastContext from '@/src/store/ToastContext';
-import useSavedContextValue from '@/src/store/SavedContext/SavedContextValue';
-import useToastContextValue from '@/src/store/ToastContext/ToastContextValue';
+import SavedContext from '@store/SavedContext';
+import ToastContext from '@store/ToastContext';
+import useSavedContextValue from '@store/SavedContext/SavedContextValue';
+import useToastContextValue from '@store/ToastContext/ToastContextValue';
 import Toast from '../components/Toast/Toast';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GestureHandlerRootView } from 'react-native-gesture-handler';

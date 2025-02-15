@@ -1,5 +1,5 @@
-import { pokeballColors, textColor, typeColors } from '@/src/constants/colors';
-import { PRIMARY_FONT } from '@/src/constants/sharedStyles';
+import { pokeballColors, textColor, typeColors } from '@constants/colors';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { Dimensions, StyleSheet } from 'react-native';
 
 const { width } = Dimensions.get('window');

@@ -2,7 +2,7 @@ import { Text } from 'react-native';
 import React from 'react';
 import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
-import { typeBgColors } from '@/src/constants/colors';
+import { typeBgColors } from '@constants/colors';
 
 const Saved = () => {
 	return (
