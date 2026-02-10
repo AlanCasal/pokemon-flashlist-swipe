@@ -36,5 +36,4 @@ yarn-error.*
 *.tsbuildinfo
 
 # misc
-TODOS.md
 pokemon-flashlist-swipe.code-workspace
