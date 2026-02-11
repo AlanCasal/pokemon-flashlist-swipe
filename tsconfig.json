@@ -4,12 +4,11 @@
     "jsx": "react-native",
     "target": "ES6",
     "lib": [
-      "ES6"
+      "ES2016"
     ],
     "strict": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["./*"],
       "@features/*": ["./src/features/*"],
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
@@ -26,7 +25,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true
   },

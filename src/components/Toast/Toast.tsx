@@ -1,5 +1,5 @@
 import { pokeballColors } from '@constants/colors';
-import useToastContext from '@store/ToastContext/ToastContext';
+import { useToastConfig } from '@store/toastStore';
 import { useToastAnimation } from '@utils/animations';
 import React, { lazy, Suspense, useEffect } from 'react';
 import { Text } from 'react-native';
@@ -14,8 +14,7 @@ const POKEBALL_SIZE = 20;
 const Toast = () => {
 	const { top } = useSafeAreaInsets();
 
-	const { toastConfig } = useToastContext();
-	const { text, backgroundColor, isPokeballColored } = toastConfig;
+	const { text, backgroundColor, isPokeballColored } = useToastConfig();
 
 	const { animatedStyle, triggerToastAnimation } = useToastAnimation();
 

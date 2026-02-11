@@ -6,8 +6,8 @@ import { typeBgColors } from '@constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
 import { ACTIVE_OPACITY } from '@constants/sharedStyles';
-import useSavedContext from '@store/SavedContext/SavedContext';
-import useToastContext from '@store/ToastContext/ToastContext';
+import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
+import { useShowToast } from '@store/toastStore';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 
 const Dots = lazy(() => import('@assets/images/dots-big.svg'));
@@ -17,8 +17,9 @@ interface PokemonCardProps {
 }
 
 const PokeCard = ({ url }: PokemonCardProps) => {
-	const { savedPokemons, handleToggleSavedPokemon } = useSavedContext();
-	const { showToast } = useToastContext();
+	const savedPokemons = useSavedPokemons();
+	const toggleSavedPokemon = useToggleSavedPokemon();
+	const showToast = useShowToast();
 	const { data: pokemon, isLoading } = usePokemonDetails(url);
 
 	const isSaved = useMemo(
@@ -38,7 +39,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	];
 
 	const handleOnPressPokeball = () => {
-		handleToggleSavedPokemon(pokemon.name);
+		toggleSavedPokemon(pokemon.name);
 
 		let text = (
 			<Text>
