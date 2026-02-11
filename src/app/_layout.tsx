@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { router, Stack } from 'expo-router';
-import '../../global.css';
+import '@/global.css';
 import {
 	useFonts,
 	FingerPaint_400Regular,

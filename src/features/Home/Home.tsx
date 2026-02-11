@@ -12,7 +12,7 @@ import {
 	textColor,
 	typeBgColors,
 	typeColors,
-} from '../../constants/colors';
+} from '@constants/colors';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { chunkArray } from '@utils/helpers';
