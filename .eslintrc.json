@@ -111,5 +111,10 @@
 		],
 		"jsx-quotes": ["error", "prefer-single"]
 	},
-	"ignorePatterns": ["todos.js", "metro.config.js", "babel.config.js"]
+	"ignorePatterns": [
+		"todos.js",
+		"metro.config.js",
+		"babel.config.js",
+		"uniwind-types.d.ts"
+	]
 }
