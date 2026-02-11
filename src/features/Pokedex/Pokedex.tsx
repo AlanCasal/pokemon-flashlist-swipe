@@ -37,7 +37,11 @@ const Pokedex = () => {
 	if (isLoading && !isRefetching && !data)
 		return <ActivityIndicator size='large' />;
 
-	const pokemonList = data?.pages.flatMap(page => page.results) ?? [];
+	const pokemonList =
+		data?.pages.reduce<Pokemon[]>(
+			(accumulator, page) => accumulator.concat(page.results),
+			[]
+		) ?? [];
 
 	const contentContainerStyle: StyleProp<ViewStyle> = {
 		paddingHorizontal: 40,
