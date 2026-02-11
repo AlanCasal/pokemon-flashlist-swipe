@@ -1,5 +1,5 @@
 import { TouchableOpacity, View, Text } from 'react-native';
-import React, { lazy, memo, Suspense, useMemo } from 'react';
+import React, { lazy, Suspense } from 'react';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
 import Info from './Info';
@@ -25,10 +25,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	const showToast = useShowToast();
 	const { data: pokemon, isLoading } = usePokemonDetails(url);
 
-	const isSaved = useMemo(
-		() => savedPokemons.includes(pokemon?.name ?? ''),
-		[savedPokemons, pokemon?.name]
-	);
+	const isSaved = savedPokemons.includes(pokemon?.name ?? '');
 
 	if (isLoading || !pokemon) return null;
 
@@ -116,6 +113,4 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	);
 };
 
-export default memo(PokeCard, (prevProps, nextProps) => {
-	return prevProps.url === nextProps.url;
-});
+export default PokeCard;

@@ -1,10 +1,10 @@
 import { useQueries } from '@tanstack/react-query';
 import { API_URL, TOTAL_POKEMON_COUNT } from '@constants/api';
-import { useMemo } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 const usePokemonSprites = () => {
-	const randomNumbers = useMemo(() => {
+	const [randomNumbers] = useState(() => {
 		const uniqueNumbers = new Set<number>();
 
 		while (uniqueNumbers.size < 9) {
@@ -12,7 +12,7 @@ const usePokemonSprites = () => {
 		}
 
 		return Array.from(uniqueNumbers);
-	}, []);
+	});
 
 	const pokemonQueries = useQueries({
 		queries: randomNumbers.map(randomNumber => {

@@ -49,7 +49,7 @@ if (!stagedTsFiles.length) {
 const tempTsconfigPath = path.join(projectRoot, ".tsconfig.precommit.tmp.json");
 const tsconfig = {
 	extends: "./tsconfig.json",
-	include: stagedTsFiles,
+	include: ["**/*.d.ts", ...stagedTsFiles],
 };
 
 try {

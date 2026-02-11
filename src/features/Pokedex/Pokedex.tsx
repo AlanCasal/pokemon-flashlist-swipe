@@ -1,5 +1,5 @@
 import { ActivityIndicator, Alert, StyleProp, ViewStyle } from 'react-native';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokeCard from '@components/PokeCard';
 import { FlashList } from '@shopify/flash-list';
@@ -24,9 +24,9 @@ const Pokedex = () => {
 
 	const handleRefresh = () => refetch();
 
-	const handleRenderItem = useCallback(({ item }: { item: Pokemon }) => {
+	const handleRenderItem = ({ item }: { item: Pokemon }) => {
 		return <PokeCard url={item.url} />;
-	}, []);
+	};
 
 	useEffect(() => {
 		if (isError) {
