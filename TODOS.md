@@ -1,8 +1,5 @@
 TEST
 
-- probar simulador iOS
-- probar emulador Android
-
 SWITCH CODE/LIBRARIES
 
 - cambiar context por zustand
