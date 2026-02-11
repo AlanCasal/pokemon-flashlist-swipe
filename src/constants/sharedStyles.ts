@@ -1,5 +1,3 @@
-import { StyleSheet } from 'react-native';
-
 export const POKE_CARD_HEIGHT = 100;
 export const POKE_IMAGE_SIZE = 120;
 export const CARDS_GAP = 15;
@@ -10,7 +8,7 @@ export const PRIMARY_FONT = 'FingerPaint_400Regular';
 
 export const TOAST_Z_INDEX = 9999;
 
-export default StyleSheet.create({
+const sharedStyles = {
 	hListPadding: {
 		paddingHorizontal: 40,
 	},
@@ -34,4 +32,6 @@ export default StyleSheet.create({
 
 		elevation: 7,
 	},
-});
+};
+
+export default sharedStyles;

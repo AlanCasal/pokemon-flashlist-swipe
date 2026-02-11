@@ -1,6 +1,5 @@
 import { View, Text, ActivityIndicator } from 'react-native';
 import React from 'react';
-import styles from './styles';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { typeBgColors, typeColors } from '@constants/colors';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
@@ -38,19 +37,21 @@ const EvolutionChart = () => {
 		>
 			<Animated.View
 				entering={fadeInAnim(BASE_FADE_IN_DURATION)}
-				style={styles.titleWrapper}
+				className='absolute top-1/2 left-5'
+				style={{
+					marginTop: 60,
+					transformOrigin: 'left center',
+					transform: [{ rotate: '270deg' }],
+					width: 'auto',
+				}}
 			>
-				<Text style={styles.title}>Evolution Chart</Text>
+				<Text className='text-base font-bold uppercase leading-5'>
+					Evolution Chart
+				</Text>
 			</Animated.View>
 
 			{isLoading && (
-				<View
-					style={{
-						flex: 1,
-						justifyContent: 'center',
-						alignItems: 'center',
-					}}
-				>
+				<View className='flex-1 items-center justify-center'>
 					<ActivityIndicator
 						size='large'
 						color={'white'}
@@ -61,7 +62,11 @@ const EvolutionChart = () => {
 			{!isLoading && evolutionData && (
 				<Animated.ScrollView
 					entering={fadeInAnim(BASE_DELAY)}
-					contentContainerStyle={styles.contentContainer}
+					contentContainerStyle={{
+						flex: 1,
+						justifyContent: 'center',
+						paddingBottom: 30,
+					}}
 				>
 					<EvolutionChain
 						evolution={evolutionData}
@@ -72,7 +77,10 @@ const EvolutionChart = () => {
 				</Animated.ScrollView>
 			)}
 
-			<View style={[styles.bottomTabContainer, { paddingBottom: bottom + 10 }]}>
+			<View
+				className='absolute bottom-0 self-center'
+				style={{ paddingBottom: bottom + 10 }}
+			>
 				<CustomTab
 					isRounded
 					isFocused

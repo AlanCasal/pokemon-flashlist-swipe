@@ -1,6 +1,5 @@
 import { Text } from 'react-native';
 import React from 'react';
-import styles from './styles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { typeBgColors } from '@constants/colors';
 
@@ -10,7 +9,7 @@ const Saved = () => {
 			colors={[typeBgColors.normal, 'white']}
 			start={{ x: 0, y: 0 }}
 			end={{ x: 2.5, y: 1 }}
-			style={styles.container}
+			className='flex-1 items-center justify-center'
 		>
 			<Text>Saved</Text>
 		</LinearGradient>

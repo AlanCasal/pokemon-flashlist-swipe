@@ -1,6 +1,5 @@
 import { SafeAreaView, FlatList, ActivityIndicator, Alert } from 'react-native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styles from './styles';
 import { API_URL } from '@constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokemonCard from '@components/PokeCard';
@@ -57,15 +56,7 @@ const Home = () => {
 			}: {
 				changed: Array<{ isViewable: boolean; item: Pokemon }>;
 			}) => {
-				changed.forEach(
-					(changedItem: { isViewable: boolean; item: Pokemon }) => {
-						changedItem.isViewable &&
-							console.log(
-								'\x1b[33m\x1b[44m\x1b[1m[changedItem]\x1b[0m',
-								changedItem.item.url
-							);
-					}
-				);
+				void changed;
 			},
 		},
 	]);
@@ -78,7 +69,7 @@ const Home = () => {
 	if (!pokemonList.length) return <ActivityIndicator size='large' />;
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView className='flex-1 bg-white'>
 			<FlatList
 				// data
 				data={pokemonList}
@@ -87,7 +78,7 @@ const Home = () => {
 					isLoading ? <ActivityIndicator size='large' /> : null
 				}
 				// content container style
-				contentContainerStyle={styles.contentContainer}
+				contentContainerStyle={{ paddingHorizontal: 40 }}
 				// pull to refresh
 				refreshing={isRefreshing}
 				onRefresh={handleRefresh}

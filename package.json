@@ -10,6 +10,7 @@
 		"prepare": "husky",
 		"lint": "eslint . --ext .ts,.tsx",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
+		"lint:staged:fix": "bun run scripts/fix-staged-lint.mjs",
 		"prettier": "prettier --check .",
 		"prettier:fix": "prettier --write .",
 		"format:fix": "bun run lint:fix && bun run prettier:fix"
@@ -38,6 +39,8 @@
 		"react-native-svg": "15.12.1",
 		"react-native-svg-transformer": "^1.5.0",
 		"react-native-webview": "13.15.0",
+		"tailwindcss": "^4.1.18",
+		"uniwind": "^1.3.0",
 		"zustand": "^5.0.8"
 	},
 	"devDependencies": {

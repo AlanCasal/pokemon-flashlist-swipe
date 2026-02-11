@@ -1,23 +1,27 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { View } from 'react-native';
-import styles from './styles';
+import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomTab from './CustomTab';
 
-const CustomTabs = ({ state, descriptors, navigation }: any) => {
+const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 	const { bottom } = useSafeAreaInsets();
 
 	return (
-		<View style={[styles.container, { paddingBottom: bottom + 10 }]}>
-			{state.routes.map((route: any, index: any) => {
+		<View
+			className='absolute right-0 bottom-0 left-0 flex-row items-center justify-center gap-1'
+			style={{ paddingBottom: bottom + 10 }}
+		>
+			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key];
-				const label =
+				const tabLabel =
 					options.tabBarLabel !== undefined
 						? options.tabBarLabel
 						: options.title !== undefined
 							? options.title
 							: route.name;
+				const label = typeof tabLabel === 'string' ? tabLabel : route.name;
 
 				const isFocused = state.index === index;
 
@@ -37,7 +41,7 @@ const CustomTabs = ({ state, descriptors, navigation }: any) => {
 						key={index}
 						isFocused={isFocused}
 						label={label}
-						tabBarIcon={options.tabBarIcon}
+						tabBarIcon={options.tabBarIcon ?? (() => null)}
 						onPress={onPress}
 					/>
 				);

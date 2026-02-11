@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from 'react';
-import styles from './styles';
 import Animated from 'react-native-reanimated';
 import { Image } from 'moti';
 import { fadeInAnim } from '@utils/animations';
 import { View } from 'react-native';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
 
 const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const DEFAULT_SIZE = 100;
@@ -35,7 +35,7 @@ const PokemonImage = ({
 		<View>
 			<Animated.View
 				entering={fadeInAnim(delay)}
-				style={styles.pokeContainer}
+				className='items-center'
 			>
 				<Suspense fallback={null}>
 					<Pokeball
@@ -58,18 +58,20 @@ const PokemonImage = ({
 				/>
 			</Animated.View>
 
-			<View style={styles.textWrapper}>
+			<View className='mt-2'>
 				{trigger && (
 					<Animated.Text
 						entering={fadeInAnim(delay)}
-						style={[styles.pokeTrigger, { fontSize: fontSize * 0.5 }]}
+						className='text-center font-bold uppercase'
+						style={{ fontSize: fontSize * 0.5 }}
 					>
 						({trigger})
 					</Animated.Text>
 				)}
 				<Animated.Text
 					entering={fadeInAnim(delay)}
-					style={[styles.pokeName, { fontSize }]}
+					className='text-center capitalize'
+					style={{ fontSize, fontFamily: PRIMARY_FONT }}
 				>
 					{pokemon}
 				</Animated.Text>

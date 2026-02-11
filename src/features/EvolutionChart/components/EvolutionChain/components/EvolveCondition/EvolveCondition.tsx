@@ -1,6 +1,5 @@
 import { Text } from 'react-native';
 import React from 'react';
-import styles from './styles';
 import Animated from 'react-native-reanimated';
 import { evolveAnim } from '@utils/animations';
 import { textColor, typeColors } from '@constants/colors';
@@ -23,10 +22,10 @@ const EvolveCondition = ({
 	return (
 		<Animated.View
 			entering={evolveAnim(direction, delay)}
-			style={styles.levelContainer}
+			className='my-5 flex-row items-center self-center gap-[10px]'
 		>
 			<Text
-				style={styles.evolvesAtText}
+				className='w-[90px] pl-5 text-center text-xs'
 				numberOfLines={1}
 				adjustsFontSizeToFit
 				minimumFontScale={0.5}
@@ -41,14 +40,12 @@ const EvolveCondition = ({
 			/>
 
 			<Text
-				style={[
-					styles.levelText,
-					{
-						backgroundColor: minLevel
-							? typeColors[type as keyof typeof typeColors]
-							: 'transparent',
-					},
-				]}
+				className='w-[90px] rounded-[5px] px-[10px] py-[5px] text-center text-[10px] font-bold uppercase'
+				style={{
+					backgroundColor: minLevel
+						? typeColors[type as keyof typeof typeColors]
+						: 'transparent',
+				}}
 				numberOfLines={1}
 				adjustsFontSizeToFit
 			>

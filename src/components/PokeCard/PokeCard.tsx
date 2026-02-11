@@ -1,11 +1,14 @@
 import { TouchableOpacity, View, Text } from 'react-native';
 import React, { lazy, memo, Suspense, useMemo } from 'react';
-import styles from './styles';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
 import Info from './Info';
 import { Link } from 'expo-router';
-import { ACTIVE_OPACITY } from '@constants/sharedStyles';
+import sharedStyles, {
+	ACTIVE_OPACITY,
+	CARDS_GAP,
+	POKE_CARD_HEIGHT,
+} from '@constants/sharedStyles';
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
 import usePokemonDetails from '@hooks/usePokemonDetails';
@@ -30,13 +33,15 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	if (isLoading || !pokemon) return null;
 
 	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
-	const containerStyles = [
-		styles.container,
-		{
-			backgroundColor: typeBgColors[type],
-			shadowColor: typeBgColors[type],
-		},
-	];
+	const containerStyles = {
+		height: POKE_CARD_HEIGHT,
+		backgroundColor: typeBgColors[type],
+		paddingLeft: 5,
+		paddingRight: 14,
+		marginVertical: CARDS_GAP,
+		shadowColor: typeBgColors[type],
+		...sharedStyles.shadow,
+	};
 
 	const handleOnPressPokeball = () => {
 		toggleSavedPokemon(pokemon.name);
@@ -74,13 +79,22 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 			asChild
 		>
 			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
-				<View style={containerStyles}>
+				<View
+					className='flex-row items-center justify-between rounded-[10px]'
+					style={containerStyles}
+				>
 					<PokemonImage
 						uri={pokemon.sprites.other['official-artwork'].front_default}
 						isSaved={isSaved}
 					/>
 
-					<View style={styles.dotsContainer}>
+					<View
+						className='absolute bottom-3 items-center justify-center'
+						style={{
+							left: '35%',
+							transform: [{ rotate: '-90deg' }],
+						}}
+					>
 						<Suspense fallback={null}>
 							<Dots
 								fill='white'

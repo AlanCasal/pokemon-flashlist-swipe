@@ -1,9 +1,12 @@
 import { pokeballColors } from '@constants/colors';
-import { POKE_CARD_HEIGHT, SVG_DEFAULT_OPACITY } from '@constants/sharedStyles';
+import {
+	POKE_CARD_HEIGHT,
+	POKE_IMAGE_SIZE,
+	SVG_DEFAULT_OPACITY,
+} from '@constants/sharedStyles';
 import { Image } from 'expo-image';
 import React, { lazy, Suspense } from 'react';
 import { View } from 'react-native';
-import styles from './styles';
 
 const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
@@ -28,9 +31,14 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 		<View>
 			<Image
 				source={{ uri }}
-				style={styles.image}
+				style={{
+					width: POKE_IMAGE_SIZE,
+					height: POKE_IMAGE_SIZE,
+					bottom: 10,
+					zIndex: 1,
+				}}
 			/>
-			<View style={styles.pokeballContainer}>
+			<View className='absolute top-4 left-[10px]'>
 				<Suspense fallback={null}>
 					<Pokeball
 						width={POKEBALL_SIZE}

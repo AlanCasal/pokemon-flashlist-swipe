@@ -27,6 +27,14 @@
 		}
 	},
 	"plugins": ["react", "@typescript-eslint", "prettier", "import"],
+	"overrides": [
+		{
+			"files": ["*.config.js", "scripts/**/*.mjs"],
+			"env": {
+				"node": true
+			}
+		}
+	],
 	"settings": {
 		"react": {
 			"version": "detect"

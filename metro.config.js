@@ -1,7 +1,8 @@
 const { getDefaultConfig } = require('expo/metro-config');
+const { withUniwindConfig } = require('uniwind/metro');
 
 module.exports = (() => {
-	const config = getDefaultConfig(__dirname);
+	const config = getDefaultConfig(__dirname, { isCSSEnabled: true });
 
 	const { transformer, resolver } = config;
 
@@ -15,5 +16,7 @@ module.exports = (() => {
 		sourceExts: [...resolver.sourceExts, 'svg'],
 	};
 
-	return config;
+	return withUniwindConfig(config, {
+		cssEntryFile: './global.css',
+	});
 })();

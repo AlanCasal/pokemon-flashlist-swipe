@@ -1,9 +1,7 @@
 import { ActivityIndicator, Alert, StyleProp, ViewStyle } from 'react-native';
 import React, { useCallback, useEffect } from 'react';
-import styles from './styles';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokeCard from '@components/PokeCard';
-import { POKE_CARD_HEIGHT } from '@constants/sharedStyles';
 import { FlashList } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { typeBgColors } from '@constants/colors';
@@ -42,7 +40,7 @@ const Pokedex = () => {
 	const pokemonList = data?.pages.flatMap(page => page.results) ?? [];
 
 	const contentContainerStyle: StyleProp<ViewStyle> = {
-		...styles.contentContainer,
+		paddingHorizontal: 40,
 		paddingTop: top,
 		paddingBottom: bottom,
 	};
@@ -52,12 +50,11 @@ const Pokedex = () => {
 			colors={['white', typeBgColors.normal]}
 			start={{ x: 0, y: 0 }}
 			end={{ x: 2.5, y: 1 }}
-			style={styles.container}
+			className='flex-1 bg-white'
 		>
 			<FlashList
 				data={pokemonList}
 				renderItem={handleRenderItem}
-				estimatedItemSize={POKE_CARD_HEIGHT}
 				onEndReachedThreshold={1}
 				contentContainerStyle={contentContainerStyle}
 				refreshing={isRefetching}

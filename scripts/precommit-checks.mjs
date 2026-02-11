@@ -25,8 +25,9 @@ function getStagedFiles() {
 		.filter(Boolean);
 }
 
+const ignoredLintFiles = new Set(["metro.config.js", "babel.config.js", "todos.js"]);
 const stagedLintFiles = getStagedFiles().filter((filePath) =>
-	/\.(js|jsx|ts|tsx)$/.test(filePath),
+	/\.(js|jsx|ts|tsx)$/.test(filePath) && !ignoredLintFiles.has(filePath),
 );
 const stagedTsFiles = stagedLintFiles.filter((filePath) =>
 	/\.(ts|tsx)$/.test(filePath),

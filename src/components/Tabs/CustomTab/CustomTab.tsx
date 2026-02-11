@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import styles from './styles';
+import sharedStyles from '@constants/sharedStyles';
 import Animated, {
 	FadeInRight,
 	LinearTransition,
@@ -39,7 +39,8 @@ const CustomTab = ({
 	return (
 		<MotiView layout={LinearTransition.springify().damping(80).stiffness(200)}>
 			<MotiView
-				style={styles.animatedContainer}
+				className='absolute inset-0 overflow-hidden rounded-lg'
+				style={sharedStyles.shadow}
 				animate={{
 					backgroundColor: isFocused
 						? activeBackgroundColor
@@ -51,7 +52,7 @@ const CustomTab = ({
 			<TouchableOpacity
 				activeOpacity={0.6}
 				onPress={onPress}
-				style={[styles.buttonContainer]}
+				className='flex-row items-center justify-center gap-1 p-3'
 			>
 				{tabBarIcon({
 					color: isFocused ? activeColor : inactiveColor,
@@ -62,6 +63,7 @@ const CustomTab = ({
 				{isFocused && label && (
 					<Animated.Text
 						entering={FadeInRight.springify().damping(80).stiffness(200)}
+						className='text-base'
 						style={{
 							color: isFocused ? activeColor : inactiveColor,
 							fontWeight: isFocused ? 'bold' : 'normal',

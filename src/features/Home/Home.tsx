@@ -4,10 +4,12 @@ import {
 	ActivityIndicator,
 	Alert,
 	TouchableOpacity,
+	Dimensions,
 } from 'react-native';
 import React, { lazy, Suspense } from 'react';
 import {
 	pokeballColors,
+	textColor,
 	typeBgColors,
 	typeColors,
 } from '../../constants/colors';
@@ -16,7 +18,7 @@ import usePokemonSprites from '@hooks/usePokemonSprites';
 import { chunkArray } from '@utils/helpers';
 import { Marquee } from '@animatereactnative/marquee';
 import { LinearGradient } from 'expo-linear-gradient';
-import styles, { SPACING } from './styles';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { StatusBar } from 'expo-status-bar';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -24,6 +26,8 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
+const SPACING = 8;
+const ITEM_SIZE = Dimensions.get('window').width * 0.45;
 const AnimatedTouchableOpacity =
 	Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -36,7 +40,7 @@ const Home = () => {
 
 	if (isLoading || data.length === 0)
 		return (
-			<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+			<View className='flex-1 items-center justify-center'>
 				<ActivityIndicator size='large' />
 			</View>
 		);
@@ -58,14 +62,20 @@ const Home = () => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View
+			className='flex-1 overflow-hidden'
+			style={{ backgroundColor: typeColors.dragon }}
+		>
 			<StatusBar style='light' />
 
 			<Animated.View
-				style={styles.headerContainer}
+				className='flex-1 overflow-hidden'
 				entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
 			>
-				<View style={styles.marqueesContainer}>
+				<View
+					className='flex-1 gap-2'
+					style={{ transform: [{ rotate: '-4deg' }] }}
+				>
 					{formattedArray.map((column, columnIndex) => (
 						<Marquee
 							key={`marquee-${columnIndex}`}
@@ -73,23 +83,21 @@ const Home = () => {
 							reverse={columnIndex % 2 !== 0}
 							speed={MARQUEE_SPEED}
 						>
-							<View style={styles.spritesContainer}>
+							<View className='flex-row gap-2'>
 								{column.map(({ image, type }, imageIndex) => (
 									<View
 										key={`image-column-${columnIndex}-${imageIndex}`}
-										style={[
-											styles.marqueeImageContainer,
-											{
-												backgroundColor:
-													typeBgColors[type as keyof typeof typeColors],
-											},
-										]}
+										className='relative overflow-hidden rounded-lg'
+										style={{
+											backgroundColor:
+												typeBgColors[type as keyof typeof typeColors],
+										}}
 									>
 										<Image
 											source={{ uri: image }}
-											style={[styles.marqueeImage]}
+											style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
 										/>
-										<View style={styles.pokeballContainer}>
+										<View className='absolute inset-0 p-[10px] opacity-50'>
 											<Suspense fallback={null}>
 												<Pokeball
 													width='100%'
@@ -111,7 +119,8 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}
-					style={[styles.gradient, { top: 0 }]}
+					className='absolute right-0 left-0 h-1/4'
+					style={{ top: 0 }}
 					pointerEvents='none'
 				/>
 
@@ -120,29 +129,50 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.7, 1]}
-					style={[styles.gradient, { bottom: 0 }]}
+					className='absolute right-0 left-0 h-1/4'
+					style={{ bottom: 0 }}
 					pointerEvents='none'
 				/>
 			</Animated.View>
 
-			<View style={styles.bottomContainer}>
+			<View
+				className='items-center gap-2'
+				style={{ flex: 0.5 }}
+			>
 				<Image
 					source={require('@assets/images/pokedex-logo.png')}
 					contentFit='contain'
-					style={styles.logo}
+					style={{ width: 200, height: 80 }}
 				/>
-				<Text style={styles.description}>
+				<Text
+					className='text-center text-[18px]'
+					style={{ fontFamily: PRIMARY_FONT, color: textColor.primary }}
+				>
 					Search for any Pokémon {'\n'} that exists on the planet !
 				</Text>
 
 				<AnimatedTouchableOpacity
 					onPress={handleStart}
 					entering={FadeInDown.springify().damping(12).delay(300)}
-					style={styles.button}
+					className='mt-4'
 					activeOpacity={0.8}
 				>
-					<View style={styles.buttonContent}>
-						<Text style={styles.buttonText}>Start</Text>
+					<View
+						className='h-12 w-[200px] items-center justify-center rounded-full border-2'
+						style={{
+							backgroundColor: pokeballColors.red,
+							borderColor: pokeballColors.black,
+						}}
+					>
+						<Text
+							className='text-[18px]'
+							style={{
+								color: textColor.primary,
+								fontFamily: PRIMARY_FONT,
+							}}
+						>
+							Start
+						</Text>
 					</View>
 				</AnimatedTouchableOpacity>
 			</View>

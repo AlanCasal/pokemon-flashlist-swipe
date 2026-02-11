@@ -5,7 +5,6 @@ import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 import EvolveCondition from './components/EvolveCondition';
 import { typeColors } from '@constants/colors';
 import { View } from 'react-native';
-import styles from './styles';
 
 const DELAY = {
 	depth0: {
@@ -36,7 +35,7 @@ const EvolutionChain = ({
 	direction = 'right',
 }: EvolutionChainProps) => {
 	const renderEvolutionRow = (evolutions: CustomEvolutionChain[]) => (
-		<View style={styles.multipleEvolContainer}>
+		<View className='flex-row items-center justify-center gap-[30px] px-10'>
 			{evolutions.map((nextEvolution, index) => (
 				<PokemonImage
 					key={`${nextEvolution.pokemon}-${index}`}
@@ -69,7 +68,7 @@ const EvolutionChain = ({
 			/>
 
 			{evolution.evolvesTo.length > 1 ? (
-				<View style={styles.evolutionsContainer}>
+				<View className='w-full gap-5'>
 					<EvolveCondition
 						type={type}
 						minLevel={evolution.minLevel}
