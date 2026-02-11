@@ -27,7 +27,11 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 
 	const isSaved = savedPokemons.includes(pokemon?.name ?? '');
 
-	if (isLoading || !pokemon) return null;
+	if (isLoading || !pokemon) {
+		return (
+			<View style={{ height: POKE_CARD_HEIGHT, marginVertical: CARDS_GAP }} />
+		);
+	}
 
 	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
 	const containerStyles = {

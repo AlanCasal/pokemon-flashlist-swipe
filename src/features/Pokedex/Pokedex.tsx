@@ -55,18 +55,20 @@ const Pokedex = () => {
 			start={{ x: 0, y: 0 }}
 			end={{ x: 2.5, y: 1 }}
 			className='flex-1 bg-white'
+			style={{ flex: 1 }}
 		>
 			<FlashList
 				data={pokemonList}
 				renderItem={handleRenderItem}
 				onEndReachedThreshold={1}
 				contentContainerStyle={contentContainerStyle}
+				style={{ flex: 1 }}
 				refreshing={isRefetching}
 				onRefresh={handleRefresh}
 				onEndReached={() => {
 					if (!isFetchingNextPage) fetchNextPage();
 				}}
-				keyExtractor={({ name }, index) => name + index.toString()}
+				keyExtractor={({ name }) => name}
 				ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null}
 			/>
 		</LinearGradient>
