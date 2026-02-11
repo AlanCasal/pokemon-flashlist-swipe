@@ -39,6 +39,9 @@
 		"react": {
 			"version": "detect"
 		},
+		"import/parsers": {
+			"@typescript-eslint/parser": [".ts", ".tsx"]
+		},
 		"import/resolver": {
 			"typescript": {
 				"project": "./tsconfig.json"
@@ -48,7 +51,10 @@
 				"paths": ["."]
 			}
 		},
-		"import/ignore": ["node_modules/react-native/index\\.js$"]
+		"import/ignore": [
+			"node_modules/react-native/index\\.js$",
+			"node_modules/react-native/Libraries/Types/CodegenTypes\\.js$"
+		]
 	},
 	"rules": {
 		"@typescript-eslint/ban-ts-comment": "off",
