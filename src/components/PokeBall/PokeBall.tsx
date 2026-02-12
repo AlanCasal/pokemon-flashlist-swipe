@@ -1,10 +1,10 @@
 import { pokeballColors } from '@constants/colors';
 import { usePopAnimation } from '@utils/animations';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
+import Pokeball from '@assets/images/pokeball-full.svg';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const POKEBALL_SIZE = 17;
 
 interface PokeBallProps {
@@ -54,13 +54,11 @@ const PokeBall = ({
 			}}
 			disabled={isDisabled}
 		>
-			<Suspense fallback={null}>
-				<Pokeball
-					fill={colors.fillColor}
-					width={size}
-					height={size}
-				/>
-			</Suspense>
+			<Pokeball
+				fill={colors.fillColor}
+				width={size}
+				height={size}
+			/>
 		</AnimatedTouchableOpacity>
 	);
 };

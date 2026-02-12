@@ -1,5 +1,5 @@
 import { TouchableOpacity, View, Text } from 'react-native';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
 import Info from './Info';
@@ -12,8 +12,7 @@ import sharedStyles, {
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
 import usePokemonDetails from '@hooks/usePokemonDetails';
-
-const Dots = lazy(() => import('@assets/images/dots-big.svg'));
+import Dots from '@assets/images/dots-big.svg';
 
 interface PokemonCardProps {
 	url: string;
@@ -96,12 +95,10 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 							transform: [{ rotate: '-90deg' }],
 						}}
 					>
-						<Suspense fallback={null}>
-							<Dots
-								fill='white'
-								width={80}
-							/>
-						</Suspense>
+						<Dots
+							fill='white'
+							width={80}
+						/>
 					</View>
 
 					<Info

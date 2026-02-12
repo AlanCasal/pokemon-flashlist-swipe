@@ -2,12 +2,11 @@ import { pokeballColors } from '@constants/colors';
 import sharedStyles, { TOAST_Z_INDEX } from '@constants/sharedStyles';
 import { useToastConfig } from '@store/toastStore';
 import { useToastAnimation } from '@utils/animations';
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import Pokeball from '@assets/images/pokeball-full.svg';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-
-const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 
 const POKEBALL_SIZE = 20;
 
@@ -62,13 +61,11 @@ const Toast = () => {
 				},
 			]}
 		>
-			<Suspense fallback={null}>
-				<Pokeball
-					width={POKEBALL_SIZE}
-					height={POKEBALL_SIZE}
-					fill={pokeballColor.fill}
-				/>
-			</Suspense>
+			<Pokeball
+				width={POKEBALL_SIZE}
+				height={POKEBALL_SIZE}
+				fill={pokeballColor.fill}
+			/>
 
 			<Text
 				className='text-base text-white capitalize'
@@ -77,13 +74,11 @@ const Toast = () => {
 				{text}
 			</Text>
 
-			<Suspense fallback={null}>
-				<Pokeball
-					width={POKEBALL_SIZE}
-					height={POKEBALL_SIZE}
-					fill={pokeballColor.fill}
-				/>
-			</Suspense>
+			<Pokeball
+				width={POKEBALL_SIZE}
+				height={POKEBALL_SIZE}
+				fill={pokeballColor.fill}
+			/>
 		</Animated.View>
 	);
 };

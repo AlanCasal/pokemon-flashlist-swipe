@@ -6,7 +6,7 @@ import {
 	TouchableOpacity,
 	Dimensions,
 } from 'react-native';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import {
 	pokeballColors,
 	textColor,
@@ -23,6 +23,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useQueryClient } from '@tanstack/react-query';
+import Pokeball from '@assets/images/pokeball-full.svg';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
@@ -31,8 +32,6 @@ const ITEM_SIZE = Dimensions.get('window').width * 0.45;
 const OVERLAY_HEIGHT = Dimensions.get('window').height * 0.24;
 const AnimatedTouchableOpacity =
 	Animated.createAnimatedComponent(TouchableOpacity);
-
-const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 
 const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
@@ -99,14 +98,12 @@ const Home = () => {
 											style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
 										/>
 										<View className='absolute inset-0 p-[10px] opacity-50'>
-											<Suspense fallback={null}>
-												<Pokeball
-													width='100%'
-													height='100%'
-													fill={pokeballColors.white}
-													fillOpacity={0.3}
-												/>
-											</Suspense>
+											<Pokeball
+												width='100%'
+												height='100%'
+												fill={pokeballColors.white}
+												fillOpacity={0.3}
+											/>
 										</View>
 									</View>
 								))}

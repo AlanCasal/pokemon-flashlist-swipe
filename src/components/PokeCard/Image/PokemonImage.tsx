@@ -5,10 +5,10 @@ import {
 	SVG_DEFAULT_OPACITY,
 } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
+import Pokeball from '@assets/images/pokeball-full.svg';
 import { View } from 'react-native';
 
-const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
 
 interface PokemonImageProps {
@@ -39,14 +39,12 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 				}}
 			/>
 			<View className='absolute top-4 left-[10px]'>
-				<Suspense fallback={null}>
-					<Pokeball
-						width={POKEBALL_SIZE}
-						height={POKEBALL_SIZE}
-						fill={colors.fillColor}
-						fillOpacity={colors.opacity}
-					/>
-				</Suspense>
+				<Pokeball
+					width={POKEBALL_SIZE}
+					height={POKEBALL_SIZE}
+					fill={colors.fillColor}
+					fillOpacity={colors.opacity}
+				/>
 			</View>
 		</View>
 	);

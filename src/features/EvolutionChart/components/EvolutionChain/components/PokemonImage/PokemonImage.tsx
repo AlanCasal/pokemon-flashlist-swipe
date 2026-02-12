@@ -1,11 +1,11 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import Animated from 'react-native-reanimated';
 import { Image } from 'moti';
 import { fadeInAnim } from '@utils/animations';
 import { View } from 'react-native';
 import { PRIMARY_FONT } from '@constants/sharedStyles';
+import Pokeball from '@assets/images/pokeball-full.svg';
 
-const Pokeball = lazy(() => import('@assets/images/pokeball-full.svg'));
 const DEFAULT_SIZE = 100;
 
 interface PokemonImageProps {
@@ -37,17 +37,15 @@ const PokemonImage = ({
 				entering={fadeInAnim(delay)}
 				className='items-center'
 			>
-				<Suspense fallback={null}>
-					<Pokeball
-						width={size}
-						height={size}
-						style={{ position: 'absolute' }}
-						fill={pokeballFillColor}
-						stroke={pokeballStrokeColor}
-						fillOpacity={pokeballOpacity}
-						strokeOpacity={pokeballOpacity}
-					/>
-				</Suspense>
+				<Pokeball
+					width={size}
+					height={size}
+					style={{ position: 'absolute' }}
+					fill={pokeballFillColor}
+					stroke={pokeballStrokeColor}
+					fillOpacity={pokeballOpacity}
+					strokeOpacity={pokeballOpacity}
+				/>
 				<Image
 					src={imgUrl}
 					style={{
