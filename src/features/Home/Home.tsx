@@ -15,7 +15,7 @@ import {
 } from '@constants/colors';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 import usePokemonSprites from '@hooks/usePokemonSprites';
-import { chunkArray } from '@utils/helpers';
+import { chunkArray, toTransparent } from '@utils/helpers';
 import { Marquee } from '@animatereactnative/marquee';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PRIMARY_FONT } from '@constants/sharedStyles';
@@ -28,6 +28,7 @@ const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
 const SPACING = 8;
 const ITEM_SIZE = Dimensions.get('window').width * 0.45;
+const OVERLAY_HEIGHT = Dimensions.get('window').height * 0.24;
 const AnimatedTouchableOpacity =
 	Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -69,7 +70,7 @@ const Home = () => {
 			<StatusBar style='light' />
 
 			<Animated.View
-				className='flex-1 overflow-hidden'
+				className='relative flex-1 overflow-hidden'
 				entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
 			>
 				<View
@@ -115,22 +116,22 @@ const Home = () => {
 				</View>
 
 				<LinearGradient
-					colors={[BG_COLOR, BG_COLOR, '#00000000']}
+					colors={[BG_COLOR, BG_COLOR, toTransparent(BG_COLOR)]}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}
-					className='absolute right-0 left-0 h-1/4'
-					style={{ top: 0 }}
+					className='absolute inset-x-0 top-0 z-20'
+					style={{ height: OVERLAY_HEIGHT }}
 					pointerEvents='none'
 				/>
 
 				<LinearGradient
-					colors={['#00000000', BG_COLOR, BG_COLOR]}
+					colors={[toTransparent(BG_COLOR), BG_COLOR, BG_COLOR]}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.7, 1]}
-					className='absolute right-0 left-0 h-1/4'
-					style={{ bottom: 0 }}
+					className='absolute inset-x-0 bottom-0 z-20'
+					style={{ height: OVERLAY_HEIGHT }}
 					pointerEvents='none'
 				/>
 			</Animated.View>
