@@ -1,1 +1,1 @@
-export { default } from '@features/Saved';
+export { default } from '@features/Pokedex';

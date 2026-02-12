@@ -1,6 +1,11 @@
 import { create } from 'zustand';
-
-type PokemonId = string;
+import {
+	createJSONStorage,
+	persist,
+	type StateStorage,
+} from 'zustand/middleware';
+import { mmkvStorage } from './mmkvStorage';
+import { PokemonId } from '@/src/types';
 
 export interface SavedStoreState {
 	savedPokemons: PokemonId[];
@@ -13,21 +18,38 @@ export interface SavedStoreActions {
 
 export type SavedStore = SavedStoreState & SavedStoreActions;
 
-export const useSavedStore = create<SavedStore>(set => ({
-	savedPokemons: [],
+const zustandStorage: StateStorage = {
+	getItem: key => mmkvStorage.getString(key) ?? null,
+	setItem: (key, value) => mmkvStorage.set(key, value),
+	removeItem: key => mmkvStorage.remove(key),
+};
 
-	toggleSavedPokemon: (pokemonId: PokemonId) =>
-		set(state => ({
-			savedPokemons: state.savedPokemons.includes(pokemonId)
-				? state.savedPokemons.filter(id => id !== pokemonId)
-				: [...state.savedPokemons, pokemonId],
-		})),
-
-	clearSavedPokemons: () =>
-		set({
+export const useSavedStore = create<SavedStore>()(
+	persist(
+		set => ({
 			savedPokemons: [],
+
+			toggleSavedPokemon: (pokemonId: PokemonId) =>
+				set(state => ({
+					savedPokemons: state.savedPokemons.includes(pokemonId)
+						? state.savedPokemons.filter(id => id !== pokemonId)
+						: [...state.savedPokemons, pokemonId],
+				})),
+
+			clearSavedPokemons: () =>
+				set({
+					savedPokemons: [],
+				}),
 		}),
-}));
+		{
+			name: 'saved-pokemons',
+			storage: createJSONStorage(() => zustandStorage),
+			partialize: state => ({
+				savedPokemons: state.savedPokemons,
+			}),
+		}
+	)
+);
 
 export const useSavedPokemons = () =>
 	useSavedStore(state => state.savedPokemons);

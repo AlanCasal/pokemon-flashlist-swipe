@@ -48,7 +48,10 @@ const PokeBall = ({
 	return (
 		<AnimatedTouchableOpacity
 			style={[containerStyles, enablePopAnimation && animatedStyle]}
-			onPress={handlePress}
+			onPress={event => {
+				event.stopPropagation();
+				handlePress();
+			}}
 			disabled={isDisabled}
 		>
 			<Suspense fallback={null}>
