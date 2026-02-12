@@ -14,6 +14,7 @@ const Pokedex = () => {
 	const {
 		data,
 		fetchNextPage,
+		hasNextPage,
 		isLoading,
 		isFetchingNextPage,
 		isError,
@@ -34,8 +35,7 @@ const Pokedex = () => {
 		}
 	}, [isError, error]);
 
-	if (isLoading && !isRefetching && !data)
-		return <ActivityIndicator size='large' />;
+	if (isLoading && !data) return <ActivityIndicator size='large' />;
 
 	const pokemonList =
 		data?.pages.reduce<Pokemon[]>(
@@ -63,10 +63,12 @@ const Pokedex = () => {
 				onEndReachedThreshold={1}
 				contentContainerStyle={contentContainerStyle}
 				style={{ flex: 1 }}
+				alwaysBounceVertical
 				refreshing={isRefetching}
 				onRefresh={handleRefresh}
+				progressViewOffset={top}
 				onEndReached={() => {
-					if (!isFetchingNextPage) fetchNextPage();
+					if (hasNextPage && !isFetchingNextPage) fetchNextPage();
 				}}
 				keyExtractor={({ name }) => name}
 				ListFooterComponent={isFetchingNextPage ? <ActivityIndicator /> : null}

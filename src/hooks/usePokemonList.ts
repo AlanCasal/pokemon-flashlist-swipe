@@ -2,7 +2,6 @@ import { useInfiniteQuery, InfiniteData } from '@tanstack/react-query';
 import axios from 'axios';
 import { API_URL } from '@constants/api';
 import { Pokemon } from '@/src/types/pokemonList';
-import { useRef } from 'react';
 
 interface PokemonListResponse {
 	results: Pokemon[];
@@ -10,8 +9,6 @@ interface PokemonListResponse {
 }
 
 export const usePokemonList = () => {
-	const hasFetched = useRef(false);
-
 	return useInfiniteQuery<
 		PokemonListResponse,
 		Error,
@@ -21,15 +18,10 @@ export const usePokemonList = () => {
 	>({
 		queryKey: ['pokemonList'],
 		queryFn: async ({ pageParam = API_URL }) => {
-			if (hasFetched.current && pageParam === API_URL)
-				return { results: [], next: '' };
-
 			const response = await axios.get(pageParam);
-			hasFetched.current = true;
-
 			return response.data;
 		},
-		getNextPageParam: lastPage => lastPage.next,
+		getNextPageParam: lastPage => lastPage.next || undefined,
 		initialPageParam: API_URL,
 	});
 };
