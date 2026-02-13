@@ -6,10 +6,11 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokeCard from '@components/PokeCard';
-import { FlashList } from '@shopify/flash-list';
+import ScrollToTop from '@components/ScrollToTop';
+import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { textColor, typeBgColors } from '@constants/colors';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -25,6 +26,8 @@ const Pokedex = () => {
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
 	const isSavedMode = mode === 'saved';
 	const savedPokemons = useSavedPokemons();
+	const listRef = useRef<FlashListRef<Pokemon>>(null);
+	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 
 	const {
 		data,
@@ -74,6 +77,10 @@ const Pokedex = () => {
 		paddingBottom: bottom + 80,
 	};
 
+	const handleScrollToTop = () => {
+		listRef.current?.scrollToOffset({ offset: 0, animated: true });
+	};
+
 	if (isLoading && !data) return <ActivityIndicator size='large' />;
 
 	return (
@@ -85,6 +92,7 @@ const Pokedex = () => {
 			style={{ flex: 1 }}
 		>
 			<FlashList
+				ref={listRef}
 				data={displayedPokemonList}
 				renderItem={handleRenderItem}
 				onEndReachedThreshold={1}
@@ -94,6 +102,11 @@ const Pokedex = () => {
 				refreshing={isRefetching}
 				onRefresh={handleRefresh}
 				progressViewOffset={top}
+				onScroll={({ nativeEvent }) => {
+					const isAtTop = nativeEvent.contentOffset.y <= 20;
+					setShowScrollToTopButton(!isAtTop);
+				}}
+				scrollEventThrottle={16}
 				onEndReached={() => {
 					if (isSavedMode) return;
 					if (hasNextPage && !isFetchingNextPage) fetchNextPage();
@@ -118,6 +131,12 @@ const Pokedex = () => {
 				ListFooterComponent={
 					isFetchingNextPage && !isSavedMode ? <ActivityIndicator /> : null
 				}
+			/>
+
+			<ScrollToTop
+				visible={showScrollToTopButton}
+				onPress={handleScrollToTop}
+				bottomInset={bottom}
 			/>
 		</LinearGradient>
 	);
