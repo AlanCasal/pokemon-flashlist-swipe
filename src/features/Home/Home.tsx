@@ -24,12 +24,12 @@ import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useQueryClient } from '@tanstack/react-query';
 import Pokeball from '@assets/images/pokeball-full.svg';
+import styles from './styles';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
 const SPACING = 8;
 const ITEM_SIZE = Dimensions.get('window').width * 0.45;
-const OVERLAY_HEIGHT = Dimensions.get('window').height * 0.24;
 const AnimatedTouchableOpacity =
 	Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -68,57 +68,59 @@ const Home = () => {
 		>
 			<StatusBar style='light' />
 
-			<Animated.View
-				className='relative flex-1 overflow-hidden'
-				entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
-			>
-				<View
-					className='flex-1 gap-2'
-					style={{ transform: [{ rotate: '-4deg' }] }}
+			<View className='relative flex-1 overflow-hidden'>
+				<Animated.View
+					className='absolute inset-0'
+					entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
 				>
-					{formattedArray.map((column, columnIndex) => (
-						<Marquee
-							key={`marquee-${columnIndex}`}
-							spacing={SPACING}
-							reverse={columnIndex % 2 !== 0}
-							speed={MARQUEE_SPEED}
-						>
-							<View className='flex-row gap-2'>
-								{column.map(({ image, type }, imageIndex) => (
-									<View
-										key={`image-column-${columnIndex}-${imageIndex}`}
-										className='relative overflow-hidden rounded-lg'
-										style={{
-											backgroundColor:
-												typeBgColors[type as keyof typeof typeColors],
-										}}
-									>
-										<Image
-											source={{ uri: image }}
-											style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
-										/>
-										<View className='absolute inset-0 p-[10px] opacity-50'>
-											<Pokeball
-												width='100%'
-												height='100%'
-												fill={pokeballColors.white}
-												fillOpacity={0.3}
+					<View
+						className='flex-1 gap-2'
+						style={{ transform: [{ rotate: '-4deg' }] }}
+					>
+						{formattedArray.map((column, columnIndex) => (
+							<Marquee
+								key={`marquee-${columnIndex}`}
+								spacing={SPACING}
+								reverse={columnIndex % 2 !== 0}
+								speed={MARQUEE_SPEED}
+								style={{ height: ITEM_SIZE }}
+							>
+								<View className='flex-row gap-2'>
+									{column.map(({ image, type }, imageIndex) => (
+										<View
+											key={`image-column-${columnIndex}-${imageIndex}`}
+											className='relative overflow-hidden rounded-lg'
+											style={{
+												backgroundColor:
+													typeBgColors[type as keyof typeof typeColors],
+											}}
+										>
+											<Image
+												source={{ uri: image }}
+												style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
 											/>
+											<View className='absolute inset-0 p-[10px] opacity-50'>
+												<Pokeball
+													width='100%'
+													height='100%'
+													fill={pokeballColors.white}
+													fillOpacity={0.3}
+												/>
+											</View>
 										</View>
-									</View>
-								))}
-							</View>
-						</Marquee>
-					))}
-				</View>
+									))}
+								</View>
+							</Marquee>
+						))}
+					</View>
+				</Animated.View>
 
 				<LinearGradient
 					colors={[BG_COLOR, BG_COLOR, toTransparent(BG_COLOR)]}
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}
-					className='absolute inset-x-0 top-0 z-20'
-					style={{ height: OVERLAY_HEIGHT }}
+					style={[styles.gradient, styles.topGradient]}
 					pointerEvents='none'
 				/>
 
@@ -127,11 +129,10 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.7, 1]}
-					className='absolute inset-x-0 bottom-0 z-20'
-					style={{ height: OVERLAY_HEIGHT }}
+					style={[styles.gradient, styles.bottomGradient]}
 					pointerEvents='none'
 				/>
-			</Animated.View>
+			</View>
 
 			<View
 				className='items-center gap-2'
