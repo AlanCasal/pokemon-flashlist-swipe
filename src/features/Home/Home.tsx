@@ -152,7 +152,7 @@ const Home = () => {
 
 				<AnimatedTouchableOpacity
 					onPress={handleStart}
-					entering={FadeInDown.springify().damping(12).delay(300)}
+					entering={FadeInDown.springify().damping(30).delay(300)}
 					className='mt-4'
 					activeOpacity={0.8}
 				>
