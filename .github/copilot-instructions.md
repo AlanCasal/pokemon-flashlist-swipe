@@ -39,6 +39,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 - TypeScript paths: aliases are defined in `tsconfig.json` (e.g. `@/* -> src/*`) — use these imports in any edits.
 - Use export default for main components (example: export { default } from './ComponentName')
 - Use named exports for utilities and helper functions (example: export const helper = () => {})
+- Don't add 'magic numbers' or string literals directly in the code — add them as constants in `src/constants/` (example: `src/constants/api.ts` for API endpoints, `src/constants/colors.ts` for color values).
 
 ### TypeScript Integration
 
