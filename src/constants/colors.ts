@@ -56,3 +56,9 @@ export const pokeballColors = {
 	black: '#222224',
 	white: '#f0f0f0',
 };
+
+export const backgroundColors = {
+	light: '#F5F5F5',
+	dark: '#17171B',
+	inactive: '#E0E0E0',
+};

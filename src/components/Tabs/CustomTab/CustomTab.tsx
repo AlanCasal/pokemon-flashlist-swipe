@@ -6,7 +6,7 @@ import Animated, {
 	LinearTransition,
 } from 'react-native-reanimated';
 import { MotiView } from 'moti';
-import { typeColors } from '@constants/colors';
+import { backgroundColors, typeColors } from '@constants/colors';
 
 interface CustomTabProps {
 	isFocused: boolean;
@@ -32,8 +32,8 @@ const CustomTab = ({
 	isRounded,
 	activeBackgroundColor = typeColors.dragon,
 	inactiveBackgroundColor = typeColors.dark,
-	activeColor = '#FFF',
-	inactiveColor = '#999',
+	activeColor = backgroundColors.light,
+	inactiveColor = backgroundColors.inactive,
 }: CustomTabProps) => {
 	return (
 		<MotiView layout={LinearTransition.springify().damping(80).stiffness(200)}>
