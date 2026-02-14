@@ -2,12 +2,12 @@ import FadeInWrapper from '@components/FadeInWrapper';
 import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
 import { API_URL } from '@constants/api';
-import { textColor, typeBgColors } from '@constants/colors';
+import { textColor } from '@constants/colors';
 import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Image } from 'expo-image';
 import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
@@ -20,6 +20,9 @@ const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
 	const isSavedMode = mode === 'saved';
+	const backgroundSource = isSavedMode
+		? require('@assets/images/wallpaper-misc.jpg')
+		: require('@assets/images/wallpaper-light.jpg');
 	const savedPokemons = useSavedPokemons();
 	const listRef = useRef<FlashListRef<Pokemon>>(null);
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
@@ -76,13 +79,15 @@ const Pokedex = () => {
 
 	return (
 		<FadeInWrapper duration={400}>
-			<LinearGradient
-				colors={['white', typeBgColors.normal]}
-				start={{ x: 0, y: 0 }}
-				end={{ x: 2.5, y: 1 }}
-				className='flex-1 bg-white'
-				style={{ flex: 1 }}
-			>
+			<View className='flex-1'>
+				<Image
+					source={backgroundSource}
+					contentFit='cover'
+					blurRadius={10}
+					pointerEvents='none'
+					style={{ position: 'absolute', inset: 0, opacity: 0.1 }}
+				/>
+
 				<FlashList
 					ref={listRef}
 					data={displayedPokemonList}
@@ -127,7 +132,7 @@ const Pokedex = () => {
 					onPress={handleScrollToTop}
 					bottomInset={bottom}
 				/>
-			</LinearGradient>
+			</View>
 		</FadeInWrapper>
 	);
 };
