@@ -1,15 +1,7 @@
-import { View, ActivityIndicator } from 'react-native';
-import { backgroundColors } from '../constants/colors';
+import { Redirect } from 'expo-router';
 
 const Index = () => {
-	return (
-		<View className='flex-1 items-center justify-center bg-white'>
-			<ActivityIndicator
-				size='large'
-				color={backgroundColors.dark}
-			/>
-		</View>
-	);
+	return <Redirect href='/home' />;
 };
 
 export default Index;

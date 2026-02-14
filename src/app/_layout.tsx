@@ -6,6 +6,7 @@ import {
 } from '@expo-google-fonts/finger-paint';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, View } from 'react-native';
 import Toast from '../components/Toast/Toast';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -13,11 +14,15 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 const queryClient = new QueryClient();
 
 const RootLayout = () => {
-	const [fontsLoaded] = useFonts({
-		FingerPaint_400Regular,
-	});
+	const [fontsLoaded, fontError] = useFonts({ FingerPaint_400Regular });
 
-	if (!fontsLoaded) return null;
+	const isAppReady = fontsLoaded || Boolean(fontError);
+	if (!isAppReady)
+		return (
+			<View className='flex-1 items-center justify-center bg-white'>
+				<ActivityIndicator size='large' />
+			</View>
+		);
 
 	return (
 		<QueryClientProvider client={queryClient}>
