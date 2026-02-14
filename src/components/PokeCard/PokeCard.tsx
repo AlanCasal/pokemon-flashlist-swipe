@@ -1,4 +1,5 @@
 import { TouchableOpacity, View, Text } from 'react-native';
+import { useState } from 'react';
 import { MotiView } from 'moti';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
@@ -14,11 +15,14 @@ import { useShowToast } from '@store/toastStore';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import Dots from '@assets/images/dots-big.svg';
 
+const FADE_DURATION = 300;
+
 interface PokemonCardProps {
 	url: string;
 }
 
 const PokeCard = ({ url }: PokemonCardProps) => {
+	const [isExiting, setIsExiting] = useState(false);
 	const savedPokemons = useSavedPokemons();
 	const toggleSavedPokemon = useToggleSavedPokemon();
 	const showToast = useShowToast();
@@ -44,8 +48,6 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	};
 
 	const handleOnPressPokeball = () => {
-		toggleSavedPokemon(pokemon.name);
-
 		let text = (
 			<Text>
 				<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> saved !
@@ -62,9 +64,16 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 				</Text>
 			);
 			isPokeballColored = false;
-		}
 
-		showToast({ text, backgroundColor, isPokeballColored });
+			setIsExiting(true);
+			showToast({ text, backgroundColor, isPokeballColored });
+			setTimeout(() => {
+				toggleSavedPokemon(pokemon.name);
+			}, FADE_DURATION);
+		} else {
+			toggleSavedPokemon(pokemon.name);
+			showToast({ text, backgroundColor, isPokeballColored });
+		}
 	};
 
 	return (
@@ -81,8 +90,9 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
 				<MotiView
 					from={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{ type: 'timing', duration: 300 }}
+					animate={{ opacity: isExiting ? 0 : 1 }}
+					exit={{ opacity: 0 }}
+					transition={{ type: 'timing', duration: FADE_DURATION }}
 					className='flex-row items-center justify-between rounded-[10px]'
 					style={containerStyles}
 				>
