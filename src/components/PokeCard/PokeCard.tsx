@@ -20,9 +20,10 @@ import Info from './Info';
 
 interface PokemonCardProps {
 	url: string;
+	isSavedMode?: boolean;
 }
 
-const PokeCard = ({ url }: PokemonCardProps) => {
+const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const savedPokemons = useSavedPokemons();
 	const toggleSavedPokemon = useToggleSavedPokemon();
@@ -47,31 +48,27 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	};
 
 	const handleOnPressPokeball = () => {
-		let text = (
-			<Text>
-				<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> saved !
-			</Text>
-		);
-		let backgroundColor = typeBgColors[type];
-		let isPokeballColored = true;
-
-		if (isSaved) {
-			backgroundColor = typeBgColors.dark;
-			text = (
+		const shouldRemove = isSaved;
+		const toastData = {
+			text: (
 				<Text>
-					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text> removed
+					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text>
+					{shouldRemove ? ' removed' : ' saved !'}
 				</Text>
-			);
-			isPokeballColored = false;
+			),
+			backgroundColor: shouldRemove ? typeBgColors.dark : typeBgColors[type],
+			isPokeballColored: !shouldRemove,
+		};
 
+		if (shouldRemove && isSavedMode) {
 			setIsExiting(true);
-			showToast({ text, backgroundColor, isPokeballColored });
+			showToast(toastData);
 			setTimeout(() => {
 				toggleSavedPokemon(pokemon.name);
 			}, FADE_DURATION);
 		} else {
 			toggleSavedPokemon(pokemon.name);
-			showToast({ text, backgroundColor, isPokeballColored });
+			showToast(toastData);
 		}
 	};
 

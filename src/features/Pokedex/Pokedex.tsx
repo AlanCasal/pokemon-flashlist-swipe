@@ -82,7 +82,12 @@ const Pokedex = () => {
 
 	const handleRefresh = () => refetch();
 
-	const handleRenderItem = ({ item }: { item: Pokemon }) => <PokeCard url={item.url} />;
+	const handleRenderItem = ({ item }: { item: Pokemon }) => (
+		<PokeCard
+			url={item.url}
+			isSavedMode={isSavedMode}
+		/>
+	);
 
 	const handleScrollToTop = () => {
 		listRef.current?.scrollToOffset({ offset: 0, animated: true });
