@@ -20,6 +20,7 @@ import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { API_URL } from '@constants/api';
 import { useLocalSearchParams } from 'expo-router';
 import { PokedexMode } from '@/src/types';
+import FadeInWrapper from '@components/FadeInWrapper';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -84,61 +85,63 @@ const Pokedex = () => {
 	if (isLoading && !data) return <ActivityIndicator size='large' />;
 
 	return (
-		<LinearGradient
-			colors={['white', typeBgColors.normal]}
-			start={{ x: 0, y: 0 }}
-			end={{ x: 2.5, y: 1 }}
-			className='flex-1 bg-white'
-			style={{ flex: 1 }}
-		>
-			<FlashList
-				ref={listRef}
-				data={displayedPokemonList}
-				renderItem={handleRenderItem}
-				onEndReachedThreshold={1}
-				contentContainerStyle={contentContainerStyle}
+		<FadeInWrapper duration={400}>
+			<LinearGradient
+				colors={['white', typeBgColors.normal]}
+				start={{ x: 0, y: 0 }}
+				end={{ x: 2.5, y: 1 }}
+				className='flex-1 bg-white'
 				style={{ flex: 1 }}
-				alwaysBounceVertical
-				refreshing={isRefetching}
-				onRefresh={handleRefresh}
-				progressViewOffset={top}
-				onScroll={({ nativeEvent }) => {
-					const isAtTop = nativeEvent.contentOffset.y <= 20;
-					setShowScrollToTopButton(!isAtTop);
-				}}
-				scrollEventThrottle={16}
-				onEndReached={() => {
-					if (isSavedMode) return;
-					if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-				}}
-				keyExtractor={({ name }) => name}
-				ListEmptyComponent={
-					isSavedMode ? (
-						<View className='mt-16 items-center justify-center px-10'>
-							<Text
-								className='text-center text-base'
-								style={{
-									fontFamily: PRIMARY_FONT,
-									color: textColor.grey,
-								}}
-							>
-								No saved Pokemon yet. Tap the Pokeball icon on any card to save
-								it.
-							</Text>
-						</View>
-					) : null
-				}
-				ListFooterComponent={
-					isFetchingNextPage && !isSavedMode ? <ActivityIndicator /> : null
-				}
-			/>
+			>
+				<FlashList
+					ref={listRef}
+					data={displayedPokemonList}
+					renderItem={handleRenderItem}
+					onEndReachedThreshold={1}
+					contentContainerStyle={contentContainerStyle}
+					style={{ flex: 1 }}
+					alwaysBounceVertical
+					refreshing={isRefetching}
+					onRefresh={handleRefresh}
+					progressViewOffset={top}
+					onScroll={({ nativeEvent }) => {
+						const isAtTop = nativeEvent.contentOffset.y <= 20;
+						setShowScrollToTopButton(!isAtTop);
+					}}
+					scrollEventThrottle={16}
+					onEndReached={() => {
+						if (isSavedMode) return;
+						if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+					}}
+					keyExtractor={({ name }) => name}
+					ListEmptyComponent={
+						isSavedMode ? (
+							<View className='mt-16 items-center justify-center px-10'>
+								<Text
+									className='text-center text-base'
+									style={{
+										fontFamily: PRIMARY_FONT,
+										color: textColor.grey,
+									}}
+								>
+									No saved Pokemon yet. Tap the Pokeball icon on any card to
+									save it.
+								</Text>
+							</View>
+						) : null
+					}
+					ListFooterComponent={
+						isFetchingNextPage && !isSavedMode ? <ActivityIndicator /> : null
+					}
+				/>
 
-			<ScrollToTop
-				visible={showScrollToTopButton}
-				onPress={handleScrollToTop}
-				bottomInset={bottom}
-			/>
-		</LinearGradient>
+				<ScrollToTop
+					visible={showScrollToTopButton}
+					onPress={handleScrollToTop}
+					bottomInset={bottom}
+				/>
+			</LinearGradient>
+		</FadeInWrapper>
 	);
 };
 
