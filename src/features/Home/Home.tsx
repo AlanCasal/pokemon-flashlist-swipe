@@ -5,6 +5,7 @@ import { PRIMARY_FONT } from '@constants/sharedStyles';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
 import { chunkArray, toTransparent } from '@utils/helpers';
+import texts from '@utils/texts.json';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -34,10 +35,10 @@ const Home = () => {
 	}
 
 	if (hasError) {
-		Alert.alert('Error', 'Failed to fetch some Pokemon data.');
+		Alert.alert(texts.alerts.errorTitle, texts.alerts.errorFetchingPokemonMessage);
 		return (
 			<View>
-				<Text>An error occurred.</Text>
+				<Text>{texts.home.fallbackErrorText}</Text>
 			</View>
 		);
 	}
@@ -134,7 +135,7 @@ const Home = () => {
 					className='text-center text-[18px]'
 					style={{ fontFamily: PRIMARY_FONT, color: textColor.primary }}
 				>
-					Search for any Pokémon {'\n'} that exists on the planet !
+					{texts.home.heroSubtitle}
 				</Text>
 
 				<AnimatedTouchableOpacity
@@ -157,7 +158,7 @@ const Home = () => {
 								fontFamily: PRIMARY_FONT,
 							}}
 						>
-							Start
+							{texts.home.startButton}
 						</Text>
 					</View>
 				</AnimatedTouchableOpacity>

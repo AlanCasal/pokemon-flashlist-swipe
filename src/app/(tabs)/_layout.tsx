@@ -1,7 +1,8 @@
-import { Tabs } from 'expo-router';
 import CustomTabBar from '@components/Tabs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import texts from '@utils/texts.json';
+import { Tabs } from 'expo-router';
 
 const TabsLayout = () => {
 	return (
@@ -12,7 +13,7 @@ const TabsLayout = () => {
 			<Tabs.Screen
 				name='pokedex'
 				options={{
-					title: 'Pokedex',
+					title: texts.tabs.pokedexTitle,
 					tabBarIcon: ({ color, size, focused }) => (
 						<MaterialCommunityIcons
 							name={focused ? 'credit-card-chip' : 'credit-card-chip-outline'}
@@ -26,7 +27,7 @@ const TabsLayout = () => {
 				name='saved'
 				initialParams={{ mode: 'saved' }}
 				options={{
-					title: 'Saved',
+					title: texts.tabs.savedTitle,
 					tabBarIcon: ({ color, size, focused }) => (
 						<MaterialCommunityIcons
 							name={focused ? 'star' : 'star-outline'}

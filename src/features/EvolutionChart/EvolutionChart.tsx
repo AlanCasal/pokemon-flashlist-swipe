@@ -4,6 +4,7 @@ import { typeBgColors, typeColors } from '@constants/colors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 import { BASE_DELAY, BASE_FADE_IN_DURATION, fadeInAnim } from '@utils/animations';
+import texts from '@utils/texts.json';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
@@ -39,7 +40,9 @@ const EvolutionChart = () => {
 					width: 'auto',
 				}}
 			>
-				<Text className='text-base font-bold uppercase leading-5'>Evolution Chart</Text>
+				<Text className='text-base font-bold uppercase leading-5'>
+					{texts.evolution.chartTitle}
+				</Text>
 			</Animated.View>
 
 			{isLoading && (

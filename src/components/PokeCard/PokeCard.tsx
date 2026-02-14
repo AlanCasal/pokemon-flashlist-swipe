@@ -10,6 +10,7 @@ import {
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
+import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
 import { useState } from 'react';
@@ -53,7 +54,7 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			text: (
 				<Text>
 					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text>
-					{shouldRemove ? ' removed' : ' saved !'}
+					{shouldRemove ? texts.pokemonCard.toastRemovedSuffix : texts.pokemonCard.toastSavedSuffix}
 				</Text>
 			),
 			backgroundColor: shouldRemove ? typeBgColors.dark : typeBgColors[type],

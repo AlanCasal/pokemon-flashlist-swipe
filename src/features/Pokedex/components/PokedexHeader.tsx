@@ -9,6 +9,7 @@ import {
 	PRIMARY_FONT,
 	SCREEN_HORIZONTAL_PADDING,
 } from '@constants/sharedStyles';
+import texts from '@utils/texts.json';
 import { ComponentType } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
@@ -43,21 +44,21 @@ const PokedexHeader = ({
 			id: 'generation',
 			Icon: GenerationIcon,
 			onPress: onGenerationPress,
-			accessibilityLabel: 'Generation button',
+			accessibilityLabel: texts.pokedex.generationButtonA11y,
 			testID: 'pokedex-generation-button',
 		},
 		{
 			id: 'sort',
 			Icon: SortIcon,
 			onPress: onSortPress,
-			accessibilityLabel: 'Sort button',
+			accessibilityLabel: texts.pokedex.sortButtonA11y,
 			testID: 'pokedex-sort-button',
 		},
 		{
 			id: 'filter',
 			Icon: FilterIcon,
 			onPress: onFilterPress,
-			accessibilityLabel: 'Filter button',
+			accessibilityLabel: texts.pokedex.filterButtonA11y,
 			testID: 'pokedex-filter-button',
 		},
 	];
@@ -89,7 +90,7 @@ const PokedexHeader = ({
 						testID='pokedex-search-input'
 						value={searchValue}
 						onChangeText={onSearchChange}
-						placeholder='Search Pokémon'
+						placeholder={texts.pokedex.searchPlaceholder}
 						placeholderTextColor={textColor.grey}
 						className='ml-2 flex-1 text-[13px]'
 						style={{ color: textColor.black, fontFamily: PRIMARY_FONT }}

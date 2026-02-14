@@ -1,0 +1,33 @@
+{
+	"alerts": {
+		"errorTitle": "Error",
+		"errorFetchingPokemonTitle": "Error fetching Pokemon:",
+		"errorFetchingPokemonMessage": "Failed to fetch some Pokemon data."
+	},
+	"tabs": {
+		"pokedexTitle": "Pokedex",
+		"savedTitle": "Saved"
+	},
+	"home": {
+		"fallbackErrorText": "An error occurred.",
+		"heroSubtitle": "Search for any Pokémon \n that exists on the planet !",
+		"startButton": "Start"
+	},
+	"pokedex": {
+		"emptySavedText": "No saved Pokemon yet. Tap the Pokeball icon on any card to save it.",
+		"searchPlaceholder": "Search Pokémon",
+		"generationButtonA11y": "Generation button",
+		"sortButtonA11y": "Sort button",
+		"filterButtonA11y": "Filter button"
+	},
+	"evolution": {
+		"chartTitle": "Evolution Chart",
+		"evolvesAt": "Evolves at",
+		"evolvesInto": "Evolves into",
+		"levelPrefix": "Level"
+	},
+	"pokemonCard": {
+		"toastRemovedSuffix": " removed",
+		"toastSavedSuffix": " saved !"
+	}
+}

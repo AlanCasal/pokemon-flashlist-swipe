@@ -87,13 +87,21 @@ module.exports = {
 		'simple-import-sort/exports': 'error',
 		'i18next/no-literal-string': 0,
 		'react-hooks/exhaustive-deps': 2,
-		'react-native/no-raw-text': 0,
+		'react-native/no-raw-text': 2,
 		'react-native/no-inline-styles': 0,
 		'react-native/no-color-literals': 0,
 		'react/no-unused-prop-types': 0, // existing issue with stateless functions
 		'react/require-default-props': 0,
 		'react/jsx-props-no-spreading': 0,
 		'react/jsx-no-bind': 0,
+		'react/jsx-no-literals': [
+			'error',
+			{
+				noStrings: true,
+				ignoreProps: true,
+				allowedStrings: [],
+			},
+		],
 		'react/prop-types': 0,
 		'react/react-in-jsx-scope': 0,
 		'react/jsx-no-leaked-render': 0,

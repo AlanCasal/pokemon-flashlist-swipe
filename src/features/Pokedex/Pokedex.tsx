@@ -14,6 +14,7 @@ import {
 import { usePokemonList } from '@hooks/usePokemonList';
 import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
+import texts from '@utils/texts.json';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
@@ -100,7 +101,7 @@ const Pokedex = () => {
 	}, []);
 
 	useEffect(() => {
-		if (isError) Alert.alert('Error fetching Pokemon:', error.message);
+		if (isError) Alert.alert(texts.alerts.errorFetchingPokemonTitle, error.message);
 	}, [isError, error]);
 
 	if (isLoading && !data) return <ActivityIndicator size='large' />;
@@ -181,7 +182,7 @@ const Pokedex = () => {
 										color: textColor.grey,
 									}}
 								>
-									No saved Pokemon yet. Tap the Pokeball icon on any card to save it.
+									{texts.pokedex.emptySavedText}
 								</Text>
 							</View>
 						) : null
