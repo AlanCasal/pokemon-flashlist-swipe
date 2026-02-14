@@ -13,13 +13,9 @@ Group variants allow styling children based on parent state. Note: This feature 
 
 ```tsx
 // Children don't respond to parent press state
-<Pressable className="bg-card p-4 rounded">
-  <Text className="text-foreground">
-    Title doesn't change when card is pressed
-  </Text>
-  <View className="opacity-100">
-    Opacity stays the same
-  </View>
+<Pressable className='bg-card p-4 rounded'>
+	<Text className='text-foreground'>Title doesn't change when card is pressed</Text>
+	<View className='opacity-100'>Opacity stays the same</View>
 </Pressable>
 ```
 
@@ -27,39 +23,37 @@ Group variants allow styling children based on parent state. Note: This feature 
 
 ```tsx
 function Card({ children }: CardProps) {
-  const [isPressed, setIsPressed] = useState(false)
+	const [isPressed, setIsPressed] = useState(false);
 
-  return (
-    <Pressable
-      onPressIn={() => setIsPressed(true)}
-      onPressOut={() => setIsPressed(false)}
-      className="bg-card p-4 rounded"
-    >
-      <CardContext.Provider value={{ isPressed }}>
-        {children}
-      </CardContext.Provider>
-    </Pressable>
-  )
+	return (
+		<Pressable
+			onPressIn={() => setIsPressed(true)}
+			onPressOut={() => setIsPressed(false)}
+			className='bg-card p-4 rounded'
+		>
+			<CardContext.Provider value={{ isPressed }}>{children}</CardContext.Provider>
+		</Pressable>
+	);
 }
 
 function CardTitle() {
-  const { isPressed } = useCardContext()
-  return (
-    <Text className={isPressed ? 'text-primary' : 'text-foreground'}>
-      Title changes when card is pressed
-    </Text>
-  )
+	const { isPressed } = useCardContext();
+	return (
+		<Text className={isPressed ? 'text-primary' : 'text-foreground'}>
+			Title changes when card is pressed
+		</Text>
+	);
 }
 ```
 
-**Future pattern (when group-* is supported):**
+**Future pattern (when group-\* is supported):**
 
 ```tsx
 // This will work when group variants are implemented
-<Pressable className="group bg-card p-4 rounded">
-  <Text className="text-foreground group-active:text-primary">
-    Title changes color when card is pressed
-  </Text>
+<Pressable className='group bg-card p-4 rounded'>
+	<Text className='text-foreground group-active:text-primary'>
+		Title changes color when card is pressed
+	</Text>
 </Pressable>
 ```
 

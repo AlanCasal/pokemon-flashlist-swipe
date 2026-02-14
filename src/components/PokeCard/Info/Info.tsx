@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
-import PokemonTypeIcon from '@components/PokemonTypeIcon';
-import { PokemonType } from '@/src/types/pokemonTypes';
-import { textColor, typeColors } from '@constants/colors';
-import { PokemonDetails } from '@/src/types/pokemon';
 import PokeBall from '@components/PokeBall';
+import PokemonTypeIcon from '@components/PokemonTypeIcon';
+import { textColor, typeColors } from '@constants/colors';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { Text, View } from 'react-native';
+
+import { PokemonDetails } from '@/src/types/pokemon';
+import { PokemonType } from '@/src/types/pokemonTypes';
 
 interface InfoProps {
 	name: string;
@@ -47,15 +48,12 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 					<View
 						className='flex-row items-center gap-[5px] rounded-[3px] px-[6px] py-1'
 						style={{
-							backgroundColor:
-								typeColors[type.type.name as keyof typeof typeColors],
+							backgroundColor: typeColors[type.type.name as keyof typeof typeColors],
 						}}
 						key={index}
 					>
 						<PokemonTypeIcon type={type.type.name as PokemonType} />
-						<Text className='text-[8px] font-bold uppercase text-white'>
-							{type.type.name}
-						</Text>
+						<Text className='text-[8px] font-bold uppercase text-white'>{type.type.name}</Text>
 					</View>
 				))}
 			</View>

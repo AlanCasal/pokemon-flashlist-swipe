@@ -20,7 +20,7 @@ const { filter, todos } = useContext(TodoContext);
 **After (Zustand - only subscribed state):**
 
 ```jsx
-const filter = useTodoStore((s) => s.filter);
+const filter = useTodoStore(s => s.filter);
 // Only re-renders when filter changes
 ```
 
@@ -49,15 +49,22 @@ With traditional React state or Context:
 ```jsx
 // When filter OR todos change, EVERYTHING re-renders
 const App = () => {
-  const [filter, setFilter] = useState('all');
-  const [todos, setTodos] = useState([]);
-  
-  return (
-    <>
-      <FilterMenu filter={filter} setFilter={setFilter} />
-      <TodoList todos={todos} filter={filter} setTodos={setTodos} />
-    </>
-  );
+	const [filter, setFilter] = useState('all');
+	const [todos, setTodos] = useState([]);
+
+	return (
+		<>
+			<FilterMenu
+				filter={filter}
+				setFilter={setFilter}
+			/>
+			<TodoList
+				todos={todos}
+				filter={filter}
+				setTodos={setTodos}
+			/>
+		</>
+	);
 };
 ```
 
@@ -77,13 +84,13 @@ const filterAtom = atom('all');
 const todosAtom = atom([]);
 
 // Derived atom (computed value)
-const filteredTodosAtom = atom((get) => {
-  const filter = get(filterAtom);
-  const todos = get(todosAtom);
-  
-  if (filter === 'active') return todos.filter(t => !t.completed);
-  if (filter === 'completed') return todos.filter(t => t.completed);
-  return todos;
+const filteredTodosAtom = atom(get => {
+	const filter = get(filterAtom);
+	const todos = get(todosAtom);
+
+	if (filter === 'active') return todos.filter(t => !t.completed);
+	if (filter === 'completed') return todos.filter(t => t.completed);
+	return todos;
 });
 ```
 
@@ -94,30 +101,31 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 // Only re-renders when filterAtom changes
 const FilterMenu = () => {
-  const [filter, setFilter] = useAtom(filterAtom);
-  
-  return (
-    <View>
-      {['all', 'active', 'completed'].map((f) => (
-        <Pressable key={f} onPress={() => setFilter(f)}>
-          <Text style={filter === f ? styles.active : null}>{f}</Text>
-        </Pressable>
-      ))}
-    </View>
-  );
+	const [filter, setFilter] = useAtom(filterAtom);
+
+	return (
+		<View>
+			{['all', 'active', 'completed'].map(f => (
+				<Pressable
+					key={f}
+					onPress={() => setFilter(f)}
+				>
+					<Text style={filter === f ? styles.active : null}>{f}</Text>
+				</Pressable>
+			))}
+		</View>
+	);
 };
 
 // Only re-renders when todosAtom changes
 const TodoItem = ({ id }) => {
-  const setTodos = useSetAtom(todosAtom);  // Only setter, no re-render on read
-  
-  const toggleTodo = () => {
-    setTodos((prev) => 
-      prev.map((t) => t.id === id ? { ...t, completed: !t.completed } : t)
-    );
-  };
-  
-  return <Pressable onPress={toggleTodo}>...</Pressable>;
+	const setTodos = useSetAtom(todosAtom); // Only setter, no re-render on read
+
+	const toggleTodo = () => {
+		setTodos(prev => prev.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)));
+	};
+
+	return <Pressable onPress={toggleTodo}>...</Pressable>;
 };
 ```
 
@@ -129,24 +137,23 @@ const TodoItem = ({ id }) => {
 import { create } from 'zustand';
 
 const useTodoStore = create((set, get) => ({
-  filter: 'all',
-  todos: [],
-  
-  setFilter: (filter) => set({ filter }),
-  
-  toggleTodo: (id) => set((state) => ({
-    todos: state.todos.map((t) =>
-      t.id === id ? { ...t, completed: !t.completed } : t
-    ),
-  })),
-  
-  // Selector for derived state
-  getFilteredTodos: () => {
-    const { filter, todos } = get();
-    if (filter === 'active') return todos.filter(t => !t.completed);
-    if (filter === 'completed') return todos.filter(t => t.completed);
-    return todos;
-  },
+	filter: 'all',
+	todos: [],
+
+	setFilter: filter => set({ filter }),
+
+	toggleTodo: id =>
+		set(state => ({
+			todos: state.todos.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)),
+		})),
+
+	// Selector for derived state
+	getFilteredTodos: () => {
+		const { filter, todos } = get();
+		if (filter === 'active') return todos.filter(t => !t.completed);
+		if (filter === 'completed') return todos.filter(t => t.completed);
+		return todos;
+	},
 }));
 ```
 
@@ -155,24 +162,32 @@ const useTodoStore = create((set, get) => ({
 ```jsx
 // Only re-renders when filter changes
 const FilterMenu = () => {
-  const filter = useTodoStore((state) => state.filter);
-  const setFilter = useTodoStore((state) => state.setFilter);
-  
-  return (
-    <View>
-      {['all', 'active', 'completed'].map((f) => (
-        <Pressable key={f} onPress={() => setFilter(f)}>
-          <Text>{f}</Text>
-        </Pressable>
-      ))}
-    </View>
-  );
+	const filter = useTodoStore(state => state.filter);
+	const setFilter = useTodoStore(state => state.setFilter);
+
+	return (
+		<View>
+			{['all', 'active', 'completed'].map(f => (
+				<Pressable
+					key={f}
+					onPress={() => setFilter(f)}
+				>
+					<Text>{f}</Text>
+				</Pressable>
+			))}
+		</View>
+	);
 };
 
 // Only re-renders when todos change
 const TodoList = () => {
-  const todos = useTodoStore((state) => state.todos);
-  return todos.map((todo) => <TodoItem key={todo.id} {...todo} />);
+	const todos = useTodoStore(state => state.todos);
+	return todos.map(todo => (
+		<TodoItem
+			key={todo.id}
+			{...todo}
+		/>
+	));
 };
 ```
 
@@ -184,18 +199,14 @@ const TodoList = () => {
 const TodoContext = createContext();
 
 const TodoProvider = ({ children }) => {
-  const [state, setState] = useState({ filter: 'all', todos: [] });
-  return (
-    <TodoContext.Provider value={{ state, setState }}>
-      {children}
-    </TodoContext.Provider>
-  );
+	const [state, setState] = useState({ filter: 'all', todos: [] });
+	return <TodoContext.Provider value={{ state, setState }}>{children}</TodoContext.Provider>;
 };
 
 // Every component using this context re-renders on ANY state change
 const FilterMenu = () => {
-  const { state, setState } = useContext(TodoContext);
-  // Re-renders when todos change too!
+	const { state, setState } = useContext(TodoContext);
+	// Re-renders when todos change too!
 };
 ```
 
@@ -207,25 +218,25 @@ const filterAtom = atom('all');
 const todosAtom = atom([]);
 
 const FilterMenu = () => {
-  const [filter, setFilter] = useAtom(filterAtom);
-  // Only re-renders when filter changes
+	const [filter, setFilter] = useAtom(filterAtom);
+	// Only re-renders when filter changes
 };
 
 const TodoList = () => {
-  const todos = useAtomValue(todosAtom);
-  // Only re-renders when todos change
+	const todos = useAtomValue(todosAtom);
+	// Only re-renders when todos change
 };
 ```
 
 ## Comparison
 
-| Feature | Context | Jotai | Zustand |
-|---------|---------|-------|---------|
-| Re-render scope | All consumers | Atom subscribers | Selector subscribers |
-| Derived state | Manual | Built-in atoms | Selectors |
-| DevTools | React DevTools | Jotai DevTools | Zustand DevTools |
-| Bundle size | 0 KB | ~3 KB | ~2 KB |
-| Learning curve | Low | Medium | Low |
+| Feature         | Context        | Jotai            | Zustand              |
+| --------------- | -------------- | ---------------- | -------------------- |
+| Re-render scope | All consumers  | Atom subscribers | Selector subscribers |
+| Derived state   | Manual         | Built-in atoms   | Selectors            |
+| DevTools        | React DevTools | Jotai DevTools   | Zustand DevTools     |
+| Bundle size     | 0 KB           | ~3 KB            | ~2 KB                |
+| Learning curve  | Low            | Medium           | Low                  |
 
 ## When to Use Which
 

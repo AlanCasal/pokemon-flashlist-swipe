@@ -13,6 +13,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 ## Development Standards
 
 ### Project Structure
+
 - App type: Expo / React Native with TypeScript using `expo-router` (file-based routing under `src/app`). See [src/app/\_layout.tsx](src/app/_layout.tsx#L1-L1).
 - UI: Small component library under `src/components/` — components export from `index.ts` and keep presentation in `styles.ts` (example: [src/components/PokeCard/PokeCard.tsx](src/components/PokeCard/PokeCard.tsx#L1-L1)).
 - Data: Network layer uses `axios` + `@tanstack/react-query` for caching and infinite queries. Key hook: [src/hooks/usePokemonList.ts](src/hooks/usePokemonList.ts#L1-L1).
@@ -135,10 +136,10 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 - Routes are file-based under `src/app`. Routes with parentheses (e.g. `(tabs)`) group navigation — follow `expo-router` conventions. The root layout is [src/app/\_layout.tsx](src/app/_layout.tsx#L1-L200).
 - Handle route parameters and query strings properly
 - Preserve file-based routing: when adding a screen, create files under `src/app/` rather than editing central route registries.
-<!-- - Implement nested routes and route protection -->
-<!-- - Implement lazy loading for route-based code splitting -->
-<!-- - Use proper navigation patterns and back button handling -->
-<!-- - Implement breadcrumbs and navigation state management -->
+  <!-- - Implement nested routes and route protection -->
+  <!-- - Implement lazy loading for route-based code splitting -->
+  <!-- - Use proper navigation patterns and back button handling -->
+  <!-- - Implement breadcrumbs and navigation state management -->
 
 ### Testing
 
@@ -208,7 +209,6 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 - Dependency changes: run `bun install` locally and commit `bun.lock`. Do not reintroduce `package-lock.json` or `yarn.lock` without team agreement.
 - Start dev server: use the `package.json` script: `expo start` (or `bun run start`). Metro / Expo expect a Node runtime — running `expo start` with Node is the most reliable option.
 - Metro config: SVGs are handled via `react-native-svg-transformer` and `metro.config.js` is already configured.
-
 
 ### Important files to inspect for context
 

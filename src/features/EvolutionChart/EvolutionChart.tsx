@@ -1,18 +1,15 @@
-import { View, Text, ActivityIndicator } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import CustomTab from '@components/Tabs/CustomTab';
 import { typeBgColors, typeColors } from '@constants/colors';
-import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
+import { BASE_DELAY, BASE_FADE_IN_DURATION, fadeInAnim } from '@utils/animations';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { ActivityIndicator, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import CustomTab from '@components/Tabs/CustomTab';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import {
-	BASE_DELAY,
-	BASE_FADE_IN_DURATION,
-	fadeInAnim,
-} from '@utils/animations';
+
 import EvolutionChain from './components/EvolutionChain';
 
 const EvolutionChart = () => {
@@ -20,9 +17,7 @@ const EvolutionChart = () => {
 	const { bottom } = useSafeAreaInsets();
 
 	const { id, type } = useLocalSearchParams();
-	const { data: evolutionData, isLoading } = useGetPokemonEvolutions(
-		id as string
-	);
+	const { data: evolutionData, isLoading } = useGetPokemonEvolutions(id as string);
 
 	return (
 		<LinearGradient
@@ -44,9 +39,7 @@ const EvolutionChart = () => {
 					width: 'auto',
 				}}
 			>
-				<Text className='text-base font-bold uppercase leading-5'>
-					Evolution Chart
-				</Text>
+				<Text className='text-base font-bold uppercase leading-5'>Evolution Chart</Text>
 			</Animated.View>
 
 			{isLoading && (

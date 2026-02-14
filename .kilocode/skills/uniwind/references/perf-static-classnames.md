@@ -13,12 +13,12 @@ Uniwind compiles static class names at build time. Dynamic string construction b
 
 ```tsx
 function Badge({ color }: { color: 'red' | 'green' | 'blue' }) {
-  // Tailwind compiler can't detect these classes!
-  return (
-    <View className={`bg-${color}-500 p-2 rounded`}>
-      <Text className={`text-${color}-900`}>Badge</Text>
-    </View>
-  )
+	// Tailwind compiler can't detect these classes!
+	return (
+		<View className={`bg-${color}-500 p-2 rounded`}>
+			<Text className={`text-${color}-900`}>Badge</Text>
+		</View>
+	);
 }
 ```
 
@@ -26,21 +26,22 @@ function Badge({ color }: { color: 'red' | 'green' | 'blue' }) {
 
 ```tsx
 const colorStyles = {
-  red: 'bg-red-500 text-red-900',
-  green: 'bg-green-500 text-green-900',
-  blue: 'bg-blue-500 text-blue-900',
-} as const
+	red: 'bg-red-500 text-red-900',
+	green: 'bg-green-500 text-green-900',
+	blue: 'bg-blue-500 text-blue-900',
+} as const;
 
 function Badge({ color }: { color: keyof typeof colorStyles }) {
-  return (
-    <View className={`${colorStyles[color]} p-2 rounded`}>
-      <Text>Badge</Text>
-    </View>
-  )
+	return (
+		<View className={`${colorStyles[color]} p-2 rounded`}>
+			<Text>Badge</Text>
+		</View>
+	);
 }
 ```
 
 **Why this matters:**
+
 - Uniwind precomputes styles at build time
 - Dynamic construction forces runtime parsing
 - Build-time resolution is ~2.5× faster (81ms vs 197ms)

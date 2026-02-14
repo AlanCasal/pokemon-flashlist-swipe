@@ -13,14 +13,14 @@ The `useResolveClassNames` hook resolves styles at runtime. Use it only when cla
 
 ```tsx
 function Card() {
-  // Unnecessary runtime resolution
-  const styles = useResolveClassNames('bg-card rounded-xl p-4')
+	// Unnecessary runtime resolution
+	const styles = useResolveClassNames('bg-card rounded-xl p-4');
 
-  return (
-    <View style={styles}>
-      <Text>Content</Text>
-    </View>
-  )
+	return (
+		<View style={styles}>
+			<Text>Content</Text>
+		</View>
+	);
 }
 ```
 
@@ -28,12 +28,12 @@ function Card() {
 
 ```tsx
 function Card() {
-  // Build-time compiled, faster
-  return (
-    <View className="bg-card rounded-xl p-4">
-      <Text>Content</Text>
-    </View>
-  )
+	// Build-time compiled, faster
+	return (
+		<View className='bg-card rounded-xl p-4'>
+			<Text>Content</Text>
+		</View>
+	);
 }
 ```
 
@@ -41,22 +41,22 @@ function Card() {
 
 ```tsx
 // Library configuration that requires style objects
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 function App() {
-  const cardStyle = useResolveClassNames('bg-card')
-  const textStyle = useResolveClassNames('text-foreground')
+	const cardStyle = useResolveClassNames('bg-card');
+	const textStyle = useResolveClassNames('text-foreground');
 
-  const theme = {
-    ...DefaultTheme,
-    colors: {
-      ...DefaultTheme.colors,
-      card: cardStyle.backgroundColor,
-      text: textStyle.color,
-    },
-  }
+	const theme = {
+		...DefaultTheme,
+		colors: {
+			...DefaultTheme.colors,
+			card: cardStyle.backgroundColor,
+			text: textStyle.color,
+		},
+	};
 
-  return <NavigationContainer theme={theme}>...</NavigationContainer>
+	return <NavigationContainer theme={theme}>...</NavigationContainer>;
 }
 ```
 

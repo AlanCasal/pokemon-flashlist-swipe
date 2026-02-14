@@ -21,6 +21,7 @@
 ### 1. "C++11 too old" / "targeting C++11"
 
 **Full Error:**
+
 ```
 error: 'if constexpr' is a C++17 extension
 error: targeting C++11 but using C++17 features
@@ -30,6 +31,7 @@ error: targeting C++11 but using C++17 features
 New Architecture requires C++17 or newer. Old projects default to C++11.
 
 **Fix (Android):**
+
 ```gradle
 // android/app/build.gradle
 android {
@@ -46,6 +48,7 @@ android {
 ```
 
 **Fix (iOS):**
+
 ```ruby
 # ios/Podfile
 post_install do |installer|
@@ -62,6 +65,7 @@ end
 ### 2. "glog module import error"
 
 **Full Error:**
+
 ```
 error: import of module 'glog.glog.log_severity' appears within namespace 'google'
 ```
@@ -70,6 +74,7 @@ error: import of module 'glog.glog.log_severity' appears within namespace 'googl
 Conflict between glog module and React Native's internal usage.
 
 **Fix (iOS):**
+
 ```ruby
 # ios/Podfile
 # Add this before other config
@@ -82,6 +87,7 @@ pod install
 ```
 
 **Alternative Fix:**
+
 ```ruby
 # ios/Podfile
 post_install do |installer|
@@ -100,6 +106,7 @@ end
 ### 3. "AppDelegate migration required"
 
 **Full Error:**
+
 ```
 error: RCTAppDependencyProvider not found
 Undefined symbol: RCTAppDependencyProvider
@@ -135,6 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### 4. "Fabric component descriptor not found"
 
 **Full Error:**
+
 ```
 Fabric component descriptor provider not found for component: MyComponent
 ```
@@ -145,12 +153,14 @@ Component/library not compatible with Fabric (New Architecture's rendering syste
 **Fix Options:**
 
 **A) Update library** to New Architecture version:
+
 ```bash
 # Check library docs for New Architecture support
 npm update <library-name>@latest
 ```
 
 **B) Use interop layer** (0.76-0.81 only):
+
 ```bash
 # Android (gradle.properties)
 newArchEnabled=true
@@ -160,6 +170,7 @@ interopEnabled=true
 ```
 
 **C) Temporarily disable New Architecture** (0.76-0.81 only):
+
 ```bash
 # gradle.properties
 newArchEnabled=false
@@ -175,6 +186,7 @@ RCT_NEW_ARCH_ENABLED=0 pod install
 ### 5. "TurboModule not registered"
 
 **Full Error:**
+
 ```
 TurboModule 'ModuleName' not found
 TurboModule registry not available
@@ -186,11 +198,13 @@ Native module not compatible with TurboModules (New Architecture's native module
 **Fix:**
 
 **A) Update library**:
+
 ```bash
 npm update <library-name>@latest
 ```
 
 **B) Check library compatibility**:
+
 ```bash
 # Look for "New Architecture" or "Fabric" in docs
 # Check GitHub issues for compatibility status
@@ -200,6 +214,7 @@ npm update <library-name>@latest
 Most libraries work via bridge interop during transition period.
 
 **D) Downgrade if critical** (last resort):
+
 ```bash
 # Find last pre-New-Arch version
 npm install <library-name>@<old-version>
@@ -210,6 +225,7 @@ npm install <library-name>@<old-version>
 ### 6. "Bridge not available"
 
 **Full Error:**
+
 ```
 RCTBridge required for this functionality
 Cannot access bridge module
@@ -239,6 +255,7 @@ const MyModule = TurboModuleRegistry.get('MyModule');
 ### 7. Redux crashes on store creation
 
 **Error:**
+
 ```
 TypeError: Cannot read property 'dispatch' of undefined
 Redux store crashes during initialization
@@ -248,6 +265,7 @@ Redux store crashes during initialization
 Old `redux` + `redux-thunk` packages incompatible with New Architecture.
 
 **Fix:**
+
 ```bash
 # Remove old Redux
 npm uninstall redux redux-thunk
@@ -257,6 +275,7 @@ npm install @reduxjs/toolkit react-redux
 ```
 
 **Migration:**
+
 ```typescript
 // ❌ OLD
 import { createStore, applyMiddleware } from 'redux';
@@ -266,8 +285,8 @@ const store = createStore(reducer, applyMiddleware(thunk));
 // ✅ NEW
 import { configureStore } from '@reduxjs/toolkit';
 const store = configureStore({
-  reducer: rootReducer,
-  // Thunk included by default
+	reducer: rootReducer,
+	// Thunk included by default
 });
 ```
 
@@ -276,6 +295,7 @@ const store = configureStore({
 ### 8. i18n-js unreliable
 
 **Error:**
+
 ```
 Translations not updating
 App crashes when changing locale
@@ -285,6 +305,7 @@ App crashes when changing locale
 `i18n-js` not fully compatible with New Architecture.
 
 **Fix:**
+
 ```bash
 # Remove i18n-js
 npm uninstall i18n-js
@@ -294,6 +315,7 @@ npm install react-i18next i18next
 ```
 
 **Setup:**
+
 ```typescript
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
@@ -323,6 +345,7 @@ function MyComponent() {
 ### 9. CodePush crashes on Android
 
 **Error:**
+
 ```
 Android app crashes looking for bundle named 'null'
 CodePush update fails silently
@@ -334,14 +357,17 @@ Known incompatibility between CodePush and New Architecture.
 **Fix:**
 
 **A) Disable CodePush** (recommended until fixed):
+
 ```bash
 npm uninstall react-native-code-push
 ```
 
 **B) Monitor GitHub** for official support:
+
 - https://github.com/microsoft/react-native-code-push/issues
 
 **C) Use alternatives**:
+
 - Expo Updates (if using Expo)
 - Native OTA update solutions
 
@@ -352,6 +378,7 @@ npm uninstall react-native-code-push
 ### 10. Hermes symbol conflicts
 
 **Error:**
+
 ```
 duplicate symbol '_OBJC_CLASS_$_HermesExecutorFactory'
 ```
@@ -360,6 +387,7 @@ duplicate symbol '_OBJC_CLASS_$_HermesExecutorFactory'
 Multiple Hermes versions or incorrect Podfile configuration.
 
 **Fix:**
+
 ```ruby
 # ios/Podfile
 use_react_native!(
@@ -379,6 +407,7 @@ pod install --repo-update
 ### 11. "NSUnknownKeyException"
 
 **Error:**
+
 ```
 NSUnknownKeyException: this class is not key value coding-compliant for the key 'reactViewTag'
 ```
@@ -406,6 +435,7 @@ RCTSetViewManager.m uses reactViewTag
 ### 12. Gradle build fails with "Cannot resolve symbol"
 
 **Error:**
+
 ```
 error: cannot find symbol: ReactInstanceManager
 error: package com.facebook.react.bridge does not exist
@@ -415,6 +445,7 @@ error: package com.facebook.react.bridge does not exist
 Missing New Architecture dependencies in `build.gradle`.
 
 **Fix:**
+
 ```gradle
 // android/app/build.gradle
 dependencies {
@@ -435,6 +466,7 @@ dependencies {
 ### 13. "Failed to load native library"
 
 **Error:**
+
 ```
 java.lang.UnsatisfiedLinkError: couldn't find libreactnativejni.so
 ```
@@ -443,6 +475,7 @@ java.lang.UnsatisfiedLinkError: couldn't find libreactnativejni.so
 Native libraries not built correctly for New Architecture.
 
 **Fix:**
+
 ```bash
 # Clean and rebuild
 cd android
@@ -475,6 +508,7 @@ When you encounter a New Architecture error:
 - [ ] **Try interop layer** (0.76-0.81 only) - May help with incompatible libraries
 - [ ] **Check GitHub issues** - Library may have known issues
 - [ ] **Try clean rebuild**:
+
   ```bash
   # iOS
   cd ios && rm -rf Pods Podfile.lock && pod install

@@ -1,11 +1,9 @@
 import { create } from 'zustand';
-import {
-	createJSONStorage,
-	persist,
-	type StateStorage,
-} from 'zustand/middleware';
-import { mmkvStorage } from './mmkvStorage';
+import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware';
+
 import { PokemonId } from '@/src/types';
+
+import { mmkvStorage } from './mmkvStorage';
 
 export interface SavedStoreState {
 	savedPokemons: PokemonId[];
@@ -47,15 +45,12 @@ export const useSavedStore = create<SavedStore>()(
 			partialize: state => ({
 				savedPokemons: state.savedPokemons,
 			}),
-		}
-	)
+		},
+	),
 );
 
-export const useSavedPokemons = () =>
-	useSavedStore(state => state.savedPokemons);
+export const useSavedPokemons = () => useSavedStore(state => state.savedPokemons);
 
-export const useToggleSavedPokemon = () =>
-	useSavedStore(state => state.toggleSavedPokemon);
+export const useToggleSavedPokemon = () => useSavedStore(state => state.toggleSavedPokemon);
 
-export const useClearSavedPokemons = () =>
-	useSavedStore(state => state.clearSavedPokemons);
+export const useClearSavedPokemons = () => useSavedStore(state => state.clearSavedPokemons);

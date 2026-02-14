@@ -12,7 +12,7 @@ function getStagedFiles() {
 	const output = execFileSync(
 		'git',
 		['diff', '--cached', '--name-only', '--diff-filter=ACMR', '-z'],
-		{ cwd: projectRoot }
+		{ cwd: projectRoot },
 	);
 
 	return output
@@ -26,11 +26,13 @@ function getStagedFiles() {
 const ignoredLintFiles = new Set([
 	'metro.config.js',
 	'babel.config.js',
+	'.eslintrc.js',
+	'.prettierrc.js',
 	'todos.js',
 	'uniwind-types.d.ts',
 ]);
 const stagedLintFiles = getStagedFiles().filter(
-	filePath => /\.(js|jsx|ts|tsx)$/.test(filePath) && !ignoredLintFiles.has(filePath)
+	filePath => /\.(js|jsx|ts|tsx)$/.test(filePath) && !ignoredLintFiles.has(filePath),
 );
 
 if (!stagedLintFiles.length) {

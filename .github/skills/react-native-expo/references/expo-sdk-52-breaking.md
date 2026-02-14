@@ -15,31 +15,35 @@
 JavaScriptCore (JSC) completely removed from Expo Go. Hermes is the only supported engine.
 
 **Before (SDK 51):**
+
 ```json
 // app.json
 {
-  "expo": {
-    "jsEngine": "jsc"  // ✅ Worked in Expo Go
-  }
+	"expo": {
+		"jsEngine": "jsc" // ✅ Worked in Expo Go
+	}
 }
 ```
 
 **After (SDK 52+):**
+
 ```json
 // app.json
 {
-  "expo": {
-    "jsEngine": "hermes"  // ✅ Only option in Expo Go
-  }
+	"expo": {
+		"jsEngine": "hermes" // ✅ Only option in Expo Go
+	}
 }
 ```
 
 **Impact:**
+
 - Cannot test JSC-specific code in Expo Go
 - Must use custom dev client if JSC is required
 - Most apps won't notice (Hermes is faster anyway)
 
 **Migration:**
+
 ```bash
 # If you need JSC for testing (rare):
 npx expo install expo-dev-client
@@ -54,11 +58,13 @@ npm run ios  # Uses custom dev client, not Expo Go
 Expo Go now requires New Architecture - legacy architecture unsupported.
 
 **Impact:**
+
 - All libraries in Expo Go must support New Architecture
 - Cannot test legacy-only libraries in Expo Go
 - Build-time errors if libraries aren't compatible
 
 **Migration:**
+
 ```bash
 # Check if libraries support New Architecture:
 # Search: "[library name] new architecture"
@@ -69,6 +75,7 @@ npm run ios
 ```
 
 **Common Incompatibilities:**
+
 - Old Redux (`redux` + `redux-thunk`) → Use Redux Toolkit
 - `i18n-js` → Use `react-i18next`
 - CodePush → Not yet supported
@@ -123,6 +130,7 @@ npm run android
 Expo Go shows warnings when using push notifications.
 
 **Warning Message:**
+
 ```
 ⚠️ Push notifications are not fully supported in Expo Go.
 Use a custom dev client for production testing.
@@ -166,11 +174,13 @@ const data = await response.json();
 Expo SDK 52 ships with React Navigation v7 by default.
 
 **Breaking Changes:**
+
 - Type safety improvements (may require updates)
 - New `useNavigationContainerRef` hook
 - Stricter TypeScript types
 
 **Migration:**
+
 ```bash
 npm install @react-navigation/native@^7.0.0
 ```
@@ -193,6 +203,7 @@ npx expo install --fix
 ```
 
 **New in 0.77:**
+
 - Swift iOS template (default for new projects)
 - CSS properties: `display: contents`, `mixBlendMode`, `outline`
 - Metro log forwarding removed
@@ -201,14 +212,14 @@ npx expo install --fix
 
 ## Expo Go Limitations (SDK 52+)
 
-| Feature | Expo Go | Custom Dev Client |
-|---------|---------|-------------------|
-| JSC Engine | ❌ No | ✅ Yes |
-| Legacy Architecture | ❌ No | ✅ Yes (0.76-0.81) |
-| Google Maps | ❌ No (SDK 53+) | ✅ Yes |
-| Push Notifications | ⚠️ Limited | ✅ Full support |
-| Custom Native Code | ❌ No | ✅ Yes |
-| CodePush | ❌ No | ⚠️ Limited (New Arch issues) |
+| Feature             | Expo Go         | Custom Dev Client            |
+| ------------------- | --------------- | ---------------------------- |
+| JSC Engine          | ❌ No           | ✅ Yes                       |
+| Legacy Architecture | ❌ No           | ✅ Yes (0.76-0.81)           |
+| Google Maps         | ❌ No (SDK 53+) | ✅ Yes                       |
+| Push Notifications  | ⚠️ Limited      | ✅ Full support              |
+| Custom Native Code  | ❌ No           | ✅ Yes                       |
+| CodePush            | ❌ No           | ⚠️ Limited (New Arch issues) |
 
 **Recommendation:** Use custom dev client for serious development.
 
@@ -240,11 +251,11 @@ npx expo install react-native@latest
 
 ```json
 {
-  "expo": {
-    "sdkVersion": "52.0.0",
-    "jsEngine": "hermes",  // Remove "jsc" if present
-    "newArchEnabled": true  // Required for Expo Go
-  }
+	"expo": {
+		"sdkVersion": "52.0.0",
+		"jsEngine": "hermes", // Remove "jsc" if present
+		"newArchEnabled": true // Required for Expo Go
+	}
 }
 ```
 
@@ -272,6 +283,7 @@ npx expo start
 ```
 
 **If you get errors:**
+
 - Check library compatibility
 - Consider using custom dev client
 
@@ -293,6 +305,7 @@ npm run android
 ### Error: "JSC not supported"
 
 **Message:**
+
 ```
 JavaScript engine 'jsc' is not supported in Expo Go
 ```
@@ -302,9 +315,9 @@ Remove `jsEngine` from app.json or set to "hermes":
 
 ```json
 {
-  "expo": {
-    "jsEngine": "hermes"
-  }
+	"expo": {
+		"jsEngine": "hermes"
+	}
 }
 ```
 
@@ -313,6 +326,7 @@ Remove `jsEngine` from app.json or set to "hermes":
 ### Error: "Library requires legacy architecture"
 
 **Message:**
+
 ```
 This library is not compatible with the New Architecture
 ```
@@ -320,11 +334,13 @@ This library is not compatible with the New Architecture
 **Fix:**
 
 **Option A:** Update library:
+
 ```bash
 npm update <library>@latest
 ```
 
 **Option B:** Use custom dev client (supports interop in RN 0.76-0.81):
+
 ```bash
 npx expo install expo-dev-client
 npm run ios
@@ -337,6 +353,7 @@ npm run ios
 ### Error: "Google Maps not found"
 
 **Message:**
+
 ```
 react-native-maps: Google Maps not available in Expo Go (SDK 53+)
 ```
@@ -361,36 +378,36 @@ For best experience, use this configuration:
 ```json
 // app.json
 {
-  "expo": {
-    "sdkVersion": "52.0.0",
-    "jsEngine": "hermes",
-    "newArchEnabled": true,
-    "plugins": [
-      "expo-router"  // Recommended for navigation
-    ],
-    "android": {
-      "minSdkVersion": 21,
-      "targetSdkVersion": 35  // Android 15
-    },
-    "ios": {
-      "minimumOsVersion": "13.4",
-      "requireFullScreen": false
-    }
-  }
+	"expo": {
+		"sdkVersion": "52.0.0",
+		"jsEngine": "hermes",
+		"newArchEnabled": true,
+		"plugins": [
+			"expo-router" // Recommended for navigation
+		],
+		"android": {
+			"minSdkVersion": 21,
+			"targetSdkVersion": 35 // Android 15
+		},
+		"ios": {
+			"minimumOsVersion": "13.4",
+			"requireFullScreen": false
+		}
+	}
 }
 ```
 
 ```json
 // package.json (recommended versions)
 {
-  "dependencies": {
-    "expo": "~52.0.0",
-    "react": "^19.1.0",
-    "react-native": "^0.76.0",
-    "@react-navigation/native": "^7.0.0",
-    "@reduxjs/toolkit": "^2.0.0",
-    "react-i18next": "^15.0.0"
-  }
+	"dependencies": {
+		"expo": "~52.0.0",
+		"react": "^19.1.0",
+		"react-native": "^0.76.0",
+		"@react-navigation/native": "^7.0.0",
+		"@reduxjs/toolkit": "^2.0.0",
+		"react-i18next": "^15.0.0"
+	}
 }
 ```
 

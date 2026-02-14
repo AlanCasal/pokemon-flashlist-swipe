@@ -10,6 +10,7 @@ Comprehensive performance optimization and best practices guide for Uniwind - th
 ## When to Apply
 
 Reference these guidelines when:
+
 - Setting up Uniwind in a new React Native project
 - Configuring Metro plugin and CSS entry points
 - Building theme systems with CSS variables
@@ -20,16 +21,16 @@ Reference these guidelines when:
 
 ## Rule Categories by Priority
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Build-Time Configuration | CRITICAL | `build-` |
-| 2 | Theme Architecture | CRITICAL | `theme-` |
-| 3 | Component Integration | HIGH | `comp-` |
-| 4 | Responsive Design | HIGH | `resp-` |
-| 5 | Performance Optimization | MEDIUM-HIGH | `perf-` |
-| 6 | Platform Patterns | MEDIUM | `plat-` |
-| 7 | State & Interaction | MEDIUM | `state-` |
-| 8 | Migration & Compatibility | LOW-MEDIUM | `compat-` |
+| Priority | Category                  | Impact      | Prefix    |
+| -------- | ------------------------- | ----------- | --------- |
+| 1        | Build-Time Configuration  | CRITICAL    | `build-`  |
+| 2        | Theme Architecture        | CRITICAL    | `theme-`  |
+| 3        | Component Integration     | HIGH        | `comp-`   |
+| 4        | Responsive Design         | HIGH        | `resp-`   |
+| 5        | Performance Optimization  | MEDIUM-HIGH | `perf-`   |
+| 6        | Platform Patterns         | MEDIUM      | `plat-`   |
+| 7        | State & Interaction       | MEDIUM      | `state-`  |
+| 8        | Migration & Compatibility | LOW-MEDIUM  | `compat-` |
 
 ## Quick Reference
 
@@ -57,7 +58,7 @@ Reference these guidelines when:
 - [`comp-with-uniwind`](references/comp-with-uniwind.md) - Use withUniwind for Third-Party Components
 - [`comp-module-level`](references/comp-module-level.md) - Define Wrapped Components at Module Level
 - [`comp-prop-mapping`](references/comp-prop-mapping.md) - Use Custom Prop Mappings for Non-Style Props
-- [`comp-accent-colors`](references/comp-accent-colors.md) - Use accent-* Classes for Color Prop Extraction
+- [`comp-accent-colors`](references/comp-accent-colors.md) - Use accent-\* Classes for Color Prop Extraction
 - [`comp-reanimated`](references/comp-reanimated.md) - Reanimated Components Work Without withUniwind
 - [`comp-custom-css`](references/comp-custom-css.md) - Use Custom CSS Classes for Complex Reusable Styles
 
@@ -100,7 +101,7 @@ Reference these guidelines when:
 - [`compat-tailwind-4-syntax`](references/compat-tailwind-4-syntax.md) - Use Tailwind 4 CSS-First Configuration
 - [`compat-rem-default`](references/compat-rem-default.md) - Account for Different rem Default Values
 - [`compat-cssinterop-replacement`](references/compat-cssinterop-replacement.md) - Replace cssInterop with withUniwind
-- [`compat-safe-area-changes`](references/compat-safe-area-changes.md) - Replace *-safe Classes with Safe Area Context
+- [`compat-safe-area-changes`](references/compat-safe-area-changes.md) - Replace \*-safe Classes with Safe Area Context
 
 ## How to Use
 
@@ -111,9 +112,9 @@ Read individual reference files for detailed explanations and code examples:
 
 ## Reference Files
 
-| File | Description |
-|------|-------------|
-| [AGENTS.md](AGENTS.md) | Complete compiled guide with all rules |
-| [references/_sections.md](references/_sections.md) | Category definitions and ordering |
-| [assets/templates/_template.md](assets/templates/_template.md) | Template for new rules |
-| [metadata.json](metadata.json) | Version and reference information |
+| File                                                            | Description                            |
+| --------------------------------------------------------------- | -------------------------------------- |
+| [AGENTS.md](AGENTS.md)                                          | Complete compiled guide with all rules |
+| [references/\_sections.md](references/_sections.md)             | Category definitions and ordering      |
+| [assets/templates/\_template.md](assets/templates/_template.md) | Template for new rules                 |
+| [metadata.json](metadata.json)                                  | Version and reference information      |

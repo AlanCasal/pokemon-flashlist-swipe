@@ -62,23 +62,23 @@ START: What type of project?
 
 ## Version Comparison Table
 
-| Feature | 0.72-0.75 | 0.76-0.81 | 0.82+ |
-|---------|-----------|-----------|-------|
-| **New Architecture** | Optional, opt-in | Default, can disable | **Mandatory** |
-| **Legacy Architecture** | Default | Frozen, deprecated | ❌ **Removed** |
-| **Interop Layer** | N/A | ✅ Available | ❌ Gone |
-| **React Version** | 18.x | 18.x / 19.x | 19.1+ |
-| **propTypes Support** | ✅ Yes | ✅ Yes (0.76-0.77) / ❌ No (0.78+) | ❌ **Removed** |
-| **forwardRef** | ✅ Required | ✅ Required (0.76-0.77) / ⚠️ Deprecated (0.78+) | ⚠️ **Deprecated** |
-| **iOS Template** | Objective-C | Objective-C (0.76) / Swift (0.77+) | Swift |
-| **JSC Engine** | ✅ Bundled | ✅ Bundled | ⚠️ Community package |
-| **Metro Logs** | ✅ Works | ✅ Works (0.76) / ❌ Removed (0.77+) | ❌ **Removed** |
-| **Chrome Debugger** | ✅ Works | ⚠️ Deprecated (0.79+) | ❌ **Removed** |
-| **CSS: display: contents** | ❌ No | ✅ Yes (0.77+) | ✅ Yes |
-| **CSS: mixBlendMode** | ❌ No | ✅ Yes (0.77+) | ✅ Yes |
-| **CSS: outline** | ❌ No | ✅ Yes (0.77+) | ✅ Yes |
-| **Android XML Drawables** | ❌ No | ✅ Yes (0.78+) | ✅ Yes |
-| **Deep Imports** | ✅ Works | ⚠️ Deprecated (0.80+) | ⚠️ **Deprecated** |
+| Feature                    | 0.72-0.75        | 0.76-0.81                                       | 0.82+                |
+| -------------------------- | ---------------- | ----------------------------------------------- | -------------------- |
+| **New Architecture**       | Optional, opt-in | Default, can disable                            | **Mandatory**        |
+| **Legacy Architecture**    | Default          | Frozen, deprecated                              | ❌ **Removed**       |
+| **Interop Layer**          | N/A              | ✅ Available                                    | ❌ Gone              |
+| **React Version**          | 18.x             | 18.x / 19.x                                     | 19.1+                |
+| **propTypes Support**      | ✅ Yes           | ✅ Yes (0.76-0.77) / ❌ No (0.78+)              | ❌ **Removed**       |
+| **forwardRef**             | ✅ Required      | ✅ Required (0.76-0.77) / ⚠️ Deprecated (0.78+) | ⚠️ **Deprecated**    |
+| **iOS Template**           | Objective-C      | Objective-C (0.76) / Swift (0.77+)              | Swift                |
+| **JSC Engine**             | ✅ Bundled       | ✅ Bundled                                      | ⚠️ Community package |
+| **Metro Logs**             | ✅ Works         | ✅ Works (0.76) / ❌ Removed (0.77+)            | ❌ **Removed**       |
+| **Chrome Debugger**        | ✅ Works         | ⚠️ Deprecated (0.79+)                           | ❌ **Removed**       |
+| **CSS: display: contents** | ❌ No            | ✅ Yes (0.77+)                                  | ✅ Yes               |
+| **CSS: mixBlendMode**      | ❌ No            | ✅ Yes (0.77+)                                  | ✅ Yes               |
+| **CSS: outline**           | ❌ No            | ✅ Yes (0.77+)                                  | ✅ Yes               |
+| **Android XML Drawables**  | ❌ No            | ✅ Yes (0.78+)                                  | ✅ Yes               |
+| **Deep Imports**           | ✅ Works         | ⚠️ Deprecated (0.80+)                           | ⚠️ **Deprecated**    |
 
 ---
 
@@ -87,24 +87,28 @@ START: What type of project?
 ### React Native 0.82+ (Latest)
 
 **Choose this if:**
+
 - ✅ Starting a new project
 - ✅ All dependencies support New Architecture
 - ✅ Want latest features and performance
 - ✅ Ready for React 19 migration
 
 **Pros:**
+
 - Fastest performance (Hermes V1 experimental)
 - Latest CSS properties
 - Active support and updates
 - No legacy baggage
 
 **Cons:**
+
 - New Architecture mandatory (can't disable)
 - Some libraries may not be compatible yet
 - React 19 breaking changes (propTypes removed)
 - Steeper migration if coming from old version
 
 **Best for:**
+
 - New projects
 - Apps with modern dependencies
 - Teams comfortable with bleeding edge
@@ -114,24 +118,28 @@ START: What type of project?
 ### React Native 0.76-0.81 (Transition)
 
 **Choose this if:**
+
 - ✅ Migrating from 0.75 or earlier
 - ✅ Need interop layer during migration
 - ✅ Have some incompatible dependencies
 - ✅ Want time to test New Architecture
 
 **Pros:**
+
 - Interop layer helps migration
 - Can disable New Architecture (if needed)
 - Access to new CSS features (0.77+)
 - Time to fix dependency issues
 
 **Cons:**
+
 - Legacy architecture frozen (no updates)
 - Short support window (transitional release)
 - Will need to upgrade to 0.82+ eventually
 - Missing some latest features
 
 **Best for:**
+
 - Migration projects
 - Large codebases with many dependencies
 - Teams needing gradual migration path
@@ -143,22 +151,26 @@ START: What type of project?
 ### React Native 0.72-0.75 (Legacy)
 
 **Choose this if:**
+
 - ⚠️ Stuck with incompatible dependencies
 - ⚠️ Cannot migrate to New Architecture yet
 - ⚠️ Need stable version for critical app
 
 **Pros:**
+
 - Mature, stable
 - Most libraries compatible
 - Well-documented issues
 
 **Cons:**
+
 - Legacy architecture (deprecated)
 - Missing new features
 - Security/bug fixes only (no new features)
 - End of life approaching
 
 **Best for:**
+
 - Maintaining old apps
 - Very short-term only
 
@@ -234,6 +246,7 @@ npm run android
 ### Path 3: Skip Migration (Use 0.82 Immediately)
 
 **⚠️ Only if:**
+
 - New project OR
 - Already on 0.76+ with New Architecture enabled
 
@@ -270,25 +283,30 @@ Use this script to check your project:
 ## Decision Helper: Questions to Ask
 
 **Q1: Is this a new project?**
+
 - YES → **Use 0.82+**
 - NO → Continue to Q2
 
 **Q2: What React Native version are you on now?**
+
 - 0.75 or earlier → **Upgrade to 0.76-0.81 first**
 - 0.76-0.81 → Continue to Q3
 - 0.82+ → **You're already current**
 
 **Q3: Do you have any of these dependencies?**
+
 - `redux` + `redux-thunk` (not Redux Toolkit)
 - `i18n-js`
 - `react-native-code-push`
 - Other libraries without New Architecture support
 
 **If YES:**
+
 - Can you replace them? → **Replace, then upgrade to 0.82+**
 - Cannot replace? → **Stay on 0.76-0.81 temporarily, find alternatives**
 
 **Q4: Are you using Expo?**
+
 - YES, Expo Go → **Must use 0.76+ (New Architecture required)**
 - YES, custom dev client → **Can use 0.76-0.81 or 0.82+**
 - NO (bare React Native) → **Choose based on Q1-Q3**
@@ -297,15 +315,15 @@ Use this script to check your project:
 
 ## Summary Recommendations
 
-| Scenario | Recommended Version | Notes |
-|----------|-------------------|-------|
-| **New project** | 0.82+ | Start with latest, no migration needed |
-| **Migration from 0.75-** | 0.76-0.81 → 0.82+ | Two-step migration with interop layer |
-| **Already on 0.76-0.81** | Upgrade to 0.82+ | Test thoroughly, fix dependencies |
-| **Incompatible deps** | 0.76-0.81 (temporary) | Replace deps, plan migration |
-| **Expo Go** | 0.76+ (SDK 52+) | New Architecture required |
-| **Production app** | 0.82+ | Best performance, active support |
-| **Legacy app (no migration)** | 0.72-0.75 | Only if absolutely necessary |
+| Scenario                      | Recommended Version   | Notes                                  |
+| ----------------------------- | --------------------- | -------------------------------------- |
+| **New project**               | 0.82+                 | Start with latest, no migration needed |
+| **Migration from 0.75-**      | 0.76-0.81 → 0.82+     | Two-step migration with interop layer  |
+| **Already on 0.76-0.81**      | Upgrade to 0.82+      | Test thoroughly, fix dependencies      |
+| **Incompatible deps**         | 0.76-0.81 (temporary) | Replace deps, plan migration           |
+| **Expo Go**                   | 0.76+ (SDK 52+)       | New Architecture required              |
+| **Production app**            | 0.82+                 | Best performance, active support       |
+| **Legacy app (no migration)** | 0.72-0.75             | Only if absolutely necessary           |
 
 ---
 

@@ -65,7 +65,7 @@ import { Button } from './components';
 // JavaScript must evaluate:
 // - Button.tsx
 // - Card.tsx
-// - Modal.tsx  
+// - Modal.tsx
 // - Sidebar.tsx
 // Even though you only use Button
 ```
@@ -105,12 +105,12 @@ npm install -D eslint-plugin-no-barrel-files
 import noBarrelFiles from 'eslint-plugin-no-barrel-files';
 
 export default [
-  {
-    plugins: { 'no-barrel-files': noBarrelFiles },
-    rules: {
-      'no-barrel-files/no-barrel-files': 'error',
-    },
-  },
+	{
+		plugins: { 'no-barrel-files': noBarrelFiles },
+		rules: {
+			'no-barrel-files/no-barrel-files': 'error',
+		},
+	},
 ];
 ```
 
@@ -126,9 +126,9 @@ const { getDefaultConfig } = require('expo/metro-config');
 const config = getDefaultConfig(__dirname);
 
 config.transformer.getTransformOptions = async () => ({
-  transform: {
-    experimentalImportSupport: true,
-  },
+	transform: {
+		experimentalImportSupport: true,
+	},
 });
 
 module.exports = config;
@@ -171,13 +171,14 @@ Some libraries provide Babel plugins:
 ```javascript
 // babel.config.js
 module.exports = {
-  plugins: [
-    'react-native-paper/babel',  // Auto-transforms imports
-  ],
+	plugins: [
+		'react-native-paper/babel', // Auto-transforms imports
+	],
 };
 ```
 
 Transforms:
+
 ```tsx
 import { Button } from 'react-native-paper';
 // Into:

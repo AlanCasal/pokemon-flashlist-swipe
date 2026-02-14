@@ -36,6 +36,7 @@ npx react-native start --reset-cache
 - Modifying custom breakpoints
 
 **Debug tip:** If themes don't appear after restart, verify:
+
 1. Theme is registered in `extraThemes`
 2. Theme has `@variant` block in CSS
 3. All themes define the same CSS variables

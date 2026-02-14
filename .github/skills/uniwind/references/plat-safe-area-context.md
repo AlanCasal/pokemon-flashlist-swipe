@@ -13,58 +13,59 @@ Uniwind doesn't support `*-safe` utility classes. Use `react-native-safe-area-co
 
 ```tsx
 // These classes don't work in Uniwind!
-<View className="pt-safe pb-safe">
-  Content that avoids notches
-</View>
+<View className='pt-safe pb-safe'>Content that avoids notches</View>
 ```
 
 **Correct (safe area context):**
 
 ```tsx
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 function Screen() {
-  const insets = useSafeAreaInsets()
+	const insets = useSafeAreaInsets();
 
-  return (
-    <View
-      className="flex-1 bg-background"
-      style={{
-        paddingTop: insets.top,
-        paddingBottom: insets.bottom,
-      }}
-    >
-      <Text>Safe content</Text>
-    </View>
-  )
+	return (
+		<View
+			className='flex-1 bg-background'
+			style={{
+				paddingTop: insets.top,
+				paddingBottom: insets.bottom,
+			}}
+		>
+			<Text>Safe content</Text>
+		</View>
+	);
 }
 ```
 
 **Alternative (SafeAreaView component):**
 
 ```tsx
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 function Screen() {
-  return (
-    <SafeAreaView className="flex-1 bg-background" edges={['top', 'bottom']}>
-      <Text>Safe content</Text>
-    </SafeAreaView>
-  )
+	return (
+		<SafeAreaView
+			className='flex-1 bg-background'
+			edges={['top', 'bottom']}
+		>
+			<Text>Safe content</Text>
+		</SafeAreaView>
+	);
 }
 ```
 
 **App setup required:**
 
 ```tsx
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 function App() {
-  return (
-    <SafeAreaProvider>
-      <RootNavigator />
-    </SafeAreaProvider>
-  )
+	return (
+		<SafeAreaProvider>
+			<RootNavigator />
+		</SafeAreaProvider>
+	);
 }
 ```
 

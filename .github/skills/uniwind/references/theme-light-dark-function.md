@@ -13,17 +13,17 @@ The CSS `light-dark()` function automatically selects values based on the active
 
 ```css
 @layer theme {
-  :root {
-    @variant light {
-      --color-surface: #ffffff;
-      --color-border: #e5e7eb;
-    }
+	:root {
+		@variant light {
+			--color-surface: #ffffff;
+			--color-border: #e5e7eb;
+		}
 
-    @variant dark {
-      --color-surface: #1f2937;
-      --color-border: #374151;
-    }
-  }
+		@variant dark {
+			--color-surface: #1f2937;
+			--color-border: #374151;
+		}
+	}
 }
 ```
 
@@ -31,21 +31,20 @@ The CSS `light-dark()` function automatically selects values based on the active
 
 ```css
 @theme {
-  --color-surface: light-dark(#ffffff, #1f2937);
-  --color-border: light-dark(#e5e7eb, #374151);
-  --color-shadow: light-dark(
-    rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.5)
-  );
+	--color-surface: light-dark(#ffffff, #1f2937);
+	--color-border: light-dark(#e5e7eb, #374151);
+	--color-shadow: light-dark(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5));
 }
 ```
 
 **When to use light-dark():**
+
 - Simple two-theme setups (light/dark only)
 - Reducing CSS duplication
 - Inline adaptive values
 
 **When to use @variant blocks:**
+
 - More than two themes
 - Complex theme-specific logic
 - Different variable sets per theme

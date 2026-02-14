@@ -5,11 +5,11 @@ impactDescription: correctly extracts color values for non-style props
 tags: comp, accent, color, extraction
 ---
 
-## Use accent-* Classes for Color Prop Extraction
+## Use accent-\* Classes for Color Prop Extraction
 
 When extracting color values for props (not styles), use `accent-*` prefixed classes. Standard `text-*` or `bg-*` classes won't work for value extraction.
 
-**Incorrect (using text-* for color extraction):**
+**Incorrect (using text-\* for color extraction):**
 
 ```tsx
 const StyledIcon = withUniwind(Icon, {
@@ -23,7 +23,7 @@ const StyledIcon = withUniwind(Icon, {
 <StyledIcon name="heart" colorClassName="text-primary" />
 ```
 
-**Correct (using accent-* for extraction):**
+**Correct (using accent-\* for extraction):**
 
 ```tsx
 const StyledIcon = withUniwind(Icon, {
@@ -41,21 +41,21 @@ const StyledIcon = withUniwind(Icon, {
 
 ```tsx
 export const SvgIcon = withUniwind(BaseSvgIcon, {
-  stroke: {
-    fromClassName: 'strokeClassName',
-    styleProperty: 'accentColor',
-  },
-  fill: {
-    fromClassName: 'fillClassName',
-    styleProperty: 'accentColor',
-  },
-})
+	stroke: {
+		fromClassName: 'strokeClassName',
+		styleProperty: 'accentColor',
+	},
+	fill: {
+		fromClassName: 'fillClassName',
+		styleProperty: 'accentColor',
+	},
+});
 ```
 
 ```tsx
 <SvgIcon
-  strokeClassName="accent-foreground"
-  fillClassName="accent-primary"
+	strokeClassName='accent-foreground'
+	fillClassName='accent-primary'
 />
 ```
 

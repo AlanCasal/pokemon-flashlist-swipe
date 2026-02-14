@@ -66,15 +66,18 @@ Identify unnecessary re-renders and performance bottlenecks in React Native apps
 The flame graph shows component render hierarchy with timing:
 
 **Color indicators:**
+
 - **Yellow components**: Most time spent rendering (focus here)
 - **Green components**: Fast/memoized
 - **Gray components**: Did not render
 
 **Right panel shows "Why did this render?":**
+
 - Props changed (shows which prop, e.g., `children`, `onPress`)
 - Rendered at timestamps with duration (e.g., "3.7s for 0.9ms")
 
 **Click on a component to see:**
+
 - Why it rendered (hook change, props change, parent re-render)
 - Render duration
 - Child components affected
@@ -99,21 +102,24 @@ For non-React performance issues:
 
 ```jsx
 const App = () => {
-  const [count, setCount] = useState(0);
-  
-  return (
-    <View>
-      <Text>{count}</Text>
-      {/* Button re-renders on every count change */}
-      <Button onPress={() => setCount(count + 1)} title="Press" />
-    </View>
-  );
+	const [count, setCount] = useState(0);
+
+	return (
+		<View>
+			<Text>{count}</Text>
+			{/* Button re-renders on every count change */}
+			<Button
+				onPress={() => setCount(count + 1)}
+				title='Press'
+			/>
+		</View>
+	);
 };
 
-const Button = ({onPress, title}) => (
-  <Pressable onPress={onPress}>
-    <Text>{title}</Text>
-  </Pressable>
+const Button = ({ onPress, title }) => (
+	<Pressable onPress={onPress}>
+		<Text>{title}</Text>
+	</Pressable>
 );
 ```
 
@@ -121,32 +127,35 @@ const Button = ({onPress, title}) => (
 
 ```jsx
 const App = () => {
-  const [count, setCount] = useState(0);
-  const onPressHandler = useCallback(() => setCount(c => c + 1), []);
-  
-  return (
-    <View>
-      <Text>{count}</Text>
-      <Button onPress={onPressHandler} title="Press" />
-    </View>
-  );
+	const [count, setCount] = useState(0);
+	const onPressHandler = useCallback(() => setCount(c => c + 1), []);
+
+	return (
+		<View>
+			<Text>{count}</Text>
+			<Button
+				onPress={onPressHandler}
+				title='Press'
+			/>
+		</View>
+	);
 };
 
-const Button = memo(({onPress, title}) => (
-  <Pressable onPress={onPress}>
-    <Text>{title}</Text>
-  </Pressable>
+const Button = memo(({ onPress, title }) => (
+	<Pressable onPress={onPress}>
+		<Text>{title}</Text>
+	</Pressable>
 ));
 ```
 
 ## Interpreting Results
 
-| Symptom | Likely Cause | Solution |
-|---------|--------------|----------|
-| Many yellow components | Cascading re-renders | Add memoization or use React Compiler |
-| "Props changed" on callbacks | Inline functions recreated | Use `useCallback` |
-| "Parent component rendered" | State too high in tree | Move state down or use atomic state |
-| Long JS thread block | Heavy computation | Move to background or use `useDeferredValue` |
+| Symptom                      | Likely Cause               | Solution                                     |
+| ---------------------------- | -------------------------- | -------------------------------------------- |
+| Many yellow components       | Cascading re-renders       | Add memoization or use React Compiler        |
+| "Props changed" on callbacks | Inline functions recreated | Use `useCallback`                            |
+| "Parent component rendered"  | State too high in tree     | Move state down or use atomic state          |
+| Long JS thread block         | Heavy computation          | Move to background or use `useDeferredValue` |
 
 ## Common Pitfalls
 

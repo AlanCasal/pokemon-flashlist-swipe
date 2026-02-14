@@ -13,8 +13,8 @@ React Native doesn't support font fallbacks. Specify only the exact font file na
 
 ```css
 @theme {
-  --font-family-sans: 'Inter', 'Helvetica', 'Arial', sans-serif;
-  /* React Native will fail to find this font! */
+	--font-family-sans: 'Inter', 'Helvetica', 'Arial', sans-serif;
+	/* React Native will fail to find this font! */
 }
 ```
 
@@ -22,10 +22,10 @@ React Native doesn't support font fallbacks. Specify only the exact font file na
 
 ```css
 @theme {
-  --font-family-sans: 'Inter-Regular';
-  --font-family-sans-medium: 'Inter-Medium';
-  --font-family-sans-bold: 'Inter-Bold';
-  --font-family-mono: 'FiraCode-Regular';
+	--font-family-sans: 'Inter-Regular';
+	--font-family-sans-medium: 'Inter-Medium';
+	--font-family-sans-bold: 'Inter-Bold';
+	--font-family-mono: 'FiraCode-Regular';
 }
 ```
 
@@ -33,11 +33,11 @@ React Native doesn't support font fallbacks. Specify only the exact font file na
 
 ```css
 @theme {
-  /* Map Tailwind weights to font files */
-  --font-weight-normal: 'Inter-Regular';
-  --font-weight-medium: 'Inter-Medium';
-  --font-weight-semibold: 'Inter-SemiBold';
-  --font-weight-bold: 'Inter-Bold';
+	/* Map Tailwind weights to font files */
+	--font-weight-normal: 'Inter-Regular';
+	--font-weight-medium: 'Inter-Medium';
+	--font-weight-semibold: 'Inter-SemiBold';
+	--font-weight-bold: 'Inter-Bold';
 }
 ```
 
@@ -53,16 +53,16 @@ React Native doesn't support font fallbacks. Specify only the exact font file na
 **Loading fonts with Expo:**
 
 ```tsx
-import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter'
+import { useFonts, Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 
 function App() {
-  const [fontsLoaded] = useFonts({
-    'Inter-Regular': Inter_400Regular,
-    'Inter-Medium': Inter_500Medium,
-  })
+	const [fontsLoaded] = useFonts({
+		'Inter-Regular': Inter_400Regular,
+		'Inter-Medium': Inter_500Medium,
+	});
 
-  if (!fontsLoaded) return null
-  return <RootNavigator />
+	if (!fontsLoaded) return null;
+	return <RootNavigator />;
 }
 ```
 

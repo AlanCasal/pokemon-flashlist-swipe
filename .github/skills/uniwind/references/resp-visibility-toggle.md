@@ -13,13 +13,9 @@ Toggle element visibility across breakpoints using `hidden` and display utilitie
 
 ```tsx
 function Header() {
-  const isDesktop = useMediaQuery('(min-width: 1024px)')
+	const isDesktop = useMediaQuery('(min-width: 1024px)');
 
-  return (
-    <View>
-      {isDesktop ? <DesktopNav /> : <MobileMenu />}
-    </View>
-  )
+	return <View>{isDesktop ? <DesktopNav /> : <MobileMenu />}</View>;
 }
 ```
 
@@ -27,21 +23,21 @@ function Header() {
 
 ```tsx
 function Header() {
-  return (
-    <View className="flex-row items-center justify-between">
-      {/* Mobile menu - visible on mobile, hidden on desktop */}
-      <Pressable className="flex lg:hidden">
-        <MenuIcon />
-      </Pressable>
+	return (
+		<View className='flex-row items-center justify-between'>
+			{/* Mobile menu - visible on mobile, hidden on desktop */}
+			<Pressable className='flex lg:hidden'>
+				<MenuIcon />
+			</Pressable>
 
-      {/* Desktop nav - hidden on mobile, visible on desktop */}
-      <View className="hidden lg:flex flex-row gap-4">
-        <NavLink>Home</NavLink>
-        <NavLink>About</NavLink>
-        <NavLink>Contact</NavLink>
-      </View>
-    </View>
-  )
+			{/* Desktop nav - hidden on mobile, visible on desktop */}
+			<View className='hidden lg:flex flex-row gap-4'>
+				<NavLink>Home</NavLink>
+				<NavLink>About</NavLink>
+				<NavLink>Contact</NavLink>
+			</View>
+		</View>
+	);
 }
 ```
 

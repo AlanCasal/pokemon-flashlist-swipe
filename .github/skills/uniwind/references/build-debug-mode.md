@@ -14,9 +14,9 @@ Debug mode logs warnings for unsupported CSS properties and invalid classNames. 
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  // Web-specific CSS silently ignored, no feedback
-})
+	cssEntryFile: './src/global.css',
+	// Web-specific CSS silently ignored, no feedback
+});
 ```
 
 **Correct (debug enabled in development):**
@@ -24,9 +24,9 @@ module.exports = withUniwindConfig(config, {
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  debug: __DEV__,  // Only in development
-})
+	cssEntryFile: './src/global.css',
+	debug: __DEV__, // Only in development
+});
 ```
 
 **What debug mode catches:**

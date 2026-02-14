@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import CustomTab from './CustomTab';
 
 const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
@@ -31,8 +32,7 @@ const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 						canPreventDefault: true,
 					});
 
-					if (!isFocused && !event.defaultPrevented)
-						navigation.navigate(route.name, route.params);
+					if (!isFocused && !event.defaultPrevented) navigation.navigate(route.name, route.params);
 				};
 
 				return (

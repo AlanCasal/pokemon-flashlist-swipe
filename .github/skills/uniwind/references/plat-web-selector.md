@@ -1,5 +1,5 @@
 ---
-title: "Use web: Selector for Cross-Platform Apps"
+title: 'Use web: Selector for Cross-Platform Apps'
 impact: MEDIUM
 impactDescription: enables web-specific styles without affecting native
 tags: plat, web, cross-platform, expo-web
@@ -13,20 +13,20 @@ For apps targeting both native and web (Expo Web, React Native Web), use `web:` 
 
 ```tsx
 // cursor and hover apply to native where they do nothing
-<Pressable className="cursor-pointer hover:bg-gray-100">
-  Click me
-</Pressable>
+<Pressable className='cursor-pointer hover:bg-gray-100'>Click me</Pressable>
 ```
 
 **Correct (platform-specific):**
 
 ```tsx
-<Pressable className="
+<Pressable
+	className='
   active:bg-gray-100
   web:cursor-pointer
   web:hover:bg-gray-100
-">
-  Click me
+'
+>
+	Click me
 </Pressable>
 ```
 

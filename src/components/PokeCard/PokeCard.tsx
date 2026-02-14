@@ -1,19 +1,16 @@
-import { TouchableOpacity, View, Text } from 'react-native';
-import { useState } from 'react';
-import { MotiView } from 'moti';
-import PokemonImage from './Image';
+import Dots from '@assets/images/dots-big.svg';
 import { typeBgColors } from '@constants/colors';
-import Info from './Info';
-import { Link } from 'expo-router';
-import sharedStyles, {
-	ACTIVE_OPACITY,
-	CARDS_GAP,
-	POKE_CARD_HEIGHT,
-} from '@constants/sharedStyles';
+import sharedStyles, { ACTIVE_OPACITY, CARDS_GAP, POKE_CARD_HEIGHT } from '@constants/sharedStyles';
+import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
-import usePokemonDetails from '@hooks/usePokemonDetails';
-import Dots from '@assets/images/dots-big.svg';
+import { Link } from 'expo-router';
+import { MotiView } from 'moti';
+import { useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+
+import PokemonImage from './Image';
+import Info from './Info';
 
 const FADE_DURATION = 300;
 
@@ -31,9 +28,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 	const isSaved = savedPokemons.includes(pokemon?.name ?? '');
 
 	if (isLoading || !pokemon) {
-		return (
-			<View style={{ height: POKE_CARD_HEIGHT, marginVertical: CARDS_GAP }} />
-		);
+		return <View style={{ height: POKE_CARD_HEIGHT, marginVertical: CARDS_GAP }} />;
 	}
 
 	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;

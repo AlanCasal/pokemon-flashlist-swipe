@@ -11,6 +11,7 @@
 React Native 0.77+ added several CSS properties previously only available on web. These bring React Native styling closer to web CSS parity.
 
 **Requirements:**
+
 - React Native 0.77+
 - **New Architecture enabled** (these properties only work with Fabric)
 
@@ -19,9 +20,11 @@ React Native 0.77+ added several CSS properties previously only available on web
 ## 1. `display: contents`
 
 ### What It Does
+
 Makes an element "invisible" in the layout tree, but keeps its children.
 
 ### Use Case
+
 Wrapper components that shouldn't affect layout hierarchy.
 
 ### Example
@@ -90,9 +93,11 @@ function ConditionalWrapper({ condition, wrapper, children }) {
 ## 2. `boxSizing`
 
 ### What It Does
+
 Controls whether padding and border are included in width/height calculations.
 
 ### Values
+
 - `border-box` (default) - Padding/border inside the box
 - `content-box` - Padding/border outside the box
 
@@ -160,27 +165,28 @@ content-box:
 ## 3. `mixBlendMode` + `isolation`
 
 ### What It Does
+
 Blends colors like Photoshop layer blend modes.
 
 ### Available Modes (16 total)
 
-| Mode | Effect |
-|------|--------|
-| `multiply` | Darkens (like overlaying inks) |
-| `screen` | Lightens (like projecting light) |
-| `overlay` | Contrast boost |
-| `darken` | Keeps darkest colors |
-| `lighten` | Keeps lightest colors |
-| `color-dodge` | Brightens by reducing contrast |
-| `color-burn` | Darkens by increasing contrast |
-| `hard-light` | Strong overlay |
-| `soft-light` | Gentle overlay |
-| `difference` | Inverts based on difference |
-| `exclusion` | Like difference but lower contrast |
-| `hue` | Uses hue of top layer |
-| `saturation` | Uses saturation of top layer |
-| `color` | Uses hue+saturation of top layer |
-| `luminosity` | Uses luminosity of top layer |
+| Mode          | Effect                             |
+| ------------- | ---------------------------------- |
+| `multiply`    | Darkens (like overlaying inks)     |
+| `screen`      | Lightens (like projecting light)   |
+| `overlay`     | Contrast boost                     |
+| `darken`      | Keeps darkest colors               |
+| `lighten`     | Keeps lightest colors              |
+| `color-dodge` | Brightens by reducing contrast     |
+| `color-burn`  | Darkens by increasing contrast     |
+| `hard-light`  | Strong overlay                     |
+| `soft-light`  | Gentle overlay                     |
+| `difference`  | Inverts based on difference        |
+| `exclusion`   | Like difference but lower contrast |
+| `hue`         | Uses hue of top layer              |
+| `saturation`  | Uses saturation of top layer       |
+| `color`       | Uses hue+saturation of top layer   |
+| `luminosity`  | Uses luminosity of top layer       |
 
 ### Examples
 
@@ -271,16 +277,17 @@ function GlowButton({ title, onPress }) {
 ## 4. `outline` Properties
 
 ### What It Does
+
 Draws an outline that doesn't affect layout (unlike `border`).
 
 ### Properties
 
 ```typescript
-outlineWidth: number      // Thickness (default: 0)
-outlineStyle: string      // 'solid' | 'dashed' | 'dotted'
-outlineColor: string      // Color (default: black)
-outlineOffset: number     // Space between element and outline (default: 0)
-outlineSpread: number     // Expand outline beyond offset (default: 0)
+outlineWidth: number; // Thickness (default: 0)
+outlineStyle: string; // 'solid' | 'dashed' | 'dotted'
+outlineColor: string; // Color (default: black)
+outlineOffset: number; // Space between element and outline (default: 0)
+outlineSpread: number; // Expand outline beyond offset (default: 0)
 ```
 
 ### Example
@@ -323,10 +330,10 @@ With outline (doesn't affect layout):
 
 ### `outline` vs `border`
 
-| Property | Affects Layout? | Use Case |
-|----------|----------------|----------|
-| `border` | ✅ Yes (increases size) | Actual borders, dividers |
-| `outline` | ❌ No (drawn on top) | Focus indicators, highlights |
+| Property  | Affects Layout?         | Use Case                     |
+| --------- | ----------------------- | ---------------------------- |
+| `border`  | ✅ Yes (increases size) | Actual borders, dividers     |
+| `outline` | ❌ No (drawn on top)    | Focus indicators, highlights |
 
 ### Real-World Use: Focus Indicator
 
@@ -453,12 +460,12 @@ function ProductCard({ product, onPress, focused }) {
 
 These CSS properties work **identically** to their web counterparts, making React Native styling more consistent with React (web) development.
 
-| Property | Web Support | React Native Support |
-|----------|-------------|---------------------|
+| Property            | Web Support        | React Native Support   |
+| ------------------- | ------------------ | ---------------------- |
 | `display: contents` | ✅ Modern browsers | ✅ RN 0.77+ (New Arch) |
-| `boxSizing` | ✅ All browsers | ✅ RN 0.77+ (New Arch) |
-| `mixBlendMode` | ✅ Modern browsers | ✅ RN 0.77+ (New Arch) |
-| `outline` | ✅ All browsers | ✅ RN 0.77+ (New Arch) |
+| `boxSizing`         | ✅ All browsers    | ✅ RN 0.77+ (New Arch) |
+| `mixBlendMode`      | ✅ Modern browsers | ✅ RN 0.77+ (New Arch) |
+| `outline`           | ✅ All browsers    | ✅ RN 0.77+ (New Arch) |
 
 ---
 
@@ -473,13 +480,13 @@ These CSS properties work **identically** to their web counterparts, making Reac
 
 ## Quick Reference Table
 
-| Property | Effect | Layout Impact | Use Case |
-|----------|--------|---------------|----------|
-| `display: contents` | Makes wrapper invisible | ✅ Affects | Remove wrapper from layout tree |
-| `boxSizing` | Changes size calculation | ✅ Affects | Control padding/border sizing |
-| `mixBlendMode` | Blends colors | ❌ None | Visual effects, overlays |
-| `isolation` | Contains blend effects | ❌ Minor | Prevent blend propagation |
-| `outline` | Draws outline | ❌ None | Focus indicators, highlights |
+| Property            | Effect                   | Layout Impact | Use Case                        |
+| ------------------- | ------------------------ | ------------- | ------------------------------- |
+| `display: contents` | Makes wrapper invisible  | ✅ Affects    | Remove wrapper from layout tree |
+| `boxSizing`         | Changes size calculation | ✅ Affects    | Control padding/border sizing   |
+| `mixBlendMode`      | Blends colors            | ❌ None       | Visual effects, overlays        |
+| `isolation`         | Contains blend effects   | ❌ Minor      | Prevent blend propagation       |
+| `outline`           | Draws outline            | ❌ None       | Focus indicators, highlights    |
 
 ---
 

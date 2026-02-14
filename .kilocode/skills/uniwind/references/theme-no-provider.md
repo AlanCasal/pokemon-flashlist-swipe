@@ -12,16 +12,16 @@ Uniwind handles themes via CSS variables, not React context. Remove NativeWind's
 **Incorrect (keeping NativeWind's ThemeProvider):**
 
 ```tsx
-import { ThemeProvider } from 'nativewind'
+import { ThemeProvider } from 'nativewind';
 
 export default function App() {
-  return (
-    <ThemeProvider value={{ colorScheme: 'dark' }}>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
-    </ThemeProvider>
-  )
+	return (
+		<ThemeProvider value={{ colorScheme: 'dark' }}>
+			<NavigationContainer>
+				<RootNavigator />
+			</NavigationContainer>
+		</ThemeProvider>
+	);
 }
 ```
 
@@ -29,26 +29,26 @@ export default function App() {
 
 ```tsx
 export default function App() {
-  return (
-    <NavigationContainer>
-      <RootNavigator />
-    </NavigationContainer>
-  )
+	return (
+		<NavigationContainer>
+			<RootNavigator />
+		</NavigationContainer>
+	);
 }
 ```
 
 **Switch themes programmatically:**
 
 ```typescript
-import { Uniwind } from 'uniwind'
-import { useColorScheme } from 'react-native'
+import { Uniwind } from 'uniwind';
+import { useColorScheme } from 'react-native';
 
 function useSystemTheme() {
-  const colorScheme = useColorScheme()
+	const colorScheme = useColorScheme();
 
-  useEffect(() => {
-    Uniwind.setTheme(colorScheme ?? 'light')
-  }, [colorScheme])
+	useEffect(() => {
+		Uniwind.setTheme(colorScheme ?? 'light');
+	}, [colorScheme]);
 }
 ```
 

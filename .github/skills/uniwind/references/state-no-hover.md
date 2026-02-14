@@ -1,5 +1,5 @@
 ---
-title: "Avoid hover: on Native - Use active: Instead"
+title: 'Avoid hover: on Native - Use active: Instead'
 impact: MEDIUM
 impactDescription: prevents unused styles and reduces bundle size
 tags: state, hover, active, touch, mobile
@@ -13,20 +13,22 @@ Mobile devices don't have hover states. Use `active:` for touch feedback on nati
 
 ```tsx
 // hover: is ignored on iOS/Android
-<Pressable className="bg-primary hover:bg-primary/80">
-  <Text>Button</Text>
+<Pressable className='bg-primary hover:bg-primary/80'>
+	<Text>Button</Text>
 </Pressable>
 ```
 
 **Correct (platform-appropriate states):**
 
 ```tsx
-<Pressable className="
+<Pressable
+	className='
   bg-primary
   active:bg-primary/80
   web:hover:bg-primary/80
-">
-  <Text>Button</Text>
+'
+>
+	<Text>Button</Text>
 </Pressable>
 ```
 
@@ -34,8 +36,9 @@ Mobile devices don't have hover states. Use `active:` for touch feedback on nati
 
 ```tsx
 function InteractiveCard() {
-  return (
-    <Pressable className="
+	return (
+		<Pressable
+			className='
       bg-card rounded-xl p-4
       active:bg-card/90
       active:scale-98
@@ -43,14 +46,16 @@ function InteractiveCard() {
       web:hover:shadow-lg
       web:cursor-pointer
       focus:ring-2 focus:ring-primary
-    ">
-      <Text>Interactive content</Text>
-    </Pressable>
-  )
+    '
+		>
+			<Text>Interactive content</Text>
+		</Pressable>
+	);
 }
 ```
 
 **Ignored pseudo-classes on native:**
+
 - `hover:`
 - `visited:`
 - Web-specific cursor states

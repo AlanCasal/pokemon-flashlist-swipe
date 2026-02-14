@@ -13,22 +13,20 @@ Use className for styling whenever possible. Inline style props bypass build-tim
 
 ```tsx
 function Card() {
-  return (
-    <View
-      style={{
-        backgroundColor: '#ffffff',
-        padding: 16,
-        borderRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-      }}
-    >
-      <Text style={{ fontSize: 18, fontWeight: '600' }}>
-        Title
-      </Text>
-    </View>
-  )
+	return (
+		<View
+			style={{
+				backgroundColor: '#ffffff',
+				padding: 16,
+				borderRadius: 12,
+				shadowColor: '#000',
+				shadowOffset: { width: 0, height: 2 },
+				shadowOpacity: 0.1,
+			}}
+		>
+			<Text style={{ fontSize: 18, fontWeight: '600' }}>Title</Text>
+		</View>
+	);
 }
 ```
 
@@ -36,11 +34,11 @@ function Card() {
 
 ```tsx
 function Card() {
-  return (
-    <View className="bg-card p-4 rounded-xl shadow-md">
-      <Text className="text-lg font-semibold">Title</Text>
-    </View>
-  )
+	return (
+		<View className='bg-card p-4 rounded-xl shadow-md'>
+			<Text className='text-lg font-semibold'>Title</Text>
+		</View>
+	);
 }
 ```
 
@@ -61,6 +59,7 @@ function Card() {
 ```
 
 **Benefits of className:**
+
 - Theme variable access
 - Build-time compilation
 - TypeScript autocomplete

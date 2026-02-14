@@ -1,21 +1,14 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { TouchableOpacity } from 'react-native';
-import sharedStyles from '@constants/sharedStyles';
-import Animated, {
-	FadeInRight,
-	LinearTransition,
-} from 'react-native-reanimated';
-import { MotiView } from 'moti';
 import { backgroundColors, typeColors } from '@constants/colors';
+import sharedStyles from '@constants/sharedStyles';
+import { MotiView } from 'moti';
+import { TouchableOpacity } from 'react-native';
+import Animated, { FadeInRight, LinearTransition } from 'react-native-reanimated';
 
 interface CustomTabProps {
 	isFocused: boolean;
 	label?: string;
-	tabBarIcon: (props: {
-		color: string;
-		size: number;
-		focused: boolean;
-	}) => React.ReactNode;
+	tabBarIcon: (props: { color: string; size: number; focused: boolean }) => React.ReactNode;
 	onPress: () => void;
 	isRounded?: boolean;
 	activeBackgroundColor?: string;
@@ -41,9 +34,7 @@ const CustomTab = ({
 				className='absolute inset-0 overflow-hidden rounded-lg'
 				style={sharedStyles.shadow}
 				animate={{
-					backgroundColor: isFocused
-						? activeBackgroundColor
-						: inactiveBackgroundColor,
+					backgroundColor: isFocused ? activeBackgroundColor : inactiveBackgroundColor,
 					...(isRounded ? { borderRadius: 100 } : {}),
 				}}
 			/>

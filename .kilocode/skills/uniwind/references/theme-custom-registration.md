@@ -14,21 +14,21 @@ Custom themes beyond light/dark must be registered in Metro's `extraThemes` arra
 ```css
 /* global.css */
 @layer theme {
-  :root {
-    @variant ocean {
-      --color-background: #0c4a6e;
-      --color-foreground: #e0f2fe;
-    }
-  }
+	:root {
+		@variant ocean {
+			--color-background: #0c4a6e;
+			--color-foreground: #e0f2fe;
+		}
+	}
 }
 ```
 
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  // extraThemes missing - 'ocean' won't work!
-})
+	cssEntryFile: './src/global.css',
+	// extraThemes missing - 'ocean' won't work!
+});
 ```
 
 **Correct (theme registered):**
@@ -36,17 +36,18 @@ module.exports = withUniwindConfig(config, {
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  extraThemes: ['ocean', 'sunset', 'forest'],  // Register all custom themes
-})
+	cssEntryFile: './src/global.css',
+	extraThemes: ['ocean', 'sunset', 'forest'], // Register all custom themes
+});
 ```
 
 ```typescript
 // Now you can switch to custom themes
-Uniwind.setTheme('ocean')
+Uniwind.setTheme('ocean');
 ```
 
 **After adding themes:**
+
 1. Register in `extraThemes`
 2. Define `@variant` block in CSS
 3. Restart Metro with `--clear` flag

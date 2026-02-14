@@ -46,9 +46,7 @@ if(result.success) {
 }
 */
 
-export const tryCatch = async <T>(
-	operation: () => Promise<T>
-): Promise<TryCatchResult<T>> => {
+export const tryCatch = async <T>(operation: () => Promise<T>): Promise<TryCatchResult<T>> => {
 	try {
 		const data = await operation();
 		return { success: true, data };

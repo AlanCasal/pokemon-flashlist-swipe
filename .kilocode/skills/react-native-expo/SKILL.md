@@ -31,6 +31,7 @@ npx expo install react-native@latest expo@latest
 ```
 
 **Why this matters:**
+
 - Expo SDK 52+ uses React Native 0.76+ with New Architecture enabled by default
 - New Architecture is **mandatory** in React Native 0.82+ (cannot be disabled)
 - Hermes is the only supported JavaScript engine (JSC removed from Expo Go)
@@ -43,6 +44,7 @@ npx expo config --type introspect | grep newArchEnabled
 ```
 
 **CRITICAL:**
+
 - React Native 0.82+ **requires** New Architecture - legacy architecture completely removed
 - If migrating from 0.75 or earlier, upgrade to 0.76-0.81 first to use the interop layer
 - Never try to disable New Architecture in 0.82+ (build will fail)
@@ -59,6 +61,7 @@ npx expo start
 ```
 
 **CRITICAL:**
+
 - Old Chrome debugger removed in 0.79 - use React Native DevTools instead
 - Metro terminal no longer streams `console.log()` - use DevTools Console
 - Keyboard shortcuts 'a'/'i' work in CLI, not Metro terminal
@@ -70,14 +73,17 @@ npx expo start
 ### 🔴 New Architecture Mandatory (0.82+)
 
 **SDK Timeline:**
+
 - **Expo SDK 54** (React Native 0.81): Last release supporting Legacy Architecture
 - **Expo SDK 55** (React Native 0.83): New Architecture mandatory, Legacy completely removed
 
 **What Changed:**
+
 - **0.76-0.81 / SDK 52-54**: New Architecture default, legacy frozen (no new features)
 - **0.82+ / SDK 55+**: Legacy Architecture **completely removed** from codebase
 
 **Impact:**
+
 ```bash
 # This will FAIL in 0.82+ / SDK 55+:
 # gradle.properties (Android)
@@ -88,6 +94,7 @@ RCT_NEW_ARCH_ENABLED=0  # ❌ Ignored, build fails
 ```
 
 **Migration Path:**
+
 1. Upgrade to 0.76-0.81 / SDK 54 first (if on 0.75 or earlier)
 2. Test with New Architecture enabled
 3. Fix incompatible dependencies (Redux, i18n, CodePush, Reanimated v3 → v4)
@@ -101,6 +108,7 @@ RCT_NEW_ARCH_ENABLED=0  # ❌ Ignored, build fails
 React 19 removed `propTypes` completely. No runtime validation, no warnings - silently ignored.
 
 **Before (Old Code):**
+
 ```typescript
 import PropTypes from 'prop-types';
 
@@ -115,6 +123,7 @@ MyComponent.propTypes = {  // ❌ Silently ignored in React 19
 ```
 
 **After (Use TypeScript):**
+
 ```typescript
 type MyComponentProps = {
   name: string;
@@ -127,6 +136,7 @@ function MyComponent({ name, age }: MyComponentProps) {
 ```
 
 **Migration:**
+
 ```bash
 # Use React 19 codemod to remove propTypes
 npx @codemod/react-19 upgrade
@@ -138,6 +148,7 @@ npx @codemod/react-19 upgrade
 `forwardRef` no longer needed - pass `ref` as a regular prop.
 
 **Before (Old Code):**
+
 ```typescript
 import { forwardRef } from 'react';
 
@@ -147,6 +158,7 @@ const MyInput = forwardRef((props, ref) => {  // ❌ Deprecated
 ```
 
 **After (React 19):**
+
 ```typescript
 function MyInput({ ref, ...props }) {  // ✅ ref is a regular prop
   return <TextInput ref={ref} {...props} />;
@@ -159,6 +171,7 @@ function MyInput({ ref, ...props }) {  // ✅ ref is a regular prop
 New projects use Swift `AppDelegate.swift` instead of Objective-C `AppDelegate.mm`.
 
 **Old Structure:**
+
 ```
 ios/MyApp/
 ├── main.m              # ❌ Removed
@@ -167,6 +180,7 @@ ios/MyApp/
 ```
 
 **New Structure:**
+
 ```swift
 // ios/MyApp/AppDelegate.swift ✅
 import UIKit
@@ -183,6 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 **Migration (0.76 → 0.77):**
 When upgrading existing projects, you **MUST** add this line:
+
 ```swift
 // Add to AppDelegate.swift during migration
 import React
@@ -199,6 +214,7 @@ RCTAppDependencyProvider.sharedInstance()  // ⚠️ CRITICAL: Must add this!
 Metro terminal no longer streams `console.log()` output.
 
 **Before (0.76):**
+
 ```bash
 # console.log() appeared in Metro terminal
 $ npx expo start
@@ -206,6 +222,7 @@ $ npx expo start
 ```
 
 **After (0.77+):**
+
 ```bash
 # console.log() does NOT appear in Metro terminal
 $ npx expo start
@@ -226,12 +243,14 @@ Use React Native DevTools Console instead (press 'j' in CLI).
 Old Chrome debugger (`chrome://inspect`) removed. Use React Native DevTools instead.
 
 **Old Method (Removed):**
+
 ```bash
 # ❌ This no longer works:
 # Open Dev Menu → "Debug" → Chrome DevTools opens
 ```
 
 **New Method (0.76+):**
+
 ```bash
 # Press 'j' in CLI or Dev Menu → "Open React Native DevTools"
 # ✅ Uses Chrome DevTools Protocol (CDP)
@@ -240,6 +259,7 @@ Old Chrome debugger (`chrome://inspect`) removed. Use React Native DevTools inst
 ```
 
 **Limitations:**
+
 - Third-party extensions not yet supported (Redux DevTools, etc.)
 - Network inspector coming in 0.83 (late 2025)
 
@@ -251,10 +271,12 @@ Old Chrome debugger (`chrome://inspect`) removed. Use React Native DevTools inst
 JavaScriptCore (JSC) first-party support removed from React Native 0.81+ core. Moved to community package.
 
 **Before (0.78):**
+
 - Both Hermes and JSC bundled in React Native
 - JSC available in Expo Go
 
 **After (0.79+ / React Native 0.81+ / SDK 54):**
+
 ```bash
 # JSC removed from React Native core
 # If you still need JSC (rare):
@@ -262,6 +284,7 @@ npm install @react-native-community/javascriptcore
 ```
 
 **Expo Go:**
+
 - SDK 52+: JSC completely removed from Expo Go
 - Hermes only supported
 
@@ -275,6 +298,7 @@ npm install @react-native-community/javascriptcore
 Importing from internal paths will break.
 
 **Before (Old Code):**
+
 ```typescript
 // ❌ Deep imports deprecated
 import Button from 'react-native/Libraries/Components/Button';
@@ -282,6 +306,7 @@ import Platform from 'react-native/Libraries/Utilities/Platform';
 ```
 
 **After:**
+
 ```typescript
 // ✅ Import only from 'react-native'
 import { Button, Platform } from 'react-native';
@@ -295,15 +320,16 @@ import { Button, Platform } from 'react-native';
 Edge-to-edge display is **enabled in all Android apps by default in SDK 54 and cannot be disabled**.
 
 **Impact:**
+
 ```json
 // app.json or app.config.js
 {
-  "expo": {
-    "android": {
-      // This setting is now IGNORED - edge-to-edge always enabled
-      "edgeToEdgeEnabled": false  // ❌ No effect in SDK 54+
-    }
-  }
+	"expo": {
+		"android": {
+			// This setting is now IGNORED - edge-to-edge always enabled
+			"edgeToEdgeEnabled": false // ❌ No effect in SDK 54+
+		}
+	}
 }
 ```
 
@@ -311,6 +337,7 @@ Edge-to-edge display is **enabled in all Android apps by default in SDK 54 and c
 Content now extends behind system status bar and navigation bar. You must account for insets manually using `react-native-safe-area-context`.
 
 **Solution:**
+
 ```typescript
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -430,11 +457,13 @@ import MyIcon from './assets/my_icon.xml';
 ```
 
 **Benefits:**
+
 - Scalable vector graphics (resolution-independent)
 - Smaller APK size vs PNG
 - Off-thread decoding (better performance)
 
 **Constraints:**
+
 - Build-time resources only (no network loading)
 - Android only (iOS still uses SF Symbols or PNG)
 
@@ -511,10 +540,12 @@ function UserProfile({ userPromise }) {
 ### React Native DevTools (0.76+)
 
 **Access:**
+
 - Press `j` in CLI
 - Or open Dev Menu → "Open React Native DevTools"
 
 **Features:**
+
 - ✅ Reliable breakpoints (unlike old Chrome debugger)
 - ✅ Watch values, call stack inspection
 - ✅ JS Console (replaces Metro logs)
@@ -531,95 +562,111 @@ function UserProfile({ userPromise }) {
 This skill prevents **16** documented issues:
 
 ### Issue #1: propTypes Silently Ignored
+
 **Error:** No error - `propTypes` just doesn't work
 **Source:** [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
 **Why It Happens:** React 19 removed runtime propTypes validation
 **Prevention:** Use TypeScript instead, run `npx @codemod/react-19 upgrade` to remove
 
 ### Issue #2: forwardRef Deprecated Warning
+
 **Error:** `Warning: forwardRef is deprecated`
 **Source:** [React 19 Upgrade Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)
 **Why It Happens:** React 19 allows `ref` as a regular prop
 **Prevention:** Remove `forwardRef` wrapper, pass `ref` as prop directly
 
 ### Issue #3: New Architecture Cannot Be Disabled (0.82+)
+
 **Error:** Build fails with `newArchEnabled=false`
 **Source:** [React Native 0.82 Release Notes](https://reactnative.dev/blog/2025/10/release-0.82)
 **Why It Happens:** Legacy architecture completely removed from codebase
 **Prevention:** Migrate to New Architecture before upgrading to 0.82+
 
 ### Issue #4: "Fabric component descriptor not found"
+
 **Error:** `Fabric component descriptor provider not found for component`
 **Source:** [New Architecture Migration Guide](https://reactnative.dev/docs/new-architecture-intro)
 **Why It Happens:** Component not compatible with New Architecture (Fabric)
 **Prevention:** Update library to New Architecture version, or use interop layer (0.76-0.81)
 
 ### Issue #5: "TurboModule not registered"
+
 **Error:** `TurboModule '[ModuleName]' not found`
 **Source:** [New Architecture Migration Guide](https://reactnative.dev/docs/new-architecture-intro)
 **Why It Happens:** Native module needs New Architecture support (TurboModules)
 **Prevention:** Update library to support TurboModules, or use interop layer (0.76-0.81)
 
 ### Issue #6: Swift AppDelegate Missing RCTAppDependencyProvider
+
 **Error:** `RCTAppDependencyProvider not found`
 **Source:** [React Native 0.77 Release Notes](https://reactnative.dev/blog/2025/01/14/release-0.77)
 **Why It Happens:** When migrating from Objective-C to Swift template
 **Prevention:** Add `RCTAppDependencyProvider.sharedInstance()` to AppDelegate.swift
 
 ### Issue #7: Metro Logs Not Appearing
+
 **Error:** `console.log()` doesn't show in terminal
 **Source:** [React Native 0.77 Release Notes](https://reactnative.dev/blog/2025/01/14/release-0.77)
 **Why It Happens:** Metro log forwarding removed in 0.77
 **Prevention:** Use React Native DevTools Console (press 'j'), or `--client-logs` flag (temporary)
 
 ### Issue #8: Chrome Debugger Not Working
+
 **Error:** Chrome DevTools doesn't connect
 **Source:** [React Native 0.79 Release Notes](https://reactnative.dev/blog/2025/04/release-0.79)
 **Why It Happens:** Old Chrome debugger removed in 0.79
 **Prevention:** Use React Native DevTools instead (press 'j')
 
 ### Issue #9: Deep Import Errors
+
 **Error:** `Module not found: react-native/Libraries/...`
 **Source:** [React Native 0.80 Release Notes](https://reactnative.dev/blog/2025/06/release-0.80)
 **Why It Happens:** Internal paths deprecated, strict API enforced
 **Prevention:** Import only from `'react-native'`, not deep paths
 
 ### Issue #10: Redux Store Crashes with New Architecture
+
 **Error:** App crashes on Redux store creation
 **Source:** [Redux Toolkit Migration Guide](https://redux-toolkit.js.org/usage/usage-guide)
 **Why It Happens:** Old `redux` + `redux-thunk` incompatible with New Architecture
 **Prevention:** Use Redux Toolkit (`@reduxjs/toolkit`) instead
 
 ### Issue #11: i18n-js Unreliable with New Architecture
+
 **Error:** Translations not updating, or app crashes
 **Source:** Community reports (GitHub issues)
 **Why It Happens:** `i18n-js` not fully compatible with New Architecture
 **Prevention:** Use `react-i18next` instead
 
 ### Issue #12: CodePush Crashes on Android
+
 **Error:** Android crashes looking for bundle named `null`
 **Source:** [CodePush GitHub Issues](https://github.com/microsoft/react-native-code-push/issues)
 **Why It Happens:** Known incompatibility with New Architecture
 **Prevention:** Avoid CodePush with New Architecture, or wait for official support
 
 ### Issue #13: expo-file-system Legacy API Removed (SDK 55+)
+
 **Error:** `Module not found: expo-file-system/legacy`
 **Source:** [Expo SDK 54 Changelog](https://expo.dev/changelog/sdk-54), [GitHub Issue #39056](https://github.com/expo/expo/issues/39056)
 **Why It Happens:** Legacy API removed in SDK 55, must migrate to new File/Directory class API
 **Prevention:** Migrate to new API before upgrading to SDK 55
 
 **Migration Timeline:**
+
 - SDK 53 and earlier: Legacy API at `expo-file-system`
 - SDK 54: Legacy API at `expo-file-system/legacy`, new API at `expo-file-system` (default)
 - SDK 55: Legacy API removed completely
 
 **Old Code (SDK 54 with legacy import):**
+
 ```typescript
 import * as FileSystem from 'expo-file-system/legacy';
 await FileSystem.writeAsStringAsync(uri, content);
 ```
 
 **New Code (SDK 54+ new API):**
+
 ```typescript
 import { File } from 'expo-file-system';
 const file = new File(uri);
@@ -627,18 +674,21 @@ await file.writeString(content);
 ```
 
 ### Issue #14: expo-av Removed (SDK 55+)
+
 **Error:** `Module not found: expo-av`
 **Source:** [Expo SDK 54 Changelog](https://expo.dev/changelog/sdk-54), [expo-av GitHub](https://github.com/expo/expo-av)
 **Why It Happens:** Package deprecated in SDK 53, removed in SDK 55
 **Prevention:** Migrate to expo-audio and expo-video before SDK 55
 
 **Migration Timeline:**
+
 - SDK 52: `expo-video` introduced
 - SDK 53: `expo-audio` introduced, `expo-av` deprecated
 - SDK 54: Last release with `expo-av` (no patches)
 - SDK 55: `expo-av` removed
 
 **Migration - Audio:**
+
 ```typescript
 // OLD: expo-av
 import { Audio } from 'expo-av';
@@ -652,6 +702,7 @@ player.play();
 ```
 
 **Migration - Video:**
+
 ```typescript
 // OLD: expo-av
 import { Video } from 'expo-av';
@@ -663,6 +714,7 @@ import { VideoView } from 'expo-video';
 ```
 
 ### Issue #15: Reanimated v4 Requires New Architecture
+
 **Error:** Build fails or crashes with Reanimated v4 on Legacy Architecture
 **Source:** [Expo SDK 54 FYI](https://github.com/expo/fyi/blob/main/expo-54-reanimated.md)
 **Why It Happens:** Reanimated v4 exclusively requires New Architecture
@@ -675,6 +727,7 @@ import { VideoView } from 'expo-video';
 | v4 | New Architecture ONLY | SDK 54+ |
 
 **NativeWind Incompatibility:**
+
 ```bash
 # NativeWind does not support Reanimated v4 yet (as of Jan 2026)
 # If using NativeWind, must stay on Reanimated v3
@@ -682,22 +735,27 @@ npm install react-native-reanimated@^3
 ```
 
 **Migration to v4 (New Architecture only):**
+
 1. Install `react-native-worklets` (required for v4)
 2. Follow [official Reanimated v3 → v4 migration guide](https://docs.swmansion.com/react-native-reanimated/docs/fundamentals/getting-started/)
 3. Skip babel.config.js changes if using `babel-preset-expo` (auto-configured)
 
 ### Issue #16: iOS Crashes on Launch with Hermes + New Architecture (SDK 54) - Community-sourced
+
 **Error:**
+
 ```
 hermes::vm::JSObject::putComputed_RJS
 hermes::vm::arrayPrototypePush
 ```
+
 **Source:** [GitHub Issue #41824](https://github.com/expo/expo/issues/41824), [Medium Post](https://medium.com/@shanavascruise/new-architecture-by-default-hermes-ios-expo-updates-can-break-your-ios-builds-4e98d89a1648)
 **Verified:** Reproduction available
 **Why It Happens:** Expo Updates requires explicit `:hermes_enabled` flag in Podfile when using New Architecture on iOS
 **Prevention:** Add explicit Hermes flag to ios/Podfile
 
 **Conditions:**
+
 - Expo SDK 54
 - New Architecture enabled
 - Hermes enabled (default)
@@ -705,6 +763,7 @@ hermes::vm::arrayPrototypePush
 - iOS only (Android unaffected)
 
 **Workaround:**
+
 ```ruby
 # ios/Podfile
 use_frameworks! :linkage => :static
@@ -920,6 +979,7 @@ function GlowButton({ title, onPress }) {
 **check-rn-version.sh** - Detects React Native version and warns about architecture requirements
 
 **Example Usage:**
+
 ```bash
 ./scripts/check-rn-version.sh
 # Output: ✅ React Native 0.82 - New Architecture mandatory
@@ -949,14 +1009,16 @@ function GlowButton({ title, onPress }) {
 ### Breaking Changes
 
 **JSC Removed from Expo Go:**
+
 ```json
 // This no longer works in Expo Go (SDK 52+):
 {
-  "jsEngine": "jsc"  // ❌ Ignored, Hermes only
+	"jsEngine": "jsc" // ❌ Ignored, Hermes only
 }
 ```
 
 **Google Maps Removed from Expo Go (SDK 53+):**
+
 ```bash
 # Must use custom dev client for Google Maps
 npx expo install expo-dev-client
@@ -969,6 +1031,7 @@ Expo Go shows warnings for push notifications - use custom dev client for produc
 ### New Features (SDK 52)
 
 **expo/fetch (WinterCG-compliant):**
+
 ```typescript
 import { fetch } from 'expo/fetch';
 
@@ -977,6 +1040,7 @@ const response = await fetch('https://api.example.com/data');
 ```
 
 **React Navigation v7:**
+
 ```bash
 npm install @react-navigation/native@^7.0.0
 ```
@@ -997,6 +1061,7 @@ npm install @react-navigation/native@^7.0.0
 ## Package Versions (Verified 2026-01-21)
 
 **Build Tool Requirements (SDK 54+):**
+
 - **Xcode**: Minimum 16.1, Xcode 16 recommended
 - **Node.js**: Minimum 20.19.4
 - **iOS Deployment Target**: iOS 15.1+
@@ -1005,18 +1070,18 @@ npm install @react-navigation/native@^7.0.0
 
 ```json
 {
-  "dependencies": {
-    "react": "^19.2.3",
-    "react-native": "^0.81.5",
-    "expo": "~54.0.31",
-    "@react-navigation/native": "^7.0.0",
-    "@reduxjs/toolkit": "^2.0.0",
-    "react-i18next": "^15.0.0"
-  },
-  "devDependencies": {
-    "@types/react": "^19.0.0",
-    "typescript": "^5.7.0"
-  }
+	"dependencies": {
+		"react": "^19.2.3",
+		"react-native": "^0.81.5",
+		"expo": "~54.0.31",
+		"@react-navigation/native": "^7.0.0",
+		"@reduxjs/toolkit": "^2.0.0",
+		"react-i18next": "^15.0.0"
+	},
+	"devDependencies": {
+		"@types/react": "^19.0.0",
+		"typescript": "^5.7.0"
+	}
 }
 ```
 
@@ -1025,21 +1090,27 @@ npm install @react-navigation/native@^7.0.0
 ## Troubleshooting
 
 ### Problem: Build fails with "Fabric component descriptor not found"
+
 **Solution:** Library not compatible with New Architecture. Check library docs for New Architecture support, or use interop layer (0.76-0.81 only).
 
 ### Problem: "propTypes is not a function" error
+
 **Solution:** React 19 removed propTypes. Use TypeScript for type checking instead. Run `npx @codemod/react-19 upgrade`.
 
 ### Problem: console.log() not showing in Metro terminal
+
 **Solution:** Metro log forwarding removed in 0.77. Use React Native DevTools Console (press 'j') or `npx expo start --client-logs` (temporary workaround).
 
 ### Problem: Swift AppDelegate errors during iOS build
+
 **Solution:** Add `RCTAppDependencyProvider.sharedInstance()` to AppDelegate.swift. See Swift migration section.
 
 ### Problem: Redux store crashes on startup
+
 **Solution:** Use Redux Toolkit instead of legacy `redux` + `redux-thunk`. Install `@reduxjs/toolkit`.
 
 ### Problem: Can't disable New Architecture in 0.82+
+
 **Solution:** New Architecture is mandatory in 0.82+. If you need legacy, stay on 0.81 or earlier (not recommended).
 
 ---

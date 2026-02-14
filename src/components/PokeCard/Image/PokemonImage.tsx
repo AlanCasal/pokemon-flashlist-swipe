@@ -1,11 +1,7 @@
-import { pokeballColors } from '@constants/colors';
-import {
-	POKE_CARD_HEIGHT,
-	POKE_IMAGE_SIZE,
-	SVG_DEFAULT_OPACITY,
-} from '@constants/sharedStyles';
-import { Image } from 'expo-image';
 import Pokeball from '@assets/images/pokeball-full.svg';
+import { pokeballColors } from '@constants/colors';
+import { POKE_CARD_HEIGHT, POKE_IMAGE_SIZE, SVG_DEFAULT_OPACITY } from '@constants/sharedStyles';
+import { Image } from 'expo-image';
 import { View } from 'react-native';
 
 const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;

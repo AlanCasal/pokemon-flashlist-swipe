@@ -1,9 +1,9 @@
-import { Text } from 'react-native';
-import Animated from 'react-native-reanimated';
-import { evolveAnim } from '@utils/animations';
 import { textColor, typeColors } from '@constants/colors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { evolveAnim } from '@utils/animations';
+import { Text } from 'react-native';
+import Animated from 'react-native-reanimated';
 
 interface EvolveConditionProps {
 	type: keyof typeof typeColors;
@@ -12,12 +12,7 @@ interface EvolveConditionProps {
 	delay: number;
 }
 
-const EvolveCondition = ({
-	type,
-	minLevel,
-	direction,
-	delay,
-}: EvolveConditionProps) => {
+const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionProps) => {
 	return (
 		<Animated.View
 			entering={evolveAnim(direction, delay)}
@@ -41,9 +36,7 @@ const EvolveCondition = ({
 			<Text
 				className='w-[90px] rounded-[5px] px-[10px] py-[5px] text-center text-[10px] font-bold uppercase'
 				style={{
-					backgroundColor: minLevel
-						? typeColors[type as keyof typeof typeColors]
-						: 'transparent',
+					backgroundColor: minLevel ? typeColors[type] : 'transparent',
 				}}
 				numberOfLines={1}
 				adjustsFontSizeToFit

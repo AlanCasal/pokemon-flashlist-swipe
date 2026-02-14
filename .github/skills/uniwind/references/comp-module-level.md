@@ -13,10 +13,10 @@ Create wrapped components outside of render functions. Defining inside causes ne
 
 ```tsx
 function MyScreen() {
-  // New wrapper created on every render!
-  const StyledSlider = withUniwind(ThirdPartySlider)
+	// New wrapper created on every render!
+	const StyledSlider = withUniwind(ThirdPartySlider);
 
-  return <StyledSlider className="w-full" />
+	return <StyledSlider className='w-full' />;
 }
 ```
 
@@ -24,25 +24,25 @@ function MyScreen() {
 
 ```tsx
 // styled.ts
-import { withUniwind } from 'uniwind'
-import { ThirdPartySlider } from 'some-library'
-import { ThirdPartyChart } from 'another-library'
+import { withUniwind } from 'uniwind';
+import { ThirdPartySlider } from 'some-library';
+import { ThirdPartyChart } from 'another-library';
 
-export const StyledSlider = withUniwind(ThirdPartySlider)
-export const StyledChart = withUniwind(ThirdPartyChart)
+export const StyledSlider = withUniwind(ThirdPartySlider);
+export const StyledChart = withUniwind(ThirdPartyChart);
 ```
 
 ```tsx
 // MyScreen.tsx
-import { StyledSlider, StyledChart } from './styled'
+import { StyledSlider, StyledChart } from './styled';
 
 function MyScreen() {
-  return (
-    <>
-      <StyledSlider className="w-full" />
-      <StyledChart className="h-64" />
-    </>
-  )
+	return (
+		<>
+			<StyledSlider className='w-full' />
+			<StyledChart className='h-64' />
+		</>
+	);
 }
 ```
 

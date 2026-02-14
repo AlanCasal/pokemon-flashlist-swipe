@@ -8,13 +8,13 @@
 
 ## Breaking Changes Summary
 
-| Removed API | Replacement | Required Action |
-|-------------|-------------|-----------------|
-| `propTypes` | TypeScript | Remove all `propTypes` declarations |
-| `forwardRef` | Regular `ref` prop | Remove wrapper, pass `ref` directly |
-| `defaultProps` (function components) | Default parameters | Use JS default params |
-| Legacy Context (`contextTypes`) | `useContext` hook | Migrate to modern Context API |
-| String refs (`ref="input"`) | Callback/object refs | Use `useRef` hook |
+| Removed API                          | Replacement          | Required Action                     |
+| ------------------------------------ | -------------------- | ----------------------------------- |
+| `propTypes`                          | TypeScript           | Remove all `propTypes` declarations |
+| `forwardRef`                         | Regular `ref` prop   | Remove wrapper, pass `ref` directly |
+| `defaultProps` (function components) | Default parameters   | Use JS default params               |
+| Legacy Context (`contextTypes`)      | `useContext` hook    | Migrate to modern Context API       |
+| String refs (`ref="input"`)          | Callback/object refs | Use `useRef` hook                   |
 
 ---
 
@@ -61,11 +61,13 @@ function Button({ title, onPress, variant = 'primary' }: ButtonProps) {
 ### Migration Steps
 
 1. **Install TypeScript (if not already)**:
+
    ```bash
    npm install --save-dev typescript @types/react @types/react-native
    ```
 
 2. **Run React 19 codemod**:
+
    ```bash
    npx @codemod/react-19 upgrade
    ```
@@ -110,6 +112,7 @@ function TextInput({ ref, ...props }) {  // ✅ ref is a regular prop
 ### Migration Steps
 
 1. **Find all forwardRef usages**:
+
    ```bash
    grep -r "forwardRef" src/
    ```
@@ -264,16 +267,19 @@ function Button({ title, variant = 'primary' }) { ... }
 ## 5. Recommended Migration Order
 
 1. **Upgrade React Native to 0.78+** (includes React 19)
+
    ```bash
    npm install react-native@0.78 react@19
    ```
 
 2. **Run codemod**
+
    ```bash
    npx @codemod/react-19 upgrade
    ```
 
 3. **Install TypeScript** (if not already)
+
    ```bash
    npm install --save-dev typescript @types/react @types/react-native
    ```

@@ -45,7 +45,7 @@ project/
 @import 'tailwindcss';
 @import 'uniwind';
 
-@source '../../packages/ui/src';  /* Include external packages */
+@source '../../packages/ui/src'; /* Include external packages */
 ```
 
 Reference: [Uniwind Metro Config](https://docs.uniwind.dev/api/metro-config)

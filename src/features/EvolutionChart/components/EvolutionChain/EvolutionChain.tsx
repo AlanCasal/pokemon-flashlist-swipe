@@ -1,10 +1,12 @@
 /* eslint-disable indent */
-import { Fragment } from 'react';
-import PokemonImage from './components/PokemonImage';
-import { CustomEvolutionChain } from '@/src/types/evolutionChain';
-import EvolveCondition from './components/EvolveCondition';
 import { typeColors } from '@constants/colors';
+import { Fragment } from 'react';
 import { View } from 'react-native';
+
+import { CustomEvolutionChain } from '@/src/types/evolutionChain';
+
+import EvolveCondition from './components/EvolveCondition';
+import PokemonImage from './components/PokemonImage';
 
 const DELAY = {
 	depth0: {
@@ -53,8 +55,7 @@ const EvolutionChain = ({
 	const chunkEvolutions = (evolutions: CustomEvolutionChain[]) => {
 		const chunks: CustomEvolutionChain[][] = [];
 
-		for (let i = 0; i < evolutions.length; i += 3)
-			chunks.push(evolutions.slice(i, i + 3));
+		for (let i = 0; i < evolutions.length; i += 3) chunks.push(evolutions.slice(i, i + 3));
 
 		return chunks;
 	};
@@ -87,9 +88,7 @@ const EvolutionChain = ({
 							type={type}
 							minLevel={nextEvolution.minLevel}
 							direction={direction}
-							delay={
-								DELAY[`depth${depth}` as keyof typeof DELAY].evolveCondition
-							}
+							delay={DELAY[`depth${depth}` as keyof typeof DELAY].evolveCondition}
 						/>
 
 						<EvolutionChain

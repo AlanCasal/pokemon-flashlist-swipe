@@ -1,48 +1,37 @@
-import {
-	View,
-	Text,
-	ActivityIndicator,
-	Alert,
-	TouchableOpacity,
-	Dimensions,
-} from 'react-native';
-import {
-	pokeballColors,
-	textColor,
-	typeBgColors,
-	typeColors,
-} from '@constants/colors';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-import usePokemonSprites from '@hooks/usePokemonSprites';
-import { chunkArray, toTransparent } from '@utils/helpers';
 import { Marquee } from '@animatereactnative/marquee';
-import { LinearGradient } from 'expo-linear-gradient';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
-import { StatusBar } from 'expo-status-bar';
-import { Image } from 'expo-image';
-import { useRouter } from 'expo-router';
-import { useQueryClient } from '@tanstack/react-query';
 import Pokeball from '@assets/images/pokeball-full.svg';
+import { pokeballColors, textColor, typeBgColors, typeColors } from '@constants/colors';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
+import usePokemonSprites from '@hooks/usePokemonSprites';
+import { useQueryClient } from '@tanstack/react-query';
+import { chunkArray, toTransparent } from '@utils/helpers';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
+import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+
 import styles from './styles';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
 const SPACING = 8;
 const ITEM_SIZE = Dimensions.get('window').width * 0.45;
-const AnimatedTouchableOpacity =
-	Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
-	if (isLoading || data.length === 0)
+	if (isLoading || data.length === 0) {
 		return (
 			<View className='flex-1 items-center justify-center'>
 				<ActivityIndicator size='large' />
 			</View>
 		);
+	}
 
 	if (hasError) {
 		Alert.alert('Error', 'Failed to fetch some Pokemon data.');
@@ -90,8 +79,7 @@ const Home = () => {
 											key={`image-column-${columnIndex}-${imageIndex}`}
 											className='relative overflow-hidden rounded-lg'
 											style={{
-												backgroundColor:
-													typeBgColors[type as keyof typeof typeColors],
+												backgroundColor: typeBgColors[type as keyof typeof typeColors],
 											}}
 										>
 											<Image

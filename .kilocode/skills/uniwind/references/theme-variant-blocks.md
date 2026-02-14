@@ -14,13 +14,9 @@ Each theme requires an `@variant` block defining its CSS variables. Themes switc
 ```tsx
 // Requires context, re-renders, and manual color mapping
 const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState('light')
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  )
-}
+	const [theme, setTheme] = useState('light');
+	return <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>;
+};
 ```
 
 **Correct (CSS-based theming):**
@@ -31,35 +27,35 @@ const ThemeProvider = ({ children }) => {
 @import 'uniwind';
 
 @layer theme {
-  :root {
-    @variant light {
-      --color-background: #ffffff;
-      --color-foreground: #0a0a0a;
-      --color-primary: #3b82f6;
-    }
+	:root {
+		@variant light {
+			--color-background: #ffffff;
+			--color-foreground: #0a0a0a;
+			--color-primary: #3b82f6;
+		}
 
-    @variant dark {
-      --color-background: #0a0a0a;
-      --color-foreground: #fafafa;
-      --color-primary: #60a5fa;
-    }
-  }
+		@variant dark {
+			--color-background: #0a0a0a;
+			--color-foreground: #fafafa;
+			--color-primary: #60a5fa;
+		}
+	}
 }
 ```
 
 ```tsx
 // No ThemeProvider needed!
-<View className="bg-background">
-  <Text className="text-foreground">Adapts to system theme</Text>
+<View className='bg-background'>
+	<Text className='text-foreground'>Adapts to system theme</Text>
 </View>
 ```
 
 **Switch themes programmatically:**
 
 ```typescript
-import { Uniwind } from 'uniwind'
+import { Uniwind } from 'uniwind';
 
-Uniwind.setTheme('dark')
+Uniwind.setTheme('dark');
 ```
 
 Reference: [Uniwind Custom Themes](https://docs.uniwind.dev/theming/custom-themes)

@@ -1,26 +1,20 @@
-import {
-	ActivityIndicator,
-	Alert,
-	StyleProp,
-	Text,
-	View,
-	ViewStyle,
-} from 'react-native';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Pokemon } from '@/src/types/pokemonList';
+import FadeInWrapper from '@components/FadeInWrapper';
 import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
-import { FlashList, FlashListRef } from '@shopify/flash-list';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { textColor, typeBgColors } from '@constants/colors';
-import { LinearGradient } from 'expo-linear-gradient';
-import { usePokemonList } from '@hooks/usePokemonList';
-import { useSavedPokemons } from '@store/savedStore';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { API_URL } from '@constants/api';
+import { textColor, typeBgColors } from '@constants/colors';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { usePokemonList } from '@hooks/usePokemonList';
+import { FlashList, FlashListRef } from '@shopify/flash-list';
+import { useSavedPokemons } from '@store/savedStore';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { ActivityIndicator, Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 import { PokedexMode } from '@/src/types';
-import FadeInWrapper from '@components/FadeInWrapper';
+import { Pokemon } from '@/src/types/pokemonList';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -44,17 +38,13 @@ const Pokedex = () => {
 
 	const handleRefresh = () => refetch();
 
-	const handleRenderItem = ({ item }: { item: Pokemon }) => (
-		<PokeCard url={item.url} />
-	);
+	const handleRenderItem = ({ item }: { item: Pokemon }) => <PokeCard url={item.url} />;
 
 	const pokemonList = useMemo(
 		() =>
-			data?.pages.reduce<Pokemon[]>(
-				(accumulator, page) => accumulator.concat(page.results),
-				[]
-			) ?? [],
-		[data]
+			data?.pages.reduce<Pokemon[]>((accumulator, page) => accumulator.concat(page.results), []) ??
+			[],
+		[data],
 	);
 
 	const savedPokemonList = useMemo(
@@ -63,7 +53,7 @@ const Pokedex = () => {
 				name,
 				url: `${API_URL}/${name}`,
 			})),
-		[savedPokemons]
+		[savedPokemons],
 	);
 
 	const displayedPokemonList = isSavedMode ? savedPokemonList : pokemonList;
@@ -124,15 +114,12 @@ const Pokedex = () => {
 										color: textColor.grey,
 									}}
 								>
-									No saved Pokemon yet. Tap the Pokeball icon on any card to
-									save it.
+									No saved Pokemon yet. Tap the Pokeball icon on any card to save it.
 								</Text>
 							</View>
 						) : null
 					}
-					ListFooterComponent={
-						isFetchingNextPage && !isSavedMode ? <ActivityIndicator /> : null
-					}
+					ListFooterComponent={isFetchingNextPage && !isSavedMode ? <ActivityIndicator /> : null}
 				/>
 
 				<ScrollToTop

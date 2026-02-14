@@ -11,6 +11,7 @@
 Claude Code automatically discovers this skill when you mention:
 
 ### Primary Keywords
+
 - react-native
 - react native
 - expo
@@ -22,6 +23,7 @@ Claude Code automatically discovers this skill when you mention:
 - hermes engine
 
 ### Secondary Keywords
+
 - react-native-cli
 - expo-cli
 - react native devtools
@@ -34,6 +36,7 @@ Claude Code automatically discovers this skill when you mention:
 - objective-c appdelegate
 
 ### Version-Specific Keywords
+
 - react-native 0.76
 - react-native 0.77
 - react-native 0.78
@@ -46,6 +49,7 @@ Claude Code automatically discovers this skill when you mention:
 - react 19
 
 ### Error-Based Keywords
+
 - "Fabric component descriptor not found"
 - "TurboModule not registered"
 - "propTypes is not a function"
@@ -67,6 +71,7 @@ Claude Code automatically discovers this skill when you mention:
 - "glog module import error"
 
 ### CSS Feature Keywords
+
 - display: contents
 - boxSizing
 - mixBlendMode
@@ -76,6 +81,7 @@ Claude Code automatically discovers this skill when you mention:
 - react native css
 
 ### React 19 Keywords
+
 - useActionState
 - useOptimistic
 - use hook
@@ -106,26 +112,27 @@ This skill provides knowledge-gap-focused guidance for React Native 0.76-0.82+ a
 
 ## Known Issues This Skill Prevents
 
-| Issue | Why It Happens | Source | How Skill Fixes It |
-|-------|---------------|---------|-------------------|
-| propTypes silently ignored | React 19 removed runtime validation | [React 19 Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) | Use TypeScript, run codemod |
-| forwardRef deprecated warning | React 19 allows ref as regular prop | [React 19 Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide) | Remove wrapper, pass ref directly |
-| New Architecture can't be disabled (0.82+) | Legacy removed from codebase | [RN 0.82 Release](https://reactnative.dev/blog/2025/10/release-0.82) | Migrate before upgrading to 0.82+ |
-| "Fabric component not found" | Library not compatible with New Arch | [New Arch Guide](https://reactnative.dev/docs/new-architecture-intro) | Update library or use interop |
-| "TurboModule not registered" | Module needs New Arch support | [New Arch Guide](https://reactnative.dev/docs/new-architecture-intro) | Update or use interop layer |
-| Swift AppDelegate errors | Missing RCTAppDependencyProvider | [RN 0.77 Release](https://reactnative.dev/blog/2025/01/14/release-0.77) | Add provider line to Swift file |
-| Metro logs not appearing | Log forwarding removed | [RN 0.77 Release](https://reactnative.dev/blog/2025/01/14/release-0.77) | Use DevTools Console (press 'j') |
-| Chrome debugger not working | Old debugger removed | [RN 0.79 Release](https://reactnative.dev/blog/2025/04/release-0.79) | Use React Native DevTools |
-| Deep import errors | Internal paths deprecated | [RN 0.80 Release](https://reactnative.dev/blog/2025/06/release-0.80) | Import from 'react-native' only |
-| Redux crashes on startup | Old redux incompatible | [Redux Toolkit Guide](https://redux-toolkit.js.org/usage/usage-guide) | Use Redux Toolkit |
-| i18n-js unreliable | Not compatible with New Arch | Community reports | Use react-i18next |
-| CodePush crashes | Known New Arch incompatibility | [CodePush Issues](https://github.com/microsoft/react-native-code-push/issues) | Avoid or use alternatives |
+| Issue                                      | Why It Happens                       | Source                                                                        | How Skill Fixes It                |
+| ------------------------------------------ | ------------------------------------ | ----------------------------------------------------------------------------- | --------------------------------- |
+| propTypes silently ignored                 | React 19 removed runtime validation  | [React 19 Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)    | Use TypeScript, run codemod       |
+| forwardRef deprecated warning              | React 19 allows ref as regular prop  | [React 19 Guide](https://react.dev/blog/2024/04/25/react-19-upgrade-guide)    | Remove wrapper, pass ref directly |
+| New Architecture can't be disabled (0.82+) | Legacy removed from codebase         | [RN 0.82 Release](https://reactnative.dev/blog/2025/10/release-0.82)          | Migrate before upgrading to 0.82+ |
+| "Fabric component not found"               | Library not compatible with New Arch | [New Arch Guide](https://reactnative.dev/docs/new-architecture-intro)         | Update library or use interop     |
+| "TurboModule not registered"               | Module needs New Arch support        | [New Arch Guide](https://reactnative.dev/docs/new-architecture-intro)         | Update or use interop layer       |
+| Swift AppDelegate errors                   | Missing RCTAppDependencyProvider     | [RN 0.77 Release](https://reactnative.dev/blog/2025/01/14/release-0.77)       | Add provider line to Swift file   |
+| Metro logs not appearing                   | Log forwarding removed               | [RN 0.77 Release](https://reactnative.dev/blog/2025/01/14/release-0.77)       | Use DevTools Console (press 'j')  |
+| Chrome debugger not working                | Old debugger removed                 | [RN 0.79 Release](https://reactnative.dev/blog/2025/04/release-0.79)          | Use React Native DevTools         |
+| Deep import errors                         | Internal paths deprecated            | [RN 0.80 Release](https://reactnative.dev/blog/2025/06/release-0.80)          | Import from 'react-native' only   |
+| Redux crashes on startup                   | Old redux incompatible               | [Redux Toolkit Guide](https://redux-toolkit.js.org/usage/usage-guide)         | Use Redux Toolkit                 |
+| i18n-js unreliable                         | Not compatible with New Arch         | Community reports                                                             | Use react-i18next                 |
+| CodePush crashes                           | Known New Arch incompatibility       | [CodePush Issues](https://github.com/microsoft/react-native-code-push/issues) | Avoid or use alternatives         |
 
 ---
 
 ## When to Use This Skill
 
 ### ✅ Use When:
+
 - Building new React Native apps with Expo SDK 52+
 - Migrating React Native 0.72-0.75 to 0.76+
 - Upgrading to React Native 0.82+ (New Architecture mandatory)
@@ -138,6 +145,7 @@ This skill provides knowledge-gap-focused guidance for React Native 0.76-0.82+ a
 - Working with Hermes engine exclusively
 
 ### ❌ Don't Use When:
+
 - Using React Native 0.71 or earlier (outdated, use migration guides first)
 - Building bare web React apps (use nextjs or other web skills)
 - Need general React concepts (hooks, components) - this is knowledge-gap focused
@@ -172,13 +180,14 @@ npx expo start
 
 ## Token Efficiency Metrics
 
-| Approach | Tokens Used | Errors Encountered | Time to Complete |
-|----------|------------|-------------------|------------------|
-| **Manual Setup** | ~15,000 | 6-12 (architecture, React 19, tooling) | ~60 min |
-| **With This Skill** | ~3,000 | 0 ✅ | ~15 min |
-| **Savings** | **~80%** | **100%** | **~75%** |
+| Approach            | Tokens Used | Errors Encountered                     | Time to Complete |
+| ------------------- | ----------- | -------------------------------------- | ---------------- |
+| **Manual Setup**    | ~15,000     | 6-12 (architecture, React 19, tooling) | ~60 min          |
+| **With This Skill** | ~3,000      | 0 ✅                                   | ~15 min          |
+| **Savings**         | **~80%**    | **100%**                               | **~75%**         |
 
 **Why the savings:**
+
 - Prevents trial-and-error with New Architecture migration
 - Avoids React 19 breaking changes (propTypes, forwardRef)
 - Correct DevTools setup from the start (no Chrome debugger confusion)
@@ -188,15 +197,15 @@ npx expo start
 
 ## Package Versions (Verified 2025-11-22)
 
-| Package | Version | Status |
-|---------|---------|--------|
-| react-native | 0.82.0 | ✅ Latest stable |
-| react | 19.1.0 | ✅ Latest stable |
-| expo | ~52.0.0 | ✅ Latest SDK |
-| @react-navigation/native | ^7.0.0 | ✅ Latest stable |
-| @reduxjs/toolkit | ^2.0.0 | ✅ New Arch compatible |
-| react-i18next | ^15.0.0 | ✅ New Arch compatible |
-| typescript | ^5.7.0 | ✅ Latest stable |
+| Package                  | Version | Status                 |
+| ------------------------ | ------- | ---------------------- |
+| react-native             | 0.82.0  | ✅ Latest stable       |
+| react                    | 19.1.0  | ✅ Latest stable       |
+| expo                     | ~52.0.0 | ✅ Latest SDK          |
+| @react-navigation/native | ^7.0.0  | ✅ Latest stable       |
+| @reduxjs/toolkit         | ^2.0.0  | ✅ New Arch compatible |
+| react-i18next            | ^15.0.0 | ✅ New Arch compatible |
+| typescript               | ^5.7.0  | ✅ Latest stable       |
 
 ---
 
@@ -205,6 +214,7 @@ npx expo start
 **Prerequisites**: Node.js 18+, Expo CLI
 
 **Integrates With**:
+
 - react-hook-form-zod (optional) - Form validation
 - nextjs (optional) - If building React Native Web
 - tailwind-v4-shadcn (optional) - React Native Web styling
@@ -245,8 +255,8 @@ react-native-expo/
 
 This skill includes **1 companion agent** for common workflows:
 
-| Agent | Purpose | Trigger Phrases |
-|-------|---------|-----------------|
+| Agent          | Purpose                         | Trigger Phrases                                      |
+| -------------- | ------------------------------- | ---------------------------------------------------- |
 | **expo-build** | Build → test → submit to stores | "build expo app", "submit to app store", "eas build" |
 
 **Why use the agent?** Context hygiene. EAS build logs are extremely verbose (500+ lines) - the agent runs in isolated context and returns a clean summary with build IDs and download links.
@@ -264,6 +274,7 @@ This skill includes **1 companion agent** for common workflows:
 ## Contributing
 
 Found an issue or have a suggestion?
+
 - Open an issue: https://github.com/jezweb/claude-skills/issues
 - See [SKILL.md](SKILL.md) for detailed documentation
 

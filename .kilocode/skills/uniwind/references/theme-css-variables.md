@@ -12,10 +12,10 @@ Uniwind uses Tailwind 4's @theme directive for CSS variables. This enables seman
 **Incorrect (hardcoded colors everywhere):**
 
 ```tsx
-<View className="bg-white dark:bg-black">
-  <Text className="text-gray-900 dark:text-white">
-    {/* Repeated throughout app, hard to maintain */}
-  </Text>
+<View className='bg-white dark:bg-black'>
+	<Text className='text-gray-900 dark:text-white'>
+		{/* Repeated throughout app, hard to maintain */}
+	</Text>
 </View>
 ```
 
@@ -27,22 +27,21 @@ Uniwind uses Tailwind 4's @theme directive for CSS variables. This enables seman
 @import 'uniwind';
 
 @theme {
-  --color-background: #ffffff;
-  --color-foreground: #000000;
-  --color-primary: #3b82f6;
-  --color-muted: #6b7280;
+	--color-background: #ffffff;
+	--color-foreground: #000000;
+	--color-primary: #3b82f6;
+	--color-muted: #6b7280;
 }
 ```
 
 ```tsx
-<View className="bg-background">
-  <Text className="text-foreground">
-    {/* Automatically adapts to theme */}
-  </Text>
+<View className='bg-background'>
+	<Text className='text-foreground'>{/* Automatically adapts to theme */}</Text>
 </View>
 ```
 
 **Benefits:**
+
 - Single source of truth for colors
 - Easy theme switching
 - Consistent design system

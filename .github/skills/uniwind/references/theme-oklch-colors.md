@@ -13,9 +13,9 @@ OKLCH provides perceptually uniform colors. Changing lightness or chroma produce
 
 ```css
 @theme {
-  --color-primary-light: #60a5fa;  /* Looks okay */
-  --color-primary: #3b82f6;        /* Looks darker than expected */
-  --color-primary-dark: #2563eb;   /* Jump in perceived darkness */
+	--color-primary-light: #60a5fa; /* Looks okay */
+	--color-primary: #3b82f6; /* Looks darker than expected */
+	--color-primary-dark: #2563eb; /* Jump in perceived darkness */
 }
 ```
 
@@ -23,22 +23,24 @@ OKLCH provides perceptually uniform colors. Changing lightness or chroma produce
 
 ```css
 @theme {
-  /* OKLCH: lightness (0-100%), chroma, hue */
-  --color-primary-light: oklch(75% 0.15 250);
-  --color-primary: oklch(60% 0.15 250);
-  --color-primary-dark: oklch(45% 0.15 250);
+	/* OKLCH: lightness (0-100%), chroma, hue */
+	--color-primary-light: oklch(75% 0.15 250);
+	--color-primary: oklch(60% 0.15 250);
+	--color-primary-dark: oklch(45% 0.15 250);
 
-  /* Consistent 15% lightness steps */
+	/* Consistent 15% lightness steps */
 }
 ```
 
 **Benefits of OKLCH:**
+
 - Predictable lightness gradients
 - Better accessibility contrast ratios
 - Easier to generate color scales programmatically
 - More consistent across different displays
 
 **When to use:**
+
 - Building design systems
 - Creating accessible color palettes
 - Generating hover/active state variations

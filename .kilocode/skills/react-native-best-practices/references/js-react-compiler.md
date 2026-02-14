@@ -71,11 +71,11 @@ Then enable in your app config:
 ```json
 // app.json
 {
-  "expo": {
-    "experiments": {
-      "reactCompiler": true
-    }
-  }
+	"expo": {
+		"experiments": {
+			"reactCompiler": true
+		}
+	}
 }
 ```
 
@@ -98,18 +98,18 @@ For non-Expo React Native projects, configure Babel manually:
 ```javascript
 // babel.config.js
 const ReactCompilerConfig = {
-  target: '19', // Use '18' for React Native < 0.78
+	target: '19', // Use '18' for React Native < 0.78
 };
 
 module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['module:@react-native/babel-preset'],
-    plugins: [
-      ['babel-plugin-react-compiler', ReactCompilerConfig], // Must run first!
-      // ... other plugins
-    ],
-  };
+	api.cache(true);
+	return {
+		presets: ['module:@react-native/babel-preset'],
+		plugins: [
+			['babel-plugin-react-compiler', ReactCompilerConfig], // Must run first!
+			// ... other plugins
+		],
+	};
 };
 ```
 
@@ -135,11 +135,11 @@ const expoConfig = require('eslint-config-expo/flat');
 const reactCompiler = require('eslint-plugin-react-compiler');
 
 module.exports = defineConfig([
-  expoConfig,
-  reactCompiler.configs.recommended,
-  {
-    ignores: ['dist/*'],
-  },
+	expoConfig,
+	reactCompiler.configs.recommended,
+	{
+		ignores: ['dist/*'],
+	},
 ]);
 ```
 
@@ -161,15 +161,15 @@ You can also verify by checking build output—compiled code includes automatic 
 import { c as _c } from 'react/compiler-runtime';
 
 export default function MyApp() {
-  const $ = _c(1);
-  let t0;
-  if ($[0] === Symbol.for('react.memo_cache_sentinel')) {
-    t0 = <div>Hello World</div>;
-    $[0] = t0;
-  } else {
-    t0 = $[0];
-  }
-  return t0;
+	const $ = _c(1);
+	let t0;
+	if ($[0] === Symbol.for('react.memo_cache_sentinel')) {
+		t0 = <div>Hello World</div>;
+		$[0] = t0;
+	} else {
+		t0 = $[0];
+	}
+	return t0;
 }
 ```
 
@@ -188,21 +188,21 @@ Configure the Babel plugin to only run on specific files, e.g. `src/path/to/dir`
 ```javascript
 // babel.config.js
 module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: [
-      [
-        'babel-preset-expo',
-        {
-          'react-compiler': {
-            sources: (filename) => {
-              return filename.includes('src/path/to/dir');
-            },
-          },
-        },
-      ],
-    ],
-  };
+	api.cache(true);
+	return {
+		presets: [
+			[
+				'babel-preset-expo',
+				{
+					'react-compiler': {
+						sources: filename => {
+							return filename.includes('src/path/to/dir');
+						},
+					},
+				},
+			],
+		],
+	};
 };
 ```
 
@@ -211,18 +211,18 @@ module.exports = function (api) {
 ```javascript
 // babel.config.js
 const ReactCompilerConfig = {
-  target: '19',
-  sources: (filename) => {
-    return filename.includes('src/path/to/dir');
-  },
+	target: '19',
+	sources: filename => {
+		return filename.includes('src/path/to/dir');
+	},
 };
 
 module.exports = function (api) {
-  api.cache(true);
-  return {
-    presets: ['module:@react-native/babel-preset'],
-    plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
-  };
+	api.cache(true);
+	return {
+		presets: ['module:@react-native/babel-preset'],
+		plugins: [['babel-plugin-react-compiler', ReactCompilerConfig]],
+	};
 };
 ```
 
@@ -242,9 +242,9 @@ Use the `"use no memo"` directive to skip optimization for specific components o
 
 ```jsx
 function ProblematicComponent() {
-  'use no memo';
+	'use no memo';
 
-  return <Text>Will not be optimized</Text>;
+	return <Text>Will not be optimized</Text>;
 }
 ```
 
@@ -258,10 +258,8 @@ The compiler transforms your code to automatically cache values:
 
 ```jsx
 export default function MyApp() {
-  const [value, setValue] = useState('');
-  return (
-    <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-  );
+	const [value, setValue] = useState('');
+	return <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>;
 }
 ```
 
@@ -271,20 +269,18 @@ export default function MyApp() {
 import { c as _c } from 'react/compiler-runtime';
 
 export default function MyApp() {
-  const $ = _c(2); // Cache with 2 slots
-  const [value, setValue] = useState('');
+	const $ = _c(2); // Cache with 2 slots
+	const [value, setValue] = useState('');
 
-  let t0;
-  if ($[0] !== value) {
-    t0 = (
-      <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>
-    );
-    $[0] = value;
-    $[1] = t0;
-  } else {
-    t0 = $[1]; // Return cached JSX
-  }
-  return t0;
+	let t0;
+	if ($[0] !== value) {
+		t0 = <TextInput onChangeText={() => setValue(value)}>Hello World</TextInput>;
+		$[0] = value;
+		$[1] = t0;
+	} else {
+		t0 = $[1]; // Return cached JSX
+	}
+	return t0;
 }
 ```
 
@@ -299,18 +295,18 @@ Test transformations at [React Playground](https://playground.react.dev/).
 ```jsx
 // Components - auto-memoized
 const Button = ({ onPress, label }) => (
-  <Pressable onPress={onPress}>
-    <Text>{label}</Text>
-  </Pressable>
+	<Pressable onPress={onPress}>
+		<Text>{label}</Text>
+	</Pressable>
 );
 
 // Callbacks - auto-cached (no useCallback needed)
 const handlePress = () => {
-  console.log('pressed');
+	console.log('pressed');
 };
 
 // Expensive computations - auto-cached (no useMemo needed)
-const filtered = items.filter((item) => item.active);
+const filtered = items.filter(item => item.active);
 ```
 
 ### What Breaks Compilation
@@ -318,22 +314,22 @@ const filtered = items.filter((item) => item.active);
 ```jsx
 // BAD: Mutating props
 const BadComponent = ({ items }) => {
-  items.push('new item'); // Mutation!
-  return <List data={items} />;
+	items.push('new item'); // Mutation!
+	return <List data={items} />;
 };
 
 // BAD: Mutating during render
 const BadMutation = () => {
-  const [items, setItems] = useState([]);
-  items.push('new'); // Mutation during render!
-  return <List data={items} />;
+	const [items, setItems] = useState([]);
+	items.push('new'); // Mutation during render!
+	return <List data={items} />;
 };
 
 // BAD: Non-idempotent render
 let counter = 0;
 const BadRender = () => {
-  counter++; // Side effect during render!
-  return <Text>{counter}</Text>;
+	counter++; // Side effect during render!
+	return <Text>{counter}</Text>;
 };
 ```
 

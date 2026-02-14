@@ -12,20 +12,20 @@ Use `ios:` and `android:` prefixes to apply platform-specific styles without Jav
 **Incorrect (JavaScript Platform.select):**
 
 ```tsx
-import { Platform, View, Text } from 'react-native'
+import { Platform, View, Text } from 'react-native';
 
 function Card() {
-  return (
-    <View
-      style={Platform.select({
-        ios: { shadowColor: '#000', shadowOpacity: 0.1 },
-        android: { elevation: 4 },
-      })}
-      className="bg-card rounded-lg p-4"
-    >
-      <Text>Content</Text>
-    </View>
-  )
+	return (
+		<View
+			style={Platform.select({
+				ios: { shadowColor: '#000', shadowOpacity: 0.1 },
+				android: { elevation: 4 },
+			})}
+			className='bg-card rounded-lg p-4'
+		>
+			<Text>Content</Text>
+		</View>
+	);
 }
 ```
 
@@ -33,15 +33,17 @@ function Card() {
 
 ```tsx
 function Card() {
-  return (
-    <View className="
+	return (
+		<View
+			className='
       bg-card rounded-lg p-4
       ios:shadow-md
       android:elevation-4
-    ">
-      <Text>Content</Text>
-    </View>
-  )
+    '
+		>
+			<Text>Content</Text>
+		</View>
+	);
 }
 ```
 

@@ -14,14 +14,14 @@ Uniwind defaults to 16px for rem calculations. If your design system uses a diff
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  // Using default 16px, but design uses 14px base
-})
+	cssEntryFile: './src/global.css',
+	// Using default 16px, but design uses 14px base
+});
 ```
 
 ```tsx
 // p-4 = 16px (1rem × 16), but design expects 14px
-<View className="p-4" />
+<View className='p-4' />
 ```
 
 **Correct (matching design system):**
@@ -29,11 +29,11 @@ module.exports = withUniwindConfig(config, {
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  polyfills: {
-    rem: 14,  // Match your design system's base
-  },
-})
+	cssEntryFile: './src/global.css',
+	polyfills: {
+		rem: 14, // Match your design system's base
+	},
+});
 ```
 
 **When to change rem:**
@@ -43,6 +43,7 @@ module.exports = withUniwindConfig(config, {
 - Web app migration with existing rem-based spacing
 
 **Keep default 16px when:**
+
 - Starting fresh with Uniwind
 - Using Tailwind's standard spacing scale
 - No existing design system constraints

@@ -43,6 +43,7 @@ const deferredQuery = useDeferredValue(query);
 ## Concept Overview
 
 **Concurrent React** allows updates to be:
+
 - **Paused**: Low-priority work can wait
 - **Interrupted**: User input takes priority
 - **Abandoned**: Outdated updates can be skipped
@@ -57,23 +58,23 @@ Use when a value drives expensive computation but you want input to stay respons
 import { useState, useDeferredValue } from 'react';
 
 const SearchScreen = () => {
-  const [query, setQuery] = useState('');
-  const deferredQuery = useDeferredValue(query);
-  
-  // query updates immediately (input stays responsive)
-  // deferredQuery updates when React has time
-  
-  return (
-    <View>
-      <TextInput
-        value={query}
-        onChangeText={setQuery}
-        placeholder="Search..."
-      />
-      {/* ExpensiveList receives deferred value */}
-      <ExpensiveList query={deferredQuery} />
-    </View>
-  );
+	const [query, setQuery] = useState('');
+	const deferredQuery = useDeferredValue(query);
+
+	// query updates immediately (input stays responsive)
+	// deferredQuery updates when React has time
+
+	return (
+		<View>
+			<TextInput
+				value={query}
+				onChangeText={setQuery}
+				placeholder='Search...'
+			/>
+			{/* ExpensiveList receives deferred value */}
+			<ExpensiveList query={deferredQuery} />
+		</View>
+	);
 };
 ```
 
@@ -81,19 +82,22 @@ const SearchScreen = () => {
 
 ```jsx
 const SearchWithStaleIndicator = () => {
-  const [query, setQuery] = useState('');
-  const deferredQuery = useDeferredValue(query);
-  const isStale = query !== deferredQuery;
-  
-  return (
-    <View>
-      <TextInput value={query} onChangeText={setQuery} />
-      <View style={isStale && { opacity: 0.7 }}>
-        <SearchResults query={deferredQuery} />
-      </View>
-      {isStale && <ActivityIndicator />}
-    </View>
-  );
+	const [query, setQuery] = useState('');
+	const deferredQuery = useDeferredValue(query);
+	const isStale = query !== deferredQuery;
+
+	return (
+		<View>
+			<TextInput
+				value={query}
+				onChangeText={setQuery}
+			/>
+			<View style={isStale && { opacity: 0.7 }}>
+				<SearchResults query={deferredQuery} />
+			</View>
+			{isStale && <ActivityIndicator />}
+		</View>
+	);
 };
 ```
 
@@ -105,27 +109,30 @@ Use when you have multiple state updates and want to mark some as low-priority.
 import { useState, useTransition } from 'react';
 
 const TransitionExample = () => {
-  const [count, setCount] = useState(0);
-  const [heavyData, setHeavyData] = useState(null);
-  const [isPending, startTransition] = useTransition();
-  
-  const handleIncrement = () => {
-    // High priority - updates immediately
-    setCount(c => c + 1);
-    
-    // Low priority - can be interrupted
-    startTransition(() => {
-      setHeavyData(computeExpensiveData());
-    });
-  };
-  
-  return (
-    <View>
-      <Text>Count: {count}</Text>
-      {isPending ? <ActivityIndicator /> : <HeavyComponent data={heavyData} />}
-      <Button onPress={handleIncrement} title="Increment" />
-    </View>
-  );
+	const [count, setCount] = useState(0);
+	const [heavyData, setHeavyData] = useState(null);
+	const [isPending, startTransition] = useTransition();
+
+	const handleIncrement = () => {
+		// High priority - updates immediately
+		setCount(c => c + 1);
+
+		// Low priority - can be interrupted
+		startTransition(() => {
+			setHeavyData(computeExpensiveData());
+		});
+	};
+
+	return (
+		<View>
+			<Text>Count: {count}</Text>
+			{isPending ? <ActivityIndicator /> : <HeavyComponent data={heavyData} />}
+			<Button
+				onPress={handleIncrement}
+				title='Increment'
+			/>
+		</View>
+	);
 };
 ```
 
@@ -135,17 +142,20 @@ const TransitionExample = () => {
 import { Suspense, useDeferredValue } from 'react';
 
 const DataScreen = () => {
-  const [query, setQuery] = useState('');
-  const deferredQuery = useDeferredValue(query);
-  
-  return (
-    <View>
-      <TextInput value={query} onChangeText={setQuery} />
-      <Suspense fallback={<LoadingSpinner />}>
-        <SearchResults query={deferredQuery} />
-      </Suspense>
-    </View>
-  );
+	const [query, setQuery] = useState('');
+	const deferredQuery = useDeferredValue(query);
+
+	return (
+		<View>
+			<TextInput
+				value={query}
+				onChangeText={setQuery}
+			/>
+			<Suspense fallback={<LoadingSpinner />}>
+				<SearchResults query={deferredQuery} />
+			</Suspense>
+		</View>
+	);
 };
 ```
 
@@ -156,32 +166,38 @@ const DataScreen = () => {
 ```jsx
 // Without Concurrent React - UI freezes
 const SlowSearch = () => {
-  const [query, setQuery] = useState('');
-  
-  return (
-    <>
-      <TextInput value={query} onChangeText={setQuery} />
-      <SlowComponent query={query} /> {/* Blocks every keystroke */}
-    </>
-  );
+	const [query, setQuery] = useState('');
+
+	return (
+		<>
+			<TextInput
+				value={query}
+				onChangeText={setQuery}
+			/>
+			<SlowComponent query={query} /> {/* Blocks every keystroke */}
+		</>
+	);
 };
 
-// With Concurrent React - UI stays responsive  
+// With Concurrent React - UI stays responsive
 const FastSearch = () => {
-  const [query, setQuery] = useState('');
-  const deferredQuery = useDeferredValue(query);
-  
-  return (
-    <>
-      <TextInput value={query} onChangeText={setQuery} />
-      <SlowComponent query={deferredQuery} />
-    </>
-  );
+	const [query, setQuery] = useState('');
+	const deferredQuery = useDeferredValue(query);
+
+	return (
+		<>
+			<TextInput
+				value={query}
+				onChangeText={setQuery}
+			/>
+			<SlowComponent query={deferredQuery} />
+		</>
+	);
 };
 
 // Important: Wrap SlowComponent in memo to prevent re-renders from parent
 const SlowComponent = memo(({ query }) => {
-  // Expensive computation here
+	// Expensive computation here
 });
 ```
 
@@ -192,28 +208,28 @@ React 18 automatically batches state updates:
 ```jsx
 // Before React 18 - 2 re-renders
 setTimeout(() => {
-  setCount(c => c + 1);
-  setFlag(f => !f);
-  // Rendered twice
+	setCount(c => c + 1);
+	setFlag(f => !f);
+	// Rendered twice
 }, 1000);
 
 // React 18+ - 1 re-render (automatic batching)
 setTimeout(() => {
-  setCount(c => c + 1);
-  setFlag(f => !f);
-  // Rendered once!
+	setCount(c => c + 1);
+	setFlag(f => !f);
+	// Rendered once!
 }, 1000);
 ```
 
 ## When to Use Which
 
-| Scenario | Solution |
-|----------|----------|
-| Single value drives expensive render | `useDeferredValue` |
-| Multiple state updates, some non-critical | `useTransition` |
-| Need loading indicator for transition | `useTransition` (has `isPending`) |
-| Data fetching with loading states | `Suspense` + `useDeferredValue` |
-| Simple parent-to-child value deferral | `useDeferredValue` |
+| Scenario                                  | Solution                          |
+| ----------------------------------------- | --------------------------------- |
+| Single value drives expensive render      | `useDeferredValue`                |
+| Multiple state updates, some non-critical | `useTransition`                   |
+| Need loading indicator for transition     | `useTransition` (has `isPending`) |
+| Data fetching with loading states         | `Suspense` + `useDeferredValue`   |
+| Simple parent-to-child value deferral     | `useDeferredValue`                |
 
 ## Important Considerations
 

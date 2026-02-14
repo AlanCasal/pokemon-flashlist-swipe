@@ -1,0 +1,17 @@
+node_modules/
+_mocks_
+android
+ios
+fastlane
+resources
+scripts
+tmp
+src/generated/*
+src/generated/schemaTypes.ts
+src/generated
+.eslintrc.js
+eslint-rules/
+components/clerk/*
+app.json
+bun.lock
+package.json

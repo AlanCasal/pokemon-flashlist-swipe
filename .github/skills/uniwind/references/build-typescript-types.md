@@ -14,9 +14,9 @@ Uniwind generates TypeScript definitions during build. Proper placement enables 
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  dtsFile: './uniwind-types.d.ts',  // Root level, may not be included
-})
+	cssEntryFile: './src/global.css',
+	dtsFile: './uniwind-types.d.ts', // Root level, may not be included
+});
 ```
 
 **Correct (types in src for automatic inclusion):**
@@ -24,9 +24,9 @@ module.exports = withUniwindConfig(config, {
 ```javascript
 // metro.config.js
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  dtsFile: './src/uniwind-types.d.ts',  // Auto-included by TypeScript
-})
+	cssEntryFile: './src/global.css',
+	dtsFile: './src/uniwind-types.d.ts', // Auto-included by TypeScript
+});
 ```
 
 **Alternative (explicit tsconfig inclusion):**
@@ -34,13 +34,14 @@ module.exports = withUniwindConfig(config, {
 ```json
 // tsconfig.json
 {
-  "compilerOptions": {
-    "types": ["./uniwind-types.d.ts"]
-  }
+	"compilerOptions": {
+		"types": ["./uniwind-types.d.ts"]
+	}
 }
 ```
 
 **Benefits of proper type generation:**
+
 - Autocomplete for all Tailwind utilities
 - Type checking for platform variants (`ios:`, `android:`)
 - IntelliSense for custom CSS classes

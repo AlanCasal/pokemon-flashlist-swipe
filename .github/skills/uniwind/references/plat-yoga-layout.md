@@ -23,26 +23,29 @@ React Native uses Yoga, not browser CSS. Key differences affect layout behavior 
 
 ```tsx
 // All Views are flexbox by default with flexDirection: 'column'
-<View className="flex-1">
-  <View className="flex-row">      {/* Explicit row layout */}
-    <View className="flex-1" />    {/* Flex children */}
-    <View className="flex-1" />
-  </View>
+<View className='flex-1'>
+	<View className='flex-row'>
+		{' '}
+		{/* Explicit row layout */}
+		<View className='flex-1' /> {/* Flex children */}
+		<View className='flex-1' />
+	</View>
 </View>
 ```
 
 **Key Yoga differences:**
 
-| Web CSS | Yoga/React Native |
-|---------|-------------------|
-| `display: block` (default) | `display: flex` (always) |
-| `flex-direction: row` | `flex-direction: column` (default) |
-| Styles cascade/inherit | Styles don't inherit |
-| `em`/`rem` units | Use Uniwind's rem polyfill |
-| CSS Grid | Not supported (in progress) |
-| `position: fixed` | Use `absolute` + safe areas |
+| Web CSS                    | Yoga/React Native                  |
+| -------------------------- | ---------------------------------- |
+| `display: block` (default) | `display: flex` (always)           |
+| `flex-direction: row`      | `flex-direction: column` (default) |
+| Styles cascade/inherit     | Styles don't inherit               |
+| `em`/`rem` units           | Use Uniwind's rem polyfill         |
+| CSS Grid                   | Not supported (in progress)        |
+| `position: fixed`          | Use `absolute` + safe areas        |
 
 **Unsupported web features:**
+
 - `float`, `clear`
 - Pseudo-elements (`::before`, `::after`)
 - `hover:`, `visited:` pseudo-classes

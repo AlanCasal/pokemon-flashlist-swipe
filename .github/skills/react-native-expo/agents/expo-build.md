@@ -27,6 +27,7 @@ cat app.json | head -30
 ```
 
 Verify:
+
 - Expo SDK version
 - App name and slug
 - Version and buildNumber/versionCode
@@ -34,6 +35,7 @@ Verify:
 ### 2. Determine Build Target
 
 Ask if not specified:
+
 - **Development**: Local testing build
 - **Preview**: Internal testing (TestFlight/Internal Track)
 - **Production**: App store submission
@@ -47,6 +49,7 @@ cat eas.json
 Verify profiles exist for target (development/preview/production).
 
 If missing, create:
+
 ```bash
 npx eas-cli build:configure
 ```
@@ -65,6 +68,7 @@ npm test 2>/dev/null || echo "No test script"
 ```
 
 If errors:
+
 - Report clearly
 - STOP for TypeScript errors
 - WARN for lint/test issues
@@ -79,6 +83,7 @@ grep -E '"version"|"buildNumber"|"versionCode"' app.json
 ```
 
 Ask user:
+
 - Bump patch? (1.0.0 → 1.0.1)
 - Bump minor? (1.0.0 → 1.1.0)
 - Bump major? (1.0.0 → 2.0.0)
@@ -87,21 +92,25 @@ Ask user:
 ### 6. Build
 
 **Android:**
+
 ```bash
 npx eas-cli build --platform android --profile [development|preview|production]
 ```
 
 **iOS:**
+
 ```bash
 npx eas-cli build --platform ios --profile [development|preview|production]
 ```
 
 **Both:**
+
 ```bash
 npx eas-cli build --platform all --profile [development|preview|production]
 ```
 
 Monitor build output for:
+
 - Build ID
 - Estimated time
 - Any warnings
@@ -125,6 +134,7 @@ npx eas-cli build:list --platform [android|ios] --limit 1
 ```
 
 Provide:
+
 - APK/IPA download link
 - QR code for Expo Go (if applicable)
 - Installation instructions
@@ -132,16 +142,19 @@ Provide:
 ### 9. Submit to Stores (Production)
 
 **iOS (App Store Connect):**
+
 ```bash
 npx eas-cli submit --platform ios --latest
 ```
 
 **Android (Google Play):**
+
 ```bash
 npx eas-cli submit --platform android --latest
 ```
 
 Prerequisites:
+
 - iOS: App Store Connect API key configured
 - Android: Service account JSON configured
 
@@ -155,48 +168,53 @@ Prerequisites:
 **Profile**: [development|preview|production]
 
 ### Pre-flight
+
 - TypeScript: ✅ passed
 - Lint: ✅ passed / ⚠️ warnings / ❌ failed
 - Tests: ✅ passed / ⚠️ skipped
 
 ### Builds
-| Platform | Status | Build ID |
-|----------|--------|----------|
-| Android | ✅ Complete | [id] |
-| iOS | ✅ Complete | [id] |
+
+| Platform | Status      | Build ID |
+| -------- | ----------- | -------- |
+| Android  | ✅ Complete | [id]     |
+| iOS      | ✅ Complete | [id]     |
 
 ### Downloads
+
 - Android APK: [url]
 - iOS IPA: [url] (or TestFlight)
 
 ### Submission
-| Platform | Status | Track |
-|----------|--------|-------|
-| Android | ✅ Submitted | [internal/production] |
-| iOS | ✅ Submitted | TestFlight |
+
+| Platform | Status       | Track                 |
+| -------- | ------------ | --------------------- |
+| Android  | ✅ Submitted | [internal/production] |
+| iOS      | ✅ Submitted | TestFlight            |
 
 ### Next Steps
+
 - [For preview] Share TestFlight/Internal Track links with testers
 - [For production] Monitor review status in App Store Connect / Google Play Console
 ```
 
 ## Build Profiles Reference
 
-| Profile | Use Case | Signing |
-|---------|----------|---------|
-| development | Local testing, debugging | Debug |
-| preview | Internal testing, QA | Ad-hoc/Internal |
-| production | App store release | Distribution |
+| Profile     | Use Case                 | Signing         |
+| ----------- | ------------------------ | --------------- |
+| development | Local testing, debugging | Debug           |
+| preview     | Internal testing, QA     | Ad-hoc/Internal |
+| production  | App store release        | Distribution    |
 
 ## Common Issues
 
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| "Credentials not found" | Missing signing setup | Run `eas credentials` |
-| "Build failed: SDK version" | Incompatible SDK | Update Expo SDK |
-| "App icon missing" | No icon configured | Add to app.json assets |
-| "Splash screen error" | Wrong dimensions | 1284x2778 for splash |
-| Android targetSdk error | SDK too low | Use `expo-build-properties` plugin |
+| Issue                       | Cause                 | Fix                                |
+| --------------------------- | --------------------- | ---------------------------------- |
+| "Credentials not found"     | Missing signing setup | Run `eas credentials`              |
+| "Build failed: SDK version" | Incompatible SDK      | Update Expo SDK                    |
+| "App icon missing"          | No icon configured    | Add to app.json assets             |
+| "Splash screen error"       | Wrong dimensions      | 1284x2778 for splash               |
+| Android targetSdk error     | SDK too low           | Use `expo-build-properties` plugin |
 
 ## Do NOT
 

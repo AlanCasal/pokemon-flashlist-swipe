@@ -13,36 +13,37 @@ Uniwind doesn't automatically deduplicate conflicting utilities. Use `tailwind-m
 
 ```tsx
 function Card({ className }: { className?: string }) {
-  // Both bg-card AND bg-red-500 may apply!
-  return (
-    <View className={`bg-card p-4 rounded ${className}`}>
-      <Text>Content</Text>
-    </View>
-  )
+	// Both bg-card AND bg-red-500 may apply!
+	return (
+		<View className={`bg-card p-4 rounded ${className}`}>
+			<Text>Content</Text>
+		</View>
+	);
 }
 
 // Usage - unpredictable which background wins
-<Card className="bg-red-500" />
+<Card className='bg-red-500' />;
 ```
 
 **Correct (using tailwind-merge):**
 
 ```tsx
-import { twMerge } from 'tailwind-merge'
+import { twMerge } from 'tailwind-merge';
 
 function Card({ className }: { className?: string }) {
-  return (
-    <View className={twMerge('bg-card p-4 rounded', className)}>
-      <Text>Content</Text>
-    </View>
-  )
+	return (
+		<View className={twMerge('bg-card p-4 rounded', className)}>
+			<Text>Content</Text>
+		</View>
+	);
 }
 
 // Usage - bg-red-500 correctly overrides bg-card
-<Card className="bg-red-500" />
+<Card className='bg-red-500' />;
 ```
 
 **When to use tailwind-merge:**
+
 - Components that accept className prop for overrides
 - Composing multiple class sources
 - Building component libraries

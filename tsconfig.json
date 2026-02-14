@@ -33,7 +33,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.d.ts",
-    ".eslintrc.json",
+    ".eslintrc.js",
     "*.config.js"
   ],
   "exclude": [

@@ -13,9 +13,9 @@ The Metro plugin is required for Uniwind to function. Without proper configurati
 
 ```javascript
 // metro.config.js
-const { getDefaultConfig } = require('expo/metro-config')
+const { getDefaultConfig } = require('expo/metro-config');
 
-module.exports = getDefaultConfig(__dirname)
+module.exports = getDefaultConfig(__dirname);
 // No Uniwind integration - styles won't work
 ```
 
@@ -23,15 +23,15 @@ module.exports = getDefaultConfig(__dirname)
 
 ```javascript
 // metro.config.js
-const { getDefaultConfig } = require('expo/metro-config')
-const { withUniwindConfig } = require('uniwind/metro')
+const { getDefaultConfig } = require('expo/metro-config');
+const { withUniwindConfig } = require('uniwind/metro');
 
-const config = getDefaultConfig(__dirname)
+const config = getDefaultConfig(__dirname);
 
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-  dtsFile: './src/uniwind-types.d.ts',
-})
+	cssEntryFile: './src/global.css',
+	dtsFile: './src/uniwind-types.d.ts',
+});
 ```
 
 **Key configuration options:**

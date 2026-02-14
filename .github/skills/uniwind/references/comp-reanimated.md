@@ -12,33 +12,34 @@ React Native Reanimated's components are built on core RN components and support
 **Incorrect (unnecessary wrapping):**
 
 ```tsx
-import { withUniwind } from 'uniwind'
-import Animated from 'react-native-reanimated'
+import { withUniwind } from 'uniwind';
+import Animated from 'react-native-reanimated';
 
 // Unnecessary - adds overhead without benefit
-const AnimatedView = withUniwind(Animated.View)
+const AnimatedView = withUniwind(Animated.View);
 ```
 
 **Correct (use directly):**
 
 ```tsx
-import Animated from 'react-native-reanimated'
+import Animated from 'react-native-reanimated';
 
 function AnimatedCard() {
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }))
+	const animatedStyle = useAnimatedStyle(() => ({
+		transform: [{ scale: scale.value }],
+	}));
 
-  return (
-    <Animated.View
-      className="bg-card rounded-xl p-4"
-      style={animatedStyle}
-    />
-  )
+	return (
+		<Animated.View
+			className='bg-card rounded-xl p-4'
+			style={animatedStyle}
+		/>
+	);
 }
 ```
 
 **Components that work without wrapping:**
+
 - `Animated.View`
 - `Animated.Text`
 - `Animated.Image`

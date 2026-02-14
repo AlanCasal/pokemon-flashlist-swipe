@@ -14,14 +14,14 @@ Migrating from NativeWind to Uniwind requires several configuration changes. Fol
 ```javascript
 // babel.config.js - WRONG: NativeWind preset
 module.exports = {
-  presets: ['nativewind/babel'],  // Remove this!
-}
+	presets: ['nativewind/babel'], // Remove this!
+};
 ```
 
 ```javascript
 // metro.config.js - WRONG: No Uniwind config
-const { getDefaultConfig } = require('expo/metro-config')
-module.exports = getDefaultConfig(__dirname)  // Missing withUniwindConfig!
+const { getDefaultConfig } = require('expo/metro-config');
+module.exports = getDefaultConfig(__dirname); // Missing withUniwindConfig!
 ```
 
 **Correct (Uniwind configuration):**
@@ -29,19 +29,19 @@ module.exports = getDefaultConfig(__dirname)  // Missing withUniwindConfig!
 ```javascript
 // babel.config.js - No NativeWind preset needed
 module.exports = {
-  presets: ['babel-preset-expo'],
-}
+	presets: ['babel-preset-expo'],
+};
 ```
 
 ```javascript
 // metro.config.js - Uniwind configuration
-const { getDefaultConfig } = require('expo/metro-config')
-const { withUniwindConfig } = require('uniwind/metro')
+const { getDefaultConfig } = require('expo/metro-config');
+const { withUniwindConfig } = require('uniwind/metro');
 
-const config = getDefaultConfig(__dirname)
+const config = getDefaultConfig(__dirname);
 module.exports = withUniwindConfig(config, {
-  cssEntryFile: './src/global.css',
-})
+	cssEntryFile: './src/global.css',
+});
 ```
 
 **Full migration checklist:**

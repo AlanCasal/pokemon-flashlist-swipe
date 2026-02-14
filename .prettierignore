@@ -2,3 +2,12 @@ build
 node_modules
 tsconfig.json
 uniwind-types.d.ts
+app.json
+bun.lock
+package.json
+.expo
+android
+ios
+dist
+
+
