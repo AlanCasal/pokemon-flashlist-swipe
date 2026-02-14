@@ -1,4 +1,5 @@
 import { TouchableOpacity, View, Text } from 'react-native';
+import { MotiView } from 'moti';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
 import Info from './Info';
@@ -78,7 +79,10 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 			asChild
 		>
 			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
-				<View
+				<MotiView
+					from={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ type: 'timing', duration: 300 }}
 					className='flex-row items-center justify-between rounded-[10px]'
 					style={containerStyles}
 				>
@@ -107,7 +111,7 @@ const PokeCard = ({ url }: PokemonCardProps) => {
 						types={pokemon.types}
 						id={pokemon.id}
 					/>
-				</View>
+				</MotiView>
 			</TouchableOpacity>
 		</Link>
 	);

@@ -47,10 +47,6 @@ const Pokedex = () => {
 		<PokeCard url={item.url} />
 	);
 
-	useEffect(() => {
-		if (isError) Alert.alert('Error fetching Pokemon:', error.message);
-	}, [isError, error]);
-
 	const pokemonList = useMemo(
 		() =>
 			data?.pages.reduce<Pokemon[]>(
@@ -80,6 +76,10 @@ const Pokedex = () => {
 	const handleScrollToTop = () => {
 		listRef.current?.scrollToOffset({ offset: 0, animated: true });
 	};
+
+	useEffect(() => {
+		if (isError) Alert.alert('Error fetching Pokemon:', error.message);
+	}, [isError, error]);
 
 	if (isLoading && !data) return <ActivityIndicator size='large' />;
 
