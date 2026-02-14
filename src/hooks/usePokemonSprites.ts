@@ -1,7 +1,7 @@
-import { useQueries } from '@tanstack/react-query';
 import { API_URL, TOTAL_POKEMON_COUNT } from '@constants/api';
+import { useQueries } from '@tanstack/react-query';
+import { fetchJson } from '@utils/helpers';
 import { useState } from 'react';
-import axios from 'axios';
 
 const usePokemonSprites = () => {
 	const [randomNumbers] = useState(() => {
@@ -19,11 +19,11 @@ const usePokemonSprites = () => {
 			return {
 				queryKey: ['pokemon', randomNumber],
 				queryFn: async () => {
-					const res = await axios.get(`${API_URL}/${randomNumber}`);
+					const pokemonData = await fetchJson<any>(`${API_URL}/${randomNumber}`);
 
 					return {
-						image: res.data.sprites.other['official-artwork'].front_default,
-						type: res.data.types[0].type.name,
+						image: pokemonData.sprites.other['official-artwork'].front_default,
+						type: pokemonData.types[0].type.name,
 					};
 				},
 			};
@@ -39,11 +39,12 @@ const usePokemonSprites = () => {
 			type: string;
 		}[]
 	>((acc, query) => {
-		if (query.data && !query.isError)
+		if (query.data && !query.isError) {
 			acc.push({
 				image: query.data.image,
 				type: query.data.type,
 			});
+		}
 
 		return acc;
 	}, []);

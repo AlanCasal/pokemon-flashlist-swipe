@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import { fetchJson } from '@utils/helpers';
+
 import { PokemonDetails } from '@/src/types/pokemon';
 
 const FETCH_POKEMON_DETAILS_QUERY_KEY = 'pokemonDetails';
 
 const fetchPokemonDetails = async (url: string) => {
-	const response = await axios.get<PokemonDetails>(url);
-	return response.data;
+	return fetchJson<PokemonDetails>(url);
 };
 
 const usePokemonDetails = (url: string) => {
