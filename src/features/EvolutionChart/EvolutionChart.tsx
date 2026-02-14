@@ -1,5 +1,4 @@
 import { View, Text, ActivityIndicator } from 'react-native';
-import React from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { typeBgColors, typeColors } from '@constants/colors';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';

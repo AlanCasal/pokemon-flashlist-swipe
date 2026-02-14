@@ -1,4 +1,3 @@
-import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { typeColors } from '@constants/colors';
 // eslint-disable-next-line import/no-extraneous-dependencies

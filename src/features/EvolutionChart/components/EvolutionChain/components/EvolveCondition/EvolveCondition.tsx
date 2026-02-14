@@ -1,5 +1,4 @@
 import { Text } from 'react-native';
-import React from 'react';
 import Animated from 'react-native-reanimated';
 import { evolveAnim } from '@utils/animations';
 import { textColor, typeColors } from '@constants/colors';

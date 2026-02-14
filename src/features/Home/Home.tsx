@@ -6,7 +6,6 @@ import {
 	TouchableOpacity,
 	Dimensions,
 } from 'react-native';
-import React from 'react';
 import {
 	pokeballColors,
 	textColor,

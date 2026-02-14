@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tabs } from 'expo-router';
 import CustomTabBar from '@components/Tabs';
 // eslint-disable-next-line import/no-extraneous-dependencies

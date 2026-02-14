@@ -6,7 +6,7 @@ import {
 	View,
 	ViewStyle,
 } from 'react-native';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Pokemon } from '@/src/types/pokemonList';
 import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';

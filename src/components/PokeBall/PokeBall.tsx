@@ -1,6 +1,5 @@
 import { pokeballColors } from '@constants/colors';
 import { usePopAnimation } from '@utils/animations';
-import React from 'react';
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';

@@ -2,7 +2,7 @@ import { pokeballColors } from '@constants/colors';
 import sharedStyles, { TOAST_Z_INDEX } from '@constants/sharedStyles';
 import { useToastConfig } from '@store/toastStore';
 import { useToastAnimation } from '@utils/animations';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';

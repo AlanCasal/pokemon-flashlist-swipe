@@ -1,4 +1,3 @@
-import React from 'react';
 import { PokemonType } from '@/src/types/pokemonTypes';
 import { PokemonIconType, typeIcons } from '@/src/utils/icons';
 

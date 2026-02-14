@@ -82,6 +82,7 @@
 		],
 		"react/display-name": "off",
 		"react/jsx-boolean-value": "off",
+		"react/react-in-jsx-scope": "off",
 		"react/jsx-closing-bracket-location": "off",
 		"react/jsx-key": "error",
 		"react/jsx-one-expression-per-line": "off",

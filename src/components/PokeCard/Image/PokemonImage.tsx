@@ -5,7 +5,6 @@ import {
 	SVG_DEFAULT_OPACITY,
 } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
-import React from 'react';
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { View } from 'react-native';
 

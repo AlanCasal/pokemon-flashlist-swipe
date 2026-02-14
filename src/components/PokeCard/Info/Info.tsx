@@ -1,5 +1,4 @@
 import { View, Text } from 'react-native';
-import React from 'react';
 import { PRIMARY_FONT } from '@constants/sharedStyles';
 import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { PokemonType } from '@/src/types/pokemonTypes';

@@ -1,5 +1,4 @@
 import { TouchableOpacity, View, Text } from 'react-native';
-import React from 'react';
 import PokemonImage from './Image';
 import { typeBgColors } from '@constants/colors';
 import Info from './Info';

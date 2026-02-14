@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import PokemonImage from './components/PokemonImage';
 import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 import EvolveCondition from './components/EvolveCondition';
