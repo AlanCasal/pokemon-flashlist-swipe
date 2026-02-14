@@ -1,9 +1,9 @@
+import Pokeball from '@assets/images/pokeball-full.svg';
 import { pokeballColors } from '@constants/colors';
-import sharedStyles, { TOAST_Z_INDEX } from '@constants/sharedStyles';
+import { sharedStyles, TOAST_Z_INDEX } from '@constants/sharedStyles';
 import { useToastConfig } from '@store/toastStore';
 import { useToastAnimation } from '@utils/animations';
 import { useEffect } from 'react';
-import Pokeball from '@assets/images/pokeball-full.svg';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -33,11 +33,12 @@ const Toast = () => {
 		stroke: pokeballColors.white,
 	};
 
-	if (isPokeballColored)
+	if (isPokeballColored) {
 		pokeballColor = {
 			fill: pokeballColors.red,
 			stroke: pokeballColors.black,
 		};
+	}
 
 	return (
 		<Animated.View
