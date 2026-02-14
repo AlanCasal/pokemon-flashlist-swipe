@@ -1,6 +1,12 @@
 import Dots from '@assets/images/dots-big.svg';
 import { typeBgColors } from '@constants/colors';
-import sharedStyles, { ACTIVE_OPACITY, CARDS_GAP, POKE_CARD_HEIGHT } from '@constants/sharedStyles';
+import {
+	ACTIVE_OPACITY,
+	CARDS_GAP,
+	FADE_DURATION,
+	POKE_CARD_HEIGHT,
+	sharedStyles,
+} from '@constants/sharedStyles';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
@@ -11,8 +17,6 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import PokemonImage from './Image';
 import Info from './Info';
-
-const FADE_DURATION = 300;
 
 interface PokemonCardProps {
 	url: string;

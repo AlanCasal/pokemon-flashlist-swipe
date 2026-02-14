@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { backgroundColors, typeColors } from '@constants/colors';
-import sharedStyles from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { MotiView } from 'moti';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInRight, LinearTransition } from 'react-native-reanimated';
