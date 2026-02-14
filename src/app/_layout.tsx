@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { router, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 import '@/global.css';
 import {
 	useFonts,
@@ -17,10 +16,6 @@ const RootLayout = () => {
 	const [fontsLoaded] = useFonts({
 		FingerPaint_400Regular,
 	});
-
-	useEffect(() => {
-		if (fontsLoaded) router.replace('/home');
-	}, [fontsLoaded]);
 
 	if (!fontsLoaded) return null;
 
