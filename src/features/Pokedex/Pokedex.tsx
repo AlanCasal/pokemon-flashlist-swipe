@@ -267,6 +267,19 @@ const Pokedex = () => {
 				</View>
 
 				<View
+					className='absolute bottom-0 right-0 left-0 h-[190px] w-full'
+					pointerEvents='none'
+					style={{ zIndex: HEADER_GRADIENT_INDEX }}
+				>
+					<LinearGradient
+						colors={['transparent', `${typeColors.dragon}22`, `${typeColors.dragon}F2`]}
+						start={{ x: 0.5, y: 0 }}
+						end={{ x: 0.5, y: 1 }}
+						style={{ position: 'absolute', inset: 0 }}
+					/>
+				</View>
+
+				<View
 					className='absolute top-0 right-0 left-0'
 					style={{ zIndex: HEADER_INDEX }}
 				>
