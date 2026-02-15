@@ -79,7 +79,8 @@ const PokedexHeader = ({
 						onChangeText={onSearchChange}
 						placeholder={texts.pokedex.searchPlaceholder}
 						placeholderTextColor={textColor.grey}
-						className='ml-2 flex-1 text-[13px]'
+						className='ml-2 flex-1 text-[13px] pt-0 pb-0'
+						textAlignVertical='center'
 						style={{ color: textColor.black, fontFamily: PRIMARY_FONT }}
 					/>
 					{shouldShowClearSearchButton(searchValue) && (
