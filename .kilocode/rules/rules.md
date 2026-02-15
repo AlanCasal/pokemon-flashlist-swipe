@@ -41,6 +41,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 - Use named exports for utilities and helper functions (example: export const helper = () => {})
 - Don't add 'magic numbers' or string literals directly in the code — add them as constants in `src/constants/` (example: `src/constants/api.ts` for API endpoints, `src/constants/colors.ts` for color values).
 - Use a type file (e.g., `types.ts`) in each component folder for complex types related to that component, and a global `src/types/index.ts` for shared types across the app. Avoid inline type definitions in component files when they are complex or reused.
+- For IDs/variants used in component config arrays (e.g., action IDs), avoid raw string literals in component files; define a typed enum or union-backed constant in `types.ts` (or `src/constants/` when broadly shared) and reuse it.
 
 ### TypeScript Integration
 
