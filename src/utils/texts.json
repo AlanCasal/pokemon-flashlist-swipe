@@ -14,8 +14,10 @@
 		"startButton": "Start"
 	},
 	"pokedex": {
-		"emptySavedText": "No saved Pokemon yet. Tap the Pokeball icon on any card to save it.",
+		"emptySavedText": "No saved Pokemon yet. \n\n Tap the Pokeball icon on any card to save it.",
+		"searchNotFoundText": "Who's that Pokémon ? \n We couldn't find it !",
 		"searchPlaceholder": "Search Pokémon",
+		"clearSearchButtonA11y": "Clear search",
 		"generationButtonA11y": "Generation button",
 		"sortButtonA11y": "Sort button",
 		"filterButtonA11y": "Filter button"

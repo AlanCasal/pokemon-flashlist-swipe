@@ -9,10 +9,14 @@ import {
 	PRIMARY_FONT,
 	SCREEN_HORIZONTAL_PADDING,
 } from '@constants/sharedStyles';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
 import { ComponentType } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgProps } from 'react-native-svg';
+
+import { shouldShowClearSearchButton } from './helpers';
 
 interface HeaderAction {
 	accessibilityLabel: string;
@@ -25,6 +29,7 @@ interface HeaderAction {
 export interface PokedexHeaderProps {
 	onFilterPress: () => void;
 	onGenerationPress: () => void;
+	onClearSearch: () => void;
 	onSearchChange: (value: string) => void;
 	onSortPress: () => void;
 	searchValue: string;
@@ -35,6 +40,7 @@ const PokedexHeader = ({
 	onGenerationPress,
 	onSortPress,
 	onFilterPress,
+	onClearSearch,
 	onSearchChange,
 	searchValue,
 	topInset,
@@ -95,6 +101,22 @@ const PokedexHeader = ({
 						className='ml-2 flex-1 text-[13px]'
 						style={{ color: textColor.black, fontFamily: PRIMARY_FONT }}
 					/>
+					{shouldShowClearSearchButton(searchValue) && (
+						<TouchableOpacity
+							testID='pokedex-clear-search-button'
+							accessibilityRole='button'
+							accessibilityLabel={texts.pokedex.clearSearchButtonA11y}
+							activeOpacity={ACTIVE_OPACITY}
+							onPress={onClearSearch}
+							className='ml-2'
+						>
+							<MaterialCommunityIcons
+								name='close-circle'
+								size={16}
+								color={textColor.grey}
+							/>
+						</TouchableOpacity>
+					)}
 				</View>
 
 				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID }) => (

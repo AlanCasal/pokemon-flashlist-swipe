@@ -9,7 +9,7 @@ interface PokemonListResponse {
 	next: string;
 }
 
-export const usePokemonList = () => {
+export const usePokemonList = (enabled = true) => {
 	return useInfiniteQuery<
 		PokemonListResponse,
 		Error,
@@ -21,5 +21,6 @@ export const usePokemonList = () => {
 		queryFn: ({ pageParam = API_URL }) => fetchJson<PokemonListResponse>(pageParam),
 		getNextPageParam: lastPage => lastPage.next || undefined,
 		initialPageParam: API_URL,
+		enabled,
 	});
 };

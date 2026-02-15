@@ -15,6 +15,7 @@ export const PRIMARY_FONT = 'FingerPaint_400Regular';
 
 export const TOAST_Z_INDEX = 9999;
 export const SCREEN_HORIZONTAL_PADDING = 20;
+export const SCROLL_TO_TOP_THRESHOLD = 20;
 
 export const sharedStyles = {
 	hListPadding: {
