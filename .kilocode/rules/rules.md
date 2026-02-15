@@ -12,6 +12,12 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 
 ## Development Standards
 
+### Code Priorities
+
+- Prioritize readability and maintainability first.
+- Keep implementations simple and short whenever possible; less code is preferred.
+- Optimize for performance, but not at the expense of clarity.
+
 ### Project Structure
 
 - App type: Expo / React Native with TypeScript using `expo-router` (file-based routing under `src/app`). See [src/app/\_layout.tsx](src/app/_layout.tsx#L1-L1).
