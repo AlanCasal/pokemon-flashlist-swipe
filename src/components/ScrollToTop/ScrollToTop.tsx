@@ -4,11 +4,7 @@ import { SCREEN_HORIZONTAL_PADDING } from '@constants/sharedStyles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-interface ScrollToTopProps {
-	visible: boolean;
-	onPress: () => void;
-	bottomInset: number;
-}
+import type { ScrollToTopProps } from './types';
 
 const ScrollToTop = ({ visible, onPress, bottomInset }: ScrollToTopProps) => {
 	if (!visible) return null;

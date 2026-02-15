@@ -1,12 +1,8 @@
-import { ReactNode } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useIsFocused } from '@react-navigation/native';
 import { MotiView } from 'moti';
 
-type FadeInWrapperProps = {
-	children: ReactNode;
-	duration?: number;
-};
+import type { FadeInWrapperProps } from './types';
 
 const FadeInWrapper = ({ children, duration = 300 }: FadeInWrapperProps) => {
 	const isFocused = useIsFocused();

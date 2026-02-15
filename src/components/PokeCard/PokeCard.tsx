@@ -18,11 +18,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 
 import PokemonImage from './Image';
 import Info from './Info';
-
-interface PokemonCardProps {
-	url: string;
-	isSavedMode?: boolean;
-}
+import type { PokemonCardProps } from './types';
 
 const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);

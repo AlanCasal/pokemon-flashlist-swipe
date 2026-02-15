@@ -1,19 +1,13 @@
+import Pokeball from '@assets/images/pokeball-full.svg';
 import { pokeballColors } from '@constants/colors';
 import { usePopAnimation } from '@utils/animations';
-import Pokeball from '@assets/images/pokeball-full.svg';
-import { StyleProp, TouchableOpacity, ViewStyle } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-const POKEBALL_SIZE = 17;
+import type { PokeBallProps } from './types';
 
-interface PokeBallProps {
-	handleOnPress?: () => void;
-	isSaved?: boolean;
-	size?: number;
-	containerStyles?: StyleProp<ViewStyle>;
-	isDisabled?: boolean;
-	enablePopAnimation?: boolean;
-}
+const POKEBALL_SIZE = 17;
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const PokeBall = ({
 	handleOnPress,
@@ -39,10 +33,6 @@ const PokeBall = ({
 		colors.fillColor = pokeballColors.red;
 		colors.fillOpacity = 1;
 	}
-
-	const AnimatedTouchableOpacity = enablePopAnimation
-		? Animated.createAnimatedComponent(TouchableOpacity)
-		: TouchableOpacity;
 
 	return (
 		<AnimatedTouchableOpacity

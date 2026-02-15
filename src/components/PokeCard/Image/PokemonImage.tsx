@@ -6,10 +6,7 @@ import { View } from 'react-native';
 
 const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
 
-interface PokemonImageProps {
-	uri: string;
-	isSaved?: boolean;
-}
+import type { PokemonImageProps } from './types';
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 	const colors = {

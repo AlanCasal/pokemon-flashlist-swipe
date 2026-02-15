@@ -6,12 +6,7 @@ import texts from '@utils/texts.json';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-interface EvolveConditionProps {
-	type: keyof typeof typeColors;
-	minLevel: number | null;
-	direction: 'left' | 'right';
-	delay: number;
-}
+import type { EvolveConditionProps } from './types';
 
 const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionProps) => {
 	return (

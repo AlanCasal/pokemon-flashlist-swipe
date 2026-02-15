@@ -4,18 +4,13 @@ import { textColor, typeColors } from '@constants/colors';
 import { PRIMARY_FONT } from '@constants/sharedStyles';
 import { Text, View } from 'react-native';
 
-import { PokemonDetails } from '@/src/types/pokemon';
 import { PokemonType } from '@/src/types/pokemonTypes';
 
-interface InfoProps {
-	name: string;
-	types: PokemonDetails['types'];
-	id: number;
-	handleToggleSaved: () => void;
-	isSaved: boolean;
-}
+import type { InfoProps } from './types';
 
 const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
+	const formattedId = `#${id.toString().padStart(3, '0')}`;
+
 	return (
 		<View className='flex-1 items-end'>
 			<View className='flex-row items-center gap-[5px]'>
@@ -23,7 +18,7 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 					className='text-[10px]'
 					style={{ color: textColor.number }}
 				>
-					#{id.toString().padStart(3, '0')}
+					{formattedId}
 				</Text>
 
 				<PokeBall

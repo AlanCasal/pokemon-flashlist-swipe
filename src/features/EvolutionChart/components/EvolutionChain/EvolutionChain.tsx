@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-import { typeColors } from '@constants/colors';
 import { Fragment } from 'react';
 import { View } from 'react-native';
 
@@ -7,6 +6,7 @@ import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 
 import EvolveCondition from './components/EvolveCondition';
 import PokemonImage from './components/PokemonImage';
+import type { EvolutionChainProps } from './types';
 
 const DELAY = {
 	depth0: {
@@ -22,13 +22,6 @@ const DELAY = {
 		evolveCondition: 3500,
 	},
 };
-
-interface EvolutionChainProps {
-	evolution: CustomEvolutionChain;
-	type: keyof typeof typeColors;
-	depth?: number;
-	direction?: 'left' | 'right';
-}
 
 const EvolutionChain = ({
 	evolution,

@@ -12,29 +12,10 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
-import { ComponentType } from 'react';
 import { TextInput, TouchableOpacity, View } from 'react-native';
-import { SvgProps } from 'react-native-svg';
 
 import { shouldShowClearSearchButton } from './helpers';
-
-interface HeaderAction {
-	accessibilityLabel: string;
-	Icon: ComponentType<SvgProps>;
-	id: 'generation' | 'sort' | 'filter';
-	onPress: () => void;
-	testID: string;
-}
-
-export interface PokedexHeaderProps {
-	onFilterPress: () => void;
-	onGenerationPress: () => void;
-	onClearSearch: () => void;
-	onSearchChange: (value: string) => void;
-	onSortPress: () => void;
-	searchValue: string;
-	topInset: number;
-}
+import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from './types';
 
 const PokedexHeader = ({
 	onGenerationPress,
@@ -47,21 +28,21 @@ const PokedexHeader = ({
 }: PokedexHeaderProps) => {
 	const actions: HeaderAction[] = [
 		{
-			id: 'generation',
+			id: PokedexHeaderActionId.Generation,
 			Icon: GenerationIcon,
 			onPress: onGenerationPress,
 			accessibilityLabel: texts.pokedex.generationButtonA11y,
 			testID: 'pokedex-generation-button',
 		},
 		{
-			id: 'sort',
+			id: PokedexHeaderActionId.Sort,
 			Icon: SortIcon,
 			onPress: onSortPress,
 			accessibilityLabel: texts.pokedex.sortButtonA11y,
 			testID: 'pokedex-sort-button',
 		},
 		{
-			id: 'filter',
+			id: PokedexHeaderActionId.Filter,
 			Icon: FilterIcon,
 			onPress: onFilterPress,
 			accessibilityLabel: texts.pokedex.filterButtonA11y,

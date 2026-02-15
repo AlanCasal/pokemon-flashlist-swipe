@@ -1,23 +1,13 @@
-import Animated from 'react-native-reanimated';
-import { Image } from 'moti';
-import { fadeInAnim } from '@utils/animations';
-import { View } from 'react-native';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
 import Pokeball from '@assets/images/pokeball-full.svg';
+import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { fadeInAnim } from '@utils/animations';
+import { Image } from 'moti';
+import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
+
+import type { PokemonImageProps } from './types';
 
 const DEFAULT_SIZE = 100;
-
-interface PokemonImageProps {
-	imgUrl: string;
-	pokemon: string;
-	delay: number;
-	size?: number;
-	fontSize?: number;
-	trigger?: string | null | undefined;
-	pokeballFillColor?: string;
-	pokeballStrokeColor?: string;
-	pokeballOpacity?: number;
-}
 
 const PokemonImage = ({
 	imgUrl,
@@ -62,7 +52,7 @@ const PokemonImage = ({
 						className='text-center font-bold uppercase'
 						style={{ fontSize: fontSize * 0.5 }}
 					>
-						({trigger})
+						{trigger}
 					</Animated.Text>
 				)}
 				<Animated.Text
