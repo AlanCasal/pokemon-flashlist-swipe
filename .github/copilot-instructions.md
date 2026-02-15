@@ -93,6 +93,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts
 - Use colors from `src/constants/colors.ts` for consistency
 - Use shared styles from `src/styles/sharedStyles.ts` for common patterns
 - Project uses Uniwind, so use ComponentName.tsx for the component and styles. Tailwind classes should be used directly in the component file. Inject variables if possible. Else use inline styles, avoid creating separate styles files unless necessary for complex styles or theming.
+- Prioritize Uniwind `className` styling whenever possible. Use React Native `StyleSheet`/inline style as a backup only when Uniwind cannot express the requirement cleanly (runtime-calculated values, platform-only edge cases, or third-party API style objects).
 
 ### Performance Optimization (if applicable and not handled by React compiler)
 
