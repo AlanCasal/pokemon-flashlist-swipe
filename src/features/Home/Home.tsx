@@ -1,7 +1,7 @@
 import { Marquee } from '@animatereactnative/marquee';
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { pokeballColors, textColor, typeBgColors, typeColors } from '@constants/colors';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
 import { chunkArray, toTransparent } from '@utils/helpers';
@@ -133,7 +133,7 @@ const Home = () => {
 				/>
 				<Text
 					className='text-center text-[18px]'
-					style={{ fontFamily: PRIMARY_FONT, color: textColor.primary }}
+					style={{ fontFamily: sharedStyles.typography.primaryFont, color: textColor.primary }}
 				>
 					{texts.home.heroSubtitle}
 				</Text>
@@ -155,7 +155,7 @@ const Home = () => {
 							className='text-[18px]'
 							style={{
 								color: textColor.primary,
-								fontFamily: PRIMARY_FONT,
+								fontFamily: sharedStyles.typography.primaryFont,
 							}}
 						>
 							{texts.home.startButton}

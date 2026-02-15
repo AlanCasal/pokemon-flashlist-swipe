@@ -3,18 +3,7 @@ import GenerationIcon from '@assets/icons/generation.svg';
 import SearchIcon from '@assets/icons/search.svg';
 import SortIcon from '@assets/icons/sort.svg';
 import { customColor, textColor, typeColors } from '@constants/colors';
-import {
-	SORT_ACTIVE_BADGE_TEXT,
-	SORT_BADGE_FONT_SIZE,
-	SORT_BADGE_SIZE,
-	SORT_DISABLED_OPACITY,
-} from '@constants/pokedex';
-import {
-	ACTIVE_OPACITY,
-	ICONS_SIZE,
-	PRIMARY_FONT,
-	SCREEN_HORIZONTAL_PADDING,
-} from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
@@ -65,7 +54,7 @@ const PokedexHeader = ({
 			className='pb-3'
 			style={{
 				paddingTop: topInset,
-				paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
+				paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
 			}}
 		>
 			<View
@@ -79,8 +68,8 @@ const PokedexHeader = ({
 					}}
 				>
 					<SearchIcon
-						width={ICONS_SIZE}
-						height={ICONS_SIZE}
+						width={sharedStyles.dimensions.iconsSize}
+						height={sharedStyles.dimensions.iconsSize}
 					/>
 					<TextInput
 						testID='pokedex-search-input'
@@ -90,14 +79,14 @@ const PokedexHeader = ({
 						placeholderTextColor={textColor.grey}
 						className='ml-2 flex-1 text-[13px] pt-0 pb-0'
 						textAlignVertical='center'
-						style={{ color: textColor.black, fontFamily: PRIMARY_FONT }}
+						style={{ color: textColor.black, fontFamily: sharedStyles.typography.primaryFont }}
 					/>
 					{shouldShowClearSearchButton(searchValue) && (
 						<TouchableOpacity
 							testID='pokedex-clear-search-button'
 							accessibilityRole='button'
 							accessibilityLabel={texts.pokedex.clearSearchButtonA11y}
-							activeOpacity={ACTIVE_OPACITY}
+							activeOpacity={sharedStyles.opacity.active}
 							onPress={onClearSearch}
 							className='ml-2'
 						>
@@ -117,17 +106,17 @@ const PokedexHeader = ({
 						accessibilityRole='button'
 						accessibilityLabel={accessibilityLabel}
 						disabled={disabled}
-						activeOpacity={ACTIVE_OPACITY}
+						activeOpacity={sharedStyles.opacity.active}
 						onPress={onPress}
 						className='h-8 w-8 items-center justify-center rounded-xl border border-[#E6E6E6]'
 						style={{
 							backgroundColor: customColor.input,
-							opacity: disabled ? SORT_DISABLED_OPACITY : 1,
+							opacity: disabled ? sharedStyles.pokedex.sortBadge.disabledOpacity : 1,
 						}}
 					>
 						<Icon
-							width={ICONS_SIZE}
-							height={ICONS_SIZE}
+							width={sharedStyles.dimensions.iconsSize}
+							height={sharedStyles.dimensions.iconsSize}
 						/>
 
 						{id === PokedexHeaderActionId.Sort && hasActiveSort && (
@@ -135,8 +124,8 @@ const PokedexHeader = ({
 								testID='pokedex-sort-badge'
 								className='absolute -top-1 -right-1 items-center justify-center rounded-full'
 								style={{
-									width: SORT_BADGE_SIZE,
-									height: SORT_BADGE_SIZE,
+									width: sharedStyles.pokedex.sortBadge.size,
+									height: sharedStyles.pokedex.sortBadge.size,
 									backgroundColor: typeColors.fighting,
 								}}
 							>
@@ -144,13 +133,13 @@ const PokedexHeader = ({
 									testID='pokedex-sort-badge-label'
 									className='text-center'
 									style={{
-										fontFamily: PRIMARY_FONT,
+										fontFamily: sharedStyles.typography.primaryFont,
 										color: textColor.primary,
-										fontSize: SORT_BADGE_FONT_SIZE,
-										lineHeight: SORT_BADGE_SIZE - 1,
+										fontSize: sharedStyles.pokedex.sortBadge.fontSize,
+										lineHeight: sharedStyles.pokedex.sortBadge.size - 1,
 									}}
 								>
-									{SORT_ACTIVE_BADGE_TEXT}
+									{sharedStyles.pokedex.sortBadge.activeText}
 								</Text>
 							</View>
 						)}

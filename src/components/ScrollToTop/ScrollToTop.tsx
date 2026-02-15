@@ -1,5 +1,5 @@
 import { typeColors } from '@constants/colors';
-import { SCREEN_HORIZONTAL_PADDING } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
@@ -15,7 +15,7 @@ const ScrollToTop = ({ visible, onPress, bottomInset }: ScrollToTopProps) => {
 			onPress={onPress}
 			className='absolute h-14 w-14 items-center justify-center rounded-full'
 			style={{
-				right: SCREEN_HORIZONTAL_PADDING,
+				right: sharedStyles.spacing.screenHorizontalPadding,
 				bottom: bottomInset + 10,
 				backgroundColor: typeColors.fighting,
 				zIndex: 40,

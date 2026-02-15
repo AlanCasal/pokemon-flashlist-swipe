@@ -1,17 +1,11 @@
+import Spinner from '@assets/animated/spinner.svg';
 import FadeInWrapper from '@components/FadeInWrapper';
+import PokeBall from '@components/PokeBall';
 import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
 import { API_URL, SEARCH_DEBOUNCE_MS } from '@constants/api';
 import { textColor, typeColors } from '@constants/colors';
-import { FILTERS_BAR_HEIGHT, SORT_SHEET_BLUR_INTENSITY } from '@constants/pokedex';
-import {
-	CARDS_INDEX,
-	HEADER_GRADIENT_INDEX,
-	HEADER_INDEX,
-	PRIMARY_FONT,
-	SCREEN_HORIZONTAL_PADDING,
-	WALLPAPER_INDEX,
-} from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { normalizeSearchTerm, useSearchPokemon } from '@hooks/useSearchPokemon';
@@ -25,6 +19,14 @@ import { useLocalSearchParams, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
+import Animated, {
+	cancelAnimation,
+	Easing,
+	useAnimatedStyle,
+	useSharedValue,
+	withRepeat,
+	withTiming,
+} from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { type PokedexMode, type PokedexSortOption } from '@/src/types';
@@ -41,6 +43,8 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from './helpers';
+
+const EMPTY_SAVED_TEXT_ICON_PLACEHOLDER = '[pokeballIcon]';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -155,11 +159,47 @@ const Pokedex = () => {
 		isSearchNotFoundError,
 	});
 
+	const shouldShowSearchLoadingSpinner =
+		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
+	const [emptySavedTextBeforeIcon = '', emptySavedTextAfterIcon = ''] =
+		texts.pokedex.emptySavedText.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);
+	const shouldRenderEmptySavedTextIcon = texts.pokedex.emptySavedText.includes(
+		EMPTY_SAVED_TEXT_ICON_PLACEHOLDER,
+	);
+	const spinnerRotation = useSharedValue(0);
+	const spinnerAnimatedStyle = useAnimatedStyle(() => ({
+		transform: [{ rotate: `${spinnerRotation.value}deg` }],
+	}));
+
 	const contentContainerStyle: StyleProp<ViewStyle> = {
-		paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
-		paddingTop: top + FILTERS_BAR_HEIGHT,
+		paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
+		paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + sharedStyles.pokedex.filtersBarHeight,
 		paddingBottom: bottom + 80,
+		flexGrow: shouldShowSearchLoadingSpinner ? 1 : undefined,
+		justifyContent: shouldShowSearchLoadingSpinner ? 'center' : undefined,
 	};
+
+	useEffect(() => {
+		if (!shouldShowSearchLoadingSpinner) {
+			cancelAnimation(spinnerRotation);
+			spinnerRotation.value = 0;
+			return;
+		}
+
+		spinnerRotation.value = 0;
+		spinnerRotation.value = withRepeat(
+			withTiming(360, {
+				duration: sharedStyles.pokedex.searchLoadingSpinner.rotationDurationMs,
+				easing: Easing.linear,
+			}),
+			-1,
+			false,
+		);
+
+		return () => {
+			cancelAnimation(spinnerRotation);
+		};
+	}, [shouldShowSearchLoadingSpinner, spinnerRotation]);
 
 	const handleRefresh = () => {
 		if (!isSavedMode && isSearchActive) {
@@ -272,15 +312,24 @@ const Pokedex = () => {
 				<Image
 					source={backgroundSource}
 					contentFit='cover'
-					blurRadius={10}
+					blurRadius={
+						isIos
+							? sharedStyles.blurRadius.backgroundImage.ios
+							: sharedStyles.blurRadius.backgroundImage.android
+					}
 					pointerEvents='none'
-					style={{ position: 'absolute', inset: 0, opacity: 0.1, zIndex: WALLPAPER_INDEX }}
+					style={{
+						position: 'absolute',
+						inset: 0,
+						opacity: 0.1,
+						zIndex: sharedStyles.zIndex.wallpaper,
+					}}
 				/>
 
 				<View
 					className='absolute top-0 right-0 left-0 h-[190px] w-full'
 					pointerEvents='none'
-					style={{ zIndex: HEADER_GRADIENT_INDEX }}
+					style={{ zIndex: sharedStyles.zIndex.headerGradient }}
 				>
 					<LinearGradient
 						colors={[`${typeColors.dragon}F2`, `${typeColors.dragon}22`, 'transparent']}
@@ -292,17 +341,17 @@ const Pokedex = () => {
 
 				{isIos && isSortSheetOpen && (
 					<BlurView
-						intensity={SORT_SHEET_BLUR_INTENSITY}
+						intensity={sharedStyles.pokedex.sortSheet.blurIntensity}
 						tint='dark'
 						pointerEvents='none'
-						style={{ position: 'absolute', inset: 0, zIndex: HEADER_INDEX + 1 }}
+						style={{ position: 'absolute', inset: 0, zIndex: sharedStyles.zIndex.header + 1 }}
 					/>
 				)}
 
 				<View
 					className='absolute bottom-0 right-0 left-0 h-[190px] w-full'
 					pointerEvents='none'
-					style={{ zIndex: HEADER_GRADIENT_INDEX }}
+					style={{ zIndex: sharedStyles.zIndex.headerGradient }}
 				>
 					<LinearGradient
 						colors={['transparent', `${typeColors.dragon}22`, `${typeColors.dragon}F2`]}
@@ -314,7 +363,7 @@ const Pokedex = () => {
 
 				<View
 					className='absolute top-0 right-0 left-0'
-					style={{ zIndex: HEADER_INDEX }}
+					style={{ zIndex: sharedStyles.zIndex.header }}
 				>
 					<PokedexHeader
 						topInset={top}
@@ -335,7 +384,7 @@ const Pokedex = () => {
 					renderItem={handleRenderItem}
 					onEndReachedThreshold={1}
 					contentContainerStyle={contentContainerStyle}
-					style={{ flex: 1, zIndex: CARDS_INDEX }}
+					style={{ flex: 1, zIndex: sharedStyles.zIndex.cards }}
 					maintainVisibleContentPosition={{ disabled: true }}
 					alwaysBounceVertical
 					refreshing={isRefetching}
@@ -355,12 +404,12 @@ const Pokedex = () => {
 						shouldShowSearchNotFound ? (
 							<View
 								className='mt-16 items-center justify-center'
-								style={{ paddingHorizontal: SCREEN_HORIZONTAL_PADDING }}
+								style={{ paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding }}
 							>
 								<Text
 									className='text-center text-base'
 									style={{
-										fontFamily: PRIMARY_FONT,
+										fontFamily: sharedStyles.typography.primaryFont,
 										color: textColor.grey,
 									}}
 								>
@@ -368,21 +417,58 @@ const Pokedex = () => {
 								</Text>
 							</View>
 						) : isSearchActive && !isSavedMode && isSearchingPokemon ? (
-							<ActivityIndicator />
+							<View className='items-center justify-center'>
+								<Animated.View style={spinnerAnimatedStyle}>
+									<Spinner
+										width={sharedStyles.pokedex.searchLoadingSpinner.size}
+										height={sharedStyles.pokedex.searchLoadingSpinner.size}
+									/>
+								</Animated.View>
+							</View>
 						) : isSavedMode ? (
 							<View
 								className='mt-16 items-center justify-center'
-								style={{ paddingHorizontal: SCREEN_HORIZONTAL_PADDING }}
+								style={{ paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding }}
 							>
-								<Text
-									className='text-center text-base'
-									style={{
-										fontFamily: PRIMARY_FONT,
-										color: textColor.grey,
-									}}
-								>
-									{texts.pokedex.emptySavedText}
-								</Text>
+								{shouldRenderEmptySavedTextIcon ? (
+									<>
+										<Text
+											className='text-center text-base'
+											style={{
+												fontFamily: sharedStyles.typography.primaryFont,
+												color: textColor.grey,
+											}}
+										>
+											{emptySavedTextBeforeIcon}
+										</Text>
+										<View className='mt-1 flex-row items-center justify-center'>
+											<PokeBall
+												handleOnPress={handleNoopPress}
+												enablePopAnimation
+												containerStyles={{ marginRight: 6 }}
+											/>
+											<Text
+												className='text-center text-base'
+												style={{
+													fontFamily: sharedStyles.typography.primaryFont,
+													color: textColor.grey,
+												}}
+											>
+												{emptySavedTextAfterIcon}
+											</Text>
+										</View>
+									</>
+								) : (
+									<Text
+										className='text-center text-base'
+										style={{
+											fontFamily: sharedStyles.typography.primaryFont,
+											color: textColor.grey,
+										}}
+									>
+										{texts.pokedex.emptySavedText}
+									</Text>
+								)}
 							</View>
 						) : null
 					}

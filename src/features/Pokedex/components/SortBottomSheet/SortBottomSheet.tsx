@@ -1,18 +1,6 @@
 import { textColor, typeColors } from '@constants/colors';
-import {
-	POKEDEX_SORT_OPTIONS,
-	SORT_DESCRIPTION_FONT_SIZE,
-	SORT_OPTION_BORDER_RADIUS,
-	SORT_OPTION_FONT_SIZE,
-	SORT_OPTION_HEIGHT,
-	SORT_SHEET_BACKDROP_OPACITY,
-	SORT_SHEET_CORNER_RADIUS,
-	SORT_SHEET_HANDLE_HEIGHT,
-	SORT_SHEET_HANDLE_WIDTH,
-	SORT_SHEET_SNAP_POINT,
-	SORT_TITLE_FONT_SIZE,
-} from '@constants/pokedex';
-import { ACTIVE_OPACITY, PRIMARY_FONT, SCREEN_HORIZONTAL_PADDING } from '@constants/sharedStyles';
+import { POKEDEX_SORT_OPTIONS } from '@constants/pokedex';
+import { sharedStyles } from '@constants/sharedStyles';
 import {
 	BottomSheetBackdrop,
 	type BottomSheetBackdropProps,
@@ -32,7 +20,7 @@ const SortBottomSheet = ({
 	onOptionPress,
 }: SortBottomSheetProps) => {
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
-	const snapPoints = useMemo(() => [SORT_SHEET_SNAP_POINT], []);
+	const snapPoints = useMemo(() => [sharedStyles.pokedex.sortSheet.snapPoint], []);
 
 	const renderBackdrop = useCallback(
 		(props: BottomSheetBackdropProps) => (
@@ -46,7 +34,7 @@ const SortBottomSheet = ({
 				<View
 					className='absolute inset-0'
 					style={{
-						backgroundColor: `rgba(23, 23, 27, ${SORT_SHEET_BACKDROP_OPACITY})`,
+						backgroundColor: `rgba(23, 23, 27, ${sharedStyles.pokedex.sortSheet.backdropOpacity})`,
 					}}
 				/>
 			</BottomSheetBackdrop>
@@ -72,27 +60,27 @@ const SortBottomSheet = ({
 			backdropComponent={renderBackdrop}
 			onDismiss={onClose}
 			handleIndicatorStyle={{
-				width: SORT_SHEET_HANDLE_WIDTH,
-				height: SORT_SHEET_HANDLE_HEIGHT,
+				width: sharedStyles.pokedex.sortSheet.handleWidth,
+				height: sharedStyles.pokedex.sortSheet.handleHeight,
 				backgroundColor: '#FFFFFF',
 			}}
 			backgroundStyle={{
-				borderTopLeftRadius: SORT_SHEET_CORNER_RADIUS,
-				borderTopRightRadius: SORT_SHEET_CORNER_RADIUS,
+				borderTopLeftRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
+				borderTopRightRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
 				backgroundColor: '#FFFFFF',
 			}}
 		>
 			<BottomSheetView
 				className='gap-3 pt-1.5 pb-7'
 				style={{
-					paddingHorizontal: SCREEN_HORIZONTAL_PADDING,
+					paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
 				}}
 			>
 				<Text
 					className='text-center font-bold'
 					style={{
 						color: textColor.black,
-						fontSize: SORT_TITLE_FONT_SIZE,
+						fontSize: sharedStyles.pokedex.sortText.titleFontSize,
 					}}
 				>
 					{texts.pokedex.sortSheetTitle}
@@ -101,9 +89,9 @@ const SortBottomSheet = ({
 				<Text
 					className='leading-5'
 					style={{
-						fontFamily: PRIMARY_FONT,
+						fontFamily: sharedStyles.typography.primaryFont,
 						color: textColor.grey,
-						fontSize: SORT_DESCRIPTION_FONT_SIZE,
+						fontSize: sharedStyles.pokedex.sortText.descriptionFontSize,
 						lineHeight: 20,
 					}}
 				>
@@ -118,12 +106,12 @@ const SortBottomSheet = ({
 							<TouchableOpacity
 								key={option.id}
 								testID={option.testID}
-								activeOpacity={ACTIVE_OPACITY}
+								activeOpacity={sharedStyles.opacity.active}
 								onPress={() => onOptionPress(option.id)}
 								className='items-center justify-center px-4'
 								style={{
-									height: SORT_OPTION_HEIGHT,
-									borderRadius: SORT_OPTION_BORDER_RADIUS,
+									height: sharedStyles.pokedex.sortOption.height,
+									borderRadius: sharedStyles.pokedex.sortOption.borderRadius,
 									backgroundColor: isSelected ? typeColors.dragon : '#F2F2F2',
 								}}
 							>
@@ -134,7 +122,7 @@ const SortBottomSheet = ({
 									className='w-full text-center'
 									style={{
 										color: isSelected ? '#FFFFFF' : textColor.grey,
-										fontSize: SORT_OPTION_FONT_SIZE,
+										fontSize: sharedStyles.pokedex.sortOption.fontSize,
 									}}
 								>
 									{option.label}

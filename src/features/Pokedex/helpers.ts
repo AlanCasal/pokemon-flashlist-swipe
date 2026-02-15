@@ -1,12 +1,13 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
 import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
-import { SCROLL_TO_TOP_THRESHOLD } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 
 import { PokedexSortOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
-export const shouldShowScrollToTop = (scrollY: number) => scrollY > SCROLL_TO_TOP_THRESHOLD;
+export const shouldShowScrollToTop = (scrollY: number) =>
+	scrollY > sharedStyles.spacing.scrollToTopThreshold;
 
 export const normalizeSavedPokemonName = (value: string) => {
 	const normalizedValue = value.trim().toLowerCase();

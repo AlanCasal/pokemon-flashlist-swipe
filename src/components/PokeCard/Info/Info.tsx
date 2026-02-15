@@ -1,7 +1,7 @@
 import PokeBall from '@components/PokeBall';
 import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { textColor, typeColors } from '@constants/colors';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { Text, View } from 'react-native';
 
 import { PokemonType } from '@/src/types/pokemonTypes';
@@ -31,7 +31,7 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 
 			<Text
 				className='mb-[5px] text-[20px] capitalize tracking-[1px]'
-				style={{ fontFamily: PRIMARY_FONT, color: textColor.primary }}
+				style={{ fontFamily: sharedStyles.typography.primaryFont, color: textColor.primary }}
 				numberOfLines={1}
 				adjustsFontSizeToFit
 			>

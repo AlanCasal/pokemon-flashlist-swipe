@@ -1,6 +1,6 @@
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { pokeballColors } from '@constants/colors';
-import { sharedStyles, TOAST_Z_INDEX } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { useToastConfig } from '@store/toastStore';
 import { useToastAnimation } from '@utils/animations';
 import { useEffect } from 'react';
@@ -46,7 +46,7 @@ const Toast = () => {
 				animatedStyle,
 				{
 					position: 'absolute',
-					zIndex: TOAST_Z_INDEX,
+					zIndex: sharedStyles.zIndex.toast,
 					alignSelf: 'center',
 					minHeight: 48,
 					maxWidth: '90%',

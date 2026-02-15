@@ -1,16 +1,16 @@
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { pokeballColors } from '@constants/colors';
-import { POKE_CARD_HEIGHT, POKE_IMAGE_SIZE, SVG_DEFAULT_OPACITY } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
 import { View } from 'react-native';
 
-const POKEBALL_SIZE = POKE_CARD_HEIGHT - 10;
+const POKEBALL_SIZE = sharedStyles.dimensions.pokeCardHeight - 10;
 
 import type { PokemonImageProps } from './types';
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 	const colors = {
-		opacity: SVG_DEFAULT_OPACITY,
+		opacity: sharedStyles.opacity.svgDefault,
 		fillColor: pokeballColors.white,
 	};
 
@@ -24,8 +24,8 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 			<Image
 				source={{ uri }}
 				style={{
-					width: POKE_IMAGE_SIZE,
-					height: POKE_IMAGE_SIZE,
+					width: sharedStyles.dimensions.pokeImageSize,
+					height: sharedStyles.dimensions.pokeImageSize,
 					bottom: 10,
 					zIndex: 1,
 				}}

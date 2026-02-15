@@ -1,5 +1,5 @@
 import Pokeball from '@assets/images/pokeball-full.svg';
-import { PRIMARY_FONT } from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import { fadeInAnim } from '@utils/animations';
 import { Image } from 'moti';
 import { View } from 'react-native';
@@ -60,7 +60,7 @@ const PokemonImage = ({
 				<Animated.Text
 					entering={fadeInAnim(delay)}
 					className='text-center capitalize'
-					style={{ fontSize, fontFamily: PRIMARY_FONT }}
+					style={{ fontSize, fontFamily: sharedStyles.typography.primaryFont }}
 				>
 					{pokemon}
 				</Animated.Text>

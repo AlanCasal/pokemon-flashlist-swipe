@@ -1,12 +1,6 @@
 import Dots from '@assets/images/dots-big.svg';
 import { typeBgColors } from '@constants/colors';
-import {
-	ACTIVE_OPACITY,
-	CARDS_GAP,
-	FADE_DURATION,
-	POKE_CARD_HEIGHT,
-	sharedStyles,
-} from '@constants/sharedStyles';
+import { sharedStyles } from '@constants/sharedStyles';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
@@ -30,16 +24,23 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const isSaved = savedPokemons.includes(pokemon?.name ?? '');
 
 	if (isLoading || !pokemon) {
-		return <View style={{ height: POKE_CARD_HEIGHT, marginVertical: CARDS_GAP }} />;
+		return (
+			<View
+				style={{
+					height: sharedStyles.dimensions.pokeCardHeight,
+					marginVertical: sharedStyles.spacing.cardsGap,
+				}}
+			/>
+		);
 	}
 
 	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
 	const containerStyles = {
-		height: POKE_CARD_HEIGHT,
+		height: sharedStyles.dimensions.pokeCardHeight,
 		backgroundColor: typeBgColors[type],
 		paddingLeft: 5,
 		paddingRight: 14,
-		marginVertical: CARDS_GAP,
+		marginVertical: sharedStyles.spacing.cardsGap,
 		shadowColor: typeBgColors[type],
 		...sharedStyles.shadow,
 	};
@@ -62,7 +63,7 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			showToast(toastData);
 			setTimeout(() => {
 				toggleSavedPokemon(pokemon.name);
-			}, FADE_DURATION);
+			}, sharedStyles.duration.fade);
 		} else {
 			toggleSavedPokemon(pokemon.name);
 			showToast(toastData);
@@ -80,12 +81,12 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			}}
 			asChild
 		>
-			<TouchableOpacity activeOpacity={ACTIVE_OPACITY}>
+			<TouchableOpacity activeOpacity={sharedStyles.opacity.active}>
 				<MotiView
 					from={{ opacity: 0 }}
 					animate={{ opacity: isExiting ? 0 : 1 }}
 					exit={{ opacity: 0 }}
-					transition={{ type: 'timing', duration: FADE_DURATION }}
+					transition={{ type: 'timing', duration: sharedStyles.duration.fade }}
 					className='flex-row items-center justify-between rounded-[10px]'
 					style={containerStyles}
 				>
