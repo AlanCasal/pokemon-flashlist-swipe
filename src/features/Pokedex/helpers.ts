@@ -1,6 +1,8 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
+import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
 import { SCROLL_TO_TOP_THRESHOLD } from '@constants/sharedStyles';
 
+import { PokedexSortOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
@@ -46,3 +48,45 @@ export const getShouldShowSearchNotFound = ({
 	isSearchActive &&
 	displayedPokemonCount === 0 &&
 	(isSavedMode || (!isSearchingPokemon && (!isSearchError || isSearchNotFoundError)));
+
+export const getPokemonNumberFromUrl = (url: string): number | null => {
+	const normalizedUrl = url.trim().toLowerCase();
+	if (!normalizedUrl) return null;
+
+	const matches = normalizedUrl.match(POKEMON_ID_FROM_URL_REGEX);
+	if (!matches?.[1]) return null;
+
+	const parsed = Number.parseInt(matches[1], 10);
+	return Number.isNaN(parsed) ? null : parsed;
+};
+
+const sortByNumberAscending = (left: Pokemon, right: Pokemon) => {
+	const leftNumber = getPokemonNumberFromUrl(left.url);
+	const rightNumber = getPokemonNumberFromUrl(right.url);
+
+	if (leftNumber !== null && rightNumber !== null) return leftNumber - rightNumber;
+	if (leftNumber === null && rightNumber !== null) return 1;
+	if (leftNumber !== null && rightNumber === null) return -1;
+
+	return left.name.localeCompare(right.name);
+};
+
+const sortByNameAscending = (left: Pokemon, right: Pokemon) => left.name.localeCompare(right.name);
+
+export const getSortedPokemonList = (
+	pokemonList: Pokemon[],
+	sortOption: PokedexSortOption | null,
+): Pokemon[] => {
+	if (!sortOption) return pokemonList;
+
+	const sortedList = [...pokemonList];
+
+	const sorted = {
+		number_asc: sortByNumberAscending,
+		number_desc: (left: Pokemon, right: Pokemon) => sortByNumberAscending(right, left),
+		alpha_asc: sortByNameAscending,
+		alpha_desc: (left: Pokemon, right: Pokemon) => sortByNameAscending(right, left),
+	}[sortOption];
+
+	return sorted ? sortedList.sort(sorted) : pokemonList;
+};

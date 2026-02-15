@@ -3,6 +3,7 @@ import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
 import { API_URL, SEARCH_DEBOUNCE_MS } from '@constants/api';
 import { textColor, typeColors } from '@constants/colors';
+import { FILTERS_BAR_HEIGHT, SORT_SHEET_BLUR_INTENSITY } from '@constants/pokedex';
 import {
 	CARDS_INDEX,
 	HEADER_GRADIENT_INDEX,
@@ -17,6 +18,7 @@ import { normalizeSearchTerm, useSearchPokemon } from '@hooks/useSearchPokemon';
 import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
+import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useSegments } from 'expo-router';
@@ -25,20 +27,20 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { PokedexMode } from '@/src/types';
+import { type PokedexMode, type PokedexSortOption } from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
+import { isIos } from '@/src/utils/helpers';
 
-import { PokedexHeader } from './components';
+import { PokedexHeader, SortBottomSheet } from './components';
 import {
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
 	getSearchedPokemonList,
 	getShouldShowSearchNotFound,
+	getSortedPokemonList,
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from './helpers';
-
-const FILTERS_BAR_HEIGHT = 56;
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -63,6 +65,8 @@ const Pokedex = () => {
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 	const [allSearchValue, setAllSearchValue] = useState('');
 	const [savedSearchValue, setSavedSearchValue] = useState('');
+	const [isSortSheetOpen, setIsSortSheetOpen] = useState(false);
+	const [savedSortOption, setSavedSortOption] = useState<PokedexSortOption | null>(null);
 
 	const debouncedAllSearchValue = useDebouncedValue(allSearchValue, SEARCH_DEBOUNCE_MS);
 	const debouncedSavedSearchValue = useDebouncedValue(savedSearchValue, SEARCH_DEBOUNCE_MS);
@@ -134,6 +138,14 @@ const Pokedex = () => {
 		searchedPokemonList,
 	]);
 
+	const sortedPokemonList = useMemo(
+		() =>
+			isSavedMode
+				? getSortedPokemonList(displayedPokemonList, savedSortOption)
+				: displayedPokemonList,
+		[displayedPokemonList, isSavedMode, savedSortOption],
+	);
+
 	const shouldShowSearchNotFound = getShouldShowSearchNotFound({
 		isSearchActive,
 		displayedPokemonCount: displayedPokemonList.length,
@@ -170,6 +182,18 @@ const Pokedex = () => {
 	};
 
 	const handleNoopPress = useCallback(() => undefined, []);
+	const handleSortPress = useCallback(() => {
+		if (!isSavedMode) return;
+		setIsSortSheetOpen(true);
+	}, [isSavedMode]);
+
+	const handleCloseSortSheet = useCallback(() => {
+		setIsSortSheetOpen(false);
+	}, []);
+
+	const handleSortOptionPress = useCallback((option: PokedexSortOption) => {
+		setSavedSortOption(previousSortOption => (previousSortOption === option ? null : option));
+	}, []);
 
 	const handleListScroll = useCallback((offsetY: number) => {
 		listScrollOffsetRef.current = offsetY;
@@ -266,6 +290,15 @@ const Pokedex = () => {
 					/>
 				</View>
 
+				{isIos && isSortSheetOpen && (
+					<BlurView
+						intensity={SORT_SHEET_BLUR_INTENSITY}
+						tint='dark'
+						pointerEvents='none'
+						style={{ position: 'absolute', inset: 0, zIndex: HEADER_INDEX + 1 }}
+					/>
+				)}
+
 				<View
 					className='absolute bottom-0 right-0 left-0 h-[190px] w-full'
 					pointerEvents='none'
@@ -286,17 +319,19 @@ const Pokedex = () => {
 					<PokedexHeader
 						topInset={top}
 						searchValue={activeSearchValue}
+						hasActiveSort={isSavedMode && Boolean(savedSortOption)}
+						isSortEnabled={isSavedMode}
 						onSearchChange={handleSearchChange}
 						onClearSearch={handleClearSearch}
 						onGenerationPress={handleNoopPress}
-						onSortPress={handleNoopPress}
+						onSortPress={handleSortPress}
 						onFilterPress={handleNoopPress}
 					/>
 				</View>
 
 				<FlashList
 					ref={listRef}
-					data={displayedPokemonList}
+					data={sortedPokemonList}
 					renderItem={handleRenderItem}
 					onEndReachedThreshold={1}
 					contentContainerStyle={contentContainerStyle}
@@ -361,6 +396,15 @@ const Pokedex = () => {
 					onPress={handleScrollToTop}
 					bottomInset={bottom}
 				/>
+
+				{isSavedMode && (
+					<SortBottomSheet
+						isOpen={isSavedMode && isSortSheetOpen}
+						selectedOption={savedSortOption}
+						onClose={handleCloseSortSheet}
+						onOptionPress={handleSortOptionPress}
+					/>
+				)}
 			</View>
 		</FadeInWrapper>
 	);

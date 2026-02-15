@@ -9,6 +9,7 @@ export enum PokedexHeaderActionId {
 
 export interface HeaderAction {
 	accessibilityLabel: string;
+	disabled?: boolean;
 	Icon: ComponentType<SvgProps>;
 	id: PokedexHeaderActionId;
 	onPress: () => void;
@@ -16,6 +17,8 @@ export interface HeaderAction {
 }
 
 export interface PokedexHeaderProps {
+	hasActiveSort: boolean;
+	isSortEnabled: boolean;
 	onFilterPress: () => void;
 	onGenerationPress: () => void;
 	onClearSearch: () => void;

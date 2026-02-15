@@ -20,7 +20,9 @@
 		"clearSearchButtonA11y": "Clear search",
 		"generationButtonA11y": "Generation button",
 		"sortButtonA11y": "Sort button",
-		"filterButtonA11y": "Filter button"
+		"filterButtonA11y": "Filter button",
+		"sortSheetTitle": "Sort",
+		"sortSheetDescription": "Sort Pokémons alphabetically or by National Pokédex number!"
 	},
 	"evolution": {
 		"chartTitle": "Evolution Chart",

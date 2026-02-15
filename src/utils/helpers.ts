@@ -1,3 +1,5 @@
+import { Platform } from 'react-native';
+
 export const chunkArray = <T>(array: T[], size: number) => {
 	const chunkArr = [];
 	let index = 0;
@@ -58,9 +60,11 @@ export const tryCatch = async <T>(operation: () => Promise<T>): Promise<TryCatch
 export const fetchJson = async <T>(url: string): Promise<T> => {
 	const response = await fetch(url);
 
-	if (!response.ok) {
-		throw new Error(`Request failed with status ${response.status}`);
-	}
+	if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
 
 	return response.json() as Promise<T>;
 };
+
+export const isIos = Platform.OS === 'ios';
+export const isAndroid = Platform.OS === 'android';
+export const isWeb = Platform.OS === 'web';

@@ -2,7 +2,13 @@ import FilterIcon from '@assets/icons/filter.svg';
 import GenerationIcon from '@assets/icons/generation.svg';
 import SearchIcon from '@assets/icons/search.svg';
 import SortIcon from '@assets/icons/sort.svg';
-import { customColor, textColor } from '@constants/colors';
+import { customColor, textColor, typeColors } from '@constants/colors';
+import {
+	SORT_ACTIVE_BADGE_TEXT,
+	SORT_BADGE_FONT_SIZE,
+	SORT_BADGE_SIZE,
+	SORT_DISABLED_OPACITY,
+} from '@constants/pokedex';
 import {
 	ACTIVE_OPACITY,
 	ICONS_SIZE,
@@ -12,7 +18,7 @@ import {
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
-import { TextInput, TouchableOpacity, View } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 import { shouldShowClearSearchButton } from './helpers';
 import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from './types';
@@ -25,6 +31,8 @@ const PokedexHeader = ({
 	onSearchChange,
 	searchValue,
 	topInset,
+	hasActiveSort,
+	isSortEnabled,
 }: PokedexHeaderProps) => {
 	const actions: HeaderAction[] = [
 		{
@@ -40,6 +48,7 @@ const PokedexHeader = ({
 			onPress: onSortPress,
 			accessibilityLabel: texts.pokedex.sortButtonA11y,
 			testID: 'pokedex-sort-button',
+			disabled: !isSortEnabled,
 		},
 		{
 			id: PokedexHeaderActionId.Filter,
@@ -101,23 +110,50 @@ const PokedexHeader = ({
 					)}
 				</View>
 
-				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID }) => (
+				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => (
 					<TouchableOpacity
 						key={id}
 						testID={testID}
 						accessibilityRole='button'
 						accessibilityLabel={accessibilityLabel}
+						disabled={disabled}
 						activeOpacity={ACTIVE_OPACITY}
 						onPress={onPress}
 						className='h-8 w-8 items-center justify-center rounded-xl border border-[#E6E6E6]'
 						style={{
 							backgroundColor: customColor.input,
+							opacity: disabled ? SORT_DISABLED_OPACITY : 1,
 						}}
 					>
 						<Icon
 							width={ICONS_SIZE}
 							height={ICONS_SIZE}
 						/>
+
+						{id === PokedexHeaderActionId.Sort && hasActiveSort && (
+							<View
+								testID='pokedex-sort-badge'
+								className='absolute -top-1 -right-1 items-center justify-center rounded-full'
+								style={{
+									width: SORT_BADGE_SIZE,
+									height: SORT_BADGE_SIZE,
+									backgroundColor: typeColors.fighting,
+								}}
+							>
+								<Text
+									testID='pokedex-sort-badge-label'
+									className='text-center'
+									style={{
+										fontFamily: PRIMARY_FONT,
+										color: textColor.primary,
+										fontSize: SORT_BADGE_FONT_SIZE,
+										lineHeight: SORT_BADGE_SIZE - 1,
+									}}
+								>
+									{SORT_ACTIVE_BADGE_TEXT}
+								</Text>
+							</View>
+						)}
 					</TouchableOpacity>
 				))}
 			</View>
