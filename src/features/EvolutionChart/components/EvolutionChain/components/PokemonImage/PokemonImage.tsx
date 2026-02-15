@@ -20,6 +20,8 @@ const PokemonImage = ({
 	pokeballStrokeColor = 'white',
 	pokeballOpacity = 0.2,
 }: PokemonImageProps) => {
+	const triggerText = trigger ? `(${trigger})` : '';
+
 	return (
 		<View>
 			<Animated.View
@@ -52,7 +54,7 @@ const PokemonImage = ({
 						className='text-center font-bold uppercase'
 						style={{ fontSize: fontSize * 0.5 }}
 					>
-						{trigger}
+						{triggerText}
 					</Animated.Text>
 				)}
 				<Animated.Text
