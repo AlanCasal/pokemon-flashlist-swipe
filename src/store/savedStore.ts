@@ -51,6 +51,12 @@ export const useSavedStore = create<SavedStore>()(
 
 export const useSavedPokemons = () => useSavedStore(state => state.savedPokemons);
 
+export const useIsPokemonSaved = (pokemonId?: PokemonId) =>
+	useSavedStore(state => {
+		if (!pokemonId) return false;
+		return state.savedPokemons.includes(pokemonId);
+	});
+
 export const useToggleSavedPokemon = () => useSavedStore(state => state.toggleSavedPokemon);
 
 export const useClearSavedPokemons = () => useSavedStore(state => state.clearSavedPokemons);

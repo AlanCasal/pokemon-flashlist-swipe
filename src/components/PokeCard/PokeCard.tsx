@@ -2,12 +2,12 @@ import Dots from '@assets/images/dots-big.svg';
 import { typeBgColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import usePokemonDetails from '@hooks/usePokemonDetails';
-import { useSavedPokemons, useToggleSavedPokemon } from '@store/savedStore';
+import { useIsPokemonSaved, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
 import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import PokemonImage from './Image';
@@ -16,36 +16,28 @@ import type { PokemonCardProps } from './types';
 
 const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);
-	const savedPokemons = useSavedPokemons();
 	const toggleSavedPokemon = useToggleSavedPokemon();
 	const showToast = useShowToast();
 	const { data: pokemon, isLoading } = usePokemonDetails(url);
 
-	const isSaved = savedPokemons.includes(pokemon?.name ?? '');
+	const isSaved = useIsPokemonSaved(pokemon?.name);
+	const type = (pokemon?.types[0]?.type.name ?? 'dark') as keyof typeof typeBgColors;
+	const containerStyles = useMemo(
+		() => ({
+			height: sharedStyles.dimensions.pokeCardHeight,
+			backgroundColor: typeBgColors[type],
+			paddingLeft: 5,
+			paddingRight: 14,
+			marginVertical: sharedStyles.spacing.cardsGap,
+			shadowColor: typeBgColors[type],
+			...sharedStyles.shadow,
+		}),
+		[type],
+	);
 
-	if (isLoading || !pokemon) {
-		return (
-			<View
-				style={{
-					height: sharedStyles.dimensions.pokeCardHeight,
-					marginVertical: sharedStyles.spacing.cardsGap,
-				}}
-			/>
-		);
-	}
+	const handleOnPressPokeball = useCallback(() => {
+		if (!pokemon) return;
 
-	const type = pokemon.types[0].type.name as keyof typeof typeBgColors;
-	const containerStyles = {
-		height: sharedStyles.dimensions.pokeCardHeight,
-		backgroundColor: typeBgColors[type],
-		paddingLeft: 5,
-		paddingRight: 14,
-		marginVertical: sharedStyles.spacing.cardsGap,
-		shadowColor: typeBgColors[type],
-		...sharedStyles.shadow,
-	};
-
-	const handleOnPressPokeball = () => {
 		const shouldRemove = isSaved;
 		const toastData = {
 			text: (
@@ -68,7 +60,18 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			toggleSavedPokemon(pokemon.name);
 			showToast(toastData);
 		}
-	};
+	}, [isSaved, isSavedMode, pokemon, showToast, toggleSavedPokemon, type]);
+
+	if (isLoading || !pokemon) {
+		return (
+			<View
+				style={{
+					height: sharedStyles.dimensions.pokeCardHeight,
+					marginVertical: sharedStyles.spacing.cardsGap,
+				}}
+			/>
+		);
+	}
 
 	return (
 		<Link

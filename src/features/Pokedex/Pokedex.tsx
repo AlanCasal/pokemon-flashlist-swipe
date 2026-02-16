@@ -1,10 +1,8 @@
-import Spinner from '@assets/animated/spinner.svg';
 import FadeInWrapper from '@components/FadeInWrapper';
-import PokeBall from '@components/PokeBall';
 import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
+import WallpaperBackground from '@components/WallpaperBackground';
 import { API_URL, SEARCH_DEBOUNCE_MS } from '@constants/api';
-import { textColor, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import { usePokemonList } from '@hooks/usePokemonList';
@@ -13,13 +11,10 @@ import { FlashList, FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
 import { BlurView } from 'expo-blur';
-import { Image } from 'expo-image';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useSegments } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, StyleProp, Text, View, ViewStyle } from 'react-native';
-import Animated, {
+import { ActivityIndicator, Alert, StyleProp, View, ViewStyle } from 'react-native';
+import {
 	cancelAnimation,
 	Easing,
 	useAnimatedStyle,
@@ -33,7 +28,10 @@ import { type PokedexMode, type PokedexSortOption } from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
 import { isIos } from '@/src/utils/helpers';
 
-import { PokedexHeader, SortBottomSheet } from './components';
+import PokedexEdgeGradient from './components/PokedexEdgeGradient';
+import PokedexHeader from './components/PokedexHeader';
+import PokedexListEmpty from './components/PokedexListEmpty';
+import SortBottomSheet from './components/SortBottomSheet';
 import {
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
@@ -43,8 +41,11 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from './helpers';
-
-const EMPTY_SAVED_TEXT_ICON_PLACEHOLDER = '[pokeballIcon]';
+import {
+	PokedexFlashListScrollEvent,
+	type PokedexListEmptyProps,
+	PokedexRenderItemParams,
+} from './types';
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -164,34 +165,21 @@ const Pokedex = () => {
 		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
 	const shouldDarkenBackgroundForEmptySavedState =
 		isSavedMode && !isSearchActive && savedPokemonList.length === 0;
-	const [emptySavedTextBeforeIcon = '', emptySavedTextAfterIcon = ''] =
-		texts.pokedex.emptySavedText.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);
-	const emptySavedTextBeforeIconLines = emptySavedTextBeforeIcon.split('\n');
-	const emptySavedTextAfterIconLines = emptySavedTextAfterIcon.split('\n');
-	const emptySavedTextTopLines = emptySavedTextBeforeIconLines.slice(0, -1);
-	const emptySavedTextIconPrefix =
-		emptySavedTextBeforeIconLines[emptySavedTextBeforeIconLines.length - 1] ?? '';
-	const [emptySavedTextIconSuffix = '', ...emptySavedTextBottomLines] =
-		emptySavedTextAfterIconLines;
-	const shouldRenderEmptySavedTextIcon = texts.pokedex.emptySavedText.includes(
-		EMPTY_SAVED_TEXT_ICON_PLACEHOLDER,
-	);
-	const emptySavedTextStyle = {
-		fontFamily: sharedStyles.typography.primaryFont,
-		color: textColor.grey,
-	};
 	const spinnerRotation = useSharedValue(0);
 	const spinnerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{ rotate: `${spinnerRotation.value}deg` }],
 	}));
 
-	const contentContainerStyle: StyleProp<ViewStyle> = {
-		paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-		paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + sharedStyles.pokedex.filtersBarHeight,
-		paddingBottom: bottom + 80,
-		flexGrow: shouldShowSearchLoadingSpinner ? 1 : undefined,
-		justifyContent: shouldShowSearchLoadingSpinner ? 'center' : undefined,
-	};
+	const contentContainerStyle = useMemo<StyleProp<ViewStyle>>(
+		() => ({
+			paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
+			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + sharedStyles.pokedex.filtersBarHeight,
+			paddingBottom: bottom + 80,
+			flexGrow: shouldShowSearchLoadingSpinner ? 1 : undefined,
+			justifyContent: shouldShowSearchLoadingSpinner ? 'center' : undefined,
+		}),
+		[bottom, shouldShowSearchLoadingSpinner, top],
+	);
 
 	useEffect(() => {
 		if (!shouldShowSearchLoadingSpinner) {
@@ -224,11 +212,14 @@ const Pokedex = () => {
 		void refetch();
 	};
 
-	const handleRenderItem = ({ item }: { item: Pokemon }) => (
-		<PokeCard
-			url={item.url}
-			isSavedMode={isSavedMode}
-		/>
+	const handleRenderItem = useCallback(
+		({ item }: PokedexRenderItemParams) => (
+			<PokeCard
+				url={item.url}
+				isSavedMode={isSavedMode}
+			/>
+		),
+		[isSavedMode],
 	);
 
 	const handleScrollToTop = () => {
@@ -256,6 +247,19 @@ const Pokedex = () => {
 		listScrollOffsetRef.current = offsetY;
 		setShowScrollToTopButton(shouldShowScrollToTop(offsetY));
 	}, []);
+
+	const handleFlashListScroll = useCallback(
+		({ nativeEvent }: PokedexFlashListScrollEvent) => {
+			handleListScroll(nativeEvent.contentOffset.y);
+		},
+		[handleListScroll],
+	);
+
+	const handleEndReached = useCallback(() => {
+		if (isSavedMode) return;
+		if (isSearchActive) return;
+		if (hasNextPage && !isFetchingNextPage) fetchNextPage();
+	}, [fetchNextPage, hasNextPage, isFetchingNextPage, isSavedMode, isSearchActive]);
 
 	const handleSearchChange = useCallback(
 		(value: string) => {
@@ -316,32 +320,34 @@ const Pokedex = () => {
 		searchError,
 	]);
 
+	const listEmptyProps = useMemo<PokedexListEmptyProps>(
+		() => ({
+			shouldShowSearchNotFound,
+			isSearchActive,
+			isSavedMode,
+			isSearchingPokemon,
+			spinnerAnimatedStyle,
+			isEmptySavedPokeBallSaved,
+			onEmptySavedPokeBallPress: handleEmptySavedPokeBallPress,
+		}),
+		[
+			handleEmptySavedPokeBallPress,
+			isEmptySavedPokeBallSaved,
+			isSavedMode,
+			isSearchActive,
+			isSearchingPokemon,
+			shouldShowSearchNotFound,
+			spinnerAnimatedStyle,
+		],
+	);
+
 	if (isLoading && !data) return <ActivityIndicator size='large' />;
 
 	return (
 		<FadeInWrapper duration={250}>
 			<View className='flex-1'>
-				<StatusBar
-					style='light'
-					backgroundColor={typeColors.dragon}
-				/>
+				<WallpaperBackground source={backgroundSource} />
 
-				<Image
-					source={backgroundSource}
-					contentFit='cover'
-					blurRadius={
-						isIos
-							? sharedStyles.blurRadius.backgroundImage.ios
-							: sharedStyles.blurRadius.backgroundImage.android
-					}
-					pointerEvents='none'
-					style={{
-						position: 'absolute',
-						inset: 0,
-						opacity: 0.1,
-						zIndex: sharedStyles.zIndex.wallpaper,
-					}}
-				/>
 				{shouldDarkenBackgroundForEmptySavedState && (
 					<View
 						pointerEvents='none'
@@ -354,18 +360,7 @@ const Pokedex = () => {
 					/>
 				)}
 
-				<View
-					className='absolute top-0 right-0 left-0 h-[190px] w-full'
-					pointerEvents='none'
-					style={{ zIndex: sharedStyles.zIndex.headerGradient }}
-				>
-					<LinearGradient
-						colors={[`${typeColors.dragon}F2`, `${typeColors.dragon}22`, 'transparent']}
-						start={{ x: 0.5, y: 0 }}
-						end={{ x: 0.5, y: 1 }}
-						style={{ position: 'absolute', inset: 0 }}
-					/>
-				</View>
+				<PokedexEdgeGradient position='top' />
 
 				{isIos && isSortSheetOpen && (
 					<BlurView
@@ -376,18 +371,7 @@ const Pokedex = () => {
 					/>
 				)}
 
-				<View
-					className='absolute bottom-0 right-0 left-0 h-[190px] w-full'
-					pointerEvents='none'
-					style={{ zIndex: sharedStyles.zIndex.headerGradient }}
-				>
-					<LinearGradient
-						colors={['transparent', `${typeColors.dragon}22`, `${typeColors.dragon}F2`]}
-						start={{ x: 0.5, y: 0 }}
-						end={{ x: 0.5, y: 1 }}
-						style={{ position: 'absolute', inset: 0 }}
-					/>
-				</View>
+				<PokedexEdgeGradient position='bottom' />
 
 				<View
 					className='absolute top-0 right-0 left-0'
@@ -418,112 +402,11 @@ const Pokedex = () => {
 					refreshing={isRefetching}
 					onRefresh={handleRefresh}
 					progressViewOffset={top}
-					onScroll={({ nativeEvent }) => {
-						handleListScroll(nativeEvent.contentOffset.y);
-					}}
+					onScroll={handleFlashListScroll}
 					scrollEventThrottle={16}
-					onEndReached={() => {
-						if (isSavedMode) return;
-						if (isSearchActive) return;
-						if (hasNextPage && !isFetchingNextPage) fetchNextPage();
-					}}
+					onEndReached={handleEndReached}
 					keyExtractor={({ name }) => name}
-					ListEmptyComponent={
-						shouldShowSearchNotFound ? (
-							<View
-								className='mt-16 items-center justify-center'
-								style={{ paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding }}
-							>
-								<Text
-									className='text-center text-base'
-									style={{
-										fontFamily: sharedStyles.typography.primaryFont,
-										color: textColor.grey,
-									}}
-								>
-									{texts.pokedex.searchNotFoundText}
-								</Text>
-							</View>
-						) : isSearchActive && !isSavedMode && isSearchingPokemon ? (
-							<View className='items-center justify-center'>
-								<Animated.View style={spinnerAnimatedStyle}>
-									<Spinner
-										width={sharedStyles.pokedex.searchLoadingSpinner.size}
-										height={sharedStyles.pokedex.searchLoadingSpinner.size}
-									/>
-								</Animated.View>
-							</View>
-						) : isSavedMode ? (
-							<View
-								className='mt-16 items-center justify-center'
-								style={{ paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding }}
-							>
-								{shouldRenderEmptySavedTextIcon ? (
-									<>
-										{emptySavedTextTopLines.map((line, index) =>
-											line ? (
-												<Text
-													key={`empty-saved-top-${index}`}
-													className='text-center text-base'
-													style={emptySavedTextStyle}
-												>
-													{line}
-												</Text>
-											) : (
-												<View
-													key={`empty-saved-top-spacer-${index}`}
-													className='h-4'
-												/>
-											),
-										)}
-										<View className='mt-1 flex-row items-center justify-center'>
-											<Text
-												className='text-center text-base'
-												style={emptySavedTextStyle}
-											>
-												{emptySavedTextIconPrefix.trimEnd()}
-											</Text>
-											<PokeBall
-												handleOnPress={handleEmptySavedPokeBallPress}
-												isSaved={isEmptySavedPokeBallSaved}
-												enablePopAnimation
-												containerStyles={{ marginHorizontal: 6 }}
-											/>
-											<Text
-												className='text-center text-base'
-												style={emptySavedTextStyle}
-											>
-												{emptySavedTextIconSuffix.trimStart()}
-											</Text>
-										</View>
-										{emptySavedTextBottomLines.map((line, index) =>
-											line ? (
-												<Text
-													key={`empty-saved-bottom-${index}`}
-													className='mt-1 text-center text-base'
-													style={emptySavedTextStyle}
-												>
-													{line}
-												</Text>
-											) : (
-												<View
-													key={`empty-saved-bottom-spacer-${index}`}
-													className='h-4'
-												/>
-											),
-										)}
-									</>
-								) : (
-									<Text
-										className='text-center text-base'
-										style={emptySavedTextStyle}
-									>
-										{texts.pokedex.emptySavedText}
-									</Text>
-								)}
-							</View>
-						) : null
-					}
+					ListEmptyComponent={<PokedexListEmpty {...listEmptyProps} />}
 					ListFooterComponent={
 						isFetchingNextPage && !isSavedMode && !isSearchActive ? <ActivityIndicator /> : null
 					}

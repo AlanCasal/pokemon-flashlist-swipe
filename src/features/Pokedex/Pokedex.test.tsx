@@ -3,7 +3,9 @@ import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
 import {
+	getEmptySavedTextParts,
 	getFilteredSavedPokemonList,
+	getIsSearchNotFoundError,
 	getPokemonNumberFromUrl,
 	getSearchedPokemonList,
 	getShouldShowSearchNotFound,
@@ -62,6 +64,16 @@ describe('Pokedex search helpers', () => {
 		).toBe(false);
 	});
 
+	it('treats 404 and 400 search errors as not found', () => {
+		expect(getIsSearchNotFoundError(new Error('Request failed with status 404'))).toBe(true);
+		expect(getIsSearchNotFoundError(new Error('Request failed with status 400'))).toBe(true);
+	});
+
+	it('does not treat other search errors as not found', () => {
+		expect(getIsSearchNotFoundError(new Error('Request failed with status 500'))).toBe(false);
+		expect(getIsSearchNotFoundError(new Error('Network request failed'))).toBe(false);
+	});
+
 	it('normalizes saved pokemon names from legacy URL values', () => {
 		expect(normalizeSavedPokemonName('https://pokeapi.co/api/v2/pokemon/Dragonite/')).toBe(
 			'dragonite',
@@ -101,5 +113,15 @@ describe('Pokedex search helpers', () => {
 			'charizard',
 			'pikachu',
 		]);
+	});
+
+	it('parses empty saved text around pokeball placeholder', () => {
+		const parsed = getEmptySavedTextParts('Catch your [pokeballIcon] favorites');
+
+		expect(parsed.shouldRenderIcon).toBe(true);
+		expect(parsed.iconPrefix).toBe('Catch your ');
+		expect(parsed.iconSuffix).toBe(' favorites');
+		expect(parsed.topLines).toEqual([]);
+		expect(parsed.bottomLines).toEqual([]);
 	});
 });

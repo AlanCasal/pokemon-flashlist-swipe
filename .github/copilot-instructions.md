@@ -26,6 +26,9 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 - Keep reusable UI in `src/components/<Feature>/` with local `index.ts` re-exports.
 - Keep reusable logic in `src/hooks/` (`use*` naming).
 - Keep shared types in `src/types/`; colocate feature-specific complex types in local `types.ts`.
+- For feature folders (`src/features/<Feature>/`), keep shared feature-level `helpers.ts` and `types.ts` at the feature root.
+- Do not create umbrella barrels like `src/features/<Feature>/components/index.ts`; import feature components from each component's own path.
+- In `src/features/<Feature>/components/<ComponentName>/`, allow at most one `helpers.ts` and one `types.ts` in that component folder root (no extra nested helper/type duplicates for the same component). The less files the better for readability.
 - Use `export default` for main components and named exports for helpers/utilities.
 - Use TypeScript path aliases (`@/* -> src/*`) for imports.
 

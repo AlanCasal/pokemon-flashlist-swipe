@@ -49,6 +49,7 @@ export const textColor = {
 
 export const customColor = {
 	input: '#F2F2F2',
+	border: '#E6E6E6',
 };
 
 export const pokeballColors = {

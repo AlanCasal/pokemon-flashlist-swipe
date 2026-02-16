@@ -10,10 +10,9 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useCallback, useEffect, useMemo } from 'react';
 import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
-
-import styles from './styles';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
@@ -25,6 +24,20 @@ const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
 	const router = useRouter();
 	const queryClient = useQueryClient();
+	const formattedArray = useMemo(() => {
+		const chunkSize = Math.max(1, Math.ceil(data.length / 3));
+		return chunkArray(data, chunkSize);
+	}, [data]);
+
+	useEffect(() => {
+		if (!hasError) return;
+		Alert.alert(texts.alerts.errorTitle, texts.alerts.errorFetchingPokemonMessage);
+	}, [hasError]);
+
+	const handleStart = useCallback(() => {
+		queryClient.removeQueries({ queryKey: ['pokemon'] });
+		router.push('/pokedex');
+	}, [queryClient, router]);
 
 	if (isLoading || data.length === 0) {
 		return (
@@ -35,20 +48,12 @@ const Home = () => {
 	}
 
 	if (hasError) {
-		Alert.alert(texts.alerts.errorTitle, texts.alerts.errorFetchingPokemonMessage);
 		return (
 			<View>
 				<Text>{texts.home.fallbackErrorText}</Text>
 			</View>
 		);
 	}
-
-	const formattedArray = chunkArray(data, Math.floor(data.length / 3));
-
-	const handleStart = () => {
-		queryClient.removeQueries({ queryKey: ['pokemon'] });
-		router.push('/pokedex');
-	};
 
 	return (
 		<View
@@ -87,7 +92,7 @@ const Home = () => {
 												source={{ uri: image }}
 												style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
 											/>
-											<View className='absolute inset-0 p-[10px] opacity-50'>
+											<View className='absolute inset-0 p-2.5 opacity-50'>
 												<Pokeball
 													width='100%'
 													height='100%'
@@ -108,7 +113,7 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}
-					style={[styles.gradient, styles.topGradient]}
+					className='absolute top-0 right-0 left-0 h-1/4'
 					pointerEvents='none'
 				/>
 
@@ -117,7 +122,7 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.7, 1]}
-					style={[styles.gradient, styles.bottomGradient]}
+					className='absolute right-0 bottom-0 left-0 h-1/4'
 					pointerEvents='none'
 				/>
 			</View>
@@ -145,7 +150,7 @@ const Home = () => {
 					activeOpacity={0.8}
 				>
 					<View
-						className='h-12 w-[200px] items-center justify-center rounded-full border-2'
+						className='h-12 w-50 items-center justify-center rounded-full border-2'
 						style={{
 							backgroundColor: pokeballColors.red,
 							borderColor: pokeballColors.black,

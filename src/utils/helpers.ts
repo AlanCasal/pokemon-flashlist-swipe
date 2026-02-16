@@ -1,12 +1,15 @@
 import { Platform } from 'react-native';
 
 export const chunkArray = <T>(array: T[], size: number) => {
+	if (array.length === 0) return [];
+
+	const safeSize = Math.max(1, Math.floor(size));
 	const chunkArr = [];
 	let index = 0;
 
 	while (index < array.length) {
-		chunkArr.push(array.slice(index, index + size));
-		index += size;
+		chunkArr.push(array.slice(index, index + safeSize));
+		index += safeSize;
 	}
 
 	return chunkArr;

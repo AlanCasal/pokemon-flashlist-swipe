@@ -2,12 +2,7 @@ import { API_URL } from '@constants/api';
 import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 import { fetchJson } from '@utils/helpers';
 
-import { Pokemon } from '@/src/types/pokemonList';
-
-interface PokemonListResponse {
-	results: Pokemon[];
-	next: string;
-}
+import { PokemonListResponse } from '@/src/types/pokemonList';
 
 export const usePokemonList = (enabled = true) => {
 	return useInfiniteQuery<

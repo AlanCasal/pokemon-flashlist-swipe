@@ -1,4 +1,4 @@
-import { textColor, typeColors } from '@constants/colors';
+import { customColor, textColor, typeColors } from '@constants/colors';
 import { POKEDEX_SORT_OPTIONS } from '@constants/pokedex';
 import { sharedStyles } from '@constants/sharedStyles';
 import {
@@ -62,12 +62,12 @@ const SortBottomSheet = ({
 			handleIndicatorStyle={{
 				width: sharedStyles.pokedex.sortSheet.handleWidth,
 				height: sharedStyles.pokedex.sortSheet.handleHeight,
-				backgroundColor: '#FFFFFF',
+				backgroundColor: textColor.primary,
 			}}
 			backgroundStyle={{
 				borderTopLeftRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
 				borderTopRightRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
-				backgroundColor: '#FFFFFF',
+				backgroundColor: textColor.primary,
 			}}
 		>
 			<BottomSheetView
@@ -112,7 +112,7 @@ const SortBottomSheet = ({
 								style={{
 									height: sharedStyles.pokedex.sortOption.height,
 									borderRadius: sharedStyles.pokedex.sortOption.borderRadius,
-									backgroundColor: isSelected ? typeColors.dragon : '#F2F2F2',
+									backgroundColor: isSelected ? typeColors.dragon : customColor.input,
 								}}
 							>
 								<Text
@@ -121,7 +121,7 @@ const SortBottomSheet = ({
 									minimumFontScale={0.8}
 									className='w-full text-center'
 									style={{
-										color: isSelected ? '#FFFFFF' : textColor.grey,
+										color: isSelected ? textColor.primary : textColor.grey,
 										fontSize: sharedStyles.pokedex.sortOption.fontSize,
 									}}
 								>

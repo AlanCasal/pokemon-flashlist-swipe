@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { shouldShowClearSearchButton } from './helpers';
+import { shouldShowClearSearchButton } from '../helpers';
 
 describe('PokedexHeader clear button', () => {
 	it('hides clear button for empty input', () => {

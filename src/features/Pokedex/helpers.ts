@@ -2,9 +2,26 @@ import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
 import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
 import { sharedStyles } from '@constants/sharedStyles';
 
+import { EmptySavedTextParts, ShouldShowSearchNotFoundParams } from '@/src/features/Pokedex/types';
 import { PokedexSortOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
+
+const EMPTY_SAVED_TEXT_ICON_PLACEHOLDER = '[pokeballIcon]';
+const HTTP_BAD_REQUEST_STATUS = 400;
+const SEARCH_NOT_FOUND_STATUSES = new Set([HTTP_BAD_REQUEST_STATUS, HTTP_NOT_FOUND_STATUS]);
+
+const getHttpStatusFromErrorMessage = (errorMessage?: string) => {
+	if (!errorMessage) return null;
+
+	const statusMatch = errorMessage.match(/status\s+(\d{3})/i);
+	if (!statusMatch?.[1]) return null;
+
+	const parsedStatus = Number.parseInt(statusMatch[1], 10);
+	return Number.isNaN(parsedStatus) ? null : parsedStatus;
+};
+
+export const shouldShowClearSearchButton = (searchValue: string) => searchValue.length > 0;
 
 export const shouldShowScrollToTop = (scrollY: number) =>
 	scrollY > sharedStyles.spacing.scrollToTopThreshold;
@@ -29,7 +46,7 @@ export const getFilteredSavedPokemonList = (
 ) => savedPokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(normalizedSearchValue));
 
 export const getIsSearchNotFoundError = (error?: Error | null) =>
-	Boolean(error?.message.includes(String(HTTP_NOT_FOUND_STATUS)));
+	SEARCH_NOT_FOUND_STATUSES.has(getHttpStatusFromErrorMessage(error?.message) ?? -1);
 
 export const getShouldShowSearchNotFound = ({
 	isSearchActive,
@@ -38,14 +55,7 @@ export const getShouldShowSearchNotFound = ({
 	isSearchingPokemon,
 	isSearchError,
 	isSearchNotFoundError,
-}: {
-	isSearchActive: boolean;
-	displayedPokemonCount: number;
-	isSavedMode: boolean;
-	isSearchingPokemon: boolean;
-	isSearchError: boolean;
-	isSearchNotFoundError: boolean;
-}) =>
+}: ShouldShowSearchNotFoundParams) =>
 	isSearchActive &&
 	displayedPokemonCount === 0 &&
 	(isSavedMode || (!isSearchingPokemon && (!isSearchError || isSearchNotFoundError)));
@@ -90,4 +100,22 @@ export const getSortedPokemonList = (
 	}[sortOption];
 
 	return sorted ? sortedList.sort(sorted) : pokemonList;
+};
+
+export const getEmptySavedTextParts = (text: string): EmptySavedTextParts => {
+	const [textBeforeIcon = '', textAfterIcon = ''] = text.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);
+	const textBeforeIconLines = textBeforeIcon.split('\n');
+	const textAfterIconLines = textAfterIcon.split('\n');
+
+	const topLines = textBeforeIconLines.slice(0, -1);
+	const iconPrefix = textBeforeIconLines[textBeforeIconLines.length - 1] ?? '';
+	const [iconSuffix = '', ...bottomLines] = textAfterIconLines;
+
+	return {
+		bottomLines,
+		iconPrefix,
+		iconSuffix,
+		shouldRenderIcon: text.includes(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER),
+		topLines,
+	};
 };

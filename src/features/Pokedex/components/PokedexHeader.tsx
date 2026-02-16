@@ -9,8 +9,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { shouldShowClearSearchButton } from './helpers';
-import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from './types';
+import { shouldShowClearSearchButton } from '../helpers';
+import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../types';
 
 const PokedexHeader = ({
 	onGenerationPress,
@@ -62,9 +62,10 @@ const PokedexHeader = ({
 				className='flex-row items-center gap-2'
 			>
 				<View
-					className='h-9 flex-1 flex-row items-center rounded-xl border border-[#E6E6E6] px-3'
+					className='h-9 flex-1 flex-row items-center rounded-xl border px-3'
 					style={{
 						backgroundColor: customColor.input,
+						borderColor: customColor.border,
 					}}
 				>
 					<SearchIcon
@@ -108,9 +109,10 @@ const PokedexHeader = ({
 						disabled={disabled}
 						activeOpacity={sharedStyles.opacity.active}
 						onPress={onPress}
-						className='h-8 w-8 items-center justify-center rounded-xl border border-[#E6E6E6]'
+						className='h-8 w-8 items-center justify-center rounded-xl border'
 						style={{
 							backgroundColor: customColor.input,
+							borderColor: customColor.border,
 							opacity: disabled ? sharedStyles.pokedex.sortBadge.disabledOpacity : 1,
 						}}
 					>
