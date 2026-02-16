@@ -17,6 +17,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 - Prioritize readability and maintainability over cleverness.
 - Keep implementations small and focused.
 - Optimize performance without sacrificing clarity.
+- When adding numeric constants or non-obvious logic, include a concise comment explaining purpose.
 
 ## Architecture & Conventions
 
@@ -63,8 +64,9 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 4. Wire state/data flow (local state, Zustand, React Query).
 5. Add loading/error/empty states.
 6. Add or update focused tests near changed code.
-7. Run lint/format and relevant checks.
-8. Update docs/instruction files when architecture or packages change.
+7. Add concise comments for non-obvious, or complex logic or constants (only when necessary).
+8. Run lint/format and relevant checks.
+9. Update docs/instruction files when architecture or packages change.
 
 ## Common Patterns
 

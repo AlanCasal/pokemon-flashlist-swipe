@@ -7,14 +7,14 @@ import { useShowToast } from '@store/toastStore';
 import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import PokemonImage from './Image';
 import Info from './Info';
 import type { PokemonCardProps } from './types';
 
-const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
+const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const toggleSavedPokemon = useToggleSavedPokemon();
 	const showToast = useShowToast();
@@ -123,5 +123,7 @@ const PokeCard = ({ url, isSavedMode = false }: PokemonCardProps) => {
 		</Link>
 	);
 };
+
+const PokeCard = memo(PokeCardComponent);
 
 export default PokeCard;

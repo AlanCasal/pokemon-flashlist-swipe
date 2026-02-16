@@ -47,6 +47,9 @@ import {
 	PokedexRenderItemParams,
 } from './types';
 
+// Render farther ahead to reduce blank space during high-velocity flings.
+const POKEDEX_FLASHLIST_DRAW_DISTANCE = 1200; // px
+
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
@@ -394,6 +397,7 @@ const Pokedex = () => {
 					ref={listRef}
 					data={sortedPokemonList}
 					renderItem={handleRenderItem}
+					drawDistance={POKEDEX_FLASHLIST_DRAW_DISTANCE}
 					onEndReachedThreshold={1}
 					contentContainerStyle={contentContainerStyle}
 					style={{ flex: 1, zIndex: sharedStyles.zIndex.cards }}
