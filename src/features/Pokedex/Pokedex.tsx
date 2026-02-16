@@ -69,6 +69,7 @@ const Pokedex = () => {
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 	const [allSearchValue, setAllSearchValue] = useState('');
 	const [savedSearchValue, setSavedSearchValue] = useState('');
+	const [isEmptySavedPokeBallSaved, setIsEmptySavedPokeBallSaved] = useState(false);
 	const [isSortSheetOpen, setIsSortSheetOpen] = useState(false);
 	const [savedSortOption, setSavedSortOption] = useState<PokedexSortOption | null>(null);
 
@@ -161,11 +162,24 @@ const Pokedex = () => {
 
 	const shouldShowSearchLoadingSpinner =
 		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
+	const shouldDarkenBackgroundForEmptySavedState =
+		isSavedMode && !isSearchActive && savedPokemonList.length === 0;
 	const [emptySavedTextBeforeIcon = '', emptySavedTextAfterIcon = ''] =
 		texts.pokedex.emptySavedText.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);
+	const emptySavedTextBeforeIconLines = emptySavedTextBeforeIcon.split('\n');
+	const emptySavedTextAfterIconLines = emptySavedTextAfterIcon.split('\n');
+	const emptySavedTextTopLines = emptySavedTextBeforeIconLines.slice(0, -1);
+	const emptySavedTextIconPrefix =
+		emptySavedTextBeforeIconLines[emptySavedTextBeforeIconLines.length - 1] ?? '';
+	const [emptySavedTextIconSuffix = '', ...emptySavedTextBottomLines] =
+		emptySavedTextAfterIconLines;
 	const shouldRenderEmptySavedTextIcon = texts.pokedex.emptySavedText.includes(
 		EMPTY_SAVED_TEXT_ICON_PLACEHOLDER,
 	);
+	const emptySavedTextStyle = {
+		fontFamily: sharedStyles.typography.primaryFont,
+		color: textColor.grey,
+	};
 	const spinnerRotation = useSharedValue(0);
 	const spinnerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{ rotate: `${spinnerRotation.value}deg` }],
@@ -222,6 +236,9 @@ const Pokedex = () => {
 	};
 
 	const handleNoopPress = useCallback(() => undefined, []);
+	const handleEmptySavedPokeBallPress = useCallback(() => {
+		setIsEmptySavedPokeBallSaved(previousValue => !previousValue);
+	}, []);
 	const handleSortPress = useCallback(() => {
 		if (!isSavedMode) return;
 		setIsSortSheetOpen(true);
@@ -325,6 +342,17 @@ const Pokedex = () => {
 						zIndex: sharedStyles.zIndex.wallpaper,
 					}}
 				/>
+				{shouldDarkenBackgroundForEmptySavedState && (
+					<View
+						pointerEvents='none'
+						style={{
+							position: 'absolute',
+							inset: 0,
+							backgroundColor: 'rgba(0, 0, 0, 0.2)',
+							zIndex: sharedStyles.zIndex.wallpaper + 1,
+						}}
+					/>
+				)}
 
 				<View
 					className='absolute top-0 right-0 left-0 h-[190px] w-full'
@@ -432,39 +460,63 @@ const Pokedex = () => {
 							>
 								{shouldRenderEmptySavedTextIcon ? (
 									<>
-										<Text
-											className='text-center text-base'
-											style={{
-												fontFamily: sharedStyles.typography.primaryFont,
-												color: textColor.grey,
-											}}
-										>
-											{emptySavedTextBeforeIcon}
-										</Text>
+										{emptySavedTextTopLines.map((line, index) =>
+											line ? (
+												<Text
+													key={`empty-saved-top-${index}`}
+													className='text-center text-base'
+													style={emptySavedTextStyle}
+												>
+													{line}
+												</Text>
+											) : (
+												<View
+													key={`empty-saved-top-spacer-${index}`}
+													className='h-4'
+												/>
+											),
+										)}
 										<View className='mt-1 flex-row items-center justify-center'>
+											<Text
+												className='text-center text-base'
+												style={emptySavedTextStyle}
+											>
+												{emptySavedTextIconPrefix.trimEnd()}
+											</Text>
 											<PokeBall
-												handleOnPress={handleNoopPress}
+												handleOnPress={handleEmptySavedPokeBallPress}
+												isSaved={isEmptySavedPokeBallSaved}
 												enablePopAnimation
-												containerStyles={{ marginRight: 6 }}
+												containerStyles={{ marginHorizontal: 6 }}
 											/>
 											<Text
 												className='text-center text-base'
-												style={{
-													fontFamily: sharedStyles.typography.primaryFont,
-													color: textColor.grey,
-												}}
+												style={emptySavedTextStyle}
 											>
-												{emptySavedTextAfterIcon}
+												{emptySavedTextIconSuffix.trimStart()}
 											</Text>
 										</View>
+										{emptySavedTextBottomLines.map((line, index) =>
+											line ? (
+												<Text
+													key={`empty-saved-bottom-${index}`}
+													className='mt-1 text-center text-base'
+													style={emptySavedTextStyle}
+												>
+													{line}
+												</Text>
+											) : (
+												<View
+													key={`empty-saved-bottom-spacer-${index}`}
+													className='h-4'
+												/>
+											),
+										)}
 									</>
 								) : (
 									<Text
 										className='text-center text-base'
-										style={{
-											fontFamily: sharedStyles.typography.primaryFont,
-											color: textColor.grey,
-										}}
+										style={emptySavedTextStyle}
 									>
 										{texts.pokedex.emptySavedText}
 									</Text>
