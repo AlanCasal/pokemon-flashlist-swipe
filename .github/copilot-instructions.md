@@ -45,7 +45,10 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 - Prefer Uniwind utility classes directly in `.tsx` files.
 - Use tokens/constants from `src/constants/` (especially colors and shared values).
-- Use inline style/`StyleSheet` only for dynamic values or unsupported utility cases.
+- Use `StyleSheet.create(...)` as the fallback for unsupported utility cases; avoid ad-hoc inline style objects when values are static.
+- Use inline style objects only for truly dynamic values that cannot be expressed via Uniwind classes or static `StyleSheet` entries.
+- In any component `styles.ts`, export real React Native style objects via `StyleSheet.create(...)` only.
+- Do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`; keep them in the component file or a `constants.ts` file.
 
 ## Routing, Testing & Tooling
 
