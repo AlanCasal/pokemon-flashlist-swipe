@@ -24,10 +24,15 @@ import {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { type PokedexMode, type PokedexSortOption } from '@/src/types';
+import {
+	type PokedexGenerationOption,
+	type PokedexMode,
+	type PokedexSortOption,
+} from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
 import { isIos } from '@/src/utils/helpers';
 
+import GenerationBottomSheet from './components/GenerationBottomSheet';
 import PokedexEdgeGradient from './components/PokedexEdgeGradient';
 import PokedexHeader from './components/PokedexHeader';
 import PokedexListEmpty from './components/PokedexListEmpty';
@@ -35,6 +40,7 @@ import SortBottomSheet from './components/SortBottomSheet';
 import {
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
+	getNextSingleSelectOption,
 	getSearchedPokemonList,
 	getShouldShowSearchNotFound,
 	getSortedPokemonList,
@@ -49,6 +55,7 @@ import {
 
 // Render farther ahead to reduce blank space during high-velocity flings.
 const POKEDEX_FLASHLIST_DRAW_DISTANCE = 1200; // px
+const GENERATION_SHEET_BLUR_INTENSITY = 18;
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -76,6 +83,9 @@ const Pokedex = () => {
 	const [isEmptySavedPokeBallSaved, setIsEmptySavedPokeBallSaved] = useState(false);
 	const [isSortSheetOpen, setIsSortSheetOpen] = useState(false);
 	const [savedSortOption, setSavedSortOption] = useState<PokedexSortOption | null>(null);
+	const [isGenerationSheetOpen, setIsGenerationSheetOpen] = useState(false);
+	const [selectedGenerationOption, setSelectedGenerationOption] =
+		useState<PokedexGenerationOption | null>(null);
 
 	const debouncedAllSearchValue = useDebouncedValue(allSearchValue, SEARCH_DEBOUNCE_MS);
 	const debouncedSavedSearchValue = useDebouncedValue(savedSearchValue, SEARCH_DEBOUNCE_MS);
@@ -168,6 +178,7 @@ const Pokedex = () => {
 		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
 	const shouldDarkenBackgroundForEmptySavedState =
 		isSavedMode && !isSearchActive && savedPokemonList.length === 0;
+	const isAnyBottomSheetOpen = isSortSheetOpen || isGenerationSheetOpen;
 	const spinnerRotation = useSharedValue(0);
 	const spinnerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{ rotate: `${spinnerRotation.value}deg` }],
@@ -237,13 +248,26 @@ const Pokedex = () => {
 		if (!isSavedMode) return;
 		setIsSortSheetOpen(true);
 	}, [isSavedMode]);
+	const handleGenerationPress = useCallback(() => {
+		setIsGenerationSheetOpen(true);
+	}, []);
 
 	const handleCloseSortSheet = useCallback(() => {
 		setIsSortSheetOpen(false);
 	}, []);
 
+	const handleCloseGenerationSheet = useCallback(() => {
+		setIsGenerationSheetOpen(false);
+	}, []);
+
 	const handleSortOptionPress = useCallback((option: PokedexSortOption) => {
-		setSavedSortOption(previousSortOption => (previousSortOption === option ? null : option));
+		setSavedSortOption(previousSortOption => getNextSingleSelectOption(previousSortOption, option));
+	}, []);
+
+	const handleGenerationOptionPress = useCallback((option: PokedexGenerationOption) => {
+		setSelectedGenerationOption(previousOption =>
+			getNextSingleSelectOption(previousOption, option),
+		);
 	}, []);
 
 	const handleListScroll = useCallback((offsetY: number) => {
@@ -365,9 +389,9 @@ const Pokedex = () => {
 
 				<PokedexEdgeGradient position='top' />
 
-				{isIos && isSortSheetOpen && (
+				{isIos && isAnyBottomSheetOpen && (
 					<BlurView
-						intensity={sharedStyles.pokedex.sortSheet.blurIntensity}
+						intensity={GENERATION_SHEET_BLUR_INTENSITY}
 						tint='dark'
 						pointerEvents='none'
 						style={{ position: 'absolute', inset: 0, zIndex: sharedStyles.zIndex.header + 1 }}
@@ -387,7 +411,7 @@ const Pokedex = () => {
 						isSortEnabled={isSavedMode}
 						onSearchChange={handleSearchChange}
 						onClearSearch={handleClearSearch}
-						onGenerationPress={handleNoopPress}
+						onGenerationPress={handleGenerationPress}
 						onSortPress={handleSortPress}
 						onFilterPress={handleNoopPress}
 					/>
@@ -430,6 +454,13 @@ const Pokedex = () => {
 						onOptionPress={handleSortOptionPress}
 					/>
 				)}
+
+				<GenerationBottomSheet
+					isOpen={isGenerationSheetOpen}
+					selectedOption={selectedGenerationOption}
+					onClose={handleCloseGenerationSheet}
+					onOptionPress={handleGenerationOptionPress}
+				/>
 			</View>
 		</FadeInWrapper>
 	);

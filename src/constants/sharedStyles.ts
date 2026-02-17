@@ -86,4 +86,4 @@ export const sharedStyles = {
 
 		elevation: 7,
 	},
-};
+} as const;

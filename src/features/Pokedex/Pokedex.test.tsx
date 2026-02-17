@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { POKEDEX_GENERATION_OPTIONS } from '@constants/pokedex';
+
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
@@ -6,6 +8,7 @@ import {
 	getEmptySavedTextParts,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
+	getNextSingleSelectOption,
 	getPokemonNumberFromUrl,
 	getSearchedPokemonList,
 	getShouldShowSearchNotFound,
@@ -123,5 +126,47 @@ describe('Pokedex search helpers', () => {
 		expect(parsed.iconSuffix).toBe(' favorites');
 		expect(parsed.topLines).toEqual([]);
 		expect(parsed.bottomLines).toEqual([]);
+	});
+
+	it('clears generation selection when tapping same option again', () => {
+		expect(getNextSingleSelectOption('generation_3', 'generation_3')).toBeNull();
+	});
+
+	it('switches generation selection when tapping a different option', () => {
+		expect(getNextSingleSelectOption('generation_3', 'generation_5')).toBe('generation_5');
+	});
+
+	it('contains 8 generation options with expected ids and labels', () => {
+		expect(POKEDEX_GENERATION_OPTIONS).toHaveLength(8);
+		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.id)).toEqual([
+			'generation_1',
+			'generation_2',
+			'generation_3',
+			'generation_4',
+			'generation_5',
+			'generation_6',
+			'generation_7',
+			'generation_8',
+		]);
+		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.label)).toEqual([
+			'Generation I',
+			'Generation II',
+			'Generation III',
+			'Generation IV',
+			'Generation V',
+			'Generation VI',
+			'Generation VII',
+			'Generation VIII',
+		]);
+		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.starterIds)).toEqual([
+			[1, 4, 7],
+			[152, 155, 158],
+			[252, 255, 258],
+			[387, 390, 393],
+			[495, 498, 501],
+			[650, 653, 656],
+			[722, 725, 728],
+			[810, 813, 816],
+		]);
 	});
 });

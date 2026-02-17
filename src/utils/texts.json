@@ -21,6 +21,8 @@
 		"generationButtonA11y": "Generation button",
 		"sortButtonA11y": "Sort button",
 		"filterButtonA11y": "Filter button",
+		"generationSheetTitle": "Generations",
+		"generationSheetDescription": "Select a generation to quickly focus your Pokédex!",
 		"sortSheetTitle": "Sort",
 		"sortSheetDescription": "Sort Pokémons alphabetically or by National Pokédex number!"
 	},

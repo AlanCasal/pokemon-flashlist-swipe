@@ -102,6 +102,12 @@ export const getSortedPokemonList = (
 	return sorted ? sortedList.sort(sorted) : pokemonList;
 };
 
+// Supports single-select toggles by deselecting when the same option is pressed again.
+export const getNextSingleSelectOption = <T extends string>(
+	previousOption: T | null,
+	nextOption: T,
+) => (previousOption === nextOption ? null : nextOption);
+
 export const getEmptySavedTextParts = (text: string): EmptySavedTextParts => {
 	const [textBeforeIcon = '', textAfterIcon = ''] = text.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);
 	const textBeforeIconLines = textBeforeIcon.split('\n');

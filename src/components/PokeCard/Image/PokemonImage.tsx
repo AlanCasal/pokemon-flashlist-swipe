@@ -9,7 +9,7 @@ const POKEBALL_SIZE = sharedStyles.dimensions.pokeCardHeight - 10;
 import type { PokemonImageProps } from './types';
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
-	const colors = {
+	const colors: { opacity: number; fillColor: string } = {
 		opacity: sharedStyles.opacity.svgDefault,
 		fillColor: pokeballColors.white,
 	};
