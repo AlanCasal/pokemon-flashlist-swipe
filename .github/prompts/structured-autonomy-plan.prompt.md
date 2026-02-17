@@ -1,7 +1,7 @@
 ---
 name: sa-plan
 description: Structured Autonomy Planning Prompt
-model: Claude Sonnet 4.5 (copilot)
+model: GPT-5.3-Codex (copilot)
 agent: agent
 ---
 
@@ -15,11 +15,11 @@ Assume that this entire plan will be implemented in a single pull request (PR) o
 
 ## Step 1: Research and Gather Context
 
-MANDATORY: Run #tool:runSubagent tool instructing the agent to work autonomously following <research_guide> to gather context. Return all findings.
+MANDATORY: Run #tool:agent/runSubagent tool instructing the agent to work autonomously following <research_guide> to gather context. Return all findings.
 
-DO NOT do any other tool calls after #tool:runSubagent returns!
+DO NOT do any other tool calls after #tool:agent/runSubagent returns!
 
-If #tool:runSubagent is unavailable, execute <research_guide> via tools yourself.
+If #tool:agent/runSubagent is unavailable, execute <research_guide> via tools yourself.
 
 ## Step 2: Determine Commits
 
@@ -30,11 +30,12 @@ Analyze the user's request and break it down into commits:
 
 ## Step 3: Plan Generation
 
-1. Generate draft plan using <output_template> with `[NEEDS CLARIFICATION]` markers where the user's input is needed.
-2. Save the plan to "plans/{feature-name}/plan.md"
-3. Ask clarifying questions for any `[NEEDS CLARIFICATION]` sections
-4. MANDATORY: Pause for feedback
-5. If feedback received, revise plan and go back to Step 1 for any research needed
+1. Generate draft plan using <output_template>
+2. Whenever you need clarification, ask the user. Do NOT make assumptions about ambiguous requirements.
+3. If feedback received, revise plan and go back to Step 1 for any research needed
+4. Revise the plan based on user feedback until it is clear, complete, and actionable
+5. Save the plan to "plans/{feature-name}/plan.md"
+6. MANDATORY: Pause for feedback
 
 </workflow>
 
@@ -78,7 +79,7 @@ Research the user's feature request comprehensively:
 
 1. **Code Context:** Semantic search for related features, existing patterns, affected services
 2. **Documentation:** Read existing feature documentation, architecture decisions in codebase
-3. **Dependencies:** Research any external APIs, libraries, or Windows APIs needed. Use #context7 if available to read relevant documentation. ALWAYS READ THE DOCUMENTATION FIRST.
+3. **Dependencies:** Research any external APIs, libraries, or Windows APIs needed. Use your skills (under .github/skills folder) or #context7 if available to read relevant documentation. ALWAYS READ THE DOCUMENTATION FIRST.
 4. **Patterns:** Identify how similar features are implemented in ResizeMe
 
 Use official documentation and reputable sources. If uncertain about patterns, research before proposing.

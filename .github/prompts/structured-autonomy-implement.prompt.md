@@ -1,7 +1,7 @@
 ---
 name: sa-implement
 description: 'Structured Autonomy Implementation Prompt'
-model: GPT-5 mini (copilot)
+model: Raptor mini (Preview) (copilot)
 agent: agent
 ---
 
@@ -18,4 +18,6 @@ Follow the workflow below to ensure accurate and focused implementation.
 - Complete every item in the current Step.
 - Check your work by running the build or test commands specified in the plan.
 - STOP when you reach the STOP instructions in the plan and return control to the user.
+- Always run lint fixers and formatters on the code you have written.
+- When you have completed the implementation plan, return a message indicating that the implementation is complete and provide any relevant details or next steps. If packages were added, list them in the message.
 </workflow>
