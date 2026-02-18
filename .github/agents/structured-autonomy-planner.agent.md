@@ -8,6 +8,8 @@ model: GPT-5.3-Codex (copilot)
 tools:
   [
     'agent',
+    'edit/createFile',
+    'todo',
     'search',
     'read',
     'execute/getTerminalOutput',

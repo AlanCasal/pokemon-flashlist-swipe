@@ -9,95 +9,93 @@ applyTo: '**/\*.jsx, **/_.tsx, \*\*/_.js, \*_/_.ts
 
 ---
 
-## Project Context
+## Project Snapshot
 
-- React 19+, Expo SDK 54+, React Native 0.81+
-- TypeScript, functional components with hooks, component composition.
+- Stack: React 19, React Native 0.81, Expo SDK 54, TypeScript.
+- Routing: `expo-router` file-based routes in `src/app/`.
+- Styling: use React Native `StyleSheet` with sibling `styles.ts` files; use dynamic style factories only when values depend on runtime state/props.
+- Server state: `@tanstack/react-query` in hooks under `src/hooks/`.
+- Client state: `zustand` stores in `src/store/`, persisted with `react-native-mmkv` where required.
+- Core UI/runtime libs in use: `@shopify/flash-list`, `expo-image`, `react-native-reanimated`, `react-native-svg`, `@gorhom/bottom-sheet`.
 
-## Development Standards
+## Code Priorities
 
-### Project Structure
+- Prioritize readability and maintainability over cleverness.
+- Keep implementations small and focused.
+- Optimize performance without sacrificing clarity.
+- When adding numeric constants or non-obvious logic, include a concise comment explaining purpose.
 
-- Expo/React Native with `expo-router` (routing in `src/app`).
-- UI: Components in `src/components/` (index-export pattern, styles in component or `styles.ts`).
-- Network: `axios` + `@tanstack/react-query` (e.g., `src/hooks/usePokemonList.ts`).
-- State: React Contexts in `src/store/` with helper hooks.
+## Architecture & Conventions
 
-### Architecture
+- Use functional components and hooks.
+- Prefer composition over inheritance.
+- Keep routes under `src/app/` (do not add central route registries).
+- Keep reusable UI in `src/components/<Feature>/` with local `index.ts` re-exports.
+- Keep reusable logic in `src/hooks/` (`use*` naming).
+- Keep shared types in `src/types/`; colocate feature-specific complex types in local `types.ts`.
+- For feature folders (`src/features/<Feature>/`), keep shared feature-level `helpers.ts` and `types.ts` at the feature root.
+- Do not create umbrella barrels like `src/features/<Feature>/components/index.ts`; import feature components from each component's own path.
+- In `src/features/<Feature>/components/<ComponentName>/`, allow at most one `helpers.ts` and one `types.ts` in that component folder root (no extra nested helper/type duplicates for the same component). The less files the better for readability.
+- Use `export default` for main components and named exports for helpers/utilities.
+- Use TypeScript path aliases (`@/* -> src/*`) for imports.
 
-- Functional components with arrow functions; composition over inheritance.
-- Feature/domain organization; clear presentational/container separation.
-- Custom hooks for stateful logic.
-- Helpers in `src/utils/helpers.ts` (named exports).
+## State, Data & Error Handling
 
-### Key Patterns & Conventions
+- Use `useState` for local component state.
+- Use Zustand for cross-screen client state.
+- Use React Query for remote data, caching, and pagination.
+- Handle loading/error/success states explicitly.
+- Use `tryCatch` from `src/utils/helpers.ts` when suitable for async flows.
 
-- Component folders: `index.ts` re-exports main component and types.
-- Nested components: complex UI bits go under parent folders.
-- Hooks: `use*` naming, colocated in `src/hooks/`.
-- TypeScript: Use aliases (`@/* -> src/*`) defined in `tsconfig.json`.
-- Consistency: Use `export default` for main components, named exports for utilities.
-- Constants: Avoid magic numbers; use `src/constants/` (api, colors, etc.).
-- Types: `types.ts` per component; global types in `src/types/index.ts`.
-- Config IDs: Use typed enums/unions instead of raw strings.
+## Styling
 
-### TypeScript Integration
+- Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
+- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- Use tokens/constants from `src/constants/` (especially colors and shared values).
+- Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
+- In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.
 
-- Interfaces for props/state; types for handlers/refs.
-- Generic components; strict mode.
-- Built-in React types (`React.FC`, `React.ComponentProps`).
+## Routing, Testing & Tooling
 
-### Component Design & State
+- Follow `expo-router` conventions (including grouped routes like `(tabs)`).
+- Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
+- Install deps with `bun install` (preferred).
+- Run formatting/linting with `bun run format:fix`.
+- Start app with `bun run start` (or `expo start`).
+- For native package changes, run the proper `expo prebuild` / rebuild flow.
 
-- Single responsibility; descriptive naming.
-- Small, focused, testable, reusable.
-- `useState` for local state; React Query/SWR for server state.
-- Consider Zustand for complex side state.
+## Implementation Process
 
-### Hooks, Effects & Styling
+1. Confirm requirements and existing patterns in adjacent files.
+2. Define or update types first when needed.
+3. Implement minimal UI/logic changes in the correct feature location.
+4. Wire state/data flow (local state, Zustand, React Query).
+5. Add loading/error/empty states.
+6. Add or update focused tests near changed code.
+7. Add concise comments for non-obvious, or complex logic or constants (only when necessary).
+8. Run lint/format and relevant checks.
+9. Update docs/instruction files when architecture or packages change.
 
-- `useEffect` with proper dependencies and cleanup.
-- Custom hooks for reuse; follow rules of hooks.
-- `useRef` for DOM/mutable values.
-- Uniwind (Tailwind): classes directly in components.
-- Constants for colors (`src/constants/colors.ts`) and shared styles (`src/styles/sharedStyles.ts`).
+## Common Patterns
 
-### Performance & Optimization
+- Feature-first component structure with re-export `index.ts` files.
+- Custom hooks for reusable stateful logic.
+- Container/presentational separation where complexity justifies it.
+- Shared constants for non-trivial numbers/strings (avoid magic values).
 
-- `React.memo`, `useMemo`, `useCallback` judiciously.
-- Code splitting (`React.lazy`, `Suspense`).
-- FlashList for performant list rendering.
+## Practical Examples
 
-### Data Fetching & Error Handling
+- Root layout and router entry: [src/app/\_layout.tsx](src/app/_layout.tsx)
+- Route screen example: [src/app/details.tsx](src/app/details.tsx)
+- Infinite query hook: [src/hooks/usePokemonList.ts](src/hooks/usePokemonList.ts)
+- Zustand stores: [src/store/savedStore.ts](src/store/savedStore.ts), [src/store/toastStore.ts](src/store/toastStore.ts)
+- Component re-export pattern: [src/components/PokeCard/index.ts](src/components/PokeCard/index.ts)
+- API and design constants: [src/constants/api.ts](src/constants/api.ts), [src/constants/colors.ts](src/constants/colors.ts)
+- Alias/config references: [tsconfig.json](tsconfig.json), [babel.config.js](babel.config.js), [metro.config.js](metro.config.js)
 
-- React Query: handle loading, error, success, race conditions.
-- Optimistic updates; caching; offline handling.
-- `tryCatch` helper in `src/utils/helpers.ts`.
-- Error Boundaries; meaningful fallback UIs; proper logging.
+## Keep This File Current
 
-### Forms, Routing & Navigation
-
-- Controlled components; libraries like React Hook Form.
-- Expo-router file-based routing (`src/app/`).
-- Preserve structure: new screens go in `src/app/`.
-
-### Testing & Security
-
-- Unit tests (`.test.tsx`) alongside components (Jest, React Testing Library).
-- Mock dependencies/APIs; test behavior, not implementation.
-- XSS prevention: sanitize inputs, escape data.
-- HTTPS for APIs; avoid sensitive storage in localStorage.
-
-### Security & Build Tools
-
-- Repo prefers Bun (`bun install`, `bun.lock`).
-- `expo start` for dev; SVGs via `react-native-svg-transformer`.
-- Husky for pre-commit linting; GPG signing may be disabled locally.
-
-### Important files to inspect
-
-- Entry: [src/app/\_layout.tsx](src/app/_layout.tsx)
-- Routes: `src/app/*`
-- API / Colors: `src/constants/`
-- Hooks / Store: `src/hooks/`, `src/store/`
-- Config: `metro.config.js`, `tsconfig.json`
+- Update this file in the same PR when package usage, architecture, or conventions change.
+- Ensure package/library statements match `package.json`.
+- Remove stale guidance instead of adding exceptions.
+- Keep guidance concise, specific, and example-driven.
