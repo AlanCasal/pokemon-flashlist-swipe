@@ -2,15 +2,16 @@ import FilterIcon from '@assets/icons/filter.svg';
 import GenerationIcon from '@assets/icons/generation.svg';
 import SearchIcon from '@assets/icons/search.svg';
 import SortIcon from '@assets/icons/sort.svg';
-import { customColor, textColor, typeColors } from '@constants/colors';
+import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 
-import { shouldShowClearSearchButton } from '../helpers';
-import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../types';
+import { shouldShowClearSearchButton } from '../../helpers';
+import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../../types';
+import styles, { createActionStyles, useStyles } from './styles';
 
 const PokedexHeader = ({
 	onGenerationPress,
@@ -23,6 +24,8 @@ const PokedexHeader = ({
 	hasActiveSort,
 	isSortEnabled,
 }: PokedexHeaderProps) => {
+	const containerStyles = useStyles({ topInset });
+
 	const actions: HeaderAction[] = [
 		{
 			id: PokedexHeaderActionId.Generation,
@@ -51,23 +54,13 @@ const PokedexHeader = ({
 	return (
 		<View
 			testID='pokedex-header'
-			className='pb-3'
-			style={{
-				paddingTop: topInset,
-				paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-			}}
+			style={containerStyles.container}
 		>
 			<View
 				testID='pokedex-header-controls'
-				className='flex-row items-center gap-2'
+				style={styles.controls}
 			>
-				<View
-					className='h-9 flex-1 flex-row items-center rounded-xl border px-3'
-					style={{
-						backgroundColor: customColor.input,
-						borderColor: customColor.border,
-					}}
-				>
+				<View style={styles.searchInputContainer}>
 					<SearchIcon
 						width={sharedStyles.dimensions.iconsSize}
 						height={sharedStyles.dimensions.iconsSize}
@@ -78,9 +71,8 @@ const PokedexHeader = ({
 						onChangeText={onSearchChange}
 						placeholder={texts.pokedex.searchPlaceholder}
 						placeholderTextColor={textColor.grey}
-						className='ml-2 flex-1 text-[13px] pt-0 pb-0'
 						textAlignVertical='center'
-						style={{ color: textColor.black, fontFamily: sharedStyles.typography.primaryFont }}
+						style={styles.searchInput}
 					/>
 					{shouldShowClearSearchButton(searchValue) && (
 						<TouchableOpacity
@@ -89,7 +81,7 @@ const PokedexHeader = ({
 							accessibilityLabel={texts.pokedex.clearSearchButtonA11y}
 							activeOpacity={sharedStyles.opacity.active}
 							onPress={onClearSearch}
-							className='ml-2'
+							style={styles.clearSearchButton}
 						>
 							<MaterialCommunityIcons
 								name='close-circle'
@@ -100,53 +92,41 @@ const PokedexHeader = ({
 					)}
 				</View>
 
-				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => (
-					<TouchableOpacity
-						key={id}
-						testID={testID}
-						accessibilityRole='button'
-						accessibilityLabel={accessibilityLabel}
-						disabled={disabled}
-						activeOpacity={sharedStyles.opacity.active}
-						onPress={onPress}
-						className='h-8 w-8 items-center justify-center rounded-xl border'
-						style={{
-							backgroundColor: customColor.input,
-							borderColor: customColor.border,
-							opacity: disabled ? sharedStyles.pokedex.sortBadge.disabledOpacity : 1,
-						}}
-					>
-						<Icon
-							width={sharedStyles.dimensions.iconsSize}
-							height={sharedStyles.dimensions.iconsSize}
-						/>
+				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => {
+					const actionStyles = createActionStyles({ disabled });
 
-						{id === PokedexHeaderActionId.Sort && hasActiveSort && (
-							<View
-								testID='pokedex-sort-badge'
-								className='absolute -top-1 -right-1 items-center justify-center rounded-full'
-								style={{
-									width: sharedStyles.pokedex.sortBadge.size,
-									height: sharedStyles.pokedex.sortBadge.size,
-									backgroundColor: typeColors.fighting,
-								}}
-							>
-								<Text
-									testID='pokedex-sort-badge-label'
-									className='text-center'
-									style={{
-										fontFamily: sharedStyles.typography.primaryFont,
-										color: textColor.primary,
-										fontSize: sharedStyles.pokedex.sortBadge.fontSize,
-										lineHeight: sharedStyles.pokedex.sortBadge.size - 1,
-									}}
+					return (
+						<TouchableOpacity
+							key={id}
+							testID={testID}
+							accessibilityRole='button'
+							accessibilityLabel={accessibilityLabel}
+							disabled={disabled}
+							activeOpacity={sharedStyles.opacity.active}
+							onPress={onPress}
+							style={[styles.actionButton, actionStyles.actionButtonState]}
+						>
+							<Icon
+								width={sharedStyles.dimensions.iconsSize}
+								height={sharedStyles.dimensions.iconsSize}
+							/>
+
+							{id === PokedexHeaderActionId.Sort && hasActiveSort && (
+								<View
+									testID='pokedex-sort-badge'
+									style={styles.sortBadge}
 								>
-									{sharedStyles.pokedex.sortBadge.activeText}
-								</Text>
-							</View>
-						)}
-					</TouchableOpacity>
-				))}
+									<Text
+										testID='pokedex-sort-badge-label'
+										style={styles.sortBadgeLabel}
+									>
+										{sharedStyles.pokedex.sortBadge.activeText}
+									</Text>
+								</View>
+							)}
+						</TouchableOpacity>
+					);
+				})}
 			</View>
 		</View>
 	);

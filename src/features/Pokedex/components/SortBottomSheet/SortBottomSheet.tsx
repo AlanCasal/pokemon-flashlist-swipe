@@ -1,4 +1,3 @@
-import { customColor, textColor, typeColors } from '@constants/colors';
 import { POKEDEX_SORT_OPTIONS } from '@constants/pokedex';
 import { sharedStyles } from '@constants/sharedStyles';
 import {
@@ -11,6 +10,7 @@ import texts from '@utils/texts.json';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
+import styles from './styles';
 import { type SortBottomSheetProps } from './types';
 
 const SortBottomSheet = ({
@@ -31,12 +31,7 @@ const SortBottomSheet = ({
 				pressBehavior='close'
 				onPress={onClose}
 			>
-				<View
-					className='absolute inset-0'
-					style={{
-						backgroundColor: `rgba(23, 23, 27, ${sharedStyles.pokedex.sortSheet.backdropOpacity})`,
-					}}
-				/>
+				<View style={[styles.backdropFill, styles.backdropOverlay]} />
 			</BottomSheetBackdrop>
 		),
 		[onClose],
@@ -59,48 +54,23 @@ const SortBottomSheet = ({
 			enablePanDownToClose
 			backdropComponent={renderBackdrop}
 			onDismiss={onClose}
-			handleIndicatorStyle={{
-				width: sharedStyles.pokedex.sortSheet.handleWidth,
-				height: sharedStyles.pokedex.sortSheet.handleHeight,
-				backgroundColor: textColor.primary,
-			}}
-			backgroundStyle={{
-				borderTopLeftRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
-				borderTopRightRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
-				backgroundColor: textColor.primary,
-			}}
+			handleIndicatorStyle={styles.handleIndicator}
+			backgroundStyle={styles.background}
 		>
-			<BottomSheetView
-				className='gap-3 pt-1.5 pb-7'
-				style={{
-					paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-				}}
-			>
-				<Text
-					className='text-center font-bold'
-					style={{
-						color: textColor.black,
-						fontSize: sharedStyles.pokedex.sortText.titleFontSize,
-					}}
-				>
-					{texts.pokedex.sortSheetTitle}
-				</Text>
+			<BottomSheetView style={styles.contentContainer}>
+				<Text style={styles.title}>{texts.pokedex.sortSheetTitle}</Text>
 
-				<Text
-					className='leading-5'
-					style={{
-						fontFamily: sharedStyles.typography.primaryFont,
-						color: textColor.grey,
-						fontSize: sharedStyles.pokedex.sortText.descriptionFontSize,
-						lineHeight: 20,
-					}}
-				>
-					{texts.pokedex.sortSheetDescription}
-				</Text>
+				<Text style={styles.description}>{texts.pokedex.sortSheetDescription}</Text>
 
-				<View className='gap-2.5'>
+				<View style={styles.optionsContainer}>
 					{POKEDEX_SORT_OPTIONS.map(option => {
 						const isSelected = selectedOption === option.id;
+						const optionButtonStateStyle = isSelected
+							? styles.optionButtonSelected
+							: styles.optionButtonUnselected;
+						const optionLabelStateStyle = isSelected
+							? styles.optionLabelSelected
+							: styles.optionLabelUnselected;
 
 						return (
 							<TouchableOpacity
@@ -108,22 +78,13 @@ const SortBottomSheet = ({
 								testID={option.testID}
 								activeOpacity={sharedStyles.opacity.active}
 								onPress={() => onOptionPress(option.id)}
-								className='items-center justify-center px-4'
-								style={{
-									height: sharedStyles.pokedex.sortOption.height,
-									borderRadius: sharedStyles.pokedex.sortOption.borderRadius,
-									backgroundColor: isSelected ? typeColors.dragon : customColor.input,
-								}}
+								style={[styles.optionButton, optionButtonStateStyle]}
 							>
 								<Text
 									numberOfLines={1}
 									adjustsFontSizeToFit
 									minimumFontScale={0.8}
-									className='w-full text-center'
-									style={{
-										color: isSelected ? textColor.primary : textColor.grey,
-										fontSize: sharedStyles.pokedex.sortOption.fontSize,
-									}}
+									style={[styles.optionLabel, optionLabelStateStyle]}
 								>
 									{option.label}
 								</Text>

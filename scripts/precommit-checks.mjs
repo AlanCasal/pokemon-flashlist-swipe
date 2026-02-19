@@ -31,7 +31,6 @@ const ignoredLintFiles = new Set([
 	'.eslintrc.js',
 	'.prettierrc.js',
 	'todos.js',
-	'uniwind-types.d.ts',
 ]);
 const stagedLintFiles = getStagedFiles().filter(
 	filePath => /\.(js|jsx|ts|tsx)$/.test(filePath) && !ignoredLintFiles.has(filePath),

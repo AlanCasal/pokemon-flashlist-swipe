@@ -1,5 +1,3 @@
-import '@/global.css';
-
 import { FingerPaint_400Regular, useFonts } from '@expo-google-fonts/finger-paint';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -10,6 +8,7 @@ import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import Toast from '../components/Toast/Toast';
+import styles from './styles';
 
 const queryClient = new QueryClient();
 
@@ -19,7 +18,7 @@ const RootLayout = () => {
 	const isAppReady = fontsLoaded || Boolean(fontError);
 	if (!isAppReady) {
 		return (
-			<View className='flex-1 items-center justify-center bg-white'>
+			<View style={styles.loadingContainer}>
 				<ActivityIndicator size='large' />
 			</View>
 		);
@@ -27,7 +26,7 @@ const RootLayout = () => {
 
 	return (
 		<QueryClientProvider client={queryClient}>
-			<GestureHandlerRootView style={{ flex: 1 }}>
+			<GestureHandlerRootView style={styles.gestureRoot}>
 				<BottomSheetModalProvider>
 					<StatusBar style='dark' />
 					<Toast />

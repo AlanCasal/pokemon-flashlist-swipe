@@ -1,7 +1,6 @@
 import { Marquee } from '@animatereactnative/marquee';
 import Pokeball from '@assets/images/pokeball-full.svg';
-import { pokeballColors, textColor, typeBgColors, typeColors } from '@constants/colors';
-import { sharedStyles } from '@constants/sharedStyles';
+import { pokeballColors, typeColors } from '@constants/colors';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
 import { chunkArray, toTransparent } from '@utils/helpers';
@@ -14,6 +13,8 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
+import { createSpriteTileStyles, useStyles } from './styles';
+
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
 const SPACING = 8;
@@ -24,6 +25,7 @@ const Home = () => {
 	const { data, isLoading, hasError } = usePokemonSprites();
 	const router = useRouter();
 	const queryClient = useQueryClient();
+	const styles = useStyles({ itemSize: ITEM_SIZE });
 	const formattedArray = useMemo(() => {
 		const chunkSize = Math.max(1, Math.ceil(data.length / 3));
 		return chunkArray(data, chunkSize);
@@ -41,7 +43,7 @@ const Home = () => {
 
 	if (isLoading || data.length === 0) {
 		return (
-			<View className='flex-1 items-center justify-center'>
+			<View style={styles.loadingContainer}>
 				<ActivityIndicator size='large' />
 			</View>
 		);
@@ -56,43 +58,38 @@ const Home = () => {
 	}
 
 	return (
-		<View
-			className='flex-1 overflow-hidden'
-			style={{ backgroundColor: typeColors.dragon }}
-		>
+		<View style={styles.root}>
 			<StatusBar style='light' />
 
-			<View className='relative flex-1 overflow-hidden'>
+			<View style={styles.root}>
 				<Animated.View
-					className='absolute inset-0'
+					style={styles.marqueeAbsoluteFill}
 					entering={FadeIn.springify().damping(12).delay(300).duration(3000)}
 				>
-					<View
-						className='flex-1 gap-2'
-						style={{ transform: [{ rotate: '-4deg' }] }}
-					>
+					<View style={styles.marqueeColumns}>
 						{formattedArray.map((column, columnIndex) => (
 							<Marquee
 								key={`marquee-${columnIndex}`}
 								spacing={SPACING}
 								reverse={columnIndex % 2 !== 0}
 								speed={MARQUEE_SPEED}
-								style={{ height: ITEM_SIZE }}
+								style={styles.marqueeRowHeight}
 							>
-								<View className='flex-row gap-2'>
+								<View style={styles.marqueeRow}>
 									{column.map(({ image, type }, imageIndex) => (
 										<View
 											key={`image-column-${columnIndex}-${imageIndex}`}
-											className='relative overflow-hidden rounded-lg'
-											style={{
-												backgroundColor: typeBgColors[type as keyof typeof typeColors],
-											}}
+											style={[
+												styles.spriteTile,
+												createSpriteTileStyles({ type: type as keyof typeof typeColors })
+													.spriteTileBackground,
+											]}
 										>
 											<Image
 												source={{ uri: image }}
-												style={{ width: ITEM_SIZE, aspectRatio: 1, zIndex: 1 }}
+												style={styles.spriteImage}
 											/>
-											<View className='absolute inset-0 p-2.5 opacity-50'>
+											<View style={styles.spriteOverlay}>
 												<Pokeball
 													width='100%'
 													height='100%'
@@ -113,58 +110,27 @@ const Home = () => {
 					start={{ x: 0, y: 0 }}
 					end={{ x: 0, y: 1 }}
 					locations={[0, 0.15, 1]}
-					className='absolute top-0 right-0 left-0 h-1/4'
-					pointerEvents='none'
-				/>
-
-				<LinearGradient
-					colors={[toTransparent(BG_COLOR), BG_COLOR, BG_COLOR]}
-					start={{ x: 0, y: 0 }}
-					end={{ x: 0, y: 1 }}
-					locations={[0, 0.7, 1]}
-					className='absolute right-0 bottom-0 left-0 h-1/4'
+					style={styles.topGradient}
 					pointerEvents='none'
 				/>
 			</View>
 
-			<View
-				className='items-center gap-2'
-				style={{ flex: 0.5 }}
-			>
+			<View style={styles.footer}>
 				<Image
 					source={require('@assets/images/pokedex-logo.png')}
 					contentFit='contain'
-					style={{ width: 200, height: 80 }}
+					style={styles.logo}
 				/>
-				<Text
-					className='text-center text-[18px]'
-					style={{ fontFamily: sharedStyles.typography.primaryFont, color: textColor.primary }}
-				>
-					{texts.home.heroSubtitle}
-				</Text>
+				<Text style={styles.subtitle}>{texts.home.heroSubtitle}</Text>
 
 				<AnimatedTouchableOpacity
 					onPress={handleStart}
 					entering={FadeInDown.springify().damping(30).delay(300)}
-					className='mt-4'
+					style={styles.startButtonWrapper}
 					activeOpacity={0.8}
 				>
-					<View
-						className='h-12 w-50 items-center justify-center rounded-full border-2'
-						style={{
-							backgroundColor: pokeballColors.red,
-							borderColor: pokeballColors.black,
-						}}
-					>
-						<Text
-							className='text-[18px]'
-							style={{
-								color: textColor.primary,
-								fontFamily: sharedStyles.typography.primaryFont,
-							}}
-						>
-							{texts.home.startButton}
-						</Text>
+					<View style={styles.startButton}>
+						<Text style={styles.startButtonLabel}>{texts.home.startButton}</Text>
 					</View>
 				</AnimatedTouchableOpacity>
 			</View>

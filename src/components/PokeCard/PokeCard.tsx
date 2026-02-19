@@ -7,11 +7,12 @@ import { useShowToast } from '@store/toastStore';
 import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
 import PokemonImage from './Image';
 import Info from './Info';
+import { useStyles } from './styles';
 import type { PokemonCardProps } from './types';
 
 const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
@@ -22,18 +23,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 
 	const isSaved = useIsPokemonSaved(pokemon?.name);
 	const type = (pokemon?.types[0]?.type.name ?? 'dark') as keyof typeof typeBgColors;
-	const containerStyles = useMemo(
-		() => ({
-			height: sharedStyles.dimensions.pokeCardHeight,
-			backgroundColor: typeBgColors[type],
-			paddingLeft: 5,
-			paddingRight: 14,
-			marginVertical: sharedStyles.spacing.cardsGap,
-			shadowColor: typeBgColors[type],
-			...sharedStyles.shadow,
-		}),
-		[type],
-	);
+	const styles = useStyles({ type });
 
 	const handleOnPressPokeball = useCallback(() => {
 		if (!pokemon) return;
@@ -63,14 +53,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	}, [isSaved, isSavedMode, pokemon, showToast, toggleSavedPokemon, type]);
 
 	if (isLoading || !pokemon) {
-		return (
-			<View
-				style={{
-					height: sharedStyles.dimensions.pokeCardHeight,
-					marginVertical: sharedStyles.spacing.cardsGap,
-				}}
-			/>
-		);
+		return <View style={styles.loadingPlaceholder} />;
 	}
 
 	return (
@@ -90,21 +73,14 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 					animate={{ opacity: isExiting ? 0 : 1 }}
 					exit={{ opacity: 0 }}
 					transition={{ type: 'timing', duration: sharedStyles.duration.fade }}
-					className='flex-row items-center justify-between rounded-[10px]'
-					style={containerStyles}
+					style={styles.cardContainer}
 				>
 					<PokemonImage
 						uri={pokemon.sprites.other['official-artwork'].front_default}
 						isSaved={isSaved}
 					/>
 
-					<View
-						className='absolute bottom-3 items-center justify-center'
-						style={{
-							left: '35%',
-							transform: [{ rotate: '-90deg' }],
-						}}
-					>
+					<View style={styles.pokeballDecoration}>
 						<Dots
 							fill='white'
 							width={80}

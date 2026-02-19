@@ -45,6 +45,9 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 - Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
 - For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
+- In dynamic style factories, use props directly in style properties when the expression is simple.
+- If logic is complex or reused, extract a constant or helper function first.
 - Use tokens/constants from `src/constants/` (especially colors and shared values).
 - Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
 - In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.

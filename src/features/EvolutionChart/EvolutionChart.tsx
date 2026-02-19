@@ -12,10 +12,12 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import EvolutionChain from './components/EvolutionChain';
+import { useStyles } from './styles';
 
 const EvolutionChart = () => {
 	const router = useRouter();
 	const { bottom } = useSafeAreaInsets();
+	const styles = useStyles({ bottomInset: bottom });
 
 	const { id, type } = useLocalSearchParams();
 	const { data: evolutionData, isLoading } = useGetPokemonEvolutions(id as string);
@@ -28,25 +30,17 @@ const EvolutionChart = () => {
 			]}
 			start={{ x: 0, y: 0 }}
 			end={{ x: 2, y: 1 }}
-			style={{ flex: 1 }}
+			style={styles.container}
 		>
 			<Animated.View
 				entering={fadeInAnim(BASE_FADE_IN_DURATION)}
-				className='absolute top-1/2 left-5'
-				style={{
-					marginTop: 60,
-					transformOrigin: 'left center',
-					transform: [{ rotate: '270deg' }],
-					width: 'auto',
-				}}
+				style={styles.titleContainer}
 			>
-				<Text className='text-base font-bold uppercase leading-5'>
-					{texts.evolution.chartTitle}
-				</Text>
+				<Text style={styles.title}>{texts.evolution.chartTitle}</Text>
 			</Animated.View>
 
 			{isLoading && (
-				<View className='flex-1 items-center justify-center'>
+				<View style={styles.loadingContainer}>
 					<ActivityIndicator
 						size='large'
 						color={'white'}
@@ -57,11 +51,7 @@ const EvolutionChart = () => {
 			{!isLoading && evolutionData && (
 				<Animated.ScrollView
 					entering={fadeInAnim(BASE_DELAY)}
-					contentContainerStyle={{
-						flex: 1,
-						justifyContent: 'center',
-						paddingBottom: 30,
-					}}
+					contentContainerStyle={styles.contentContainer}
 				>
 					<EvolutionChain
 						evolution={evolutionData}
@@ -72,10 +62,7 @@ const EvolutionChart = () => {
 				</Animated.ScrollView>
 			)}
 
-			<View
-				className='absolute bottom-0 self-center'
-				style={{ paddingBottom: bottom + 10 }}
-			>
+			<View style={styles.closeButtonContainer}>
 				<CustomTab
 					isRounded
 					isFocused

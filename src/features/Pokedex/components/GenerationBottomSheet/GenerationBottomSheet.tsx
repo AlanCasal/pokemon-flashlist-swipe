@@ -1,5 +1,4 @@
 import { POKEDEX_GENERATION_OPTIONS } from '@constants/pokedex';
-import { sharedStyles } from '@constants/sharedStyles';
 import {
 	BottomSheetBackdrop,
 	type BottomSheetBackdropProps,
@@ -34,10 +33,7 @@ const GenerationBottomSheet = ({
 				pressBehavior='close'
 				onPress={onClose}
 			>
-				<View
-					className='absolute inset-0'
-					style={styles.backdropOverlay}
-				/>
+				<View style={styles.backdropFill} />
 			</BottomSheetBackdrop>
 		),
 		[onClose],
@@ -60,30 +56,14 @@ const GenerationBottomSheet = ({
 			backgroundStyle={styles.background}
 		>
 			<BottomSheetScrollView
-				className='pt-1.5'
-				contentContainerStyle={[
-					styles.contentContainer,
-					{ paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding },
-				]}
+				style={styles.scrollView}
+				contentContainerStyle={styles.contentContainer}
 			>
-				<Text
-					className='text-center font-bold'
-					style={styles.title}
-				>
-					{texts.pokedex.generationSheetTitle}
-				</Text>
+				<Text style={styles.title}>{texts.pokedex.generationSheetTitle}</Text>
 
-				<Text
-					className='mt-3 leading-5'
-					style={[styles.description, { fontFamily: sharedStyles.typography.primaryFont }]}
-				>
-					{texts.pokedex.generationSheetDescription}
-				</Text>
+				<Text style={styles.description}>{texts.pokedex.generationSheetDescription}</Text>
 
-				<View
-					className='mt-4 flex-row flex-wrap justify-between'
-					style={styles.optionsContainer}
-				>
+				<View style={styles.optionsContainer}>
 					{POKEDEX_GENERATION_OPTIONS.map(option => {
 						const isSelected = selectedOption === option.id;
 

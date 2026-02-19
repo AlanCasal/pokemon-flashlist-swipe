@@ -43,8 +43,13 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Styling
 
-- Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
-- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- Prefer sibling `styles.ts` files for components.
+- For static styles, export a default `styles` object from a single `StyleSheet.create(...)` call.
+- For dynamic styles (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) and use a single `StyleSheet.create(...)` call inside that function.
+- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`), whether styles are dynamic or static.
+- In dynamic style factories, use props directly in style properties when the expression is simple (for example `backgroundColor: typeBgColors[type]`).
+- If logic is complex or reused, extract a constant or helper function first, then reference it in `StyleSheet.create(...)`.
+- Each `styles.ts` file must contain exactly one `StyleSheet.create(...)` call.
 - Use tokens/constants from `src/constants/` (especially colors and shared values).
 - Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
 - In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.
@@ -79,13 +84,13 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Practical Examples
 
-- Root layout and router entry: [src/app/\_layout.tsx](src/app/_layout.tsx)
-- Route screen example: [src/app/details.tsx](src/app/details.tsx)
-- Infinite query hook: [src/hooks/usePokemonList.ts](src/hooks/usePokemonList.ts)
-- Zustand stores: [src/store/savedStore.ts](src/store/savedStore.ts), [src/store/toastStore.ts](src/store/toastStore.ts)
-- Component re-export pattern: [src/components/PokeCard/index.ts](src/components/PokeCard/index.ts)
-- API and design constants: [src/constants/api.ts](src/constants/api.ts), [src/constants/colors.ts](src/constants/colors.ts)
-- Alias/config references: [tsconfig.json](tsconfig.json), [babel.config.js](babel.config.js), [metro.config.js](metro.config.js)
+- Root layout and router entry: [src/app/\_layout.tsx](../../src/app/_layout.tsx)
+- Route screen example: [src/app/details.tsx](../../src/app/details.tsx)
+- Infinite query hook: [src/hooks/usePokemonList.ts](../../src/hooks/usePokemonList.ts)
+- Zustand stores: [src/store/savedStore.ts](../../src/store/savedStore.ts), [src/store/toastStore.ts](../../src/store/toastStore.ts)
+- Component re-export pattern: [src/components/PokeCard/index.ts](../../src/components/PokeCard/index.ts)
+- API and design constants: [src/constants/api.ts](../../src/constants/api.ts), [src/constants/colors.ts](../../src/constants/colors.ts)
+- Alias/config references: [tsconfig.json](../../tsconfig.json), [babel.config.js](../../babel.config.js), [metro.config.js](../../metro.config.js)
 
 ## Keep This File Current
 

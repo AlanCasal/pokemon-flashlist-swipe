@@ -47,6 +47,7 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from './helpers';
+import styles from './styles';
 import {
 	PokedexFlashListScrollEvent,
 	type PokedexListEmptyProps,
@@ -372,18 +373,13 @@ const Pokedex = () => {
 
 	return (
 		<FadeInWrapper duration={250}>
-			<View className='flex-1'>
+			<View style={styles.container}>
 				<WallpaperBackground source={backgroundSource} />
 
 				{shouldDarkenBackgroundForEmptySavedState && (
 					<View
 						pointerEvents='none'
-						style={{
-							position: 'absolute',
-							inset: 0,
-							backgroundColor: 'rgba(0, 0, 0, 0.2)',
-							zIndex: sharedStyles.zIndex.wallpaper + 1,
-						}}
+						style={styles.savedWallpaperOverlay}
 					/>
 				)}
 
@@ -394,16 +390,13 @@ const Pokedex = () => {
 						intensity={GENERATION_SHEET_BLUR_INTENSITY}
 						tint='dark'
 						pointerEvents='none'
-						style={{ position: 'absolute', inset: 0, zIndex: sharedStyles.zIndex.header + 1 }}
+						style={styles.blurOverlay}
 					/>
 				)}
 
 				<PokedexEdgeGradient position='bottom' />
 
-				<View
-					className='absolute top-0 right-0 left-0'
-					style={{ zIndex: sharedStyles.zIndex.header }}
-				>
+				<View style={styles.headerContainer}>
 					<PokedexHeader
 						topInset={top}
 						searchValue={activeSearchValue}
@@ -424,7 +417,7 @@ const Pokedex = () => {
 					drawDistance={POKEDEX_FLASHLIST_DRAW_DISTANCE}
 					onEndReachedThreshold={1}
 					contentContainerStyle={contentContainerStyle}
-					style={{ flex: 1, zIndex: sharedStyles.zIndex.cards }}
+					style={styles.flashList}
 					maintainVisibleContentPosition={{ disabled: true }}
 					alwaysBounceVertical
 					refreshing={isRefetching}

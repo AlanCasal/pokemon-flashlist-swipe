@@ -1,9 +1,15 @@
-import { textColor } from '@constants/colors';
+import { backgroundColors, textColor, typeColors } from '@constants/colors';
+import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-	backdropOverlay: {
+	backdropFill: {
 		backgroundColor: 'rgba(23, 23, 27, 0.5)',
+		bottom: 0,
+		left: 0,
+		position: 'absolute',
+		right: 0,
+		top: 0,
 	},
 	background: {
 		backgroundColor: textColor.primary,
@@ -12,11 +18,14 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		paddingBottom: 24,
+		paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
 	},
 	description: {
 		color: textColor.grey,
+		fontFamily: sharedStyles.typography.primaryFont,
 		fontSize: 14,
 		lineHeight: 20,
+		marginTop: 12,
 	},
 	handleIndicator: {
 		backgroundColor: textColor.primary,
@@ -27,20 +36,46 @@ const styles = StyleSheet.create({
 		opacity: 0.3,
 	},
 	optionCard: {
+		alignItems: 'center',
 		borderRadius: 16,
 		height: 140,
+		justifyContent: 'center',
+		overflow: 'hidden',
+		paddingBottom: 8,
+		paddingHorizontal: 12,
+		paddingTop: 12,
+		position: 'relative',
+		rowGap: 12,
+		width: '48%',
+	},
+	optionCardSelected: {
+		backgroundColor: typeColors.dragon,
+	},
+	optionCardUnselected: {
+		backgroundColor: backgroundColors.inactive,
 	},
 	optionDotsDecoration: {
 		left: -80,
 		opacity: 0.15,
+		position: 'absolute',
 		top: -50,
 	},
 	optionLabel: {
 		fontSize: 16,
+		textAlign: 'center',
+		width: '100%',
+		zIndex: 1,
+	},
+	optionLabelSelected: {
+		color: textColor.primary,
+	},
+	optionLabelUnselected: {
+		color: textColor.grey,
 	},
 	optionPokeballDecoration: {
 		bottom: -35,
 		opacity: 0.15,
+		position: 'absolute',
 		right: -8,
 	},
 	optionSprite: {
@@ -49,12 +84,25 @@ const styles = StyleSheet.create({
 		width: 60,
 		zIndex: 1,
 	},
+	optionSpriteRow: {
+		flexDirection: 'row',
+		zIndex: 1,
+	},
 	optionsContainer: {
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+		marginTop: 16,
 		rowGap: 12,
+	},
+	scrollView: {
+		paddingTop: 6,
 	},
 	title: {
 		color: textColor.black,
 		fontSize: 28,
+		fontWeight: '700',
+		textAlign: 'center',
 	},
 });
 

@@ -6,6 +6,7 @@ import { View } from 'react-native';
 
 const POKEBALL_SIZE = sharedStyles.dimensions.pokeCardHeight - 10;
 
+import styles from './styles';
 import type { PokemonImageProps } from './types';
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
@@ -23,14 +24,9 @@ const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 		<View>
 			<Image
 				source={{ uri }}
-				style={{
-					width: sharedStyles.dimensions.pokeImageSize,
-					height: sharedStyles.dimensions.pokeImageSize,
-					bottom: 10,
-					zIndex: 1,
-				}}
+				style={styles.image}
 			/>
-			<View className='absolute top-4 left-[10px]'>
+			<View style={styles.pokeballContainer}>
 				<Pokeball
 					width={POKEBALL_SIZE}
 					height={POKEBALL_SIZE}

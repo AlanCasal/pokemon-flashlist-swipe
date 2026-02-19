@@ -7,7 +7,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 - Stack: React 19, React Native 0.81, Expo SDK 54, TypeScript.
 - Routing: `expo-router` file-based routes in `src/app/`.
-- Styling: maximize use of `uniwind` (`className` first), fallback to inline styles only when needed.
+- Styling: use React Native `StyleSheet` with sibling `styles.ts` files; use dynamic style factories only when values depend on runtime state/props.
 - Server state: `@tanstack/react-query` in hooks under `src/hooks/`.
 - Client state: `zustand` stores in `src/store/`, persisted with `react-native-mmkv` where required.
 - Core UI/runtime libs in use: `@shopify/flash-list`, `expo-image`, `react-native-reanimated`, `react-native-svg`, `@gorhom/bottom-sheet`.
@@ -43,12 +43,14 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Styling
 
-- Prefer Uniwind utility classes directly in `.tsx` files.
+- Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
+- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
+- In dynamic style factories, use props directly in style properties when the expression is simple.
+- If logic is complex or reused, extract a constant or helper function first.
 - Use tokens/constants from `src/constants/` (especially colors and shared values).
-- Use `StyleSheet.create(...)` as the fallback for unsupported utility cases; avoid ad-hoc inline style objects when values are static.
-- Use inline style objects only for truly dynamic values that cannot be expressed via Uniwind classes or static `StyleSheet` entries.
-- In any component `styles.ts`, export real React Native style objects via `StyleSheet.create(...)` only.
-- Do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`; keep them in the component file or a `constants.ts` file.
+- Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
+- In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.
 
 ## Routing, Testing & Tooling
 

@@ -4,15 +4,14 @@ import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import CustomTab from './CustomTab';
+import { useStyles } from './styles';
 
 const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 	const { bottom } = useSafeAreaInsets();
+	const styles = useStyles({ bottomInset: bottom });
 
 	return (
-		<View
-			className='absolute right-0 bottom-0 left-0 flex-row items-center justify-center gap-1'
-			style={{ paddingBottom: bottom + 10 }}
-		>
+		<View style={styles.container}>
 			{state.routes.map((route, index) => {
 				const { options } = descriptors[route.key];
 				const tabLabel =

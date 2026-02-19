@@ -1,7 +1,8 @@
 import { typeColors } from '@constants/colors';
-import { sharedStyles } from '@constants/sharedStyles';
 import { LinearGradient } from 'expo-linear-gradient';
 import { type ColorValue, View } from 'react-native';
+
+import styles from './styles';
 
 type PokedexEdgeGradientPosition = 'top' | 'bottom';
 
@@ -10,6 +11,8 @@ type PokedexEdgeGradientProps = {
 };
 
 const PokedexEdgeGradient = ({ position }: PokedexEdgeGradientProps) => {
+	const positionStyle = position === 'top' ? styles.positionTop : styles.positionBottom;
+
 	const gradientColors: readonly [ColorValue, ColorValue, ColorValue] =
 		position === 'top'
 			? [`${typeColors.dragon}F2`, `${typeColors.dragon}22`, 'transparent']
@@ -17,15 +20,14 @@ const PokedexEdgeGradient = ({ position }: PokedexEdgeGradientProps) => {
 
 	return (
 		<View
-			className={`absolute right-0 left-0 h-47.5 w-full ${position === 'top' ? 'top-0' : 'bottom-0'}`}
 			pointerEvents='none'
-			style={{ zIndex: sharedStyles.zIndex.headerGradient }}
+			style={[styles.container, positionStyle]}
 		>
 			<LinearGradient
 				colors={gradientColors}
 				start={{ x: 0.5, y: 0 }}
 				end={{ x: 0.5, y: 1 }}
-				style={{ position: 'absolute', inset: 0 }}
+				style={styles.gradientFill}
 			/>
 		</View>
 	);
