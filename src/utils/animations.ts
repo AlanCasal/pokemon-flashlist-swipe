@@ -2,8 +2,8 @@ import {
 	FadeIn,
 	FadeInLeft,
 	FadeInRight,
-	useSharedValue,
 	useAnimatedStyle,
+	useSharedValue,
 	withTiming,
 } from 'react-native-reanimated';
 
@@ -37,18 +37,18 @@ export const usePopAnimation = () => {
 	}));
 
 	const resetAnimation = () => {
-		scale.value = 1;
-		translateY.value = 0;
+		scale.set(1);
+		translateY.set(0);
 	};
 
 	const jumpAnimation = () => {
-		scale.value = withTiming(SCALE_UP, { duration: POP_DURATION });
-		translateY.value = withTiming(MOVE_UP, { duration: POP_DURATION });
+		scale.set(withTiming(SCALE_UP, { duration: POP_DURATION }));
+		translateY.set(withTiming(MOVE_UP, { duration: POP_DURATION }));
 	};
 
 	const returnAnimation = () => {
-		scale.value = withTiming(1, { duration: POP_DURATION });
-		translateY.value = withTiming(0, { duration: POP_DURATION });
+		scale.set(withTiming(1, { duration: POP_DURATION }));
+		translateY.set(withTiming(0, { duration: POP_DURATION }));
 	};
 
 	const triggerPopAnimation = () => {
@@ -80,14 +80,14 @@ export const useToastAnimation = () => {
 	}));
 
 	const resetAnimation = () => {
-		opacity.value = withTiming(0, { duration: TOAST_RESET_SPEED });
-		scale.value = withTiming(0, { duration: TOAST_RESET_SPEED });
+		opacity.set(withTiming(0, { duration: TOAST_RESET_SPEED }));
+		scale.set(withTiming(0, { duration: TOAST_RESET_SPEED }));
 	};
 
 	const toastAnimation = () => {
-		translateY.value = withTiming(-20, { duration: TOAST_SHOW_SPEED });
-		opacity.value = withTiming(1, { duration: TOAST_SHOW_SPEED });
-		scale.value = withTiming(1, { duration: TOAST_SHOW_SPEED });
+		translateY.set(withTiming(-20, { duration: TOAST_SHOW_SPEED }));
+		opacity.set(withTiming(1, { duration: TOAST_SHOW_SPEED }));
+		scale.set(withTiming(1, { duration: TOAST_SHOW_SPEED }));
 	};
 
 	const triggerToastAnimation = () => {
