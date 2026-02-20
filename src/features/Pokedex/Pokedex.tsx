@@ -13,7 +13,7 @@ import texts from '@utils/texts.json';
 import { BlurView } from 'expo-blur';
 import { useLocalSearchParams, useSegments } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, StyleProp, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import {
 	cancelAnimation,
 	Easing,
@@ -47,7 +47,7 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from './helpers';
-import styles from './styles';
+import { useStyles } from './styles';
 import {
 	PokedexFlashListScrollEvent,
 	type PokedexListEmptyProps,
@@ -179,22 +179,12 @@ const Pokedex = () => {
 		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
 	const shouldDarkenBackgroundForEmptySavedState =
 		isSavedMode && !isSearchActive && savedPokemonList.length === 0;
+	const styles = useStyles({ top, bottom, shouldShowSearchLoadingSpinner });
 	const isAnyBottomSheetOpen = isSortSheetOpen || isGenerationSheetOpen;
 	const spinnerRotation = useSharedValue(0);
 	const spinnerAnimatedStyle = useAnimatedStyle(() => ({
 		transform: [{ rotate: `${spinnerRotation.value}deg` }],
 	}));
-
-	const contentContainerStyle = useMemo<StyleProp<ViewStyle>>(
-		() => ({
-			paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + sharedStyles.pokedex.filtersBarHeight,
-			paddingBottom: bottom + 80,
-			flexGrow: shouldShowSearchLoadingSpinner ? 1 : undefined,
-			justifyContent: shouldShowSearchLoadingSpinner ? 'center' : undefined,
-		}),
-		[bottom, shouldShowSearchLoadingSpinner, top],
-	);
 
 	useEffect(() => {
 		if (!shouldShowSearchLoadingSpinner) {
@@ -416,7 +406,7 @@ const Pokedex = () => {
 					renderItem={handleRenderItem}
 					drawDistance={POKEDEX_FLASHLIST_DRAW_DISTANCE}
 					onEndReachedThreshold={1}
-					contentContainerStyle={contentContainerStyle}
+					contentContainerStyle={styles.contentContainer}
 					style={styles.flashList}
 					maintainVisibleContentPosition={{ disabled: true }}
 					alwaysBounceVertical
