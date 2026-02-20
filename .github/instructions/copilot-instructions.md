@@ -1,7 +1,22 @@
+<!-- This file is auto-generated from AGENTS.md. Do not edit directly. Run: bun run instructions:sync -->
+
 ---
 description: 'Project development standards and best practices'
 applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 ---
+
+## File Purpose
+
+- This is the canonical source of truth for AI coding standards in this repository.
+- This file is human-readable, long-lived project policy, and should be edited directly when standards change.
+
+## Source of Truth & Sync
+
+- Canonical file: `AGENTS.md`.
+- Generated mirror: `.github/instructions/copilot-instructions.md`.
+- Regenerate mirror after changes: `bun run instructions:sync`.
+- Validate mirror is in sync: `bun run instructions:check`.
+- Governance and lifecycle details: `docs/ai-instructions.md`.
 
 ## Project Snapshot
 
@@ -43,13 +58,11 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Styling
 
-- Prefer sibling `styles.ts` files for components.
-- For static styles, export a default `styles` object from a single `StyleSheet.create(...)` call.
-- For dynamic styles (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) and use a single `StyleSheet.create(...)` call inside that function.
-- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`), whether styles are dynamic or static.
-- In dynamic style factories, use props directly in style properties when the expression is simple (for example `backgroundColor: typeBgColors[type]`).
-- If logic is complex or reused, extract a constant or helper function first, then reference it in `StyleSheet.create(...)`.
-- Each `styles.ts` file must contain exactly one `StyleSheet.create(...)` call.
+- Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
+- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
+- In dynamic style factories, use props directly in style properties when the expression is simple.
+- If logic is complex or reused, extract a constant or helper function first.
 - Use tokens/constants from `src/constants/` (especially colors and shared values).
 - Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
 - In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.
@@ -84,17 +97,18 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Practical Examples
 
-- Root layout and router entry: [src/app/\_layout.tsx](../../src/app/_layout.tsx)
-- Route screen example: [src/app/details.tsx](../../src/app/details.tsx)
-- Infinite query hook: [src/hooks/usePokemonList.ts](../../src/hooks/usePokemonList.ts)
-- Zustand stores: [src/store/savedStore.ts](../../src/store/savedStore.ts), [src/store/toastStore.ts](../../src/store/toastStore.ts)
-- Component re-export pattern: [src/components/PokeCard/index.ts](../../src/components/PokeCard/index.ts)
-- API and design constants: [src/constants/api.ts](../../src/constants/api.ts), [src/constants/colors.ts](../../src/constants/colors.ts)
-- Alias/config references: [tsconfig.json](../../tsconfig.json), [babel.config.js](../../babel.config.js), [metro.config.js](../../metro.config.js)
+- Root layout and router entry: [src/app/\_layout.tsx](src/app/_layout.tsx)
+- Route screen example: [src/app/details.tsx](src/app/details.tsx)
+- Infinite query hook: [src/hooks/usePokemonList.ts](src/hooks/usePokemonList.ts)
+- Zustand stores: [src/store/savedStore.ts](src/store/savedStore.ts), [src/store/toastStore.ts](src/store/toastStore.ts)
+- Component re-export pattern: [src/components/PokeCard/index.ts](src/components/PokeCard/index.ts)
+- API and design constants: [src/constants/api.ts](src/constants/api.ts), [src/constants/colors.ts](src/constants/colors.ts)
+- Alias/config references: [tsconfig.json](tsconfig.json), [babel.config.js](babel.config.js), [metro.config.js](metro.config.js)
 
 ## Keep This File Current
 
 - Update this file in the same PR when package usage, architecture, or conventions change.
+- Run `bun run instructions:sync` in the same PR when this file changes.
 - Ensure package/library statements match `package.json`.
 - Remove stale guidance instead of adding exceptions.
 - Keep guidance concise, specific, and example-driven.

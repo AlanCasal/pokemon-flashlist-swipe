@@ -3,6 +3,19 @@ description: 'Project development standards and best practices'
 applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 ---
 
+## File Purpose
+
+- This is the canonical source of truth for AI coding standards in this repository.
+- This file is human-readable, long-lived project policy, and should be edited directly when standards change.
+
+## Source of Truth & Sync
+
+- Canonical file: `AGENTS.md`.
+- Generated mirror: `.github/instructions/copilot-instructions.md`.
+- Regenerate mirror after changes: `bun run instructions:sync`.
+- Validate mirror is in sync: `bun run instructions:check`.
+- Governance and lifecycle details: `docs/ai-instructions.md`.
+
 ## Project Snapshot
 
 - Stack: React 19, React Native 0.81, Expo SDK 54, TypeScript.
@@ -93,6 +106,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 ## Keep This File Current
 
 - Update this file in the same PR when package usage, architecture, or conventions change.
+- Run `bun run instructions:sync` in the same PR when this file changes.
 - Ensure package/library statements match `package.json`.
 - Remove stale guidance instead of adding exceptions.
 - Keep guidance concise, specific, and example-driven.
