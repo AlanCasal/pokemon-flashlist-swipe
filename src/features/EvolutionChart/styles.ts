@@ -1,15 +1,14 @@
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type UseStylesProps = {
-	bottomInset: number;
-};
+export const useStyles = () => {
+	const { bottom } = useSafeAreaInsets();
 
-export const useStyles = ({ bottomInset }: UseStylesProps) =>
-	StyleSheet.create({
+	return StyleSheet.create({
 		closeButtonContainer: {
 			alignSelf: 'center',
 			bottom: 0,
-			paddingBottom: bottomInset + 10,
+			paddingBottom: bottom + 10,
 			position: 'absolute',
 		},
 		container: {
@@ -41,3 +40,4 @@ export const useStyles = ({ bottomInset }: UseStylesProps) =>
 			width: 'auto',
 		},
 	});
+};

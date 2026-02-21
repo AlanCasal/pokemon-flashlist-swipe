@@ -95,7 +95,6 @@ export interface PokedexHeaderProps {
 	onSearchChange: (value: string) => void;
 	onSortPress: () => void;
 	searchValue: string;
-	topInset: number;
 }
 
 export interface PokedexListEmptyProps {
@@ -138,8 +137,8 @@ export interface PokedexScrollToTopProps {
 }
 
 export interface PokedexScreenController {
-	backgroundSource: number;
 	bottomInset: number;
+	backgroundSource: number;
 	flashListProps: PokedexFlashListProps;
 	generationSheetProps: PokedexGenerationSheetControllerProps;
 	headerProps: PokedexHeaderProps;

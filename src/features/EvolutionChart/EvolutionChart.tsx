@@ -9,15 +9,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { ActivityIndicator, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import EvolutionChain from './components/EvolutionChain';
 import { useStyles } from './styles';
 
 const EvolutionChart = () => {
 	const router = useRouter();
-	const { bottom } = useSafeAreaInsets();
-	const styles = useStyles({ bottomInset: bottom });
+	const styles = useStyles();
 
 	const { id, type } = useLocalSearchParams();
 	const { data: evolutionData, isLoading } = useGetPokemonEvolutions(id as string);

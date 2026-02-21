@@ -1,10 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type UseStylesProps = {
-	bottomInset: number;
-};
+export const useStyles = () => {
+	const { bottom } = useSafeAreaInsets();
 
-export const useStyles = ({ bottomInset }: UseStylesProps) => {
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
@@ -13,7 +12,7 @@ export const useStyles = ({ bottomInset }: UseStylesProps) => {
 			flexDirection: 'row',
 			justifyContent: 'center',
 			left: 0,
-			paddingBottom: bottomInset + 10,
+			paddingBottom: bottom + 10,
 			position: 'absolute',
 			right: 0,
 		},

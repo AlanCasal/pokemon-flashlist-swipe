@@ -1,12 +1,14 @@
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type UseStylesProps = {
 	backgroundColor: string;
-	topInset: number;
 };
 
-export const useStyles = ({ backgroundColor, topInset }: UseStylesProps) => {
+export const useStyles = ({ backgroundColor }: UseStylesProps) => {
+	const { top } = useSafeAreaInsets();
+
 	return StyleSheet.create({
 		container: {
 			alignItems: 'center',
@@ -20,7 +22,7 @@ export const useStyles = ({ backgroundColor, topInset }: UseStylesProps) => {
 			minHeight: 48,
 			paddingHorizontal: 20,
 			position: 'absolute',
-			top: topInset + 20,
+			top: top + 20,
 			zIndex: sharedStyles.zIndex.toast,
 			...sharedStyles.shadow,
 		},

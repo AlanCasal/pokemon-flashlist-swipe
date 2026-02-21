@@ -35,8 +35,9 @@ import {
 import { type PokedexRenderItemParams, type PokedexScreenController } from '../types';
 
 export const usePokedexScreenController = (): PokedexScreenController => {
-	const { top, bottom } = useSafeAreaInsets();
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
+	const { top, bottom } = useSafeAreaInsets();
+
 	const segments = useSegments();
 	const activeTab = segments[segments.length - 1];
 	const isSavedMode = mode === 'saved';
@@ -318,7 +319,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 
 	const headerProps = useMemo(
 		() => ({
-			topInset: top,
 			searchValue: activeSearchValue,
 			hasActiveGeneration: Boolean(selectedGenerationOption),
 			hasActiveSort: isSavedMode && Boolean(savedSortOption),
@@ -330,7 +330,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			onFilterPress: handleNoopPress,
 		}),
 		[
-			top,
 			activeSearchValue,
 			selectedGenerationOption,
 			isSavedMode,
@@ -401,9 +400,9 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	);
 
 	return {
-		backgroundSource,
 		topInset: top,
 		bottomInset: bottom,
+		backgroundSource,
 		headerProps,
 		flashListProps,
 		sortSheetProps,

@@ -44,12 +44,9 @@ const Pokedex = () => {
 		sortSheetProps,
 		topInset,
 	} = usePokedexScreenController();
+
 	const spinnerAnimatedStyle = useSearchLoadingSpinner(shouldShowSearchLoadingSpinner);
-	const styles = useStyles({
-		top: topInset,
-		bottom: bottomInset,
-		shouldShowSearchLoadingSpinner,
-	});
+	const styles = useStyles({ shouldShowSearchLoadingSpinner });
 
 	const listEmptyProps = useMemo<PokedexListEmptyProps>(
 		() => ({

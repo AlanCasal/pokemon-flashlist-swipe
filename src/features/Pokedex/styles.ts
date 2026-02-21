@@ -1,16 +1,17 @@
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type UseStylesParams = {
-	top: number;
-	bottom: number;
 	shouldShowSearchLoadingSpinner: boolean;
 };
 
 const POKEDEX_FILTERS_BAR_HEIGHT = 56;
 
-export const useStyles = ({ top, bottom, shouldShowSearchLoadingSpinner }: UseStylesParams) =>
-	StyleSheet.create({
+export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) => {
+	const { top, bottom } = useSafeAreaInsets();
+
+	return StyleSheet.create({
 		blurOverlay: {
 			bottom: 0,
 			left: 0,
@@ -49,3 +50,4 @@ export const useStyles = ({ top, bottom, shouldShowSearchLoadingSpinner }: UseSt
 			zIndex: sharedStyles.zIndex.wallpaper + 1,
 		},
 	});
+};

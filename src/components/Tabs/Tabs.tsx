@@ -1,14 +1,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import CustomTab from './CustomTab';
 import { useStyles } from './styles';
 
 const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
-	const { bottom } = useSafeAreaInsets();
-	const styles = useStyles({ bottomInset: bottom });
+	const styles = useStyles();
 
 	return (
 		<View style={styles.container}>

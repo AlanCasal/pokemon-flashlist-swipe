@@ -1,10 +1,7 @@
 import { customColor, textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
-
-type UseStylesProps = {
-	topInset: number;
-};
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type CreateActionStylesProps = {
 	disabled?: boolean;
@@ -51,14 +48,17 @@ const styles = StyleSheet.create({
 	},
 });
 
-export const useStyles = ({ topInset }: UseStylesProps) =>
-	StyleSheet.create({
+export const useStyles = () => {
+	const { top } = useSafeAreaInsets();
+
+	return StyleSheet.create({
 		container: {
 			paddingBottom: 12,
 			paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-			paddingTop: topInset,
+			paddingTop: top,
 		},
 	});
+};
 
 export const createActionStyles = ({ disabled }: CreateActionStylesProps) =>
 	StyleSheet.create({

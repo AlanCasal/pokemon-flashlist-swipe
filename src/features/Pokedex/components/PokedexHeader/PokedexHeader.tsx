@@ -24,12 +24,11 @@ const PokedexHeader = ({
 	onClearSearch,
 	onSearchChange,
 	searchValue,
-	topInset,
 	hasActiveGeneration,
 	hasActiveSort,
 	isSortEnabled,
 }: PokedexHeaderProps) => {
-	const containerStyles = useStyles({ topInset });
+	const containerStyles = useStyles();
 
 	const actions: HeaderAction[] = [
 		{

@@ -1,6 +1,7 @@
 import { pokeballColors, textColor, typeBgColors, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type UseStylesProps = {
 	itemSize: number;
@@ -10,8 +11,16 @@ type CreateSpriteTileStylesProps = {
 	type: keyof typeof typeColors;
 };
 
-export const useStyles = ({ itemSize }: UseStylesProps) =>
-	StyleSheet.create({
+export const createSpriteTileStyles = ({ type }: CreateSpriteTileStylesProps) => ({
+	spriteTileBackground: {
+		backgroundColor: typeBgColors[type],
+	},
+});
+
+export const useStyles = ({ itemSize }: UseStylesProps) => {
+	const { bottom } = useSafeAreaInsets();
+
+	return StyleSheet.create({
 		bottomGradient: {
 			bottom: 0,
 			height: '25%',
@@ -21,7 +30,8 @@ export const useStyles = ({ itemSize }: UseStylesProps) =>
 		},
 		footer: {
 			alignItems: 'center',
-			flex: 0.5,
+			backgroundColor: 'transparent',
+			bottom: bottom + 20,
 			rowGap: 8,
 		},
 		loadingContainer: {
@@ -108,9 +118,4 @@ export const useStyles = ({ itemSize }: UseStylesProps) =>
 			top: 0,
 		},
 	});
-
-export const createSpriteTileStyles = ({ type }: CreateSpriteTileStylesProps) => ({
-	spriteTileBackground: {
-		backgroundColor: typeBgColors[type],
-	},
-});
+};
