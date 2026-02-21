@@ -13,6 +13,8 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
 import { type SortBottomSheetProps } from './types';
 
+const SORT_SHEET_SNAP_POINT = '58%';
+
 const SortBottomSheet = ({
 	isOpen,
 	selectedOption,
@@ -20,7 +22,7 @@ const SortBottomSheet = ({
 	onOptionPress,
 }: SortBottomSheetProps) => {
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
-	const snapPoints = useMemo(() => [sharedStyles.pokedex.sortSheet.snapPoint], []);
+	const snapPoints = useMemo(() => [SORT_SHEET_SNAP_POINT], []);
 
 	const renderBackdrop = useCallback(
 		(props: BottomSheetBackdropProps) => (

@@ -15,6 +15,8 @@ import Info from './Info';
 import { useStyles } from './styles';
 import type { PokemonCardProps } from './types';
 
+const CARD_FADE_DURATION_MS = 300;
+
 const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const toggleSavedPokemon = useToggleSavedPokemon();
@@ -45,7 +47,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			showToast(toastData);
 			setTimeout(() => {
 				toggleSavedPokemon(pokemon.name);
-			}, sharedStyles.duration.fade);
+			}, CARD_FADE_DURATION_MS);
 		} else {
 			toggleSavedPokemon(pokemon.name);
 			showToast(toastData);
@@ -72,7 +74,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 					from={{ opacity: 0 }}
 					animate={{ opacity: isExiting ? 0 : 1 }}
 					exit={{ opacity: 0 }}
-					transition={{ type: 'timing', duration: sharedStyles.duration.fade }}
+					transition={{ type: 'timing', duration: CARD_FADE_DURATION_MS }}
 					style={styles.cardContainer}
 				>
 					<PokemonImage

@@ -1,5 +1,4 @@
 import Spinner from '@assets/animated/spinner.svg';
-import { sharedStyles } from '@constants/sharedStyles';
 import texts from '@utils/texts.json';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -7,6 +6,8 @@ import Animated from 'react-native-reanimated';
 import { type PokedexListEmptyProps } from '../../types';
 import PokedexEmptySavedState from '../PokedexEmptySavedState';
 import styles from './styles';
+
+const SEARCH_LOADING_SPINNER_SIZE = 72;
 
 const PokedexListEmpty = ({
 	shouldShowSearchNotFound,
@@ -32,8 +33,8 @@ const PokedexListEmpty = ({
 			<View style={styles.content}>
 				<Animated.View style={spinnerAnimatedStyle}>
 					<Spinner
-						width={sharedStyles.pokedex.searchLoadingSpinner.size}
-						height={sharedStyles.pokedex.searchLoadingSpinner.size}
+						width={SEARCH_LOADING_SPINNER_SIZE}
+						height={SEARCH_LOADING_SPINNER_SIZE}
 					/>
 				</Animated.View>
 			</View>

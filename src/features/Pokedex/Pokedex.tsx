@@ -3,7 +3,6 @@ import PokeCard from '@components/PokeCard';
 import ScrollToTop from '@components/ScrollToTop';
 import WallpaperBackground from '@components/WallpaperBackground';
 import { API_URL, SEARCH_DEBOUNCE_MS } from '@constants/api';
-import { sharedStyles } from '@constants/sharedStyles';
 import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { normalizeSearchTerm, useSearchPokemon } from '@hooks/useSearchPokemon';
@@ -57,6 +56,7 @@ import {
 // Render farther ahead to reduce blank space during high-velocity flings.
 const POKEDEX_FLASHLIST_DRAW_DISTANCE = 1200; // px
 const GENERATION_SHEET_BLUR_INTENSITY = 18;
+const SEARCH_LOADING_SPINNER_ROTATION_DURATION_MS = 900;
 
 const Pokedex = () => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -196,7 +196,7 @@ const Pokedex = () => {
 		spinnerRotation.value = 0;
 		spinnerRotation.value = withRepeat(
 			withTiming(360, {
-				duration: sharedStyles.pokedex.searchLoadingSpinner.rotationDurationMs,
+				duration: SEARCH_LOADING_SPINNER_ROTATION_DURATION_MS,
 				easing: Easing.linear,
 			}),
 			-1,

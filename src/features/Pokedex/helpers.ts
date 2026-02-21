@@ -1,6 +1,5 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
 import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
-import { sharedStyles } from '@constants/sharedStyles';
 
 import { EmptySavedTextParts, ShouldShowSearchNotFoundParams } from '@/src/features/Pokedex/types';
 import { PokedexSortOption } from '@/src/types';
@@ -9,6 +8,7 @@ import { Pokemon } from '@/src/types/pokemonList';
 
 const EMPTY_SAVED_TEXT_ICON_PLACEHOLDER = '[pokeballIcon]';
 const HTTP_BAD_REQUEST_STATUS = 400;
+const SCROLL_TO_TOP_THRESHOLD = 20;
 const SEARCH_NOT_FOUND_STATUSES = new Set([HTTP_BAD_REQUEST_STATUS, HTTP_NOT_FOUND_STATUS]);
 
 const getHttpStatusFromErrorMessage = (errorMessage?: string) => {
@@ -23,8 +23,7 @@ const getHttpStatusFromErrorMessage = (errorMessage?: string) => {
 
 export const shouldShowClearSearchButton = (searchValue: string) => searchValue.length > 0;
 
-export const shouldShowScrollToTop = (scrollY: number) =>
-	scrollY > sharedStyles.spacing.scrollToTopThreshold;
+export const shouldShowScrollToTop = (scrollY: number) => scrollY > SCROLL_TO_TOP_THRESHOLD;
 
 export const normalizeSavedPokemonName = (value: string) => {
 	const normalizedValue = value.trim().toLowerCase();

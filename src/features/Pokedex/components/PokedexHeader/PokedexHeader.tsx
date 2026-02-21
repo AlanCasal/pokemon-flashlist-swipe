@@ -15,6 +15,8 @@ import PokedexActionBadge from '../PokedexActionBadge';
 import { getActionBadgeTestIds } from './helpers';
 import styles, { createActionStyles, useStyles } from './styles';
 
+const HEADER_ICON_SIZE = 20;
+
 const PokedexHeader = ({
 	onGenerationPress,
 	onSortPress,
@@ -65,8 +67,8 @@ const PokedexHeader = ({
 			>
 				<View style={styles.searchInputContainer}>
 					<SearchIcon
-						width={sharedStyles.dimensions.iconsSize}
-						height={sharedStyles.dimensions.iconsSize}
+						width={HEADER_ICON_SIZE}
+						height={HEADER_ICON_SIZE}
 					/>
 					<TextInput
 						testID='pokedex-search-input'
@@ -115,8 +117,8 @@ const PokedexHeader = ({
 							style={[styles.actionButton, actionStyles.actionButtonState]}
 						>
 							<Icon
-								width={sharedStyles.dimensions.iconsSize}
-								height={sharedStyles.dimensions.iconsSize}
+								width={HEADER_ICON_SIZE}
+								height={HEADER_ICON_SIZE}
 							/>
 
 							{badgeTestIds && (

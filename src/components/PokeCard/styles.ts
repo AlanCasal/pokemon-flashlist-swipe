@@ -15,7 +15,7 @@ export const useStyles = ({ type }: UseStylesProps) => {
 			flexDirection: 'row',
 			height: sharedStyles.dimensions.pokeCardHeight,
 			justifyContent: 'space-between',
-			marginVertical: sharedStyles.spacing.cardsGap,
+			marginVertical: 15,
 			paddingLeft: 5,
 			paddingRight: 14,
 			shadowColor: typeBgColors[type],
@@ -23,7 +23,7 @@ export const useStyles = ({ type }: UseStylesProps) => {
 		},
 		loadingPlaceholder: {
 			height: sharedStyles.dimensions.pokeCardHeight,
-			marginVertical: sharedStyles.spacing.cardsGap,
+			marginVertical: 15,
 		},
 		pokeballDecoration: {
 			alignItems: 'center',

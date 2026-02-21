@@ -1,4 +1,3 @@
-import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -8,7 +7,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		right: 0,
 		width: '100%',
-		zIndex: sharedStyles.zIndex.headerGradient,
+		zIndex: 15,
 	},
 	gradientFill: {
 		bottom: 0,

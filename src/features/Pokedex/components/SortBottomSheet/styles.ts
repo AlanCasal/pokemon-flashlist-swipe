@@ -1,4 +1,4 @@
-import { customColor, textColor, typeColors } from '@constants/colors';
+import { backdropOverlay, customColor, textColor, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
@@ -11,12 +11,12 @@ const styles = StyleSheet.create({
 		top: 0,
 	},
 	backdropOverlay: {
-		backgroundColor: `rgba(23, 23, 27, ${sharedStyles.pokedex.sortSheet.backdropOpacity})`,
+		backgroundColor: backdropOverlay,
 	},
 	background: {
 		backgroundColor: textColor.primary,
-		borderTopLeftRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
-		borderTopRightRadius: sharedStyles.pokedex.sortSheet.cornerRadius,
+		borderTopLeftRadius: 30,
+		borderTopRightRadius: 30,
 	},
 	contentContainer: {
 		paddingBottom: 28,
@@ -27,18 +27,18 @@ const styles = StyleSheet.create({
 	description: {
 		color: textColor.grey,
 		fontFamily: sharedStyles.typography.primaryFont,
-		fontSize: sharedStyles.pokedex.sortText.descriptionFontSize,
+		fontSize: 14,
 		lineHeight: 20,
 	},
 	handleIndicator: {
 		backgroundColor: textColor.primary,
-		height: sharedStyles.pokedex.sortSheet.handleHeight,
-		width: sharedStyles.pokedex.sortSheet.handleWidth,
+		height: 6,
+		width: 80,
 	},
 	optionButton: {
 		alignItems: 'center',
-		borderRadius: sharedStyles.pokedex.sortOption.borderRadius,
-		height: sharedStyles.pokedex.sortOption.height,
+		borderRadius: 12,
+		height: 40,
 		justifyContent: 'center',
 		paddingHorizontal: 16,
 	},
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 		backgroundColor: customColor.input,
 	},
 	optionLabel: {
-		fontSize: sharedStyles.pokedex.sortOption.fontSize,
+		fontSize: 16,
 		textAlign: 'center',
 		width: '100%',
 	},
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		color: textColor.black,
-		fontSize: sharedStyles.pokedex.sortText.titleFontSize,
+		fontSize: 28,
 		fontWeight: '700',
 		textAlign: 'center',
 	},

@@ -11,7 +11,7 @@ import type { PokemonImageProps } from './types';
 
 const PokemonImage = ({ uri, isSaved = false }: PokemonImageProps) => {
 	const colors: { opacity: number; fillColor: string } = {
-		opacity: sharedStyles.opacity.svgDefault,
+		opacity: 0.2,
 		fillColor: pokeballColors.white,
 	};
 

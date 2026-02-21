@@ -1,11 +1,12 @@
-import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
+
+const IMAGE_SIZE = 120;
 
 const styles = StyleSheet.create({
 	image: {
 		bottom: 10,
-		height: sharedStyles.dimensions.pokeImageSize,
-		width: sharedStyles.dimensions.pokeImageSize,
+		height: IMAGE_SIZE,
+		width: IMAGE_SIZE,
 		zIndex: 1,
 	},
 	pokeballContainer: {

@@ -1,4 +1,3 @@
-import { sharedStyles } from '@constants/sharedStyles';
 import { Text, View } from 'react-native';
 
 import styles from './styles';
@@ -7,6 +6,8 @@ type PokedexActionBadgeProps = {
 	containerTestID: string;
 	labelTestID: string;
 };
+
+const ACTIVE_BADGE_TEXT = '1';
 
 const PokedexActionBadge = ({ containerTestID, labelTestID }: PokedexActionBadgeProps) => (
 	<View
@@ -17,7 +18,7 @@ const PokedexActionBadge = ({ containerTestID, labelTestID }: PokedexActionBadge
 			testID={labelTestID}
 			style={styles.badgeLabel}
 		>
-			{sharedStyles.pokedex.sortBadge.activeText}
+			{ACTIVE_BADGE_TEXT}
 		</Text>
 	</View>
 );

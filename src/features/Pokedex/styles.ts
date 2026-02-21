@@ -7,6 +7,8 @@ type UseStylesParams = {
 	shouldShowSearchLoadingSpinner: boolean;
 };
 
+const POKEDEX_FILTERS_BAR_HEIGHT = 56;
+
 export const useStyles = ({ top, bottom, shouldShowSearchLoadingSpinner }: UseStylesParams) =>
 	StyleSheet.create({
 		blurOverlay: {
@@ -23,7 +25,7 @@ export const useStyles = ({ top, bottom, shouldShowSearchLoadingSpinner }: UseSt
 		contentContainer: {
 			paddingBottom: bottom + 80,
 			paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
-			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + sharedStyles.pokedex.filtersBarHeight,
+			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + POKEDEX_FILTERS_BAR_HEIGHT,
 			...(shouldShowSearchLoadingSpinner ? { flexGrow: 1, justifyContent: 'center' } : {}),
 		},
 		flashList: {

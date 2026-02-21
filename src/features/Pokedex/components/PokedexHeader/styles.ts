@@ -63,7 +63,7 @@ export const useStyles = ({ topInset }: UseStylesProps) =>
 export const createActionStyles = ({ disabled }: CreateActionStylesProps) =>
 	StyleSheet.create({
 		actionButtonState: {
-			opacity: disabled ? sharedStyles.pokedex.sortBadge.disabledOpacity : 1,
+			opacity: disabled ? 0.35 : 1,
 		},
 	});
 
