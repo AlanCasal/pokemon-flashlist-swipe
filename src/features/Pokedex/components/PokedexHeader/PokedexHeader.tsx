@@ -7,10 +7,12 @@ import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import texts from '@utils/texts.json';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { TextInput, TouchableOpacity, View } from 'react-native';
 
 import { shouldShowClearSearchButton } from '../../helpers';
 import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../../types';
+import PokedexActionBadge from '../PokedexActionBadge';
+import { getActionBadgeTestIds } from './helpers';
 import styles, { createActionStyles, useStyles } from './styles';
 
 const PokedexHeader = ({
@@ -21,6 +23,7 @@ const PokedexHeader = ({
 	onSearchChange,
 	searchValue,
 	topInset,
+	hasActiveGeneration,
 	hasActiveSort,
 	isSortEnabled,
 }: PokedexHeaderProps) => {
@@ -94,6 +97,11 @@ const PokedexHeader = ({
 
 				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => {
 					const actionStyles = createActionStyles({ disabled });
+					const badgeTestIds = getActionBadgeTestIds({
+						id,
+						hasActiveGeneration,
+						hasActiveSort,
+					});
 
 					return (
 						<TouchableOpacity
@@ -111,18 +119,11 @@ const PokedexHeader = ({
 								height={sharedStyles.dimensions.iconsSize}
 							/>
 
-							{id === PokedexHeaderActionId.Sort && hasActiveSort && (
-								<View
-									testID='pokedex-sort-badge'
-									style={styles.sortBadge}
-								>
-									<Text
-										testID='pokedex-sort-badge-label'
-										style={styles.sortBadgeLabel}
-									>
-										{sharedStyles.pokedex.sortBadge.activeText}
-									</Text>
-								</View>
+							{badgeTestIds && (
+								<PokedexActionBadge
+									containerTestID={badgeTestIds.containerTestID}
+									labelTestID={badgeTestIds.labelTestID}
+								/>
 							)}
 						</TouchableOpacity>
 					);

@@ -390,6 +390,7 @@ const Pokedex = () => {
 					<PokedexHeader
 						topInset={top}
 						searchValue={activeSearchValue}
+						hasActiveGeneration={Boolean(selectedGenerationOption)}
 						hasActiveSort={isSavedMode && Boolean(savedSortOption)}
 						isSortEnabled={isSavedMode}
 						onSearchChange={handleSearchChange}

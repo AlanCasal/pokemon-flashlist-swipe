@@ -49,6 +49,7 @@ export interface HeaderAction {
 }
 
 export interface PokedexHeaderProps {
+	hasActiveGeneration: boolean;
 	hasActiveSort: boolean;
 	isSortEnabled: boolean;
 	onFilterPress: () => void;
