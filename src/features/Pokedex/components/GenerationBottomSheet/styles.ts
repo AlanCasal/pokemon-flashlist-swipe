@@ -2,6 +2,11 @@ import { backgroundColors, textColor, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
+const {
+	spacing: { screenHorizontalPadding },
+	typography: { primaryFont },
+} = sharedStyles;
+
 const styles = StyleSheet.create({
 	backdropFill: {
 		backgroundColor: 'rgba(23, 23, 27, 0.5)',
@@ -18,11 +23,11 @@ const styles = StyleSheet.create({
 	},
 	contentContainer: {
 		paddingBottom: 24,
-		paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
+		paddingHorizontal: screenHorizontalPadding,
 	},
 	description: {
 		color: textColor.grey,
-		fontFamily: sharedStyles.typography.primaryFont,
+		fontFamily: primaryFont,
 		fontSize: 14,
 		lineHeight: 20,
 		marginTop: 12,

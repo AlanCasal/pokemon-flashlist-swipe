@@ -13,7 +13,7 @@ import { shouldShowClearSearchButton } from '../../helpers';
 import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../../types';
 import PokedexActionBadge from '../PokedexActionBadge';
 import { getActionBadgeTestIds } from './helpers';
-import styles, { createActionStyles, useStyles } from './styles';
+import { useStyles } from './styles';
 
 const HEADER_ICON_SIZE = 20;
 
@@ -28,7 +28,7 @@ const PokedexHeader = ({
 	hasActiveSort,
 	isSortEnabled,
 }: PokedexHeaderProps) => {
-	const containerStyles = useStyles();
+	const styles = useStyles();
 
 	const actions: HeaderAction[] = [
 		{
@@ -58,7 +58,7 @@ const PokedexHeader = ({
 	return (
 		<View
 			testID='pokedex-header'
-			style={containerStyles.container}
+			style={styles.container}
 		>
 			<View
 				testID='pokedex-header-controls'
@@ -97,7 +97,6 @@ const PokedexHeader = ({
 				</View>
 
 				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => {
-					const actionStyles = createActionStyles({ disabled });
 					const badgeTestIds = getActionBadgeTestIds({
 						id,
 						hasActiveGeneration,
@@ -113,7 +112,7 @@ const PokedexHeader = ({
 							disabled={disabled}
 							activeOpacity={sharedStyles.opacity.active}
 							onPress={onPress}
-							style={[styles.actionButton, actionStyles.actionButtonState]}
+							style={[styles.actionButton, disabled && styles.actionButtonDisabled]}
 						>
 							<Icon
 								width={HEADER_ICON_SIZE}

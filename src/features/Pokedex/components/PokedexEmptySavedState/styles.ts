@@ -2,6 +2,10 @@ import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
+const {
+	typography: { primaryFont },
+} = sharedStyles;
+
 const styles = StyleSheet.create({
 	inlineRow: {
 		alignItems: 'center',
@@ -14,7 +18,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		color: textColor.grey,
-		fontFamily: sharedStyles.typography.primaryFont,
+		fontFamily: primaryFont,
 		fontSize: 16,
 		textAlign: 'center',
 	},

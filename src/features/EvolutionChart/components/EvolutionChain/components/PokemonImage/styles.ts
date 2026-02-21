@@ -6,6 +6,10 @@ type UseStylesProps = {
 	size: number;
 };
 
+const {
+	typography: { primaryFont },
+} = sharedStyles;
+
 export const useStyles = ({ fontSize, size }: UseStylesProps) =>
 	StyleSheet.create({
 		container: {
@@ -17,7 +21,7 @@ export const useStyles = ({ fontSize, size }: UseStylesProps) =>
 			zIndex: 1,
 		},
 		name: {
-			fontFamily: sharedStyles.typography.primaryFont,
+			fontFamily: primaryFont,
 			fontSize,
 			textAlign: 'center',
 			textTransform: 'capitalize',

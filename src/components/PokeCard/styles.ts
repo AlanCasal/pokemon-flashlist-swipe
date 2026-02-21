@@ -6,6 +6,11 @@ type UseStylesProps = {
 	type: keyof typeof typeBgColors;
 };
 
+const {
+	dimensions: { pokeCardHeight },
+	shadow,
+} = sharedStyles;
+
 export const useStyles = ({ type }: UseStylesProps) => {
 	return StyleSheet.create({
 		cardContainer: {
@@ -13,16 +18,16 @@ export const useStyles = ({ type }: UseStylesProps) => {
 			backgroundColor: typeBgColors[type],
 			borderRadius: 10,
 			flexDirection: 'row',
-			height: sharedStyles.dimensions.pokeCardHeight,
+			height: pokeCardHeight,
 			justifyContent: 'space-between',
 			marginVertical: 15,
 			paddingLeft: 5,
 			paddingRight: 14,
 			shadowColor: typeBgColors[type],
-			...sharedStyles.shadow,
+			...shadow,
 		},
 		loadingPlaceholder: {
-			height: sharedStyles.dimensions.pokeCardHeight,
+			height: pokeCardHeight,
 			marginVertical: 15,
 		},
 		pokeballDecoration: {

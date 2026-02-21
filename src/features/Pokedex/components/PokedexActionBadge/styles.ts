@@ -2,6 +2,10 @@ import { textColor, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
+const {
+	typography: { primaryFont },
+} = sharedStyles;
+
 const styles = StyleSheet.create({
 	badge: {
 		alignItems: 'center',
@@ -16,7 +20,7 @@ const styles = StyleSheet.create({
 	},
 	badgeLabel: {
 		color: textColor.primary,
-		fontFamily: sharedStyles.typography.primaryFont,
+		fontFamily: primaryFont,
 		fontSize: 10,
 		lineHeight: 13,
 		textAlign: 'center',

@@ -6,6 +6,10 @@ type UseStylesProps = {
 	bottomInset: number;
 };
 
+const {
+	spacing: { screenHorizontalPadding },
+} = sharedStyles;
+
 export const useStyles = ({ bottomInset }: UseStylesProps) => {
 	return StyleSheet.create({
 		button: {
@@ -17,7 +21,7 @@ export const useStyles = ({ bottomInset }: UseStylesProps) => {
 			height: 56,
 			justifyContent: 'center',
 			position: 'absolute',
-			right: sharedStyles.spacing.screenHorizontalPadding,
+			right: screenHorizontalPadding,
 			width: 56,
 			zIndex: 40,
 		},

@@ -2,6 +2,10 @@ import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
+const {
+	typography: { primaryFont },
+} = sharedStyles;
+
 const styles = StyleSheet.create({
 	container: {
 		alignItems: 'flex-end',
@@ -13,7 +17,7 @@ const styles = StyleSheet.create({
 	},
 	name: {
 		color: textColor.primary,
-		fontFamily: sharedStyles.typography.primaryFont,
+		fontFamily: primaryFont,
 		fontSize: 20,
 		letterSpacing: 1,
 		marginBottom: 5,

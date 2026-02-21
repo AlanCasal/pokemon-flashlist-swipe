@@ -6,6 +6,11 @@ type UseStylesProps = {
 	backgroundColor: string;
 };
 
+const {
+	shadow,
+	zIndex: { toast },
+} = sharedStyles;
+
 export const useStyles = ({ backgroundColor }: UseStylesProps) => {
 	const { top } = useSafeAreaInsets();
 
@@ -23,8 +28,8 @@ export const useStyles = ({ backgroundColor }: UseStylesProps) => {
 			paddingHorizontal: 20,
 			position: 'absolute',
 			top: top + 20,
-			zIndex: sharedStyles.zIndex.toast,
-			...sharedStyles.shadow,
+			zIndex: toast,
+			...shadow,
 		},
 		text: {
 			color: 'white',

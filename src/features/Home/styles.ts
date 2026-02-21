@@ -11,6 +11,10 @@ type CreateSpriteTileStylesProps = {
 	type: keyof typeof typeColors;
 };
 
+const {
+	typography: { primaryFont },
+} = sharedStyles;
+
 export const createSpriteTileStyles = ({ type }: CreateSpriteTileStylesProps) => ({
 	spriteTileBackground: {
 		backgroundColor: typeBgColors[type],
@@ -98,7 +102,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 		},
 		startButtonLabel: {
 			color: textColor.primary,
-			fontFamily: sharedStyles.typography.primaryFont,
+			fontFamily: primaryFont,
 			fontSize: 18,
 		},
 		startButtonWrapper: {
@@ -106,7 +110,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 		},
 		subtitle: {
 			color: textColor.primary,
-			fontFamily: sharedStyles.typography.primaryFont,
+			fontFamily: primaryFont,
 			fontSize: 18,
 			textAlign: 'center',
 		},

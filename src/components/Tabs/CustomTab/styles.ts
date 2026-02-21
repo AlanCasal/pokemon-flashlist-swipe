@@ -7,6 +7,8 @@ type UseStylesProps = {
 	isFocused: boolean;
 };
 
+const { shadow } = sharedStyles;
+
 export const useStyles = ({ activeColor, inactiveColor, isFocused }: UseStylesProps) => {
 	return StyleSheet.create({
 		background: {
@@ -17,7 +19,7 @@ export const useStyles = ({ activeColor, inactiveColor, isFocused }: UseStylesPr
 			position: 'absolute',
 			right: 0,
 			top: 0,
-			...sharedStyles.shadow,
+			...shadow,
 		},
 		button: {
 			alignItems: 'center',

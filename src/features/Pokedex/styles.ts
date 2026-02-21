@@ -7,6 +7,10 @@ type UseStylesParams = {
 };
 
 const POKEDEX_FILTERS_BAR_HEIGHT = 56;
+const {
+	spacing: { screenHorizontalPadding },
+	zIndex: { cards, header, wallpaper },
+} = sharedStyles;
 
 export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) => {
 	const { top, bottom } = useSafeAreaInsets();
@@ -18,27 +22,27 @@ export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) =
 			position: 'absolute',
 			right: 0,
 			top: 0,
-			zIndex: sharedStyles.zIndex.header + 1,
+			zIndex: header + 1,
 		},
 		container: {
 			flex: 1,
 		},
 		contentContainer: {
 			paddingBottom: bottom + 80,
-			paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
+			paddingHorizontal: screenHorizontalPadding,
 			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + POKEDEX_FILTERS_BAR_HEIGHT,
 			...(shouldShowSearchLoadingSpinner ? { flexGrow: 1, justifyContent: 'center' } : {}),
 		},
 		flashList: {
 			flex: 1,
-			zIndex: sharedStyles.zIndex.cards,
+			zIndex: cards,
 		},
 		headerContainer: {
 			left: 0,
 			position: 'absolute',
 			right: 0,
 			top: 0,
-			zIndex: sharedStyles.zIndex.header,
+			zIndex: header,
 		},
 		savedWallpaperOverlay: {
 			backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -47,7 +51,7 @@ export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) =
 			position: 'absolute',
 			right: 0,
 			top: 0,
-			zIndex: sharedStyles.zIndex.wallpaper + 1,
+			zIndex: wallpaper + 1,
 		},
 	});
 };

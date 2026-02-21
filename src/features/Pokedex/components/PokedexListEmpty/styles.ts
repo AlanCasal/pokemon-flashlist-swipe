@@ -2,6 +2,11 @@ import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
+const {
+	spacing: { screenHorizontalPadding },
+	typography: { primaryFont },
+} = sharedStyles;
+
 const styles = StyleSheet.create({
 	content: {
 		alignItems: 'center',
@@ -11,11 +16,11 @@ const styles = StyleSheet.create({
 		marginTop: 64,
 	},
 	contentWithPaddingHorizontal: {
-		paddingHorizontal: sharedStyles.spacing.screenHorizontalPadding,
+		paddingHorizontal: screenHorizontalPadding,
 	},
 	message: {
 		color: textColor.grey,
-		fontFamily: sharedStyles.typography.primaryFont,
+		fontFamily: primaryFont,
 		fontSize: 16,
 		textAlign: 'center',
 	},
