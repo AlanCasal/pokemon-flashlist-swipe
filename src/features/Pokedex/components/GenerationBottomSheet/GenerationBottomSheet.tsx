@@ -40,8 +40,12 @@ const GenerationBottomSheet = ({
 	);
 
 	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-		isOpen ? bottomSheetRef.current?.present() : bottomSheetRef.current?.dismiss();
+		if (isOpen) {
+			bottomSheetRef.current?.present();
+			return;
+		}
+
+		bottomSheetRef.current?.dismiss();
 	}, [isOpen]);
 
 	return (

@@ -5,12 +5,16 @@ import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
 import {
+	getActiveSearchValues,
+	getDisplayedPokemonList,
 	getEmptySavedTextParts,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
 	getNextSingleSelectOption,
 	getPokemonNumberFromUrl,
 	getSearchedPokemonList,
+	getShouldDarkenBackgroundForEmptySavedState,
+	getShouldFetchNextPage,
 	getShouldShowSearchNotFound,
 	getSortedPokemonList,
 	normalizeSavedPokemonName,
@@ -168,5 +172,169 @@ describe('Pokedex search helpers', () => {
 			[722, 725, 728],
 			[810, 813, 816],
 		]);
+	});
+});
+
+describe('Pokedex controller helpers', () => {
+	it('selects active search values for all mode', () => {
+		expect(
+			getActiveSearchValues({
+				isSavedMode: false,
+				allSearchValue: 'charm',
+				savedSearchValue: 'ditto',
+				debouncedAllSearchValue: 'charmander',
+				debouncedSavedSearchValue: 'ditto',
+			}),
+		).toEqual({
+			activeSearchValue: 'charm',
+			activeDebouncedSearchValue: 'charmander',
+		});
+	});
+
+	it('selects active search values for saved mode', () => {
+		expect(
+			getActiveSearchValues({
+				isSavedMode: true,
+				allSearchValue: 'charm',
+				savedSearchValue: 'ditto',
+				debouncedAllSearchValue: 'charmander',
+				debouncedSavedSearchValue: 'ditto',
+			}),
+		).toEqual({
+			activeSearchValue: 'ditto',
+			activeDebouncedSearchValue: 'ditto',
+		});
+	});
+
+	it('returns full pokemon list when search is inactive in all mode', () => {
+		const pokemonList: Pokemon[] = [
+			{ name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
+		];
+
+		expect(
+			getDisplayedPokemonList({
+				isSearchActive: false,
+				isSavedMode: false,
+				pokemonList,
+				savedPokemonList: [{ name: 'ditto', url: 'https://pokeapi.co/api/v2/pokemon/ditto/' }],
+				filteredSavedPokemonList: [],
+				searchedPokemonList: [],
+			}),
+		).toEqual(pokemonList);
+	});
+
+	it('returns filtered saved list when search is active in saved mode', () => {
+		const filteredSavedPokemonList: Pokemon[] = [
+			{ name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/charmander/' },
+		];
+
+		expect(
+			getDisplayedPokemonList({
+				isSearchActive: true,
+				isSavedMode: true,
+				pokemonList: [{ name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' }],
+				savedPokemonList: [{ name: 'ditto', url: 'https://pokeapi.co/api/v2/pokemon/ditto/' }],
+				filteredSavedPokemonList,
+				searchedPokemonList: [{ name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' }],
+			}),
+		).toEqual(filteredSavedPokemonList);
+	});
+
+	it('returns searched list when search is active in all mode', () => {
+		const searchedPokemonList: Pokemon[] = [
+			{ name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' },
+		];
+
+		expect(
+			getDisplayedPokemonList({
+				isSearchActive: true,
+				isSavedMode: false,
+				pokemonList: [{ name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' }],
+				savedPokemonList: [{ name: 'ditto', url: 'https://pokeapi.co/api/v2/pokemon/ditto/' }],
+				filteredSavedPokemonList: [],
+				searchedPokemonList,
+			}),
+		).toEqual(searchedPokemonList);
+	});
+
+	it('fetches next page only when all pagination guards pass', () => {
+		expect(
+			getShouldFetchNextPage({
+				isSavedMode: false,
+				isSearchActive: false,
+				hasNextPage: true,
+				isFetchingNextPage: false,
+			}),
+		).toBe(true);
+
+		expect(
+			getShouldFetchNextPage({
+				isSavedMode: true,
+				isSearchActive: false,
+				hasNextPage: true,
+				isFetchingNextPage: false,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldFetchNextPage({
+				isSavedMode: false,
+				isSearchActive: true,
+				hasNextPage: true,
+				isFetchingNextPage: false,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldFetchNextPage({
+				isSavedMode: false,
+				isSearchActive: false,
+				hasNextPage: false,
+				isFetchingNextPage: false,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldFetchNextPage({
+				isSavedMode: false,
+				isSearchActive: false,
+				hasNextPage: true,
+				isFetchingNextPage: true,
+			}),
+		).toBe(false);
+	});
+
+	it('darkens saved background only when saved mode is empty and not searching', () => {
+		expect(
+			getShouldDarkenBackgroundForEmptySavedState({
+				isSavedMode: true,
+				isSearchActive: false,
+				savedPokemonCount: 0,
+			}),
+		).toBe(true);
+
+		expect(
+			getShouldDarkenBackgroundForEmptySavedState({
+				isSavedMode: true,
+				isSearchActive: true,
+				savedPokemonCount: 0,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldDarkenBackgroundForEmptySavedState({
+				isSavedMode: true,
+				isSearchActive: false,
+				savedPokemonCount: 2,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldDarkenBackgroundForEmptySavedState({
+				isSavedMode: false,
+				isSearchActive: false,
+				savedPokemonCount: 0,
+			}),
+		).toBe(false);
 	});
 });

@@ -1,7 +1,15 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
 import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
 
-import { EmptySavedTextParts, ShouldShowSearchNotFoundParams } from '@/src/features/Pokedex/types';
+import {
+	ActiveSearchValues,
+	EmptySavedTextParts,
+	GetActiveSearchValuesParams,
+	GetDisplayedPokemonListParams,
+	ShouldDarkenBackgroundForEmptySavedStateParams,
+	ShouldFetchNextPageParams,
+	ShouldShowSearchNotFoundParams,
+} from '@/src/features/Pokedex/types';
 import { PokedexSortOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
@@ -44,6 +52,31 @@ export const getFilteredSavedPokemonList = (
 	normalizedSearchValue: string,
 ) => savedPokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(normalizedSearchValue));
 
+export const getActiveSearchValues = ({
+	isSavedMode,
+	allSearchValue,
+	savedSearchValue,
+	debouncedAllSearchValue,
+	debouncedSavedSearchValue,
+}: GetActiveSearchValuesParams): ActiveSearchValues => ({
+	activeSearchValue: isSavedMode ? savedSearchValue : allSearchValue,
+	activeDebouncedSearchValue: isSavedMode ? debouncedSavedSearchValue : debouncedAllSearchValue,
+});
+
+export const getDisplayedPokemonList = ({
+	isSearchActive,
+	isSavedMode,
+	savedPokemonList,
+	pokemonList,
+	filteredSavedPokemonList,
+	searchedPokemonList,
+}: GetDisplayedPokemonListParams): Pokemon[] => {
+	if (!isSearchActive) return isSavedMode ? savedPokemonList : pokemonList;
+	if (isSavedMode) return filteredSavedPokemonList;
+
+	return searchedPokemonList;
+};
+
 export const getIsSearchNotFoundError = (error?: Error | null) =>
 	SEARCH_NOT_FOUND_STATUSES.has(getHttpStatusFromErrorMessage(error?.message) ?? -1);
 
@@ -58,6 +91,21 @@ export const getShouldShowSearchNotFound = ({
 	isSearchActive &&
 	displayedPokemonCount === 0 &&
 	(isSavedMode || (!isSearchingPokemon && (!isSearchError || isSearchNotFoundError)));
+
+export const getShouldFetchNextPage = ({
+	isSavedMode,
+	isSearchActive,
+	hasNextPage,
+	isFetchingNextPage,
+}: ShouldFetchNextPageParams) =>
+	!isSavedMode && !isSearchActive && hasNextPage && !isFetchingNextPage;
+
+export const getShouldDarkenBackgroundForEmptySavedState = ({
+	isSavedMode,
+	isSearchActive,
+	savedPokemonCount,
+}: ShouldDarkenBackgroundForEmptySavedStateParams) =>
+	isSavedMode && !isSearchActive && savedPokemonCount === 0;
 
 export const getPokemonNumberFromUrl = (url: string): number | null => {
 	const normalizedUrl = url.trim().toLowerCase();
