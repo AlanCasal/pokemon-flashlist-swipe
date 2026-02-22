@@ -34,7 +34,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 		const toastData = {
 			text: (
 				<Text>
-					<Text style={{ fontWeight: 'bold' }}>{pokemon.name}</Text>
+					<Text style={{ fontWeight: 'bold' }}>{pokemon.name || 'Pokémon'}</Text>
 					{shouldRemove ? texts.pokemonCard.toastRemovedSuffix : texts.pokemonCard.toastSavedSuffix}
 				</Text>
 			),

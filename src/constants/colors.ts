@@ -65,6 +65,7 @@ export const backgroundColors = {
 	light: '#F5F5F5',
 	dark: '#17171B',
 	inactive: '#E0E0E0',
+	grey: typeBgColors.normal,
 };
 
 export const backdropOverlay = 'rgba(23, 23, 27, 0.5)';
