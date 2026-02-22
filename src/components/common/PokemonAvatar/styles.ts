@@ -3,11 +3,10 @@ import { StyleSheet } from 'react-native';
 const IMAGE_SIZE = 120;
 
 type UseStylesProps = {
-	centerImage: boolean;
 	pokeballSize: number;
 };
 
-export const useStyles = ({ centerImage, pokeballSize }: UseStylesProps) => {
+export const useStyles = ({ pokeballSize }: UseStylesProps) => {
 	return StyleSheet.create({
 		container: {
 			position: 'relative',
@@ -22,11 +21,11 @@ export const useStyles = ({ centerImage, pokeballSize }: UseStylesProps) => {
 			left: 10,
 			position: 'absolute',
 			top: 16,
-			...(centerImage && {
-				left: '50%',
-				top: '50%',
-				transform: [{ translateX: -pokeballSize / 2 }, { translateY: -pokeballSize / 2 }],
-			}),
+		},
+		pokeballContainerCentered: {
+			left: '50%',
+			top: '50%',
+			transform: [{ translateX: -pokeballSize / 2 }, { translateY: -pokeballSize / 2 }],
 		},
 	});
 };

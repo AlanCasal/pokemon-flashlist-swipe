@@ -18,7 +18,7 @@ const PokemonAvatar = ({
 	pokeballSize = DEFAULT_POKEBALL_SIZE,
 	uri,
 }: PokemonAvatarProps) => {
-	const styles = useStyles({ centerImage, pokeballSize });
+	const styles = useStyles({ pokeballSize });
 
 	const colors: { opacity: number; fillColor: string } = isSaved
 		? {
@@ -37,7 +37,13 @@ const PokemonAvatar = ({
 				style={[styles.image, imageStyle]}
 				contentFit={contentFit}
 			/>
-			<View style={[styles.pokeballContainer, pokeballContainerStyle]}>
+			<View
+				style={[
+					styles.pokeballContainer,
+					pokeballContainerStyle,
+					centerImage && styles.pokeballContainerCentered,
+				]}
+			>
 				<Pokeball
 					width={pokeballSize}
 					height={pokeballSize}
