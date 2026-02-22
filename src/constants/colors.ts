@@ -44,8 +44,9 @@ export const textColor = {
 	light: '#F5F5F5',
 	dark: '#17171B',
 	dark2: 'rgba(23, 23, 27, 0.6)',
-	watermark: 'rgba(255, 255, 255, 0.14)',
-	watermark2: 'rgba(255, 255, 255, 0.44)',
+	watermark: 'rgba(255, 255, 255, 0.05)',
+	watermark2: 'rgba(255, 255, 255, 0.14)',
+	watermark3: 'rgba(255, 255, 255, 0.44)',
 	grey: '#747476',
 };
 

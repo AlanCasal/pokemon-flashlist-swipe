@@ -4,12 +4,13 @@ import { sharedStyles } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
 import { View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 import type { PokemonAvatarProps } from './types';
 
 const DEFAULT_POKEBALL_SIZE = sharedStyles.dimensions.pokeCardHeight - 10;
 
 const PokemonAvatar = ({
+	centerImage = false,
 	contentFit,
 	imageStyle,
 	isSaved = false,
@@ -17,6 +18,8 @@ const PokemonAvatar = ({
 	pokeballSize = DEFAULT_POKEBALL_SIZE,
 	uri,
 }: PokemonAvatarProps) => {
+	const styles = useStyles({ centerImage, pokeballSize });
+
 	const colors: { opacity: number; fillColor: string } = isSaved
 		? {
 				opacity: 1,
@@ -28,7 +31,7 @@ const PokemonAvatar = ({
 			};
 
 	return (
-		<View>
+		<View style={styles.container}>
 			<Image
 				source={{ uri }}
 				style={[styles.image, imageStyle]}

@@ -60,36 +60,6 @@ export const useStyles = () => {
 			right: 20,
 			top: 64,
 		},
-		heroWatermarkBlurOverlay: {
-			...StyleSheet.absoluteFillObject,
-		},
-		heroWatermarkBlurSource: {
-			color: textColor.watermark,
-			textShadowColor: 'rgba(255, 255, 255, 0.75)',
-			textShadowOffset: {
-				height: 0,
-				width: 0,
-			},
-			textShadowRadius: 18,
-		},
-		heroWatermarkForeground: {
-			color: textColor.watermark,
-			left: 0,
-			position: 'absolute',
-			right: 0,
-			top: 0,
-		},
-		heroWatermarkLayer: {
-			left: 18,
-			overflow: 'hidden',
-			position: 'absolute',
-			right: -140,
-			top: 0,
-		},
-		heroWatermarkTextBase: {
-			fontSize: 86,
-			fontWeight: '700',
-		},
 		typeChip: {
 			columnGap: 6,
 			paddingHorizontal: 7,

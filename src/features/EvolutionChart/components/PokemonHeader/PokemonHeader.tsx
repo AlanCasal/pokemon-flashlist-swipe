@@ -2,15 +2,15 @@ import BackButton from '@components/common/BackButton';
 import PokemonAvatar from '@components/common/PokemonAvatar';
 import PokemonTypeChip from '@components/common/PokemonTypeChip';
 import { textColor } from '@constants/colors';
-import { isIos } from '@utils/helpers';
-import { BlurView } from 'expo-blur';
 import { ActivityIndicator, Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
+
+import Dots from '@/src/components/common/Dots';
 
 import { useStyles } from './styles';
 import type { PokemonHeaderProps } from './types';
 
-const WATERMARK_IOS_BLUR_INTENSITY = 28;
+const GENERATION_SHEET_DOTS_SIZE = 200;
 
 const PokemonHeader = ({
 	compactTitleStyle,
@@ -23,7 +23,6 @@ const PokemonHeader = ({
 	typeChips,
 }: PokemonHeaderProps) => {
 	const styles = useStyles();
-	const uppercaseDisplayName = displayName.toUpperCase();
 
 	return (
 		<>
@@ -38,41 +37,21 @@ const PokemonHeader = ({
 			</Animated.Text>
 
 			<Animated.View style={[styles.heroContent, heroStyle]}>
-				<View
-					pointerEvents='none'
-					style={styles.heroWatermarkLayer}
-				>
-					<Text
-						style={[styles.heroWatermarkTextBase, styles.heroWatermarkBlurSource]}
-						numberOfLines={1}
-					>
-						{uppercaseDisplayName}
-					</Text>
-
-					{isIos && (
-						<BlurView
-							intensity={WATERMARK_IOS_BLUR_INTENSITY}
-							tint='light'
-							pointerEvents='none'
-							style={styles.heroWatermarkBlurOverlay}
-						/>
-					)}
-
-					<Text
-						style={[styles.heroWatermarkTextBase, styles.heroWatermarkForeground]}
-						numberOfLines={1}
-					>
-						{uppercaseDisplayName}
-					</Text>
-				</View>
+				<Dots
+					size={GENERATION_SHEET_DOTS_SIZE}
+					color={textColor.light}
+					position={{ right: -20, top: -80 }}
+				/>
 
 				<View style={styles.heroImageSlot}>
 					{heroImageUrl ? (
 						<PokemonAvatar
 							uri={heroImageUrl}
 							isSaved={isSaved}
+							centerImage
 							imageStyle={styles.heroAvatarImage}
 							contentFit='contain'
+							pokeballSize={130}
 						/>
 					) : (
 						<View style={styles.heroLoadingFallback}>
@@ -88,7 +67,13 @@ const PokemonHeader = ({
 
 				<View style={styles.heroTextBlock}>
 					<Text style={styles.heroNumber}>{formattedId}</Text>
-					<Text style={styles.heroName}>{displayName}</Text>
+					<Text
+						style={styles.heroName}
+						numberOfLines={1}
+						adjustsFontSizeToFit
+					>
+						{displayName}
+					</Text>
 
 					<View style={styles.typeChipRow}>
 						{typeChips.map(type => (
