@@ -1,7 +1,7 @@
 import { typeColors } from '@constants/colors';
 
 import type { PokemonId } from '@/src/types';
-import { CustomEvolutionChain } from '@/src/types/evolutionChain';
+import type { CustomEvolutionChain } from '@/src/types/evolutionChain';
 
 export type EvolutionDirection = 'left' | 'right';
 
@@ -11,4 +11,14 @@ export interface EvolutionChainProps {
 	type: keyof typeof typeColors;
 	depth?: number;
 	direction?: EvolutionDirection;
+}
+
+export interface EvolutionNodeProps {
+	delay: number;
+	fontSize?: number;
+	imgUrl?: string;
+	isNodeSaved: boolean;
+	pokemon: string;
+	size?: number;
+	trigger?: string | null;
 }

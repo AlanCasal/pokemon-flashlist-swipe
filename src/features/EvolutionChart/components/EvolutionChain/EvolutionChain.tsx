@@ -1,89 +1,20 @@
-import PokemonAvatar from '@components/common/PokemonAvatar';
-import { fadeInAnim } from '@utils/animations';
 import { Fragment, useMemo } from 'react';
 import { View } from 'react-native';
-import Animated from 'react-native-reanimated';
 
-import { CustomEvolutionChain } from '@/src/types/evolutionChain';
+import type { CustomEvolutionChain } from '@/src/types/evolutionChain';
 
+import EvolutionNode from './components/EvolutionNode';
 import EvolveCondition from './components/EvolveCondition';
+import {
+	ANIMATION_DELAY_STEP,
+	BASE_EVOLUTION_DELAY,
+	BASE_POKEMON_DELAY,
+	EVOLUTION_ROW_NODE_FONT_SIZE,
+	EVOLUTION_ROW_NODE_SIZE,
+} from './constants';
+import { chunkEvolutions } from './helpers';
 import styles from './styles';
 import type { EvolutionChainProps } from './types';
-
-const ANIMATION_DELAY_STEP = 220;
-const BASE_POKEMON_DELAY = 100;
-const BASE_EVOLUTION_DELAY = 180;
-const DEFAULT_NODE_SIZE = 100;
-const DEFAULT_NODE_FONT_SIZE = 20;
-const EVOLUTION_ROW_NODE_SIZE = 84;
-const EVOLUTION_ROW_NODE_FONT_SIZE = 18;
-
-type EvolutionNodeProps = {
-	delay: number;
-	fontSize?: number;
-	imgUrl?: string;
-	isNodeSaved: boolean;
-	pokemon: string;
-	size?: number;
-	trigger?: string | null;
-};
-
-const EvolutionNode = ({
-	delay,
-	fontSize = DEFAULT_NODE_FONT_SIZE,
-	imgUrl,
-	isNodeSaved,
-	pokemon,
-	size = DEFAULT_NODE_SIZE,
-	trigger,
-}: EvolutionNodeProps) => {
-	const triggerText = trigger ? `(${trigger.split('-').join(' ')})` : '';
-
-	return (
-		<View>
-			<Animated.View
-				entering={fadeInAnim(delay)}
-				style={styles.nodeImageContainer}
-			>
-				<PokemonAvatar
-					uri={imgUrl ?? ''}
-					isSaved={isNodeSaved}
-					centerImage
-					contentFit='contain'
-					pokeballSize={size}
-					imageStyle={[styles.nodeImage, { height: size, width: size }]}
-				/>
-			</Animated.View>
-
-			<View style={styles.nodeTextContainer}>
-				{trigger && (
-					<Animated.Text
-						entering={fadeInAnim(delay)}
-						style={[styles.nodeTrigger, { fontSize: fontSize * 0.65 }]}
-					>
-						{triggerText}
-					</Animated.Text>
-				)}
-				<Animated.Text
-					entering={fadeInAnim(delay)}
-					style={[styles.nodeName, { fontSize, lineHeight: fontSize + 4 }]}
-				>
-					{pokemon}
-				</Animated.Text>
-			</View>
-		</View>
-	);
-};
-
-const chunkEvolutions = (evolutions: CustomEvolutionChain[]) => {
-	const chunks: CustomEvolutionChain[][] = [];
-
-	for (let i = 0; i < evolutions.length; i += 3) {
-		chunks.push(evolutions.slice(i, i + 3));
-	}
-
-	return chunks;
-};
 
 const EvolutionChain = ({
 	evolution,
