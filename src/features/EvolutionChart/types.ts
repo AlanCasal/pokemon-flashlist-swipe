@@ -1,5 +1,6 @@
 import { typeColors } from '@constants/colors';
 
+import type { PokemonId } from '@/src/types';
 import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 import type { PokemonType } from '@/src/types/pokemonTypes';
 
@@ -19,6 +20,7 @@ export interface EvolutionChartController {
 	isPokemonLoading: boolean;
 	isSaved: boolean;
 	primaryType: keyof typeof typeColors;
+	savedPokemons: PokemonId[];
 	tabConfig: EvolutionChartTabConfig[];
 	typeChips: PokemonType[];
 	evolutionData?: CustomEvolutionChain;

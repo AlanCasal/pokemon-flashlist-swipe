@@ -1,10 +1,7 @@
-import PokeballBottomHalf from '@assets/images/pokeball-bott-half.svg';
-import Pokeball from '@assets/images/pokeball-full.svg';
-import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { Text, TouchableOpacity, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { useStyles } from './styles';
 import type { PokemonBodyProps } from './types';
@@ -15,32 +12,50 @@ const {
 
 // These percentages mirror the two Figma states where the sheet top sits at ~315px and ~155px.
 const SHEET_SNAP_POINTS = ['65%', '83%'];
+const TABS_TO_SHEET_GAP = 36;
 
 const PokemonBody = ({
 	activeTab,
 	animatedSheetIndex,
+	animatedSheetPosition,
 	children,
-	movingTopLayerStyle,
 	onTabPress,
 	tabConfig,
 }: PokemonBodyProps) => {
 	const styles = useStyles();
+	const flattenedTabsRowStyle = StyleSheet.flatten(styles.tabsRow);
+	const minTabsTop = typeof flattenedTabsRowStyle?.top === 'number' ? flattenedTabsRowStyle.top : 0;
+	const tabsRowStyle = useAnimatedStyle(() => ({
+		top: Math.max(animatedSheetPosition.value - TABS_TO_SHEET_GAP, minTabsTop),
+	}));
 
 	return (
 		<>
-			<Animated.View style={[styles.movingTopLayer, movingTopLayerStyle]}>
-				<View style={styles.topPokeballDecoration}>
-					<Pokeball
-						width={100}
-						height={100}
-						fill={textColor.light}
-						fillOpacity={0.18}
-						stroke={textColor.light}
-						strokeOpacity={0.18}
-					/>
-				</View>
+			<BottomSheet
+				index={0}
+				snapPoints={SHEET_SNAP_POINTS}
+				animatedIndex={animatedSheetIndex}
+				animatedPosition={animatedSheetPosition}
+				enablePanDownToClose={false}
+				enableDynamicSizing={false}
+				overDragResistanceFactor={8}
+				containerStyle={styles.sheetContainer}
+				handleIndicatorStyle={styles.handleIndicator}
+				backgroundStyle={styles.sheetBackground}
+			>
+				<BottomSheetScrollView
+					contentContainerStyle={styles.sheetContentContainer}
+					showsVerticalScrollIndicator={false}
+				>
+					{children}
+				</BottomSheetScrollView>
+			</BottomSheet>
 
-				<View style={styles.tabsRow}>
+			<Animated.View
+				pointerEvents='box-none'
+				style={styles.movingTopLayer}
+			>
+				<Animated.View style={[styles.tabsRow, tabsRowStyle]}>
 					{tabConfig.map(tab => {
 						const isFocused = activeTab === tab.id;
 
@@ -62,38 +77,8 @@ const PokemonBody = ({
 							</TouchableOpacity>
 						);
 					})}
-
-					{activeTab === 'evolution' && (
-						<View
-							style={styles.activeTabDecoration}
-							pointerEvents='none'
-						>
-							<PokeballBottomHalf
-								width={120}
-								height={60}
-							/>
-						</View>
-					)}
-				</View>
+				</Animated.View>
 			</Animated.View>
-
-			<BottomSheet
-				index={0}
-				snapPoints={SHEET_SNAP_POINTS}
-				animatedIndex={animatedSheetIndex}
-				enablePanDownToClose={false}
-				enableDynamicSizing={false}
-				overDragResistanceFactor={8}
-				handleIndicatorStyle={styles.handleIndicator}
-				backgroundStyle={styles.sheetBackground}
-			>
-				<BottomSheetScrollView
-					contentContainerStyle={styles.sheetContentContainer}
-					showsVerticalScrollIndicator={false}
-				>
-					{children}
-				</BottomSheetScrollView>
-			</BottomSheet>
 		</>
 	);
 };

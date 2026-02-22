@@ -28,7 +28,6 @@ const PokemonHeader = ({
 		<>
 			<BackButton />
 
-			{/* FIX: this is currently not displaying */}
 			<Animated.Text
 				style={[styles.compactTitle, compactTitleStyle]}
 				numberOfLines={1}

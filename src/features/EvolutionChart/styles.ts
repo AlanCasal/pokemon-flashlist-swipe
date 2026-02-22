@@ -2,6 +2,8 @@ import { textColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+const VERTICAL_CONTAINER_PADDING = 32;
+
 export const useStyles = () => {
 	const { bottom } = useSafeAreaInsets();
 
@@ -10,15 +12,9 @@ export const useStyles = () => {
 			flex: 1,
 		},
 		evolutionContainer: {
-			gap: 22,
-			paddingBottom: bottom + 32,
+			paddingBottom: bottom + VERTICAL_CONTAINER_PADDING,
 			paddingHorizontal: 24,
-			paddingTop: 32,
-		},
-		evolutionTitle: {
-			color: '#FD7D24',
-			fontSize: 16,
-			fontWeight: '700',
+			paddingTop: VERTICAL_CONTAINER_PADDING,
 		},
 		feedbackText: {
 			color: textColor.grey,

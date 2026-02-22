@@ -16,8 +16,6 @@ import { useEvolutionChartController } from './hooks/useEvolutionChartController
 import { useStyles } from './styles';
 import type { EvolutionTab } from './types';
 
-// This is the vertical distance between collapsed and expanded top-layer coordinates in Figma.
-const EXPANDED_TOP_LAYER_OFFSET = -160;
 const COLLAPSED_HERO_EXIT_OFFSET = -60;
 
 const EvolutionChart = () => {
@@ -35,23 +33,12 @@ const EvolutionChart = () => {
 		isSaved,
 		onTabPress,
 		primaryType,
+		savedPokemons,
 		tabConfig,
 		typeChips,
 	} = useEvolutionChartController();
 	const animatedSheetIndex = useSharedValue(0);
-
-	const movingTopLayerStyle = useAnimatedStyle(() => ({
-		transform: [
-			{
-				translateY: interpolate(
-					animatedSheetIndex.value,
-					[0, 1],
-					[0, EXPANDED_TOP_LAYER_OFFSET],
-					Extrapolation.CLAMP,
-				),
-			},
-		],
-	}));
+	const animatedSheetPosition = useSharedValue(0);
 
 	const heroStyle = useAnimatedStyle(() => ({
 		opacity: interpolate(animatedSheetIndex.value, [0, 1], [1, 0], Extrapolation.CLAMP),
@@ -114,10 +101,9 @@ const EvolutionChart = () => {
 
 		return (
 			<View style={styles.evolutionContainer}>
-				<Text style={styles.evolutionTitle}>{texts.evolution.chartTitle}</Text>
-
 				<EvolutionChain
 					evolution={evolutionData}
+					savedPokemons={savedPokemons}
 					type={primaryType}
 					depth={0}
 					direction='right'
@@ -147,7 +133,7 @@ const EvolutionChart = () => {
 			<PokemonBody
 				activeTab={activeTab}
 				animatedSheetIndex={animatedSheetIndex}
-				movingTopLayerStyle={movingTopLayerStyle}
+				animatedSheetPosition={animatedSheetPosition}
 				onTabPress={onTabPress}
 				tabConfig={tabConfig}
 			>

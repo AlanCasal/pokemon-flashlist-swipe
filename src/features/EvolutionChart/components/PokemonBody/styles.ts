@@ -1,4 +1,4 @@
-import { textColor } from '@constants/colors';
+import { backgroundColors, textColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -6,28 +6,28 @@ export const useStyles = () => {
 	const { top } = useSafeAreaInsets();
 
 	return StyleSheet.create({
-		activeTabDecoration: {
-			bottom: -8,
-			position: 'absolute',
-			right: -2,
-		},
 		handleIndicator: {
-			backgroundColor: '#E6E6E6',
+			backgroundColor: backgroundColors.grey,
 			height: 5,
 			width: 70,
 		},
 		movingTopLayer: {
 			bottom: 0,
+			elevation: 30,
 			left: 0,
 			position: 'absolute',
 			right: 0,
 			top: 0,
-			zIndex: 20,
+			zIndex: 30,
 		},
 		sheetBackground: {
-			backgroundColor: textColor.light,
+			backgroundColor: backgroundColors.inactive,
 			borderTopLeftRadius: 30,
 			borderTopRightRadius: 30,
+		},
+		sheetContainer: {
+			elevation: 20,
+			zIndex: 20,
 		},
 		sheetContentContainer: {
 			flexGrow: 1,
@@ -56,13 +56,7 @@ export const useStyles = () => {
 			paddingHorizontal: 24,
 			position: 'absolute',
 			right: 0,
-			top: top + 235,
-		},
-		topPokeballDecoration: {
-			opacity: 0.3,
-			position: 'absolute',
-			right: 20,
-			top: top + 220,
+			top: top + 24,
 		},
 	});
 };

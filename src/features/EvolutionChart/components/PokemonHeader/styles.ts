@@ -8,13 +8,12 @@ export const useStyles = () => {
 	return StyleSheet.create({
 		compactTitle: {
 			color: textColor.light,
-			fontSize: 40,
+			fontSize: 25,
 			fontWeight: '700',
-			left: 24,
 			position: 'absolute',
-			right: 24,
 			textAlign: 'center',
-			top: top + 6,
+			top: top + 12,
+			width: '100%',
 			zIndex: 24,
 		},
 		heroAvatarImage: {

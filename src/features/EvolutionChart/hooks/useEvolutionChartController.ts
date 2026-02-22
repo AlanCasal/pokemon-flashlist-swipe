@@ -2,7 +2,7 @@ import { API_URL } from '@constants/api';
 import { typeColors } from '@constants/colors';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 import usePokemonDetails from '@hooks/usePokemonDetails';
-import { useIsPokemonSaved } from '@store/savedStore';
+import { useIsPokemonSaved, useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
 import { useLocalSearchParams } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
@@ -28,6 +28,7 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 	const fallbackType = getPrimaryTypeFromParam(type);
 	const pokemonUrl = hasPokemonId ? `${API_URL}/${pokemonId}` : '';
 	const { data: pokemonDetails, isLoading: isPokemonLoading } = usePokemonDetails(pokemonUrl);
+	const savedPokemons = useSavedPokemons();
 	const isSaved = useIsPokemonSaved(pokemonDetails?.name);
 	const {
 		data: evolutionData,
@@ -88,6 +89,7 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		isSaved,
 		onTabPress,
 		primaryType,
+		savedPokemons,
 		tabConfig,
 		typeChips,
 	};
