@@ -5,6 +5,9 @@ import { StyleSheet } from 'react-native';
 const {
 	spacing: { screenHorizontalPadding },
 	typography: { primaryFont },
+	sheetButtons: {
+		option: { borderRadius, height, paddingHorizontal },
+	},
 } = sharedStyles;
 
 const styles = StyleSheet.create({
@@ -42,10 +45,10 @@ const styles = StyleSheet.create({
 	},
 	optionButton: {
 		alignItems: 'center',
-		borderRadius: 12,
-		height: 40,
+		borderRadius: borderRadius,
+		height: height,
 		justifyContent: 'center',
-		paddingHorizontal: 16,
+		paddingHorizontal: paddingHorizontal,
 	},
 	optionButtonSelected: {
 		backgroundColor: typeColors.dragon,

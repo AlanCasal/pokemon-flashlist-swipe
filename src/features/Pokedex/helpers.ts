@@ -6,6 +6,8 @@ import {
 	EmptySavedTextParts,
 	GetActiveSearchValuesParams,
 	GetDisplayedPokemonListParams,
+	PokedexFilterNumberRange,
+	PokedexFilterState,
 	ShouldDarkenBackgroundForEmptySavedStateParams,
 	ShouldFetchNextPageParams,
 	ShouldShowSearchNotFoundParams,
@@ -154,6 +156,50 @@ export const getNextSingleSelectOption = <T extends string>(
 	previousOption: T | null,
 	nextOption: T,
 ) => (previousOption === nextOption ? null : nextOption);
+
+export const getNextMultiSelectOptions = <T extends string>(
+	previousOptions: T[],
+	nextOption: T,
+): T[] =>
+	previousOptions.includes(nextOption)
+		? previousOptions.filter(option => option !== nextOption)
+		: [...previousOptions, nextOption];
+
+export const getIsRangeMaxedOut = ({
+	range,
+	defaultRange,
+}: {
+	defaultRange: PokedexFilterNumberRange;
+	range: PokedexFilterNumberRange;
+}) => range.min === defaultRange.min && range.max === defaultRange.max;
+
+export const getIsNumberRangeChanged = ({
+	range,
+	defaultRange,
+}: {
+	defaultRange: PokedexFilterNumberRange;
+	range: PokedexFilterNumberRange;
+}) => !getIsRangeMaxedOut({ range, defaultRange });
+
+export const getAppliedFilterCount = ({
+	filterState,
+	defaultRange,
+}: {
+	defaultRange: PokedexFilterNumberRange;
+	filterState: PokedexFilterState;
+}) => {
+	const baseCount =
+		filterState.selectedTypes.length +
+		filterState.selectedWeaknesses.length +
+		filterState.selectedHeights.length +
+		filterState.selectedWeights.length;
+	const isRangeMaxedOut = getIsRangeMaxedOut({
+		range: filterState.numberRange,
+		defaultRange,
+	});
+
+	return baseCount + (isRangeMaxedOut ? 0 : 1);
+};
 
 export const getEmptySavedTextParts = (text: string): EmptySavedTextParts => {
 	const [textBeforeIcon = '', textAfterIcon = ''] = text.split(EMPTY_SAVED_TEXT_ICON_PLACEHOLDER);

@@ -1,6 +1,7 @@
 import { PokedexHeaderActionId } from '../../types';
 
 type GetActionBadgeTestIdsParams = {
+	hasActiveFilter: boolean;
 	hasActiveGeneration: boolean;
 	hasActiveSort: boolean;
 	id: PokedexHeaderActionId;
@@ -13,6 +14,7 @@ type ActionBadgeTestIds = {
 
 export const getActionBadgeTestIds = ({
 	id,
+	hasActiveFilter,
 	hasActiveGeneration,
 	hasActiveSort,
 }: GetActionBadgeTestIdsParams): ActionBadgeTestIds | null => {
@@ -27,6 +29,13 @@ export const getActionBadgeTestIds = ({
 		return {
 			containerTestID: 'pokedex-generation-badge',
 			labelTestID: 'pokedex-generation-badge-label',
+		};
+	}
+
+	if (id === PokedexHeaderActionId.Filter && hasActiveFilter) {
+		return {
+			containerTestID: 'pokedex-filter-badge',
+			labelTestID: 'pokedex-filter-badge-label',
 		};
 	}
 

@@ -6,10 +6,14 @@ import { Pokemon } from '@/src/types/pokemonList';
 
 import {
 	getActiveSearchValues,
+	getAppliedFilterCount,
 	getDisplayedPokemonList,
 	getEmptySavedTextParts,
 	getFilteredSavedPokemonList,
+	getIsNumberRangeChanged,
+	getIsRangeMaxedOut,
 	getIsSearchNotFoundError,
+	getNextMultiSelectOptions,
 	getNextSingleSelectOption,
 	getPokemonNumberFromUrl,
 	getSearchedPokemonList,
@@ -138,6 +142,75 @@ describe('Pokedex search helpers', () => {
 
 	it('switches generation selection when tapping a different option', () => {
 		expect(getNextSingleSelectOption('generation_3', 'generation_5')).toBe('generation_5');
+	});
+
+	it('toggles multi-select options in and out of the selected set', () => {
+		expect(getNextMultiSelectOptions(['fire', 'water'], 'fire')).toEqual(['water']);
+		expect(getNextMultiSelectOptions(['fire', 'water'], 'dragon')).toEqual([
+			'fire',
+			'water',
+			'dragon',
+		]);
+	});
+
+	it('counts applied filters plus number range changes as one extra filter', () => {
+		expect(
+			getAppliedFilterCount({
+				defaultRange: { min: 1, max: 1118 },
+				filterState: {
+					selectedTypes: ['fire', 'water'],
+					selectedWeaknesses: ['dragon'],
+					selectedHeights: ['medium'],
+					selectedWeights: ['light', 'heavy'],
+					numberRange: { min: 12, max: 1118 },
+				},
+			}),
+		).toBe(7);
+	});
+
+	it('adds one filter when range is not maxed out', () => {
+		expect(
+			getAppliedFilterCount({
+				defaultRange: { min: 1, max: 1118 },
+				filterState: {
+					selectedTypes: [],
+					selectedWeaknesses: [],
+					selectedHeights: [],
+					selectedWeights: [],
+					numberRange: { min: 2, max: 1118 },
+				},
+			}),
+		).toBe(1);
+	});
+
+	it('treats default number range as unchanged', () => {
+		expect(
+			getIsNumberRangeChanged({
+				defaultRange: { min: 1, max: 1118 },
+				range: { min: 1, max: 1118 },
+			}),
+		).toBe(false);
+		expect(
+			getIsNumberRangeChanged({
+				defaultRange: { min: 1, max: 1118 },
+				range: { min: 2, max: 1118 },
+			}),
+		).toBe(true);
+	});
+
+	it('treats default number range as maxed out', () => {
+		expect(
+			getIsRangeMaxedOut({
+				defaultRange: { min: 1, max: 1118 },
+				range: { min: 1, max: 1118 },
+			}),
+		).toBe(true);
+		expect(
+			getIsRangeMaxedOut({
+				defaultRange: { min: 1, max: 1118 },
+				range: { min: 10, max: 1118 },
+			}),
+		).toBe(false);
 	});
 
 	it('contains 8 generation options with expected ids and labels', () => {

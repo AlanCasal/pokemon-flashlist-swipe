@@ -18,6 +18,7 @@ describe('PokedexHeader badge visibility', () => {
 		expect(
 			getActionBadgeTestIds({
 				id: PokedexHeaderActionId.Sort,
+				hasActiveFilter: false,
 				hasActiveSort: true,
 				hasActiveGeneration: false,
 			}),
@@ -31,12 +32,27 @@ describe('PokedexHeader badge visibility', () => {
 		expect(
 			getActionBadgeTestIds({
 				id: PokedexHeaderActionId.Generation,
+				hasActiveFilter: false,
 				hasActiveSort: false,
 				hasActiveGeneration: true,
 			}),
 		).toEqual({
 			containerTestID: 'pokedex-generation-badge',
 			labelTestID: 'pokedex-generation-badge-label',
+		});
+	});
+
+	it('shows filter badge ids when filter is active', () => {
+		expect(
+			getActionBadgeTestIds({
+				id: PokedexHeaderActionId.Filter,
+				hasActiveFilter: true,
+				hasActiveSort: false,
+				hasActiveGeneration: false,
+			}),
+		).toEqual({
+			containerTestID: 'pokedex-filter-badge',
+			labelTestID: 'pokedex-filter-badge-label',
 		});
 	});
 
@@ -47,6 +63,7 @@ describe('PokedexHeader badge visibility', () => {
 		expect(
 			getActionBadgeTestIds({
 				id: PokedexHeaderActionId.Generation,
+				hasActiveFilter: false,
 				hasActiveSort: false,
 				hasActiveGeneration: Boolean(nextOption),
 			}),

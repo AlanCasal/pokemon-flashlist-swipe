@@ -24,7 +24,17 @@
 		"generationSheetTitle": "Generations",
 		"generationSheetDescription": "Select a generation to quickly focus your Pokédex!",
 		"sortSheetTitle": "Sort",
-		"sortSheetDescription": "Sort Pokémons alphabetically or by National Pokédex number!"
+		"sortSheetDescription": "Sort Pokémons alphabetically or by National Pokédex number!",
+		"filterSheetTitle": "Filters",
+		"filterSheetDescription": "Use advanced search to explore Pokémon by type, weakness, height and more!",
+		"filterTypesTitle": "Types",
+		"filterWeaknessesTitle": "Weaknesses",
+		"filterHeightsTitle": "Heights",
+		"filterWeightsTitle": "Weights",
+		"filterNumberRangeTitle": "Number Range",
+		"filterMaxRangeButton": "Max Range",
+		"filterResetButton": "Reset",
+		"filterApplyButton": "Apply"
 	},
 	"evolution": {
 		"chartTitle": "Evolution Chart",

@@ -8,6 +8,7 @@ import { ActivityIndicator, View } from 'react-native';
 
 import { isIos } from '@/src/utils/helpers';
 
+import FilterBottomSheet from './components/FilterBottomSheet';
 import GenerationBottomSheet from './components/GenerationBottomSheet';
 import PokedexEdgeGradient from './components/PokedexEdgeGradient';
 import PokedexHeader from './components/PokedexHeader';
@@ -27,6 +28,7 @@ const Pokedex = () => {
 		backgroundSource,
 		bottomInset,
 		flashListProps,
+		filterSheetProps,
 		generationSheetProps,
 		headerProps,
 		isAnyBottomSheetOpen,
@@ -130,6 +132,7 @@ const Pokedex = () => {
 				{isSavedMode && <SortBottomSheet {...sortSheetProps} />}
 
 				<GenerationBottomSheet {...generationSheetProps} />
+				<FilterBottomSheet {...filterSheetProps} />
 			</View>
 		</FadeInWrapper>
 	);

@@ -3,8 +3,15 @@ import type { ComponentType, ReactElement, RefObject } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
-import type { PokedexGenerationOption, PokedexSortOption } from '@/src/types';
+import type {
+	PokedexGenerationOption,
+	PokedexHeightOption,
+	PokedexMode,
+	PokedexSortOption,
+	PokedexWeightOption,
+} from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
+import type { PokemonType } from '@/src/types/pokemonTypes';
 
 export interface EmptySavedTextParts {
 	bottomLines: string[];
@@ -86,6 +93,8 @@ export interface HeaderAction {
 }
 
 export interface PokedexHeaderProps {
+	activeFilterCount: number;
+	hasActiveFilter: boolean;
 	hasActiveGeneration: boolean;
 	hasActiveSort: boolean;
 	isSortEnabled: boolean;
@@ -131,6 +140,35 @@ export interface PokedexGenerationSheetControllerProps {
 	selectedOption: PokedexGenerationOption | null;
 }
 
+export interface PokedexFilterNumberRange {
+	max: number;
+	min: number;
+}
+
+export interface PokedexFilterState {
+	numberRange: PokedexFilterNumberRange;
+	selectedHeights: PokedexHeightOption[];
+	selectedTypes: PokemonType[];
+	selectedWeaknesses: PokemonType[];
+	selectedWeights: PokedexWeightOption[];
+}
+
+export type PokedexFiltersByMode = Record<PokedexMode, PokedexFilterState>;
+
+export interface PokedexFilterSheetControllerProps {
+	draftState: PokedexFilterState;
+	isOpen: boolean;
+	numberRangeDefaults: PokedexFilterNumberRange;
+	onApply: () => void;
+	onClose: () => void;
+	onHeightOptionPress: (option: PokedexHeightOption) => void;
+	onNumberRangeChange: (range: PokedexFilterNumberRange) => void;
+	onReset: () => void;
+	onTypeOptionPress: (option: PokemonType) => void;
+	onWeaknessOptionPress: (option: PokemonType) => void;
+	onWeightOptionPress: (option: PokedexWeightOption) => void;
+}
+
 export interface PokedexScrollToTopProps {
 	onPress: () => void;
 	visible: boolean;
@@ -140,6 +178,7 @@ export interface PokedexScreenController {
 	bottomInset: number;
 	backgroundSource: number;
 	flashListProps: PokedexFlashListProps;
+	filterSheetProps: PokedexFilterSheetControllerProps;
 	generationSheetProps: PokedexGenerationSheetControllerProps;
 	headerProps: PokedexHeaderProps;
 	isAnyBottomSheetOpen: boolean;

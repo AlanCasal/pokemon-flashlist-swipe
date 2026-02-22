@@ -10,13 +10,14 @@ const styles = StyleSheet.create({
 	badge: {
 		alignItems: 'center',
 		backgroundColor: typeColors.fighting,
-		borderRadius: 7,
+		borderRadius: 8,
 		height: 14,
 		justifyContent: 'center',
+		minWidth: 14,
+		paddingHorizontal: 3,
 		position: 'absolute',
 		right: -4,
 		top: -4,
-		width: 14,
 	},
 	badgeLabel: {
 		color: textColor.primary,

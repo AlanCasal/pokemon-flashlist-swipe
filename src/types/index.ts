@@ -13,3 +13,7 @@ export type PokedexGenerationOption =
 	| 'generation_6'
 	| 'generation_7'
 	| 'generation_8';
+
+export type PokedexHeightOption = 'short' | 'medium' | 'tall';
+
+export type PokedexWeightOption = 'light' | 'normal' | 'heavy';

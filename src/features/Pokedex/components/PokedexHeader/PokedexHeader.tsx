@@ -24,6 +24,8 @@ const PokedexHeader = ({
 	onClearSearch,
 	onSearchChange,
 	searchValue,
+	hasActiveFilter,
+	activeFilterCount,
 	hasActiveGeneration,
 	hasActiveSort,
 	isSortEnabled,
@@ -99,9 +101,13 @@ const PokedexHeader = ({
 				{actions.map(({ id, Icon, accessibilityLabel, onPress, testID, disabled }) => {
 					const badgeTestIds = getActionBadgeTestIds({
 						id,
+						hasActiveFilter,
 						hasActiveGeneration,
 						hasActiveSort,
 					});
+
+					const badgeLabel =
+						id === PokedexHeaderActionId.Filter ? String(activeFilterCount) : undefined;
 
 					return (
 						<TouchableOpacity
@@ -123,6 +129,7 @@ const PokedexHeader = ({
 								<PokedexActionBadge
 									containerTestID={badgeTestIds.containerTestID}
 									labelTestID={badgeTestIds.labelTestID}
+									label={badgeLabel}
 								/>
 							)}
 						</TouchableOpacity>

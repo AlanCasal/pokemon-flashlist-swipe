@@ -1,4 +1,12 @@
 export const sharedStyles = {
+	actionButton: {
+		alignItems: 'center',
+		borderRadius: 12,
+		flex: 1,
+		height: 40,
+		justifyContent: 'center',
+		paddingHorizontal: 16,
+	},
 	dimensions: {
 		pokeCardHeight: 100,
 	},
@@ -10,6 +18,13 @@ export const sharedStyles = {
 	},
 	typography: {
 		primaryFont: 'FingerPaint_400Regular',
+	},
+	sheetButtons: {
+		option: {
+			borderRadius: 12,
+			height: 40,
+			paddingHorizontal: 16,
+		},
 	},
 	zIndex: {
 		wallpaper: 0,

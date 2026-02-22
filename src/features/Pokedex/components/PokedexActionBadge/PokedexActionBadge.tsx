@@ -5,11 +5,16 @@ import styles from './styles';
 type PokedexActionBadgeProps = {
 	containerTestID: string;
 	labelTestID: string;
+	label?: string;
 };
 
-const ACTIVE_BADGE_TEXT = '1';
+const DEFAULT_BADGE_TEXT = '1';
 
-const PokedexActionBadge = ({ containerTestID, labelTestID }: PokedexActionBadgeProps) => (
+const PokedexActionBadge = ({
+	containerTestID,
+	labelTestID,
+	label = DEFAULT_BADGE_TEXT,
+}: PokedexActionBadgeProps) => (
 	<View
 		testID={containerTestID}
 		style={styles.badge}
@@ -18,7 +23,7 @@ const PokedexActionBadge = ({ containerTestID, labelTestID }: PokedexActionBadge
 			testID={labelTestID}
 			style={styles.badgeLabel}
 		>
-			{ACTIVE_BADGE_TEXT}
+			{label}
 		</Text>
 	</View>
 );
