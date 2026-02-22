@@ -1,16 +1,20 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+	chainStep: {
+		alignItems: 'center',
+		gap: 12,
+	},
 	multiEvolutionContainer: {
-		gap: 20,
+		gap: 14,
 		width: '100%',
 	},
 	row: {
 		alignItems: 'center',
-		columnGap: 30,
+		columnGap: 18,
 		flexDirection: 'row',
 		justifyContent: 'center',
-		paddingHorizontal: 40,
+		paddingHorizontal: 16,
 	},
 });
 

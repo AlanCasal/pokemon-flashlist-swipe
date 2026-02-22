@@ -1,3 +1,4 @@
+import { textColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -5,39 +6,41 @@ export const useStyles = () => {
 	const { bottom } = useSafeAreaInsets();
 
 	return StyleSheet.create({
-		closeButtonContainer: {
-			alignSelf: 'center',
-			bottom: 0,
-			paddingBottom: bottom + 10,
-			position: 'absolute',
-		},
 		container: {
 			flex: 1,
 		},
-		contentContainer: {
-			flex: 1,
-			justifyContent: 'center',
-			paddingBottom: 30,
+		evolutionContainer: {
+			gap: 22,
+			paddingBottom: bottom + 32,
+			paddingHorizontal: 24,
+			paddingTop: 32,
+		},
+		evolutionTitle: {
+			color: '#FD7D24',
+			fontSize: 16,
+			fontWeight: '700',
+		},
+		feedbackText: {
+			color: textColor.grey,
+			fontSize: 18,
+			fontWeight: '600',
+			textAlign: 'center',
 		},
 		loadingContainer: {
 			alignItems: 'center',
-			flex: 1,
 			justifyContent: 'center',
+			paddingVertical: 72,
 		},
-		title: {
-			fontSize: 16,
+		placeholderContainer: {
+			alignItems: 'center',
+			justifyContent: 'center',
+			minHeight: 420,
+			paddingHorizontal: 24,
+		},
+		placeholderText: {
+			color: textColor.dark,
+			fontSize: 26,
 			fontWeight: '700',
-			lineHeight: 20,
-			textTransform: 'uppercase',
-		},
-		titleContainer: {
-			left: 20,
-			marginTop: 60,
-			position: 'absolute',
-			top: '50%',
-			transform: [{ rotate: '270deg' }],
-			transformOrigin: 'left center',
-			width: 'auto',
 		},
 	});
 };

@@ -9,9 +9,12 @@ import { processEvolutionChain } from '../utils/evolutionChainProcessor';
 import { fetchJson } from '../utils/helpers';
 
 export const useGetPokemonEvolutions = (id: string) => {
+	const normalizedId = id.trim();
+
 	const speciesQuery = useQuery<PokemonSpecies>({
-		queryKey: ['pokemon-species', id],
-		queryFn: () => fetchJson<PokemonSpecies>(`${POKEMON_SPECIES_URL}/${id}`),
+		queryKey: ['pokemon-species', normalizedId],
+		enabled: Boolean(normalizedId),
+		queryFn: () => fetchJson<PokemonSpecies>(`${POKEMON_SPECIES_URL}/${normalizedId}`),
 	});
 
 	const evolutionChainQuery = useQuery<EvolutionChain>({

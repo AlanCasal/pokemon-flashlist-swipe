@@ -106,7 +106,7 @@ const FilterBottomSheet = ({
 						<PokemonTypeIcon
 							type={option.id}
 							size={GLYPH_SIZE}
-							fill={isSelected ? textColor.primary : optionColor}
+							fill={isSelected ? textColor.light : optionColor}
 						/>
 					</TouchableOpacity>
 				);
@@ -135,7 +135,7 @@ const FilterBottomSheet = ({
 						<PokemonTypeIcon
 							type={option.id}
 							size={GLYPH_SIZE}
-							fill={isSelected ? textColor.primary : optionColor}
+							fill={isSelected ? textColor.light : optionColor}
 						/>
 					</TouchableOpacity>
 				);
@@ -147,7 +147,7 @@ const FilterBottomSheet = ({
 		() =>
 			POKEDEX_FILTER_HEIGHT_OPTIONS.map(option => {
 				const isSelected = selectedHeightIds.has(option.id);
-				const iconColor = isSelected ? textColor.primary : option.color;
+				const iconColor = isSelected ? textColor.light : option.color;
 				const HeightGlyph = HEIGHT_GLYPHS[option.id];
 
 				return (
@@ -177,7 +177,7 @@ const FilterBottomSheet = ({
 		() =>
 			POKEDEX_FILTER_WEIGHT_OPTIONS.map(option => {
 				const isSelected = selectedWeightIds.has(option.id);
-				const iconColor = isSelected ? textColor.primary : option.color;
+				const iconColor = isSelected ? textColor.light : option.color;
 				const WeightGlyph = WEIGHT_GLYPHS[option.id];
 
 				return (

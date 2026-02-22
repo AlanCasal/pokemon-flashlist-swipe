@@ -12,11 +12,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	id: {
-		color: textColor.number,
+		color: textColor.dark2,
 		fontSize: 10,
 	},
 	name: {
-		color: textColor.primary,
+		color: textColor.light,
 		fontFamily: primaryFont,
 		fontSize: 20,
 		letterSpacing: 1,

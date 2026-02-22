@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
 		backgroundColor: typeColors.dragon,
 	},
 	actionButtonApplyLabel: {
-		color: textColor.primary,
+		color: textColor.light,
 	},
 	actionButtonLabel: {
 		fontSize: 16,
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		backgroundColor: typeColors.fighting,
 	},
 	actionButtonResetLabel: {
-		color: textColor.primary,
+		color: textColor.light,
 	},
 	actionButtonsRow: {
 		columnGap: 14,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 		top: 0,
 	},
 	background: {
-		backgroundColor: textColor.primary,
+		backgroundColor: textColor.light,
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 	},
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 		marginTop: 12,
 	},
 	handleIndicator: {
-		backgroundColor: textColor.primary,
+		backgroundColor: textColor.light,
 		height: 6,
 		width: 80,
 	},
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 	numberRangeInput: {
 		backgroundColor: customColor.input,
 		borderRadius: 12,
-		color: textColor.black,
+		color: textColor.dark,
 		flexShrink: 0,
 		fontFamily: primaryFont,
 		fontSize: 16,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
 		backgroundColor: customColor.input,
 	},
 	numberRangeMaxButtonLabel: {
-		color: textColor.primary,
+		color: textColor.light,
 		fontSize: 14,
 	},
 	numberRangeMaxButtonLabelDisabled: {
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	sectionTitle: {
-		color: textColor.black,
+		color: textColor.dark,
 		fontSize: 16,
 		fontWeight: '700',
 	},
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 		rowGap: 10,
 	},
 	title: {
-		color: textColor.black,
+		color: textColor.dark,
 		fontSize: 32,
 		fontWeight: '700',
 		textAlign: 'center',

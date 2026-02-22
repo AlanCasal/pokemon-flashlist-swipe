@@ -27,9 +27,9 @@ const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionPr
 			</Text>
 
 			<MaterialCommunityIcons
-				name='arrow-down-bold-circle-outline'
+				name='arrow-right'
 				size={24}
-				color={textColor.black}
+				color={textColor.grey}
 			/>
 
 			<Text

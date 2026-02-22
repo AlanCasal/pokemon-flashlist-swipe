@@ -37,10 +37,16 @@
 		"filterApplyButton": "Apply"
 	},
 	"evolution": {
+		"aboutTabLabel": "About",
 		"chartTitle": "Evolution Chart",
+		"evolutionTabLabel": "Evolution",
 		"evolvesAt": "Evolves at",
 		"evolvesInto": "Evolves into",
-		"levelPrefix": "Level"
+		"levelPrefix": "Level",
+		"loadErrorMessage": "Could not load evolution data right now.",
+		"missingDetailsMessage": "Could not find this Pokémon details.",
+		"statsTabLabel": "Stats",
+		"wipMessage": "WIP"
 	},
 	"pokemonCard": {
 		"toastRemovedSuffix": " removed",

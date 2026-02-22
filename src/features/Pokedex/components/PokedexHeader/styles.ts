@@ -39,7 +39,7 @@ export const useStyles = () => {
 			flexDirection: 'row',
 		},
 		searchInput: {
-			color: textColor.black,
+			color: textColor.dark,
 			flex: 1,
 			fontFamily: primaryFont,
 			fontSize: 13,

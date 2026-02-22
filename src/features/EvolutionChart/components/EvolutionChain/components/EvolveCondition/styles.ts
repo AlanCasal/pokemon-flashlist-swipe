@@ -1,4 +1,4 @@
-import { typeColors } from '@constants/colors';
+import { textColor, typeColors } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 
 type UseStylesProps = {
@@ -11,25 +11,24 @@ export const useStyles = ({ minLevel, type }: UseStylesProps) =>
 		container: {
 			alignItems: 'center',
 			alignSelf: 'center',
-			columnGap: 10,
+			columnGap: 6,
 			flexDirection: 'row',
-			marginVertical: 20,
+			marginVertical: 8,
 		},
 		levelLabel: {
 			backgroundColor: minLevel ? typeColors[type] : 'transparent',
 			borderRadius: 5,
-			fontSize: 10,
+			fontSize: 12,
 			fontWeight: '700',
-			paddingHorizontal: 10,
+			paddingHorizontal: 8,
 			paddingVertical: 5,
 			textAlign: 'center',
-			textTransform: 'uppercase',
-			width: 90,
+			width: 88,
 		},
 		message: {
-			fontSize: 12,
-			paddingLeft: 20,
+			color: textColor.grey,
+			fontSize: 11,
 			textAlign: 'center',
-			width: 90,
+			width: 78,
 		},
 	});

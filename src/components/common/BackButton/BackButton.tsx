@@ -17,7 +17,7 @@ const DEFAULT_ICON_SIZE = 26;
 
 const BackButton = ({
 	containerStyle,
-	iconColor = textColor.primary,
+	iconColor = textColor.light,
 	iconSize = DEFAULT_ICON_SIZE,
 	onPress,
 }: BackButtonProps) => {

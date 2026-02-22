@@ -8,19 +8,21 @@ import { useStyles } from './styles';
 import type { PokemonImageProps } from './types';
 
 const DEFAULT_SIZE = 100;
+const DEFAULT_FONT_SIZE = 20;
+const DEFAULT_POKEBALL_DECORATION_OPACITY = 0.1;
 
 const PokemonImage = ({
 	imgUrl,
 	pokemon,
 	delay,
 	size = DEFAULT_SIZE,
-	fontSize = 20,
+	fontSize = DEFAULT_FONT_SIZE,
 	trigger,
-	pokeballFillColor = 'white',
-	pokeballStrokeColor = 'white',
-	pokeballOpacity = 0.2,
+	pokeballFillColor = '#17171B',
+	pokeballStrokeColor = '#17171B',
+	pokeballOpacity = DEFAULT_POKEBALL_DECORATION_OPACITY,
 }: PokemonImageProps) => {
-	const triggerText = trigger ? `(${trigger})` : '';
+	const triggerText = trigger ? `(${trigger.split('-').join(' ')})` : '';
 	const styles = useStyles({ fontSize, size });
 
 	return (

@@ -1,14 +1,9 @@
-import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 
 type UseStylesProps = {
 	fontSize: number;
 	size: number;
 };
-
-const {
-	typography: { primaryFont },
-} = sharedStyles;
 
 export const useStyles = ({ fontSize, size }: UseStylesProps) =>
 	StyleSheet.create({
@@ -21,8 +16,9 @@ export const useStyles = ({ fontSize, size }: UseStylesProps) =>
 			zIndex: 1,
 		},
 		name: {
-			fontFamily: primaryFont,
 			fontSize,
+			fontWeight: '700',
+			lineHeight: fontSize + 4,
 			textAlign: 'center',
 			textTransform: 'capitalize',
 		},
@@ -30,12 +26,12 @@ export const useStyles = ({ fontSize, size }: UseStylesProps) =>
 			position: 'absolute',
 		},
 		textContainer: {
-			marginTop: 8,
+			marginTop: 6,
 		},
 		trigger: {
-			fontSize: fontSize * 0.5,
+			fontSize: fontSize * 0.65,
 			fontWeight: '700',
+			marginBottom: 3,
 			textAlign: 'center',
-			textTransform: 'uppercase',
 		},
 	});

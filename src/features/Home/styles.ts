@@ -101,7 +101,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 			width: 200,
 		},
 		startButtonLabel: {
-			color: textColor.primary,
+			color: textColor.light,
 			fontFamily: primaryFont,
 			fontSize: 18,
 		},
@@ -109,7 +109,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 			marginTop: 16,
 		},
 		subtitle: {
-			color: textColor.primary,
+			color: textColor.light,
 			fontFamily: primaryFont,
 			fontSize: 18,
 			textAlign: 'center',

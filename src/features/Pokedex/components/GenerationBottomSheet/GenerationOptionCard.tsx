@@ -29,7 +29,7 @@ const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationO
 				<DotsSmall
 					width={GENERATION_SHEET_DOTS_SIZE}
 					height={GENERATION_SHEET_DOTS_SIZE}
-					fill={textColor.primary}
+					fill={textColor.light}
 				/>
 			</View>
 
@@ -37,7 +37,7 @@ const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationO
 				<PokeballFull
 					width={GENERATION_SHEET_POKEBALL_SIZE}
 					height={GENERATION_SHEET_POKEBALL_SIZE}
-					fill={textColor.primary}
+					fill={textColor.light}
 				/>
 			</View>
 

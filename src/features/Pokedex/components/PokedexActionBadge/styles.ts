@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 		top: -4,
 	},
 	badgeLabel: {
-		color: textColor.primary,
+		color: textColor.light,
 		fontFamily: primaryFont,
 		fontSize: 10,
 		lineHeight: 13,

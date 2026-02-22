@@ -14,7 +14,7 @@ export const useStyles = ({ isRangeMaxedOut }: { isRangeMaxedOut: boolean }) => 
 		() =>
 			StyleSheet.create({
 				rangeThumb: {
-					backgroundColor: textColor.primary,
+					backgroundColor: textColor.light,
 					borderColor: sliderColor,
 					borderRadius: 10,
 					borderWidth: 4,

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 		backgroundColor: backdropOverlay,
 	},
 	background: {
-		backgroundColor: textColor.primary,
+		backgroundColor: textColor.light,
 		borderTopLeftRadius: 30,
 		borderTopRightRadius: 30,
 	},
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 	},
 	handleIndicator: {
-		backgroundColor: textColor.primary,
+		backgroundColor: textColor.light,
 		height: 6,
 		width: 80,
 	},
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 		width: '100%',
 	},
 	optionLabelSelected: {
-		color: textColor.primary,
+		color: textColor.light,
 	},
 	optionLabelUnselected: {
 		color: textColor.grey,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 		rowGap: 10,
 	},
 	title: {
-		color: textColor.black,
+		color: textColor.dark,
 		fontSize: 28,
 		fontWeight: '700',
 		textAlign: 'center',

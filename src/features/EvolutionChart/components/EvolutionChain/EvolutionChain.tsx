@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { Fragment } from 'react';
 import { View } from 'react-native';
 
@@ -9,19 +8,18 @@ import PokemonImage from './components/PokemonImage';
 import styles from './styles';
 import type { EvolutionChainProps } from './types';
 
-const DELAY = {
-	depth0: {
-		pokemon: 500,
-		evolveCondition: 1500,
-	},
-	depth1: {
-		pokemon: 2000,
-		evolveCondition: 2500,
-	},
-	depth2: {
-		pokemon: 3000,
-		evolveCondition: 3500,
-	},
+const ANIMATION_DELAY_STEP = 220;
+const BASE_POKEMON_DELAY = 100;
+const BASE_EVOLUTION_DELAY = 180;
+
+const chunkEvolutions = (evolutions: CustomEvolutionChain[]) => {
+	const chunks: CustomEvolutionChain[][] = [];
+
+	for (let i = 0; i < evolutions.length; i += 3) {
+		chunks.push(evolutions.slice(i, i + 3));
+	}
+
+	return chunks;
 };
 
 const EvolutionChain = ({
@@ -30,6 +28,9 @@ const EvolutionChain = ({
 	depth = 0,
 	direction = 'right',
 }: EvolutionChainProps) => {
+	const pokemonDelay = BASE_POKEMON_DELAY + depth * ANIMATION_DELAY_STEP;
+	const evolveConditionDelay = BASE_EVOLUTION_DELAY + depth * ANIMATION_DELAY_STEP;
+
 	const renderEvolutionRow = (evolutions: CustomEvolutionChain[]) => (
 		<View style={styles.row}>
 			{evolutions.map((nextEvolution, index) => (
@@ -37,29 +38,21 @@ const EvolutionChain = ({
 					key={`${nextEvolution.pokemon}-${index}`}
 					imgUrl={nextEvolution.imgUrl!}
 					pokemon={nextEvolution.pokemon}
-					delay={DELAY.depth1.pokemon}
+					delay={pokemonDelay}
 					trigger={nextEvolution.useItem}
-					size={70}
-					fontSize={16}
+					size={84}
+					fontSize={18}
 				/>
 			))}
 		</View>
 	);
 
-	const chunkEvolutions = (evolutions: CustomEvolutionChain[]) => {
-		const chunks: CustomEvolutionChain[][] = [];
-
-		for (let i = 0; i < evolutions.length; i += 3) chunks.push(evolutions.slice(i, i + 3));
-
-		return chunks;
-	};
-
 	return (
-		<>
+		<View style={styles.chainStep}>
 			<PokemonImage
 				imgUrl={evolution.imgUrl!}
 				pokemon={evolution.pokemon}
-				delay={DELAY[`depth${depth}` as keyof typeof DELAY].pokemon}
+				delay={pokemonDelay}
 			/>
 
 			{evolution.evolvesTo.length > 1 ? (
@@ -68,7 +61,7 @@ const EvolutionChain = ({
 						type={type}
 						minLevel={evolution.minLevel}
 						direction={direction}
-						delay={DELAY.depth0.evolveCondition}
+						delay={evolveConditionDelay}
 					/>
 
 					{chunkEvolutions(evolution.evolvesTo).map((chunk, rowIndex) => (
@@ -82,7 +75,7 @@ const EvolutionChain = ({
 							type={type}
 							minLevel={nextEvolution.minLevel}
 							direction={direction}
-							delay={DELAY[`depth${depth}` as keyof typeof DELAY].evolveCondition}
+							delay={evolveConditionDelay}
 						/>
 
 						<EvolutionChain
@@ -94,7 +87,7 @@ const EvolutionChain = ({
 					</Fragment>
 				))
 			)}
-		</>
+		</View>
 	);
 };
 

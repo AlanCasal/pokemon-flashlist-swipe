@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 		paddingVertical: 4,
 	},
 	label: {
-		color: textColor.primary,
+		color: textColor.light,
 		fontSize: 8,
 		fontWeight: '700',
 		textTransform: 'uppercase',
