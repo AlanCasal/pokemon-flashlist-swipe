@@ -1,4 +1,3 @@
-import FadeInWrapper from '@components/FadeInWrapper';
 import ScrollToTop from '@components/ScrollToTop';
 import WallpaperBackground from '@components/WallpaperBackground';
 import { FlashList } from '@shopify/flash-list';
@@ -74,67 +73,65 @@ const Pokedex = () => {
 	if (isInitialLoading) return <ActivityIndicator size='large' />;
 
 	return (
-		<FadeInWrapper duration={250}>
-			<View style={styles.container}>
-				<WallpaperBackground source={backgroundSource} />
+		<View style={styles.container}>
+			<WallpaperBackground source={backgroundSource} />
 
-				{shouldDarkenBackgroundForEmptySavedState && (
-					<View
-						pointerEvents='none'
-						style={styles.savedWallpaperOverlay}
-					/>
-				)}
-
-				<PokedexEdgeGradient position='top' />
-
-				{isIos && isAnyBottomSheetOpen && (
-					<BlurView
-						intensity={GENERATION_SHEET_BLUR_INTENSITY}
-						tint='dark'
-						pointerEvents='none'
-						style={styles.blurOverlay}
-					/>
-				)}
-
-				<PokedexEdgeGradient position='bottom' />
-
-				<View style={styles.headerContainer}>
-					<PokedexHeader {...headerProps} />
-				</View>
-
-				<FlashList
-					ref={listRef}
-					data={flashListProps.data}
-					renderItem={flashListProps.renderItem}
-					drawDistance={POKEDEX_FLASHLIST_DRAW_DISTANCE}
-					onEndReachedThreshold={1}
-					contentContainerStyle={styles.contentContainer}
-					style={styles.flashList}
-					maintainVisibleContentPosition={{ disabled: true }}
-					alwaysBounceVertical
-					refreshing={flashListProps.refreshing}
-					onRefresh={flashListProps.onRefresh}
-					progressViewOffset={topInset}
-					onScroll={flashListProps.onScroll}
-					scrollEventThrottle={16}
-					onEndReached={flashListProps.onEndReached}
-					keyExtractor={({ name }) => name}
-					ListEmptyComponent={<PokedexListEmpty {...listEmptyProps} />}
-					ListFooterComponent={flashListProps.listFooterComponent}
+			{shouldDarkenBackgroundForEmptySavedState && (
+				<View
+					pointerEvents='none'
+					style={styles.savedWallpaperOverlay}
 				/>
+			)}
 
-				<ScrollToTop
-					visible={scrollToTopProps.visible}
-					onPress={scrollToTopProps.onPress}
-					bottomInset={bottomInset}
+			<PokedexEdgeGradient position='top' />
+
+			{isIos && isAnyBottomSheetOpen && (
+				<BlurView
+					intensity={GENERATION_SHEET_BLUR_INTENSITY}
+					tint='dark'
+					pointerEvents='none'
+					style={styles.blurOverlay}
 				/>
+			)}
 
-				{isSavedMode && <SortBottomSheet {...sortSheetProps} />}
+			<PokedexEdgeGradient position='bottom' />
 
-				<GenerationBottomSheet {...generationSheetProps} />
-				<FilterBottomSheet {...filterSheetProps} />
+			<View style={styles.headerContainer}>
+				<PokedexHeader {...headerProps} />
 			</View>
-		</FadeInWrapper>
+
+			<FlashList
+				ref={listRef}
+				data={flashListProps.data}
+				renderItem={flashListProps.renderItem}
+				drawDistance={POKEDEX_FLASHLIST_DRAW_DISTANCE}
+				onEndReachedThreshold={1}
+				contentContainerStyle={styles.contentContainer}
+				style={styles.flashList}
+				maintainVisibleContentPosition={{ disabled: true }}
+				alwaysBounceVertical
+				refreshing={flashListProps.refreshing}
+				onRefresh={flashListProps.onRefresh}
+				progressViewOffset={topInset}
+				onScroll={flashListProps.onScroll}
+				scrollEventThrottle={16}
+				onEndReached={flashListProps.onEndReached}
+				keyExtractor={({ name }) => name}
+				ListEmptyComponent={<PokedexListEmpty {...listEmptyProps} />}
+				ListFooterComponent={flashListProps.listFooterComponent}
+			/>
+
+			<ScrollToTop
+				visible={scrollToTopProps.visible}
+				onPress={scrollToTopProps.onPress}
+				bottomInset={bottomInset}
+			/>
+
+			{isSavedMode && <SortBottomSheet {...sortSheetProps} />}
+
+			<GenerationBottomSheet {...generationSheetProps} />
+			<FilterBottomSheet {...filterSheetProps} />
+		</View>
 	);
 };
 

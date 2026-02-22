@@ -14,7 +14,11 @@ const TabsLayout = () => {
 				backgroundColor={typeColors.dragon}
 			/>
 			<Tabs
-				screenOptions={{ headerShown: false }}
+				screenOptions={{
+					headerShown: false,
+					animation: 'fade',
+					transitionSpec: { animation: 'timing', config: { duration: 250 } },
+				}}
 				tabBar={props => <CustomTabBar {...props} />}
 			>
 				<Tabs.Screen
