@@ -6,6 +6,12 @@
 This file defines workspace-level agent behavior for every new chat session.
 It is separate from project architecture/coding standards in `AGENTS.md`.
 
+## Mandatory Bootstrap
+
+- At the start of every chat session, load both `WORKSPACE_INSTRUCTIONS.md` and `AGENTS.md` before any task work.
+- Treat `AGENTS.md` as mandatory coding policy for all implementation/review/refactor tasks in this repository.
+- If there is any conflict, apply workspace behavior from `WORKSPACE_INSTRUCTIONS.md` and project coding standards from `AGENTS.md`.
+
 ## Workflow Orchestration
 
 ### 1. Plan Mode Default
@@ -76,6 +82,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 - At the start of each new chat session, load and apply `WORKSPACE_INSTRUCTIONS.md` before performing task work.
 - Treat `WORKSPACE_INSTRUCTIONS.md` as workspace behavior policy and this file as project coding standards.
+- Apply this file's coding standards in every chat/task that changes or reviews repository code.
 
 ## File Purpose
 

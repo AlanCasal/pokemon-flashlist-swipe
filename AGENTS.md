@@ -7,6 +7,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 - At the start of each new chat session, load and apply `WORKSPACE_INSTRUCTIONS.md` before performing task work.
 - Treat `WORKSPACE_INSTRUCTIONS.md` as workspace behavior policy and this file as project coding standards.
+- Apply this file's coding standards in every chat/task that changes or reviews repository code.
 
 ## File Purpose
 
