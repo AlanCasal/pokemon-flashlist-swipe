@@ -28,20 +28,6 @@ const styles = StyleSheet.create({
 		columnGap: 5,
 		flexDirection: 'row',
 	},
-	typeChip: {
-		alignItems: 'center',
-		borderRadius: 3,
-		columnGap: 5,
-		flexDirection: 'row',
-		paddingHorizontal: 6,
-		paddingVertical: 4,
-	},
-	typeLabel: {
-		color: 'white',
-		fontSize: 8,
-		fontWeight: '700',
-		textTransform: 'uppercase',
-	},
 	typesRow: {
 		columnGap: 5,
 		flexDirection: 'row',

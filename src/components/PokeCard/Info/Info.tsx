@@ -1,6 +1,5 @@
+import PokemonTypeChip from '@components/common/PokemonTypeChip';
 import PokeBall from '@components/PokeBall';
-import PokemonTypeIcon from '@components/PokemonTypeIcon';
-import { typeColors } from '@constants/colors';
 import { Text, View } from 'react-native';
 
 import { PokemonType } from '@/src/types/pokemonTypes';
@@ -33,19 +32,12 @@ const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 			</Text>
 
 			<View style={styles.typesRow}>
-				{types.map((type, index) => {
-					const backgroundColor = typeColors[type.type.name as keyof typeof typeColors];
-
-					return (
-						<View
-							style={[styles.typeChip, { backgroundColor }]}
-							key={index}
-						>
-							<PokemonTypeIcon type={type.type.name as PokemonType} />
-							<Text style={styles.typeLabel}>{type.type.name}</Text>
-						</View>
-					);
-				})}
+				{types.map(type => (
+					<PokemonTypeChip
+						key={type.type.name}
+						type={type.type.name as PokemonType}
+					/>
+				))}
 			</View>
 		</View>
 	);

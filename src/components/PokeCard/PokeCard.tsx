@@ -1,4 +1,5 @@
 import Dots from '@assets/images/dots-big.svg';
+import PokemonAvatar from '@components/common/PokemonAvatar';
 import { typeBgColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import usePokemonDetails from '@hooks/usePokemonDetails';
@@ -10,7 +11,6 @@ import { MotiView } from 'moti';
 import { memo, useCallback, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import PokemonImage from './Image';
 import Info from './Info';
 import { useStyles } from './styles';
 import type { PokemonCardProps } from './types';
@@ -77,7 +77,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 					transition={{ type: 'timing', duration: CARD_FADE_DURATION_MS }}
 					style={styles.cardContainer}
 				>
-					<PokemonImage
+					<PokemonAvatar
 						uri={pokemon.sprites.other['official-artwork'].front_default}
 						isSaved={isSaved}
 					/>
