@@ -7,8 +7,6 @@ import WeightNormalIcon from '@assets/icons/filter/weight-normal.svg';
 import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { textColor, typeColors } from '@constants/colors';
 import {
-	MAX_POKEMON_NUMBER,
-	MIN_POKEMON_NUMBER,
 	POKEDEX_FILTER_HEIGHT_OPTIONS,
 	POKEDEX_FILTER_TYPE_OPTIONS,
 	POKEDEX_FILTER_WEAKNESS_OPTIONS,
@@ -16,32 +14,24 @@ import {
 } from '@constants/pokedex';
 import { sharedStyles } from '@constants/sharedStyles';
 import {
-	BottomSheetBackdrop,
-	type BottomSheetBackdropProps,
 	BottomSheetModal,
 	BottomSheetScrollView,
-	type BottomSheetScrollViewMethods,
 	BottomSheetTextInput,
 } from '@gorhom/bottom-sheet';
 import texts from '@utils/texts.json';
-import { type ComponentType, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { type ComponentType, useMemo } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
 import { type PokedexHeightOption, type PokedexWeightOption } from '@/src/types';
 import { isAndroid } from '@/src/utils/helpers';
 
-import { getIsRangeMaxedOut } from '../../helpers';
 import NumberRangeSlider from './components/NumberRangeSlider';
 import styles from './styles';
 import { type FilterBottomSheetProps } from './types';
+import { useFilterBottomSheetController } from './useFilterBottomSheetController';
 
-const FILTER_SHEET_SNAP_POINT = '92%';
 const GLYPH_SIZE = 25;
-
-const sanitizeNumericValue = (value: string) => value.replace(/[^0-9]/g, '');
-const clampNumber = (value: number, min: number, max: number) =>
-	Math.min(Math.max(value, min), max);
 
 const HEIGHT_GLYPHS: Record<PokedexHeightOption, ComponentType<SvgProps>> = {
 	short: HeightShortIcon,
@@ -68,155 +58,32 @@ const FilterBottomSheet = ({
 	onWeaknessOptionPress,
 	onWeightOptionPress,
 }: FilterBottomSheetProps) => {
-	const bottomSheetRef = useRef<BottomSheetModal>(null);
-	const scrollViewRef = useRef<BottomSheetScrollViewMethods>(null);
-	const [minInputValue, setMinInputValue] = useState('');
-	const [maxInputValue, setMaxInputValue] = useState('');
-	const [isMinInputFocused, setIsMinInputFocused] = useState(false);
-	const [isMaxInputFocused, setIsMaxInputFocused] = useState(false);
-	const snapPoints = useMemo(() => [FILTER_SHEET_SNAP_POINT], []);
-	const selectedTypeIds = useMemo(
-		() => new Set(draftState.selectedTypes),
-		[draftState.selectedTypes],
-	);
-	const selectedWeaknessIds = useMemo(
-		() => new Set(draftState.selectedWeaknesses),
-		[draftState.selectedWeaknesses],
-	);
-	const selectedHeightIds = useMemo(
-		() => new Set(draftState.selectedHeights),
-		[draftState.selectedHeights],
-	);
-	const selectedWeightIds = useMemo(
-		() => new Set(draftState.selectedWeights),
-		[draftState.selectedWeights],
-	);
-
-	const renderBackdrop = useCallback(
-		(props: BottomSheetBackdropProps) => (
-			<BottomSheetBackdrop
-				{...props}
-				disappearsOnIndex={-1}
-				appearsOnIndex={0}
-				pressBehavior='close'
-				onPress={onClose}
-			>
-				<View style={styles.backdropFill} />
-			</BottomSheetBackdrop>
-		),
-		[onClose],
-	);
-
-	useEffect(() => {
-		if (isOpen) {
-			bottomSheetRef.current?.present();
-			return;
-		}
-
-		bottomSheetRef.current?.dismiss();
-	}, [isOpen]);
-
-	const handleMinInputChange = useCallback(
-		(value: string) => {
-			const sanitizedValue = sanitizeNumericValue(value);
-			setMinInputValue(sanitizedValue);
-			if (!sanitizedValue) return;
-
-			const parsedMinValue = Number(sanitizedValue);
-			const nextMin = clampNumber(
-				parsedMinValue,
-				numberRangeDefaults.min,
-				draftState.numberRange.max,
-			);
-
-			onNumberRangeChange({
-				min: nextMin,
-				max: draftState.numberRange.max,
-			});
-		},
-		[draftState.numberRange.max, numberRangeDefaults.min, onNumberRangeChange],
-	);
-
-	const handleMaxInputChange = useCallback(
-		(value: string) => {
-			const sanitizedValue = sanitizeNumericValue(value);
-			setMaxInputValue(sanitizedValue);
-			if (!sanitizedValue) return;
-
-			const parsedMaxValue = Number(sanitizedValue);
-			const nextMax = clampNumber(
-				parsedMaxValue,
-				draftState.numberRange.min,
-				numberRangeDefaults.max,
-			);
-
-			onNumberRangeChange({
-				min: draftState.numberRange.min,
-				max: nextMax,
-			});
-		},
-		[draftState.numberRange.min, numberRangeDefaults.max, onNumberRangeChange],
-	);
-
-	const handleMinInputBlur = useCallback(() => {
-		if (!minInputValue) {
-			setMinInputValue(`${draftState.numberRange.min}`);
-		}
-		setIsMinInputFocused(false);
-	}, [draftState.numberRange.min, minInputValue]);
-
-	const handleMaxInputBlur = useCallback(() => {
-		if (!maxInputValue) {
-			setMaxInputValue(`${draftState.numberRange.max}`);
-		}
-		setIsMaxInputFocused(false);
-	}, [draftState.numberRange.max, maxInputValue]);
-
-	const handleMinInputFocus = useCallback(() => {
-		setIsMinInputFocused(true);
-		setMinInputValue(`${draftState.numberRange.min}`);
-	}, [draftState.numberRange.min]);
-
-	const handleMaxInputFocus = useCallback(() => {
-		setIsMaxInputFocused(true);
-		setMaxInputValue(`${draftState.numberRange.max}`);
-	}, [draftState.numberRange.max]);
-
-	const handleMaxRangePress = useCallback(() => {
-		onNumberRangeChange({
-			min: MIN_POKEMON_NUMBER,
-			max: MAX_POKEMON_NUMBER,
-		});
-		setMinInputValue(`${MIN_POKEMON_NUMBER}`);
-		setMaxInputValue(`${MAX_POKEMON_NUMBER}`);
-	}, [onNumberRangeChange]);
-
-	const isRangeMaxedOut = useMemo(
-		() =>
-			getIsRangeMaxedOut({
-				range: draftState.numberRange,
-				defaultRange: numberRangeDefaults,
-			}),
-		[draftState.numberRange, numberRangeDefaults],
-	);
-
-	const scrollRangeInputsIntoView = useCallback(() => {
-		if (!isAndroid) return;
-
-		requestAnimationFrame(() => {
-			scrollViewRef.current?.scrollToEnd({ animated: true });
-		});
-	}, []);
-
-	const handleMinInputFocusAndScroll = useCallback(() => {
-		handleMinInputFocus();
-		scrollRangeInputsIntoView();
-	}, [handleMinInputFocus, scrollRangeInputsIntoView]);
-
-	const handleMaxInputFocusAndScroll = useCallback(() => {
-		handleMaxInputFocus();
-		scrollRangeInputsIntoView();
-	}, [handleMaxInputFocus, scrollRangeInputsIntoView]);
+	const {
+		bottomSheetRef,
+		scrollViewRef,
+		snapPoints,
+		renderBackdrop,
+		selectedTypeIds,
+		selectedWeaknessIds,
+		selectedHeightIds,
+		selectedWeightIds,
+		minInputDisplayValue,
+		maxInputDisplayValue,
+		handleMinInputChange,
+		handleMaxInputChange,
+		handleMinInputBlur,
+		handleMaxInputBlur,
+		handleMinInputFocusAndScroll,
+		handleMaxInputFocusAndScroll,
+		handleMaxRangePress,
+		isRangeMaxedOut,
+	} = useFilterBottomSheetController({
+		draftState,
+		isOpen,
+		numberRangeDefaults,
+		onClose,
+		onNumberRangeChange,
+	});
 
 	const typeOptions = useMemo(
 		() =>
@@ -397,7 +264,7 @@ const FilterBottomSheet = ({
 					<View style={styles.numberRangeInputsRow}>
 						<BottomSheetTextInput
 							testID='pokedex-filter-min-input'
-							value={isMinInputFocused ? minInputValue : `${draftState.numberRange.min}`}
+							value={minInputDisplayValue}
 							onChangeText={handleMinInputChange}
 							onFocus={handleMinInputFocusAndScroll}
 							onBlur={handleMinInputBlur}
@@ -413,7 +280,7 @@ const FilterBottomSheet = ({
 
 						<BottomSheetTextInput
 							testID='pokedex-filter-max-input'
-							value={isMaxInputFocused ? maxInputValue : `${draftState.numberRange.max}`}
+							value={maxInputDisplayValue}
 							onChangeText={handleMaxInputChange}
 							onFocus={handleMaxInputFocusAndScroll}
 							onBlur={handleMaxInputBlur}

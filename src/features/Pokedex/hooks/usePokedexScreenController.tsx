@@ -1,9 +1,8 @@
 import PokeCard from '@components/PokeCard';
-import { API_URL, SEARCH_DEBOUNCE_MS } from '@constants/api';
+import { API_URL } from '@constants/api';
 import { POKEDEX_NUMBER_RANGE_DEFAULTS } from '@constants/pokedex';
-import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import { usePokemonList } from '@hooks/usePokemonList';
-import { normalizeSearchTerm, useSearchPokemon } from '@hooks/useSearchPokemon';
+import { useSearchPokemon } from '@hooks/useSearchPokemon';
 import { FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
@@ -12,24 +11,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import {
-	type PokedexGenerationOption,
-	type PokedexHeightOption,
-	type PokedexMode,
-	type PokedexSortOption,
-	type PokedexWeightOption,
-} from '@/src/types';
+import { type PokedexMode } from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 import {
-	getActiveSearchValues,
-	getAppliedFilterCount,
 	getDisplayedPokemonList,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
-	getNextMultiSelectOptions,
-	getNextSingleSelectOption,
 	getSearchedPokemonList,
 	getShouldDarkenBackgroundForEmptySavedState,
 	getShouldFetchNextPage,
@@ -38,30 +26,10 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from '../helpers';
-import {
-	type PokedexFilterState,
-	type PokedexRenderItemParams,
-	type PokedexScreenController,
-} from '../types';
-
-const createDefaultFilterState = (): PokedexFilterState => ({
-	numberRange: {
-		min: POKEDEX_NUMBER_RANGE_DEFAULTS.min,
-		max: POKEDEX_NUMBER_RANGE_DEFAULTS.max,
-	},
-	selectedTypes: [],
-	selectedWeaknesses: [],
-	selectedHeights: [],
-	selectedWeights: [],
-});
-
-const cloneFilterState = (filterState: PokedexFilterState): PokedexFilterState => ({
-	numberRange: { ...filterState.numberRange },
-	selectedTypes: [...filterState.selectedTypes],
-	selectedWeaknesses: [...filterState.selectedWeaknesses],
-	selectedHeights: [...filterState.selectedHeights],
-	selectedWeights: [...filterState.selectedWeights],
-});
+import { type PokedexRenderItemParams, type PokedexScreenController } from '../types';
+import { usePokedexBottomSheetState } from './usePokedexBottomSheetState';
+import { usePokedexFilterState } from './usePokedexFilterState';
+import { usePokedexSearchState } from './usePokedexSearchState';
 
 export const usePokedexScreenController = (): PokedexScreenController => {
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
@@ -71,6 +39,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const activeTab = segments[segments.length - 1];
 	const isSavedMode = mode === 'saved';
 	const isCurrentScreen = activeTab === (isSavedMode ? 'saved' : 'pokedex');
+	const currentMode: PokedexMode = isSavedMode ? 'saved' : 'all';
 
 	const savedPokemons = useSavedPokemons();
 	const {
@@ -86,38 +55,37 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	} = usePokemonList(!isSavedMode && isCurrentScreen);
 
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
-	const [allSearchValue, setAllSearchValue] = useState('');
-	const [savedSearchValue, setSavedSearchValue] = useState('');
 	const [isEmptySavedPokeBallSaved, setIsEmptySavedPokeBallSaved] = useState(false);
-	const [isSortSheetOpen, setIsSortSheetOpen] = useState(false);
-	const [savedSortOption, setSavedSortOption] = useState<PokedexSortOption | null>(null);
-	const [isGenerationSheetOpen, setIsGenerationSheetOpen] = useState(false);
-	const [selectedGenerationOption, setSelectedGenerationOption] =
-		useState<PokedexGenerationOption | null>(null);
-	const [isFilterSheetOpen, setIsFilterSheetOpen] = useState(false);
-	const [draftFilterState, setDraftFilterState] = useState<PokedexFilterState>(() =>
-		createDefaultFilterState(),
-	);
-	const [appliedFiltersByMode, setAppliedFiltersByMode] = useState<{
-		all: PokedexFilterState;
-		saved: PokedexFilterState;
-	}>(() => ({
-		all: createDefaultFilterState(),
-		saved: createDefaultFilterState(),
-	}));
 
-	const debouncedAllSearchValue = useDebouncedValue(allSearchValue, SEARCH_DEBOUNCE_MS);
-	const debouncedSavedSearchValue = useDebouncedValue(savedSearchValue, SEARCH_DEBOUNCE_MS);
-	const { activeSearchValue, activeDebouncedSearchValue } = getActiveSearchValues({
-		isSavedMode,
-		allSearchValue,
-		savedSearchValue,
-		debouncedAllSearchValue,
-		debouncedSavedSearchValue,
+	const {
+		activeDebouncedSearchValue,
+		activeSearchValue,
+		normalizedActiveSearchValue,
+		isSearchActive,
+		handleSearchChange,
+		handleClearSearch,
+	} = usePokedexSearchState({ isSavedMode });
+
+	const bottomSheetState = usePokedexBottomSheetState({ isSavedMode });
+
+	const {
+		draftFilterState,
+		activeFilterCount,
+		hasActiveFilter,
+		handleFilterPress,
+		handleFilterTypeOptionPress,
+		handleFilterWeaknessOptionPress,
+		handleFilterHeightOptionPress,
+		handleFilterWeightOptionPress,
+		handleFilterNumberRangeChange,
+		handleFilterReset,
+		handleFilterApply,
+	} = usePokedexFilterState({
+		currentMode,
+		onOpenFilterSheet: bottomSheetState.handleOpenFilterSheet,
+		onCloseFilterSheet: bottomSheetState.handleCloseFilterSheet,
 	});
 
-	const normalizedActiveSearchValue = normalizeSearchTerm(activeDebouncedSearchValue);
-	const isSearchActive = normalizedActiveSearchValue.length > 0;
 	const backgroundSource = isSavedMode
 		? require('@assets/images/wallpaper-misc.jpg')
 		: require('@assets/images/wallpaper-light.jpg');
@@ -190,9 +158,9 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const sortedPokemonList = useMemo(
 		() =>
 			isSavedMode
-				? getSortedPokemonList(displayedPokemonList, savedSortOption)
+				? getSortedPokemonList(displayedPokemonList, bottomSheetState.savedSortOption)
 				: displayedPokemonList,
-		[displayedPokemonList, isSavedMode, savedSortOption],
+		[displayedPokemonList, isSavedMode, bottomSheetState.savedSortOption],
 	);
 
 	const shouldShowSearchNotFound = getShouldShowSearchNotFound({
@@ -212,16 +180,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isSearchActive,
 		savedPokemonCount: savedPokemonList.length,
 	});
-
-	const currentMode: PokedexMode = isSavedMode ? 'saved' : 'all';
-	const appliedFilterState = appliedFiltersByMode[currentMode];
-	const activeFilterCount = getAppliedFilterCount({
-		filterState: appliedFilterState,
-		defaultRange: POKEDEX_NUMBER_RANGE_DEFAULTS,
-	});
-	const hasActiveFilter = activeFilterCount > 0;
-
-	const isAnyBottomSheetOpen = isSortSheetOpen || isGenerationSheetOpen || isFilterSheetOpen;
 
 	const handleRefresh = useCallback(() => {
 		if (!isSavedMode && isSearchActive) {
@@ -250,92 +208,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		setIsEmptySavedPokeBallSaved(previousValue => !previousValue);
 	}, []);
 
-	const handleSortPress = useCallback(() => {
-		if (!isSavedMode) return;
-		setIsSortSheetOpen(true);
-	}, [isSavedMode]);
-
-	const handleGenerationPress = useCallback(() => {
-		setIsGenerationSheetOpen(true);
-	}, []);
-
-	const handleCloseSortSheet = useCallback(() => {
-		setIsSortSheetOpen(false);
-	}, []);
-
-	const handleCloseGenerationSheet = useCallback(() => {
-		setIsGenerationSheetOpen(false);
-	}, []);
-
-	const handleCloseFilterSheet = useCallback(() => {
-		setIsFilterSheetOpen(false);
-	}, []);
-
-	const handleSortOptionPress = useCallback((option: PokedexSortOption) => {
-		setSavedSortOption(previousSortOption => getNextSingleSelectOption(previousSortOption, option));
-	}, []);
-
-	const handleGenerationOptionPress = useCallback((option: PokedexGenerationOption) => {
-		setSelectedGenerationOption(previousOption =>
-			getNextSingleSelectOption(previousOption, option),
-		);
-	}, []);
-
-	const handleFilterPress = useCallback(() => {
-		setDraftFilterState(cloneFilterState(appliedFilterState));
-		setIsFilterSheetOpen(true);
-	}, [appliedFilterState]);
-
-	const handleFilterTypeOptionPress = useCallback((option: PokemonType) => {
-		setDraftFilterState(previousState => ({
-			...previousState,
-			selectedTypes: getNextMultiSelectOptions(previousState.selectedTypes, option),
-		}));
-	}, []);
-
-	const handleFilterWeaknessOptionPress = useCallback((option: PokemonType) => {
-		setDraftFilterState(previousState => ({
-			...previousState,
-			selectedWeaknesses: getNextMultiSelectOptions(previousState.selectedWeaknesses, option),
-		}));
-	}, []);
-
-	const handleFilterHeightOptionPress = useCallback((option: PokedexHeightOption) => {
-		setDraftFilterState(previousState => ({
-			...previousState,
-			selectedHeights: getNextMultiSelectOptions(previousState.selectedHeights, option),
-		}));
-	}, []);
-
-	const handleFilterWeightOptionPress = useCallback((option: PokedexWeightOption) => {
-		setDraftFilterState(previousState => ({
-			...previousState,
-			selectedWeights: getNextMultiSelectOptions(previousState.selectedWeights, option),
-		}));
-	}, []);
-
-	const handleFilterNumberRangeChange = useCallback(
-		(numberRange: PokedexFilterState['numberRange']) => {
-			setDraftFilterState(previousState => ({
-				...previousState,
-				numberRange,
-			}));
-		},
-		[],
-	);
-
-	const handleFilterReset = useCallback(() => {
-		setDraftFilterState(createDefaultFilterState());
-	}, []);
-
-	const handleFilterApply = useCallback(() => {
-		setAppliedFiltersByMode(previousState => ({
-			...previousState,
-			[currentMode]: cloneFilterState(draftFilterState),
-		}));
-		setIsFilterSheetOpen(false);
-	}, [currentMode, draftFilterState]);
-
 	const handleListScroll = useCallback((offsetY: number) => {
 		listScrollOffsetRef.current = offsetY;
 		setShowScrollToTopButton(shouldShowScrollToTop(offsetY));
@@ -359,27 +231,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		if (!shouldFetchNextPage) return;
 		void fetchNextPage();
 	}, [fetchNextPage, hasNextPage, isFetchingNextPage, isSavedMode, isSearchActive]);
-
-	const handleSearchChange = useCallback(
-		(value: string) => {
-			if (isSavedMode) {
-				setSavedSearchValue(value);
-				return;
-			}
-
-			setAllSearchValue(value);
-		},
-		[isSavedMode],
-	);
-
-	const handleClearSearch = useCallback(() => {
-		if (isSavedMode) {
-			setSavedSearchValue('');
-			return;
-		}
-
-		setAllSearchValue('');
-	}, [isSavedMode]);
 
 	useEffect(() => {
 		if (!isCurrentScreen) return;
@@ -427,26 +278,26 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			searchValue: activeSearchValue,
 			activeFilterCount,
 			hasActiveFilter,
-			hasActiveGeneration: Boolean(selectedGenerationOption),
-			hasActiveSort: isSavedMode && Boolean(savedSortOption),
+			hasActiveGeneration: Boolean(bottomSheetState.selectedGenerationOption),
+			hasActiveSort: isSavedMode && Boolean(bottomSheetState.savedSortOption),
 			isSortEnabled: isSavedMode,
 			onSearchChange: handleSearchChange,
 			onClearSearch: handleClearSearch,
-			onGenerationPress: handleGenerationPress,
-			onSortPress: handleSortPress,
+			onGenerationPress: bottomSheetState.handleGenerationPress,
+			onSortPress: bottomSheetState.handleSortPress,
 			onFilterPress: handleFilterPress,
 		}),
 		[
 			activeSearchValue,
 			activeFilterCount,
 			hasActiveFilter,
-			selectedGenerationOption,
+			bottomSheetState.selectedGenerationOption,
+			bottomSheetState.savedSortOption,
 			isSavedMode,
-			savedSortOption,
 			handleSearchChange,
 			handleClearSearch,
-			handleGenerationPress,
-			handleSortPress,
+			bottomSheetState.handleGenerationPress,
+			bottomSheetState.handleSortPress,
 			handleFilterPress,
 		],
 	);
@@ -477,35 +328,41 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 
 	const sortSheetProps = useMemo(
 		() => ({
-			isOpen: isSavedMode && isSortSheetOpen,
-			selectedOption: savedSortOption,
-			onClose: handleCloseSortSheet,
-			onOptionPress: handleSortOptionPress,
+			isOpen: isSavedMode && bottomSheetState.isSortSheetOpen,
+			selectedOption: bottomSheetState.savedSortOption,
+			onClose: bottomSheetState.handleCloseSortSheet,
+			onOptionPress: bottomSheetState.handleSortOptionPress,
 		}),
-		[isSavedMode, isSortSheetOpen, savedSortOption, handleCloseSortSheet, handleSortOptionPress],
+		[
+			isSavedMode,
+			bottomSheetState.isSortSheetOpen,
+			bottomSheetState.savedSortOption,
+			bottomSheetState.handleCloseSortSheet,
+			bottomSheetState.handleSortOptionPress,
+		],
 	);
 
 	const generationSheetProps = useMemo(
 		() => ({
-			isOpen: isGenerationSheetOpen,
-			selectedOption: selectedGenerationOption,
-			onClose: handleCloseGenerationSheet,
-			onOptionPress: handleGenerationOptionPress,
+			isOpen: bottomSheetState.isGenerationSheetOpen,
+			selectedOption: bottomSheetState.selectedGenerationOption,
+			onClose: bottomSheetState.handleCloseGenerationSheet,
+			onOptionPress: bottomSheetState.handleGenerationOptionPress,
 		}),
 		[
-			isGenerationSheetOpen,
-			selectedGenerationOption,
-			handleCloseGenerationSheet,
-			handleGenerationOptionPress,
+			bottomSheetState.isGenerationSheetOpen,
+			bottomSheetState.selectedGenerationOption,
+			bottomSheetState.handleCloseGenerationSheet,
+			bottomSheetState.handleGenerationOptionPress,
 		],
 	);
 
 	const filterSheetProps = useMemo(
 		() => ({
-			isOpen: isFilterSheetOpen,
+			isOpen: bottomSheetState.isFilterSheetOpen,
 			draftState: draftFilterState,
 			numberRangeDefaults: POKEDEX_NUMBER_RANGE_DEFAULTS,
-			onClose: handleCloseFilterSheet,
+			onClose: bottomSheetState.handleCloseFilterSheet,
 			onApply: handleFilterApply,
 			onReset: handleFilterReset,
 			onTypeOptionPress: handleFilterTypeOptionPress,
@@ -516,8 +373,8 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		}),
 		[
 			draftFilterState,
-			isFilterSheetOpen,
-			handleCloseFilterSheet,
+			bottomSheetState.isFilterSheetOpen,
+			bottomSheetState.handleCloseFilterSheet,
 			handleFilterApply,
 			handleFilterReset,
 			handleFilterTypeOptionPress,
@@ -549,7 +406,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		listRef,
 		isInitialLoading: isLoading && !data,
 		isSavedMode,
-		isAnyBottomSheetOpen,
+		isAnyBottomSheetOpen: bottomSheetState.isAnyBottomSheetOpen,
 		isSearchActive,
 		isSearchingPokemon,
 		isEmptySavedPokeBallSaved,
