@@ -8,6 +8,7 @@ import {
 	getActiveSearchValues,
 	getAppliedFilterCount,
 	getDisplayedPokemonList,
+	getEmptySavedToastConfig,
 	getEmptySavedTextParts,
 	getFilteredSavedPokemonList,
 	getIsNumberRangeChanged,
@@ -134,6 +135,20 @@ describe('Pokedex search helpers', () => {
 		expect(parsed.iconSuffix).toBe(' favorites');
 		expect(parsed.topLines).toEqual([]);
 		expect(parsed.bottomLines).toEqual([]);
+	});
+
+	it('returns saved toast config when empty saved pokeball is active', () => {
+		expect(getEmptySavedToastConfig(true)).toEqual({
+			text: 'Pokémon saved !',
+			isPokeballColored: true,
+		});
+	});
+
+	it('returns removed toast config when empty saved pokeball is inactive', () => {
+		expect(getEmptySavedToastConfig(false)).toEqual({
+			text: 'Pokémon removed',
+			isPokeballColored: false,
+		});
 	});
 
 	it('clears generation selection when tapping same option again', () => {

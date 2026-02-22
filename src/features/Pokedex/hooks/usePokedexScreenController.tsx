@@ -5,6 +5,7 @@ import { usePokemonList } from '@hooks/usePokemonList';
 import { useSearchPokemon } from '@hooks/useSearchPokemon';
 import { FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
+import { useShowToast } from '@store/toastStore';
 import texts from '@utils/texts.json';
 import { useLocalSearchParams, useSegments } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -16,6 +17,7 @@ import { Pokemon } from '@/src/types/pokemonList';
 
 import {
 	getDisplayedPokemonList,
+	getEmptySavedToastConfig,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
 	getSearchedPokemonList,
@@ -42,6 +44,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const currentMode: PokedexMode = isSavedMode ? 'saved' : 'all';
 
 	const savedPokemons = useSavedPokemons();
+	const showToast = useShowToast();
 	const {
 		data,
 		fetchNextPage,
@@ -205,8 +208,12 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	}, []);
 
 	const handleEmptySavedPokeBallPress = useCallback(() => {
-		setIsEmptySavedPokeBallSaved(previousValue => !previousValue);
-	}, []);
+		setIsEmptySavedPokeBallSaved(previousValue => {
+			const nextValue = !previousValue;
+			showToast(getEmptySavedToastConfig(nextValue));
+			return nextValue;
+		});
+	}, [showToast]);
 
 	const handleListScroll = useCallback((offsetY: number) => {
 		listScrollOffsetRef.current = offsetY;

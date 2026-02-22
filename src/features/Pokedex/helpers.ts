@@ -1,5 +1,6 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
 import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
+import texts from '@utils/texts.json';
 
 import {
 	ActiveSearchValues,
@@ -218,3 +219,10 @@ export const getEmptySavedTextParts = (text: string): EmptySavedTextParts => {
 		topLines,
 	};
 };
+
+export const getEmptySavedToastConfig = (isSaved: boolean) => ({
+	text: `Pokémon${
+		isSaved ? texts.pokemonCard.toastSavedSuffix : texts.pokemonCard.toastRemovedSuffix
+	}`,
+	isPokeballColored: isSaved,
+});
