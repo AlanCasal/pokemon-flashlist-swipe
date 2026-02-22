@@ -41,22 +41,30 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 - Keep reusable logic in `src/hooks/` (`use*` naming).
 - Keep shared types in `src/types/`; colocate feature-specific complex types in local `types.ts`.
 - For feature folders (`src/features/<Feature>/`), keep shared feature-level `helpers.ts` and `types.ts` at the feature root.
+- Feature folder contract (`src/features/<Feature>/`):
+  - Always expose a feature root `index.ts`.
+  - Keep one main feature component file (`<Feature>.tsx`) focused on JSX and minor orchestration logic.
+  - Move complex or stateful logic into feature hooks under `src/features/<Feature>/hooks/` when needed.
+  - Keep child UI pieces under `src/features/<Feature>/components/` when needed.
 - Do not create umbrella barrels like `src/features/<Feature>/components/index.ts`; import feature components from each component's own path.
 - In `src/features/<Feature>/components/<ComponentName>/`, allow at most one `helpers.ts` and one `types.ts` in that component folder root (no extra nested helper/type duplicates for the same component). The less files the better for readability.
 - Use `export default` for main components and named exports for helpers/utilities.
 - Use TypeScript path aliases (`@/* -> src/*`) for imports.
+- Prefer smaller, readable component and hook files; split logic by responsibility when readability drops (guideline, not a strict line cap).
 
 ## State, Data & Error Handling
 
 - Use `useState` for local component state.
-- Use Zustand for cross-screen client state.
+- Keep ephemeral UI state (input focus, bottom sheet visibility, local drafts, animation toggles) local to component/hooks.
+- Use Zustand for cross-screen or persisted client state.
 - Use React Query for remote data, caching, and pagination.
 - Handle loading/error/success states explicitly.
 - Use `tryCatch` from `src/utils/helpers.ts` when suitable for async flows.
 
 ## Styling
 
-- Prefer sibling `styles.ts` files for components, exporting a default `styles` object from `StyleSheet.create(...)`.
+- Prefer a single sibling `styles.ts` file per component folder, exporting a default `styles` object from `StyleSheet.create(...)`.
+- Split a component's styles into multiple files only when that component's `styles.ts` grows beyond ~200 lines.
 - For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
 - In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
 - Inset/layout hooks used for styling (for example `useSafeAreaInsets`) should be called inside `useStyles(...)` in `styles.ts`, not in the component and passed into styles as params.
