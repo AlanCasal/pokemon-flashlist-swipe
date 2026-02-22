@@ -59,12 +59,6 @@ const styles = StyleSheet.create({
 	optionCardUnselected: {
 		backgroundColor: backgroundColors.inactive,
 	},
-	optionDotsDecoration: {
-		left: -80,
-		opacity: 0.15,
-		position: 'absolute',
-		top: -50,
-	},
 	optionLabel: {
 		fontSize: 16,
 		textAlign: 'center',

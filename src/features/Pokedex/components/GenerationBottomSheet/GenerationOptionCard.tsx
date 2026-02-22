@@ -1,5 +1,5 @@
-import DotsSmall from '@assets/images/dots-small.svg';
 import PokeballFull from '@assets/images/pokeball-full.svg';
+import Dots from '@components/common/Dots';
 import { SPRITE_URL } from '@constants/api';
 import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
@@ -9,7 +9,6 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
 import { type GenerationOptionCardProps } from './types';
 
-const GENERATION_SHEET_DOTS_SIZE = 160;
 const GENERATION_SHEET_POKEBALL_SIZE = 100;
 
 const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationOptionCardProps) => {
@@ -25,11 +24,10 @@ const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationO
 			onPress={() => onOptionPress(option.id)}
 			style={[styles.optionCard, optionCardStateStyle]}
 		>
-			<View style={[styles.optionDotsDecoration, !isSelected && styles.inactiveOpacity]}>
-				<DotsSmall
-					width={GENERATION_SHEET_DOTS_SIZE}
-					height={GENERATION_SHEET_DOTS_SIZE}
-					fill={textColor.light}
+			<View style={!isSelected && styles.inactiveOpacity}>
+				<Dots
+					size={160}
+					position={{ left: -80, top: -50 }}
 				/>
 			</View>
 
