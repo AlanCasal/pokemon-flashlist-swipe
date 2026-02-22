@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { memo, useCallback, useMemo, useState } from 'react';
+import { type LayoutChangeEvent, Text, View } from 'react-native';
 
 import type { NumberRangeSliderProps } from './types';
 import { useStyles } from './useStyles';
@@ -15,37 +15,44 @@ const NumberRangeSlider = ({ range, min, max, isRangeMaxedOut }: NumberRangeSlid
 	const styles = useStyles({ isRangeMaxedOut });
 	const [trackWidth, setTrackWidth] = useState(0);
 
-	const rangeSpread = Math.max(max - min, 1);
-	const minOffset = ((range.min - min) / rangeSpread) * trackWidth;
-	const maxOffset = ((range.max - min) / rangeSpread) * trackWidth;
+	const { maxLabelLeft, maxOffset, minLabelLeft, minOffset } = useMemo(() => {
+		const rangeSpread = Math.max(max - min, 1);
+		const nextMinOffset = ((range.min - min) / rangeSpread) * trackWidth;
+		const nextMaxOffset = ((range.max - min) / rangeSpread) * trackWidth;
+		const maxLabelBoundary = Math.max(trackWidth - RANGE_LABEL_BOUNDARY_PADDING, 0);
 
-	const minLabelLeft = clampNumber(
-		minOffset - RANGE_LABEL_OFFSET,
-		0,
-		Math.max(trackWidth - RANGE_LABEL_BOUNDARY_PADDING, 0),
-	);
+		return {
+			maxOffset: nextMaxOffset,
+			minOffset: nextMinOffset,
+			minLabelLeft: clampNumber(nextMinOffset - RANGE_LABEL_OFFSET, 0, maxLabelBoundary),
+			maxLabelLeft: clampNumber(nextMaxOffset - RANGE_LABEL_OFFSET, 0, maxLabelBoundary),
+		};
+	}, [max, min, range.max, range.min, trackWidth]);
 
-	const maxLabelLeft = clampNumber(
-		maxOffset - RANGE_LABEL_OFFSET,
-		0,
-		Math.max(trackWidth - RANGE_LABEL_BOUNDARY_PADDING, 0),
-	);
-
-	const isOverlapping = range.max - range.min <= 150;
-	const isMaxNearEdge = range.max >= 1000;
-	const isMinNearEdge = range.min <= 100;
-
-	const minOverlapOffset = () => {
+	const minOverlapOffset = useMemo(() => {
+		const isOverlapping = range.max - range.min <= 150;
+		const isMaxNearEdge = range.max >= 1000;
+		const isMinNearEdge = range.min <= 100;
 		if (!isOverlapping || isMinNearEdge) return 0;
 		if (isMaxNearEdge) return 40;
 		return 20;
-	};
+	}, [range.max, range.min]);
 
-	const maxOverlapOffset = () => {
+	const maxOverlapOffset = useMemo(() => {
+		const isOverlapping = range.max - range.min <= 150;
+		const isMaxNearEdge = range.max >= 1000;
+		const isMinNearEdge = range.min <= 100;
 		if (!isOverlapping || isMaxNearEdge) return 0;
 		if (isMinNearEdge) return 40;
 		return 20;
-	};
+	}, [range.max, range.min]);
+
+	const handleTrackLayout = useCallback(({ nativeEvent }: LayoutChangeEvent) => {
+		const nextTrackWidth = nativeEvent.layout.width;
+		setTrackWidth(currentTrackWidth =>
+			currentTrackWidth === nextTrackWidth ? currentTrackWidth : nextTrackWidth,
+		);
+	}, []);
 
 	const minLabel = `#${range.min}`;
 	const maxLabel = `#${range.max}`;
@@ -53,9 +60,7 @@ const NumberRangeSlider = ({ range, min, max, isRangeMaxedOut }: NumberRangeSlid
 	return (
 		<View style={styles.trackInsetContainer}>
 			<View
-				onLayout={({ nativeEvent }) => {
-					setTrackWidth(nativeEvent.layout.width);
-				}}
+				onLayout={handleTrackLayout}
 				style={styles.rangeTrackContainer}
 			>
 				<View style={styles.rangeTrackBackground} />
@@ -78,10 +83,10 @@ const NumberRangeSlider = ({ range, min, max, isRangeMaxedOut }: NumberRangeSlid
 			</View>
 
 			<View style={styles.rangeValuesRow}>
-				<Text style={[styles.rangeValue, { left: minLabelLeft - minOverlapOffset() }]}>
+				<Text style={[styles.rangeValue, { left: minLabelLeft - minOverlapOffset }]}>
 					{minLabel}
 				</Text>
-				<Text style={[styles.rangeValue, { left: maxLabelLeft + maxOverlapOffset() }]}>
+				<Text style={[styles.rangeValue, { left: maxLabelLeft + maxOverlapOffset }]}>
 					{maxLabel}
 				</Text>
 			</View>
@@ -89,4 +94,11 @@ const NumberRangeSlider = ({ range, min, max, isRangeMaxedOut }: NumberRangeSlid
 	);
 };
 
-export default NumberRangeSlider;
+const arePropsEqual = (prevProps: NumberRangeSliderProps, nextProps: NumberRangeSliderProps) =>
+	prevProps.min === nextProps.min &&
+	prevProps.max === nextProps.max &&
+	prevProps.isRangeMaxedOut === nextProps.isRangeMaxedOut &&
+	prevProps.range.min === nextProps.range.min &&
+	prevProps.range.max === nextProps.range.max;
+
+export default memo(NumberRangeSlider, arePropsEqual);

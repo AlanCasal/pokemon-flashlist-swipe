@@ -75,6 +75,22 @@ const FilterBottomSheet = ({
 	const [isMinInputFocused, setIsMinInputFocused] = useState(false);
 	const [isMaxInputFocused, setIsMaxInputFocused] = useState(false);
 	const snapPoints = useMemo(() => [FILTER_SHEET_SNAP_POINT], []);
+	const selectedTypeIds = useMemo(
+		() => new Set(draftState.selectedTypes),
+		[draftState.selectedTypes],
+	);
+	const selectedWeaknessIds = useMemo(
+		() => new Set(draftState.selectedWeaknesses),
+		[draftState.selectedWeaknesses],
+	);
+	const selectedHeightIds = useMemo(
+		() => new Set(draftState.selectedHeights),
+		[draftState.selectedHeights],
+	);
+	const selectedWeightIds = useMemo(
+		() => new Set(draftState.selectedWeights),
+		[draftState.selectedWeights],
+	);
 
 	const renderBackdrop = useCallback(
 		(props: BottomSheetBackdropProps) => (
@@ -175,10 +191,14 @@ const FilterBottomSheet = ({
 		setMaxInputValue(`${MAX_POKEMON_NUMBER}`);
 	}, [onNumberRangeChange]);
 
-	const isRangeMaxedOut = getIsRangeMaxedOut({
-		range: draftState.numberRange,
-		defaultRange: numberRangeDefaults,
-	});
+	const isRangeMaxedOut = useMemo(
+		() =>
+			getIsRangeMaxedOut({
+				range: draftState.numberRange,
+				defaultRange: numberRangeDefaults,
+			}),
+		[draftState.numberRange, numberRangeDefaults],
+	);
 
 	const scrollRangeInputsIntoView = useCallback(() => {
 		if (!isAndroid) return;
@@ -187,6 +207,134 @@ const FilterBottomSheet = ({
 			scrollViewRef.current?.scrollToEnd({ animated: true });
 		});
 	}, []);
+
+	const handleMinInputFocusAndScroll = useCallback(() => {
+		handleMinInputFocus();
+		scrollRangeInputsIntoView();
+	}, [handleMinInputFocus, scrollRangeInputsIntoView]);
+
+	const handleMaxInputFocusAndScroll = useCallback(() => {
+		handleMaxInputFocus();
+		scrollRangeInputsIntoView();
+	}, [handleMaxInputFocus, scrollRangeInputsIntoView]);
+
+	const typeOptions = useMemo(
+		() =>
+			POKEDEX_FILTER_TYPE_OPTIONS.map(option => {
+				const isSelected = selectedTypeIds.has(option.id);
+				const optionColor = typeColors[option.id];
+
+				return (
+					<TouchableOpacity
+						key={option.id}
+						testID={option.testID}
+						activeOpacity={sharedStyles.opacity.active}
+						onPress={() => onTypeOptionPress(option.id)}
+						style={[
+							styles.optionButton,
+							styles.optionButtonUnselected,
+							isSelected && { backgroundColor: optionColor, shadowColor: optionColor },
+						]}
+					>
+						<PokemonTypeIcon
+							type={option.id}
+							size={GLYPH_SIZE}
+							fill={isSelected ? textColor.primary : optionColor}
+						/>
+					</TouchableOpacity>
+				);
+			}),
+		[onTypeOptionPress, selectedTypeIds],
+	);
+
+	const weaknessOptions = useMemo(
+		() =>
+			POKEDEX_FILTER_WEAKNESS_OPTIONS.map(option => {
+				const isSelected = selectedWeaknessIds.has(option.id);
+				const optionColor = typeColors[option.id];
+
+				return (
+					<TouchableOpacity
+						key={option.id}
+						testID={option.testID}
+						activeOpacity={sharedStyles.opacity.active}
+						onPress={() => onWeaknessOptionPress(option.id)}
+						style={[
+							styles.optionButton,
+							styles.optionButtonUnselected,
+							isSelected && { backgroundColor: optionColor, shadowColor: optionColor },
+						]}
+					>
+						<PokemonTypeIcon
+							type={option.id}
+							size={GLYPH_SIZE}
+							fill={isSelected ? textColor.primary : optionColor}
+						/>
+					</TouchableOpacity>
+				);
+			}),
+		[onWeaknessOptionPress, selectedWeaknessIds],
+	);
+
+	const heightOptions = useMemo(
+		() =>
+			POKEDEX_FILTER_HEIGHT_OPTIONS.map(option => {
+				const isSelected = selectedHeightIds.has(option.id);
+				const iconColor = isSelected ? textColor.primary : option.color;
+				const HeightGlyph = HEIGHT_GLYPHS[option.id];
+
+				return (
+					<TouchableOpacity
+						key={option.id}
+						testID={option.testID}
+						activeOpacity={sharedStyles.opacity.active}
+						onPress={() => onHeightOptionPress(option.id)}
+						style={[
+							styles.optionButton,
+							styles.optionButtonUnselected,
+							isSelected && { backgroundColor: option.color, shadowColor: option.color },
+						]}
+					>
+						<HeightGlyph
+							width={GLYPH_SIZE}
+							height={GLYPH_SIZE}
+							color={iconColor}
+						/>
+					</TouchableOpacity>
+				);
+			}),
+		[onHeightOptionPress, selectedHeightIds],
+	);
+
+	const weightOptions = useMemo(
+		() =>
+			POKEDEX_FILTER_WEIGHT_OPTIONS.map(option => {
+				const isSelected = selectedWeightIds.has(option.id);
+				const iconColor = isSelected ? textColor.primary : option.color;
+				const WeightGlyph = WEIGHT_GLYPHS[option.id];
+
+				return (
+					<TouchableOpacity
+						key={option.id}
+						testID={option.testID}
+						activeOpacity={sharedStyles.opacity.active}
+						onPress={() => onWeightOptionPress(option.id)}
+						style={[
+							styles.optionButton,
+							styles.optionButtonUnselected,
+							isSelected && { backgroundColor: option.color, shadowColor: option.color },
+						]}
+					>
+						<WeightGlyph
+							width={GLYPH_SIZE}
+							height={GLYPH_SIZE}
+							color={iconColor}
+						/>
+					</TouchableOpacity>
+				);
+			}),
+		[onWeightOptionPress, selectedWeightIds],
+	);
 
 	return (
 		<BottomSheetModal
@@ -219,30 +367,7 @@ const FilterBottomSheet = ({
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={styles.typeOptionsContent}
 					>
-						{POKEDEX_FILTER_TYPE_OPTIONS.map(option => {
-							const isSelected = draftState.selectedTypes.includes(option.id);
-							const optionColor = typeColors[option.id];
-
-							return (
-								<TouchableOpacity
-									key={option.id}
-									testID={option.testID}
-									activeOpacity={sharedStyles.opacity.active}
-									onPress={() => onTypeOptionPress(option.id)}
-									style={[
-										styles.optionButton,
-										styles.optionButtonUnselected,
-										isSelected && { backgroundColor: optionColor, shadowColor: optionColor },
-									]}
-								>
-									<PokemonTypeIcon
-										type={option.id}
-										size={GLYPH_SIZE}
-										fill={isSelected ? textColor.primary : optionColor}
-									/>
-								</TouchableOpacity>
-							);
-						})}
+						{typeOptions}
 					</ScrollView>
 				</View>
 
@@ -253,93 +378,18 @@ const FilterBottomSheet = ({
 						showsHorizontalScrollIndicator={false}
 						contentContainerStyle={styles.typeOptionsContent}
 					>
-						{POKEDEX_FILTER_WEAKNESS_OPTIONS.map(option => {
-							const isSelected = draftState.selectedWeaknesses.includes(option.id);
-							const optionColor = typeColors[option.id];
-
-							return (
-								<TouchableOpacity
-									key={option.id}
-									testID={option.testID}
-									activeOpacity={sharedStyles.opacity.active}
-									onPress={() => onWeaknessOptionPress(option.id)}
-									style={[
-										styles.optionButton,
-										styles.optionButtonUnselected,
-										isSelected && { backgroundColor: optionColor, shadowColor: optionColor },
-									]}
-								>
-									<PokemonTypeIcon
-										type={option.id}
-										size={GLYPH_SIZE}
-										fill={isSelected ? textColor.primary : optionColor}
-									/>
-								</TouchableOpacity>
-							);
-						})}
+						{weaknessOptions}
 					</ScrollView>
 				</View>
 
 				<View style={styles.sheetSection}>
 					<Text style={styles.sectionTitle}>{texts.pokedex.filterHeightsTitle}</Text>
-					<View style={styles.optionGroupRow}>
-						{POKEDEX_FILTER_HEIGHT_OPTIONS.map(option => {
-							const isSelected = draftState.selectedHeights.includes(option.id);
-							const iconColor = isSelected ? textColor.primary : option.color;
-							const HeightGlyph = HEIGHT_GLYPHS[option.id];
-
-							return (
-								<TouchableOpacity
-									key={option.id}
-									testID={option.testID}
-									activeOpacity={sharedStyles.opacity.active}
-									onPress={() => onHeightOptionPress(option.id)}
-									style={[
-										styles.optionButton,
-										styles.optionButtonUnselected,
-										isSelected && { backgroundColor: option.color, shadowColor: option.color },
-									]}
-								>
-									<HeightGlyph
-										width={GLYPH_SIZE}
-										height={GLYPH_SIZE}
-										color={iconColor}
-									/>
-								</TouchableOpacity>
-							);
-						})}
-					</View>
+					<View style={styles.optionGroupRow}>{heightOptions}</View>
 				</View>
 
 				<View style={styles.sheetSection}>
 					<Text style={styles.sectionTitle}>{texts.pokedex.filterWeightsTitle}</Text>
-					<View style={styles.optionGroupRow}>
-						{POKEDEX_FILTER_WEIGHT_OPTIONS.map(option => {
-							const isSelected = draftState.selectedWeights.includes(option.id);
-							const iconColor = isSelected ? textColor.primary : option.color;
-							const WeightGlyph = WEIGHT_GLYPHS[option.id];
-
-							return (
-								<TouchableOpacity
-									key={option.id}
-									testID={option.testID}
-									activeOpacity={sharedStyles.opacity.active}
-									onPress={() => onWeightOptionPress(option.id)}
-									style={[
-										styles.optionButton,
-										styles.optionButtonUnselected,
-										isSelected && { backgroundColor: option.color, shadowColor: option.color },
-									]}
-								>
-									<WeightGlyph
-										width={GLYPH_SIZE}
-										height={GLYPH_SIZE}
-										color={iconColor}
-									/>
-								</TouchableOpacity>
-							);
-						})}
-					</View>
+					<View style={styles.optionGroupRow}>{weightOptions}</View>
 				</View>
 
 				<View style={styles.numberRangeContainer}>
@@ -349,10 +399,7 @@ const FilterBottomSheet = ({
 							testID='pokedex-filter-min-input'
 							value={isMinInputFocused ? minInputValue : `${draftState.numberRange.min}`}
 							onChangeText={handleMinInputChange}
-							onFocus={() => {
-								handleMinInputFocus();
-								scrollRangeInputsIntoView();
-							}}
+							onFocus={handleMinInputFocusAndScroll}
 							onBlur={handleMinInputBlur}
 							keyboardType='number-pad'
 							returnKeyType='done'
@@ -368,10 +415,7 @@ const FilterBottomSheet = ({
 							testID='pokedex-filter-max-input'
 							value={isMaxInputFocused ? maxInputValue : `${draftState.numberRange.max}`}
 							onChangeText={handleMaxInputChange}
-							onFocus={() => {
-								handleMaxInputFocus();
-								scrollRangeInputsIntoView();
-							}}
+							onFocus={handleMaxInputFocusAndScroll}
 							onBlur={handleMaxInputBlur}
 							keyboardType='number-pad'
 							returnKeyType='done'
@@ -396,7 +440,7 @@ const FilterBottomSheet = ({
 							<Text
 								style={[
 									styles.numberRangeMaxButtonLabel,
-									isRangeMaxedOut && { color: textColor.grey },
+									isRangeMaxedOut && styles.numberRangeMaxButtonLabelDisabled,
 								]}
 							>
 								{texts.pokedex.filterMaxRangeButton}

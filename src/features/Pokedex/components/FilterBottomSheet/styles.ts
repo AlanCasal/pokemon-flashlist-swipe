@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
 		color: textColor.primary,
 		fontSize: 14,
 	},
+	numberRangeMaxButtonLabelDisabled: {
+		color: textColor.grey,
+	},
 	optionButton: {
 		alignItems: 'center',
 		borderRadius: 25,
