@@ -4,7 +4,7 @@ import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useIsPokemonSaved, useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
 
 import type { PokemonType } from '@/src/types/pokemonTypes';
@@ -14,6 +14,8 @@ import {
 	formatPokemonNumber,
 	getPrimaryTypeFromParam,
 	getRouteParamValue,
+	getSelectedPokemonName,
+	handleEvolutionPokemonPress,
 } from '../helpers';
 import type { EvolutionChartController, EvolutionChartTabConfig, EvolutionTab } from '../types';
 
@@ -21,6 +23,7 @@ const isPokemonType = (value: string): value is PokemonType => value in typeColo
 
 export const useEvolutionChartController = (): EvolutionChartController => {
 	const [activeTab, setActiveTab] = useState<EvolutionTab>('evolution');
+	const router = useRouter();
 	const { id, type } = useLocalSearchParams<{ id?: string | string[]; type?: string | string[] }>();
 
 	const pokemonId = getRouteParamValue(id);
@@ -63,6 +66,15 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		return Number.isNaN(parsedRouteId) ? undefined : parsedRouteId;
 	}, [pokemonDetails, pokemonId]);
 
+	const selectedPokemonName = useMemo(
+		() =>
+			getSelectedPokemonName({
+				pokemonDetailsName: pokemonDetails?.name,
+				routePokemonId: pokemonId,
+			}),
+		[pokemonDetails?.name, pokemonId],
+	);
+
 	const tabConfig = useMemo<EvolutionChartTabConfig[]>(
 		() => [
 			{ id: 'about', label: texts.evolution.aboutTabLabel },
@@ -76,6 +88,17 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		setActiveTab(tab);
 	}, []);
 
+	const onEvolutionPokemonPress = useCallback(
+		(pokemonName: string) => {
+			handleEvolutionPokemonPress({
+				pokemonName,
+				selectedPokemonName,
+				setParams: params => router.setParams(params),
+			});
+		},
+		[router, selectedPokemonName],
+	);
+
 	return {
 		activeTab,
 		displayName: formatPokemonName(pokemonDetails?.name),
@@ -87,9 +110,11 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		isEvolutionLoading,
 		isPokemonLoading,
 		isSaved,
+		onEvolutionPokemonPress,
 		onTabPress,
 		primaryType,
 		savedPokemons,
+		selectedPokemonName,
 		tabConfig,
 		typeChips,
 	};

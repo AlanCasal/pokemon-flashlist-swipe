@@ -27,7 +27,7 @@ export const useStyles = ({ minLevel, type }: UseStylesProps) =>
 		},
 		message: {
 			color: textColor.grey,
-			fontSize: 11,
+			fontSize: 14,
 			textAlign: 'center',
 			width: 78,
 		},

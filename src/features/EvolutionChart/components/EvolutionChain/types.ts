@@ -8,7 +8,9 @@ export type EvolutionDirection = 'left' | 'right';
 export interface EvolutionChainProps {
 	savedPokemons: PokemonId[];
 	evolution: CustomEvolutionChain;
+	selectedPokemonName: string | null;
 	type: keyof typeof typeColors;
+	onPokemonPress: (pokemonName: string) => void;
 	depth?: number;
 	direction?: EvolutionDirection;
 }
@@ -18,7 +20,10 @@ export interface EvolutionNodeProps {
 	fontSize?: number;
 	imgUrl?: string;
 	isNodeSaved: boolean;
+	isSelected?: boolean;
+	onPress?: () => void;
 	pokemon: string;
+	selectedTextColor?: string;
 	size?: number;
 	trigger?: string | null;
 }

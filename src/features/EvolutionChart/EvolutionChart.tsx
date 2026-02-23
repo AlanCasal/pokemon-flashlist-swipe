@@ -31,9 +31,11 @@ const EvolutionChart = () => {
 		isEvolutionLoading,
 		isPokemonLoading,
 		isSaved,
+		onEvolutionPokemonPress,
 		onTabPress,
 		primaryType,
 		savedPokemons,
+		selectedPokemonName,
 		tabConfig,
 		typeChips,
 	} = useEvolutionChartController();
@@ -104,7 +106,9 @@ const EvolutionChart = () => {
 				<EvolutionChain
 					evolution={evolutionData}
 					savedPokemons={savedPokemons}
+					selectedPokemonName={selectedPokemonName}
 					type={primaryType}
+					onPokemonPress={onEvolutionPokemonPress}
 					depth={0}
 					direction='right'
 				/>

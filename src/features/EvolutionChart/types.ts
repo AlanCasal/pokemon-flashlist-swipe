@@ -26,5 +26,7 @@ export interface EvolutionChartController {
 	evolutionData?: CustomEvolutionChain;
 	evolutionError: unknown;
 	hasPokemonId: boolean;
+	selectedPokemonName: string | null;
+	onEvolutionPokemonPress: (pokemonName: string) => void;
 	onTabPress: (tab: EvolutionTab) => void;
 }
