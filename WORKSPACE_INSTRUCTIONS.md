@@ -1,69 +1,31 @@
-# Workspace Behavior Instructions
+## Architecture & Conventions
 
-This file defines workspace-level agent behavior for every new chat session.
-It is separate from project architecture/coding standards in `AGENTS.md`.
+- Use functional components and hooks.
+- Keep small reusable UI in `src/components/common/<Feature>/` with local `index.ts` re-exports.
+- Keep more complex/bigger reusable UI in `src/components/<Feature>/` with local `index.ts` re-exports.
+- Keep reusable logic in `src/hooks/` (`use*` naming).
+- For types reused in different components and features, keep the in `src/types/`; colocate feature-specific complex types in local `types.ts`.
+- For components and feature folders, keep one shared feature-level `helpers.ts`, one `types.ts` and one `styles.ts` file at the component or feature root.
+- Feature folder contract (`src/features/<Feature>/`):
+  - Always expose a feature root `index.ts`.
+  - Move complex or stateful logic into feature hooks under `src/features/<Feature>/hooks/` when needed.
+  - Keep child UI pieces under `src/features/<Feature>/components/` when needed.
+- Use `export default` for main components and named exports for helpers/utilities.
+- Use TypeScript path aliases (`@/* -> src/*`) for imports.
 
-## Mandatory Bootstrap
+## Styling
 
-- At the start of every chat session, load both `WORKSPACE_INSTRUCTIONS.md` and `AGENTS.md` before any task work.
-- Treat `AGENTS.md` as mandatory coding policy for all implementation/review/refactor tasks in this repository.
-- If there is any conflict, apply workspace behavior from `WORKSPACE_INSTRUCTIONS.md` and project coding standards from `AGENTS.md`.
+- Export a default `styles` object from `StyleSheet.create(...)`.
+- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
+- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
+- Inset/layout hooks used for styling (for example `useSafeAreaInsets`) should be called inside `useStyles(...)` the styles file, not in the component and passed into styles as params.
+- Avoid using colors directly in styles files. Try using colors from `colors.ts` or add new colors to it so they can be reused.
 
-## Workflow Orchestration
+## Routing, Testing & Tooling
 
-### 1. Plan Mode Default
-
-- Enter plan mode for any non-trivial task (3+ steps or architectural decisions).
-- If execution goes sideways, stop and re-plan immediately instead of pushing through.
-- Use plan mode for verification phases, not only implementation.
-- Write detailed specs up front to reduce ambiguity.
-
-### 2. Subagent Strategy
-
-- Use subagents liberally to keep the main context window focused.
-- Offload research, exploration, and parallel analysis to subagents.
-- For complex problems, increase compute with parallel subagent tracks.
-- Keep one focused tactic per subagent.
-
-### 3. Self-Improvement Loop
-
-- After any correction from the user, record the lesson in `.tasks/lessons.md`.
-- Convert corrections into explicit rules that prevent repeat mistakes.
-- Iterate on these lessons until repeat error rate drops.
-- Review `.tasks/lessons.md` at session start.
-
-### 4. Verification Before Done
-
-- Never mark a task complete without proving the result works.
-- Diff behavior between baseline and changes when relevant.
-- Ask: "Would a staff engineer approve this?"
-- Run tests/checks and demonstrate correctness with evidence.
-
-### 5. Demand Elegance (Balanced)
-
-- For non-trivial changes, pause and ask whether a more elegant solution exists.
-- If a fix feels hacky, restart from an elegant implementation path.
-- Skip over-engineering for obvious, simple fixes.
-- Challenge your own output before presenting.
-
-### 6. Autonomous Bug Fixing
-
-- When given a bug report, proceed directly to diagnosis and fix.
-- Use logs, errors, and failing tests to drive resolution.
-- Avoid unnecessary context switching for the user.
-- Fix failing CI tests without requiring step-by-step user direction.
-
-## Task Management Lifecycle
-
-1. Plan first: write a checklist plan in `.tasks/todo.md`.
-2. Verify plan: align before implementation starts.
-3. Track progress: check items off as work completes.
-4. Explain changes: provide high-level updates through execution.
-5. Document results: add a review/results section in `.tasks/todo.md`.
-6. Capture lessons: update `.tasks/lessons.md` after corrections.
-
-## Core Principles
-
-- Simplicity first: keep changes as small and clear as possible.
-- Root-cause quality: avoid temporary patches; solve the real issue.
-- Minimal impact: touch only what is necessary and avoid regressions.
+- Follow `expo-router` conventions (including grouped routes like `(tabs)`).
+- Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
+- Install deps with `bun install` (preferred).
+- Run formatting/linting with `bun run format:fix`.
+- Start app with `bun run start` (or `expo start`).
+- For native package changes, run `bunx expo prebuild --clean --platform all` (or its alias `bpall`) for rebuild flow.

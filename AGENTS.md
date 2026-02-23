@@ -1,128 +1,57 @@
 ---
-description: 'Project development standards and best practices'
+description: 'Agent expected behavior and core instructions'
 applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 ---
 
 ## Session Bootstrap
 
-- At the start of each new chat session, load and apply `WORKSPACE_INSTRUCTIONS.md` before performing task work.
-- Treat `WORKSPACE_INSTRUCTIONS.md` as workspace behavior policy and this file as project coding standards.
-- Apply this file's coding standards in every chat/task that changes or reviews repository code.
+- For every new chat session, load and apply `WORKSPACE_INSTRUCTIONS.md` before performing task work. If the file doesn't exist, alert the developer before continuing.
+- Treat `WORKSPACE_INSTRUCTIONS.md` as **non mandatory** (improvement suggestions are always welcome) current workspace preferences.
+- Update `WORKSPACE_INSTRUCTIONS.md` in the same PR when architecture, conventions, patterns change and alert the developer.
+- Apply this file's standards in every chat/task that changes.
 
 ## File Purpose
 
-- This is the canonical source of truth for project coding standards in this repository.
-- This file is human-readable, long-lived project policy, and should be edited directly when standards change.
+- This file contains the agent's expected behavior.
 
-## Source of Truth & Sync
+## Workflow Orchestration
 
-- Workspace behavior canonical file: `WORKSPACE_INSTRUCTIONS.md`.
-- Project coding standards canonical file: `AGENTS.md`.
-- Generated Copilot instructions: `.github/copilot-instructions.md`.
-- Regenerate generated instructions after changes to either canonical file: `bun run instructions:sync`.
-- Validate generated instructions are in sync: `bun run instructions:check`.
-- Governance and lifecycle details: `docs/ai-instructions.md`.
+### 1. Plan Mode Default
 
-## Project Snapshot
+- If not already in Plan Mode, enter Plan Mode for any non-trivial task (3+ steps or architectural decisions). If you can switch mode yourself, suggest developer to manually switch to Plan Mode before continue.
+- Use Plan Mode for verification phases, not only implementation.
+- Write detailed but also concise specs up front to reduce ambiguity.
 
-- Stack: React 19, React Native 0.81, Expo SDK 54, TypeScript.
-- Routing: `expo-router` file-based routes in `src/app/`.
-- Styling: use React Native `StyleSheet` with sibling `styles.ts` files; use dynamic style factories only when values depend on runtime state/props.
-- Server state: `@tanstack/react-query` in hooks under `src/hooks/`.
-- Client state: `zustand` stores in `src/store/`, persisted with `react-native-mmkv` where required.
-- Core UI/runtime libs in use: `@shopify/flash-list`, `expo-image`, `react-native-reanimated`, `react-native-svg`, `@gorhom/bottom-sheet`.
+### 2. Subagent Strategy
 
-## Code Priorities
+- Use subagents liberally to keep the main context window focused.
+- Offload research, exploration, and parallel analysis to subagents.
+- For complex problems, increase compute with parallel subagent tracks.
+- Keep one focused tactic per subagent.
 
-- Prioritize readability and maintainability over cleverness.
-- Keep implementations small and focused.
-- Optimize performance without sacrificing clarity.
-- When adding numeric constants or non-obvious logic, include a concise comment explaining purpose.
+### 3. Self-Improvement Loop
 
-## Architecture & Conventions
+- After any correction from the user, record/add the lesson in `WORKSPACE_INSTRUCTIONS.md`.
+- Convert corrections into explicit rules that prevent common mistakes and confusion points for agents as they work in this project.
+- If you ever encounter something in the project that surprises you, please alert the developer working with you and indicate that this is the case in the `WORKSPACE_INSTRUCTIONS.md` file to help prevent future agents from having the same issue.
 
-- Use functional components and hooks.
-- Prefer composition over inheritance.
-- Keep routes under `src/app/` (do not add central route registries).
-- Keep reusable UI in `src/components/<Feature>/` with local `index.ts` re-exports.
-- Keep reusable logic in `src/hooks/` (`use*` naming).
-- Keep shared types in `src/types/`; colocate feature-specific complex types in local `types.ts`.
-- For feature folders (`src/features/<Feature>/`), keep shared feature-level `helpers.ts` and `types.ts` at the feature root.
-- Feature folder contract (`src/features/<Feature>/`):
-  - Always expose a feature root `index.ts`.
-  - Keep one main feature component file (`<Feature>.tsx`) focused on JSX and minor orchestration logic.
-  - Move complex or stateful logic into feature hooks under `src/features/<Feature>/hooks/` when needed.
-  - Keep child UI pieces under `src/features/<Feature>/components/` when needed.
-- Do not create umbrella barrels like `src/features/<Feature>/components/index.ts`; import feature components from each component's own path.
-- In `src/features/<Feature>/components/<ComponentName>/`, allow at most one `helpers.ts` and one `types.ts` in that component folder root (no extra nested helper/type duplicates for the same component). The less files the better for readability.
-- Use `export default` for main components and named exports for helpers/utilities.
-- Use TypeScript path aliases (`@/* -> src/*`) for imports.
-- Prefer smaller, readable component and hook files; split logic by responsibility when readability drops (guideline, not a strict line cap).
+### 4. Verification Before Done
 
-## State, Data & Error Handling
+- Never mark a task complete without proving the result works.
+- Diff behavior between baseline and changes when relevant.
+- Run tests/checks and demonstrate correctness with evidence.
+- Make sure imports are sorted (rule `eslintsimple-import-sort/imports`)
 
-- Use `useState` for local component state.
-- Keep ephemeral UI state (input focus, bottom sheet visibility, local drafts, animation toggles) local to component/hooks.
-- Use Zustand for cross-screen or persisted client state.
-- Use React Query for remote data, caching, and pagination.
-- Handle loading/error/success states explicitly.
-- Use `tryCatch` from `src/utils/helpers.ts` when suitable for async flows.
+### 5. Demand Elegance (Balanced)
 
-## Styling
+- For non-trivial changes, pause and ask whether a more elegant solution exists.
+- If a fix feels hacky, restart from an elegant implementation path.
+- Skip over-engineering for obvious, simple fixes.
+- Challenge your own output before presenting.
 
-- Prefer a single sibling `styles.ts` file per component folder, exporting a default `styles` object from `StyleSheet.create(...)`.
-- Split a component's styles into multiple files only when that component's `styles.ts` grows beyond ~200 lines.
-- For dynamic values (state/props/insets/theme), export a named style factory (for example `useStyles(params)`) that returns `StyleSheet.create(...)`.
-- In components, always name the style object returned from the component's style module as `styles` (for example `const styles = useStyles(params)`).
-- Inset/layout hooks used for styling (for example `useSafeAreaInsets`) should be called inside `useStyles(...)` in `styles.ts`, not in the component and passed into styles as params.
-- In dynamic style factories, use props directly in style properties when the expression is simple.
-- If logic is complex or reused, extract a constant or helper function first.
-- Use tokens/constants from `src/constants/` (especially colors and shared values).
-- Avoid ad-hoc inline style objects for static values; keep inline styles only for truly runtime-only values.
-- In any component `styles.ts`, keep style declarations only; do not place non-style config values (for example snap points, opacity tokens, sizes) inside `styles.ts`.
+### 6. Autonomous Bug Fixing
 
-## Routing, Testing & Tooling
-
-- Follow `expo-router` conventions (including grouped routes like `(tabs)`).
-- Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
-- Install deps with `bun install` (preferred).
-- Run formatting/linting with `bun run format:fix`.
-- Start app with `bun run start` (or `expo start`).
-- For native package changes, run the proper `expo prebuild` / rebuild flow.
-
-## Implementation Process
-
-1. Confirm requirements and existing patterns in adjacent files.
-2. Define or update types first when needed.
-3. Implement minimal UI/logic changes in the correct feature location.
-4. Wire state/data flow (local state, Zustand, React Query).
-5. Add loading/error/empty states.
-6. Add or update focused tests near changed code.
-7. Add concise comments for non-obvious, or complex logic or constants (only when necessary).
-8. Run lint/format and relevant checks.
-9. Update docs/instruction files when architecture or packages change.
-
-## Common Patterns
-
-- Feature-first component structure with re-export `index.ts` files.
-- Custom hooks for reusable stateful logic.
-- Container/presentational separation where complexity justifies it.
-- Shared constants for non-trivial numbers/strings (avoid magic values).
-
-## Practical Examples
-
-- Root layout and router entry: [src/app/\_layout.tsx](src/app/_layout.tsx)
-- Route screen example: [src/app/details.tsx](src/app/details.tsx)
-- Infinite query hook: [src/hooks/usePokemonList.ts](src/hooks/usePokemonList.ts)
-- Zustand stores: [src/store/savedStore.ts](src/store/savedStore.ts), [src/store/toastStore.ts](src/store/toastStore.ts)
-- Component re-export pattern: [src/components/PokeCard/index.ts](src/components/PokeCard/index.ts)
-- API and design constants: [src/constants/api.ts](src/constants/api.ts), [src/constants/colors.ts](src/constants/colors.ts)
-- Alias/config references: [tsconfig.json](tsconfig.json), [babel.config.js](babel.config.js), [metro.config.js](metro.config.js)
-
-## Keep This File Current
-
-- Update this file in the same PR when package usage, architecture, or conventions change.
-- Run `bun run instructions:sync` in the same PR when this file changes.
-- Ensure package/library statements match `package.json`.
-- Remove stale guidance instead of adding exceptions.
-- Keep guidance concise, specific, and example-driven.
+- When given a bug report, proceed directly to diagnosis and fix.
+- Use logs, errors, and failing tests to drive resolution.
+- Avoid unnecessary context switching for the user.
+- Fix failing CI tests without requiring step-by-step user direction.

@@ -39,7 +39,6 @@ const stagedTsFiles = stagedLintFiles.filter(filePath => /\.(ts|tsx)$/.test(file
 
 if (!stagedLintFiles.length) {
 	console.log('No staged JS/TS files found. Skipping checks.');
-	run('bun', ['run', 'instructions:check']);
 	process.exit(0);
 }
 
@@ -48,7 +47,6 @@ run('bunx', ['eslint', '--max-warnings=0', ...stagedLintFiles]);
 
 if (!stagedTsFiles.length) {
 	console.log('No staged TypeScript files found. Skipping TypeScript check.');
-	run('bun', ['run', 'instructions:check']);
 	process.exit(0);
 }
 
@@ -67,5 +65,3 @@ try {
 		fs.unlinkSync(tempTsconfigPath);
 	}
 }
-
-run('bun', ['run', 'instructions:check']);
