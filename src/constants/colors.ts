@@ -55,6 +55,19 @@ export const customColor = {
 	border: '#E6E6E6',
 };
 
+export const pokedexFilterColors = {
+	height: {
+		short: '#FFC5E6',
+		medium: '#AEBFD7',
+		tall: '#AAACB8',
+	},
+	weight: {
+		light: '#99CD7C',
+		normal: '#57B2DC',
+		heavy: '#5A92A5',
+	},
+};
+
 export const pokeballColors = {
 	red: '#ee1515',
 	black: '#222224',

@@ -1,3 +1,5 @@
+import { pokedexFilterColors } from '@constants/colors';
+
 import {
 	type PokedexGenerationOption,
 	type PokedexHeightOption,
@@ -154,19 +156,19 @@ export const POKEDEX_FILTER_HEIGHT_OPTIONS: {
 		id: 'short',
 		label: 'Short',
 		testID: 'pokedex-filter-height-short',
-		color: '#FFC5E6',
+		color: pokedexFilterColors.height.short,
 	},
 	{
 		id: 'medium',
 		label: 'Medium',
 		testID: 'pokedex-filter-height-medium',
-		color: '#AEBFD7',
+		color: pokedexFilterColors.height.medium,
 	},
 	{
 		id: 'tall',
 		label: 'Tall',
 		testID: 'pokedex-filter-height-tall',
-		color: '#AAACB8',
+		color: pokedexFilterColors.height.tall,
 	},
 ];
 
@@ -180,19 +182,19 @@ export const POKEDEX_FILTER_WEIGHT_OPTIONS: {
 		id: 'light',
 		label: 'Light',
 		testID: 'pokedex-filter-weight-light',
-		color: '#99CD7C',
+		color: pokedexFilterColors.weight.light,
 	},
 	{
 		id: 'normal',
 		label: 'Normal',
 		testID: 'pokedex-filter-weight-normal',
-		color: '#57B2DC',
+		color: pokedexFilterColors.weight.normal,
 	},
 	{
 		id: 'heavy',
 		label: 'Heavy',
 		testID: 'pokedex-filter-weight-heavy',
-		color: '#5A92A5',
+		color: pokedexFilterColors.weight.heavy,
 	},
 ];
 
