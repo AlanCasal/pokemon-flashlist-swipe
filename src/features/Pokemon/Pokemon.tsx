@@ -1,6 +1,5 @@
 import { typeBgColors, typeColors } from '@constants/colors';
 import texts from '@utils/texts.json';
-import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityIndicator, Text, View } from 'react-native';
 import {
 	Extrapolation,
@@ -132,12 +131,7 @@ const Pokemon = () => {
 	};
 
 	return (
-		<LinearGradient
-			colors={[typeBgColors[primaryType], typeColors[primaryType]]}
-			start={{ x: 0, y: 0 }}
-			end={{ x: 2, y: 1 }}
-			style={styles.container}
-		>
+		<View style={[styles.container, { backgroundColor: typeBgColors[primaryType] }]}>
 			<PokemonHeader
 				compactTitleStyle={compactTitleStyle}
 				displayName={displayName}
@@ -158,7 +152,7 @@ const Pokemon = () => {
 			>
 				{renderTabContent(activeTab)}
 			</PokemonBody>
-		</LinearGradient>
+		</View>
 	);
 };
 
