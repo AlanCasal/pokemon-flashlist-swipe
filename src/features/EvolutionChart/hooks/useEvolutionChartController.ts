@@ -18,11 +18,12 @@ import {
 	handleEvolutionPokemonPress,
 } from '../helpers';
 import type { EvolutionChartController, EvolutionChartTabConfig, EvolutionTab } from '../types';
+import { usePokemonAboutData } from './usePokemonAboutData';
 
 const isPokemonType = (value: string): value is PokemonType => value in typeColors;
 
 export const useEvolutionChartController = (): EvolutionChartController => {
-	const [activeTab, setActiveTab] = useState<EvolutionTab>('evolution');
+	const [activeTab, setActiveTab] = useState<EvolutionTab>('about');
 	const router = useRouter();
 	const { id, type } = useLocalSearchParams<{ id?: string | string[]; type?: string | string[] }>();
 
@@ -38,6 +39,10 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		isLoading: isEvolutionLoading,
 		error: evolutionError,
 	} = useGetPokemonEvolutions(hasPokemonId ? pokemonId : '');
+	const { aboutData, isAboutLoading, aboutError } = usePokemonAboutData({
+		pokemonDetails,
+		pokemonId,
+	});
 
 	const primaryType = useMemo<keyof typeof typeColors>(() => {
 		const routeType = pokemonDetails?.types[0]?.type.name?.toLowerCase();
@@ -101,12 +106,15 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 
 	return {
 		activeTab,
+		aboutData,
+		aboutError,
 		displayName: formatPokemonName(pokemonDetails?.name),
 		evolutionData,
 		evolutionError,
 		formattedId: formatPokemonNumber(pokemonNumericId),
 		hasPokemonId,
 		heroImageUrl: pokemonDetails?.sprites.other['official-artwork'].front_default,
+		isAboutLoading,
 		isEvolutionLoading,
 		isPokemonLoading,
 		isSaved,

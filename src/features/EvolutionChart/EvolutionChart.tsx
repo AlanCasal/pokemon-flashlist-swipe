@@ -10,6 +10,7 @@ import {
 } from 'react-native-reanimated';
 
 import EvolutionChain from './components/EvolutionChain';
+import PokemonAbout from './components/PokemonAbout';
 import PokemonBody from './components/PokemonBody';
 import PokemonHeader from './components/PokemonHeader';
 import { useEvolutionChartController } from './hooks/useEvolutionChartController';
@@ -22,11 +23,14 @@ const EvolutionChart = () => {
 	const styles = useStyles();
 	const {
 		activeTab,
+		aboutData,
+		aboutError,
 		displayName,
 		evolutionData,
 		evolutionError,
 		formattedId,
 		hasPokemonId,
+		isAboutLoading,
 		heroImageUrl,
 		isEvolutionLoading,
 		isPokemonLoading,
@@ -66,18 +70,29 @@ const EvolutionChart = () => {
 	}));
 
 	const renderTabContent = (tab: EvolutionTab) => {
-		if (tab !== 'evolution') {
-			return (
-				<View style={styles.placeholderContainer}>
-					<Text style={styles.placeholderText}>{texts.evolution.wipMessage}</Text>
-				</View>
-			);
-		}
-
 		if (!hasPokemonId) {
 			return (
 				<View style={styles.placeholderContainer}>
 					<Text style={styles.feedbackText}>{texts.evolution.missingDetailsMessage}</Text>
+				</View>
+			);
+		}
+
+		if (tab === 'about') {
+			return (
+				<PokemonAbout
+					data={aboutData}
+					error={aboutError}
+					isLoading={isAboutLoading}
+					primaryType={primaryType}
+				/>
+			);
+		}
+
+		if (tab === 'stats') {
+			return (
+				<View style={styles.placeholderContainer}>
+					<Text style={styles.placeholderText}>{texts.evolution.wipMessage}</Text>
 				</View>
 			);
 		}

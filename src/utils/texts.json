@@ -38,6 +38,8 @@
 	},
 	"evolution": {
 		"aboutTabLabel": "About",
+		"aboutLoadErrorMessage": "Could not load about data right now.",
+		"aboutLoadingMessage": "Loading about data...",
 		"chartTitle": "Evolution Chart",
 		"evolutionTabLabel": "Evolution",
 		"evolvesAt": "Evolves at",

@@ -11,11 +11,43 @@ export interface EvolutionChartTabConfig {
 	label: string;
 }
 
+export type PokemonAboutRowKind = 'text' | 'textWithSecondary' | 'genderSplit' | 'weaknessBadges';
+
+export interface PokemonWeaknessBadge {
+	label: string;
+	multiplier: number;
+	type: PokemonType;
+}
+
+export interface PokemonAboutRow {
+	femaleValue?: string;
+	kind: PokemonAboutRowKind;
+	label: string;
+	maleValue?: string;
+	secondaryMode?: 'block' | 'inline';
+	secondaryValue?: string;
+	value?: string;
+	weaknesses?: PokemonWeaknessBadge[];
+}
+
+export interface PokemonAboutSection {
+	rows: PokemonAboutRow[];
+	title: string;
+}
+
+export interface PokemonAboutData {
+	description: string;
+	sections: PokemonAboutSection[];
+}
+
 export interface EvolutionChartController {
 	activeTab: EvolutionTab;
+	aboutData?: PokemonAboutData;
+	aboutError: unknown;
 	displayName: string;
 	formattedId: string;
 	heroImageUrl?: string | null;
+	isAboutLoading: boolean;
 	isEvolutionLoading: boolean;
 	isPokemonLoading: boolean;
 	isSaved: boolean;
