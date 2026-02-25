@@ -6,7 +6,7 @@ import { PokemonAboutRow } from './components';
 import { useStyles } from './styles';
 import type { PokemonAboutProps } from './types';
 
-const PokemonAbout = ({ data, error, isLoading, primaryType }: PokemonAboutProps) => {
+const About = ({ data, error, isLoading, primaryType }: PokemonAboutProps) => {
 	const styles = useStyles();
 
 	if (isLoading) {
@@ -53,4 +53,4 @@ const PokemonAbout = ({ data, error, isLoading, primaryType }: PokemonAboutProps
 	);
 };
 
-export default PokemonAbout;
+export default About;

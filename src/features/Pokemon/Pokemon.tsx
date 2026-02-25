@@ -9,17 +9,17 @@ import {
 	useSharedValue,
 } from 'react-native-reanimated';
 
-import EvolutionChain from './components/EvolutionChain';
-import PokemonAbout from './components/PokemonAbout';
 import PokemonBody from './components/PokemonBody';
 import PokemonHeader from './components/PokemonHeader';
 import { useEvolutionChartController } from './hooks/useEvolutionChartController';
 import { useStyles } from './styles';
+import About from './tabs/About';
+import Evolution from './tabs/Evolution';
 import type { EvolutionTab } from './types';
 
 const COLLAPSED_HERO_EXIT_OFFSET = -60;
 
-const EvolutionChart = () => {
+const Pokemon = () => {
 	const styles = useStyles();
 	const {
 		activeTab,
@@ -80,7 +80,7 @@ const EvolutionChart = () => {
 
 		if (tab === 'about') {
 			return (
-				<PokemonAbout
+				<About
 					data={aboutData}
 					error={aboutError}
 					isLoading={isAboutLoading}
@@ -118,7 +118,7 @@ const EvolutionChart = () => {
 
 		return (
 			<View style={styles.evolutionContainer}>
-				<EvolutionChain
+				<Evolution
 					evolution={evolutionData}
 					savedPokemons={savedPokemons}
 					selectedPokemonName={selectedPokemonName}
@@ -162,4 +162,4 @@ const EvolutionChart = () => {
 	);
 };
 
-export default EvolutionChart;
+export default Pokemon;

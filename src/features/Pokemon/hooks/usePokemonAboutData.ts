@@ -11,7 +11,7 @@ import { fetchJson } from '@/src/utils/helpers';
 import {
 	buildPokemonAboutData,
 	type PokemonTypeDamageRelationsResponse,
-} from '../components/PokemonAbout/helpers';
+} from '../tabs/About/helpers';
 
 const isPokemonType = (value: string): value is PokemonType =>
 	POKEMON_TYPES.includes(value as PokemonType);
