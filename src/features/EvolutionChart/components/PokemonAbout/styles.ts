@@ -77,29 +77,22 @@ export const useStyles = () => {
 			fontWeight: '700',
 			lineHeight: 20,
 		},
-		weaknessBadge: {
-			alignItems: 'center',
-			borderRadius: 3,
-			columnGap: 5,
-			flexDirection: 'row',
-			padding: 5,
-		},
-		weaknessBadgeLabel: {
-			color: '#FFFFFF',
-			fontSize: 12,
-			fontWeight: '500',
-			lineHeight: 16,
-			textTransform: 'capitalize',
-		},
 		weaknessBadges: {
 			columnGap: 5,
 			flexDirection: 'row',
 			flexWrap: 'wrap',
 			rowGap: 5,
 		},
-		weaknessIcon: {
-			height: 15,
-			width: 15,
+		weaknessChip: {
+			paddingHorizontal: 5,
+			paddingVertical: 5,
+		},
+		weaknessChipLabel: {
+			color: textColor.light,
+			fontSize: 12,
+			fontWeight: '500',
+			lineHeight: 16,
+			textTransform: 'capitalize',
 		},
 	});
 };

@@ -1,5 +1,4 @@
 import { typeColors } from '@constants/colors';
-import type { PokemonType } from '@constants/index';
 
 import type { PokemonAboutData } from '../../types';
 
@@ -15,9 +14,4 @@ export interface PokemonAboutProps {
 export interface PokemonAboutRowProps {
 	label: string;
 	row: PokemonAboutData['sections'][number]['rows'][number];
-}
-
-export interface PokemonAboutWeaknessBadgeProps {
-	type: PokemonType;
-	label: string;
 }
