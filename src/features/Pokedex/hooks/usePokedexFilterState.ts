@@ -1,8 +1,8 @@
+import type { PokemonType } from '@constants/index';
 import { POKEDEX_NUMBER_RANGE_DEFAULTS } from '@constants/pokedex';
 import { useCallback, useMemo, useState } from 'react';
 
 import { type PokedexHeightOption, type PokedexMode, type PokedexWeightOption } from '@/src/types';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 import { getAppliedFilterCount, getNextMultiSelectOptions } from '../helpers';
 import { type PokedexFiltersByMode, type PokedexFilterState } from '../types';

@@ -1,1 +1,1 @@
-export { default } from '../features/EvolutionChart';
+export { default } from '../features/Pokemon';

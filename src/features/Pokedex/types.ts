@@ -1,3 +1,4 @@
+import type { PokemonType } from '@constants/index';
 import type { FlashListRef } from '@shopify/flash-list';
 import type { ComponentType, ReactElement, RefObject } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
@@ -11,7 +12,6 @@ import type {
 	PokedexWeightOption,
 } from '@/src/types';
 import { Pokemon } from '@/src/types/pokemonList';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 export interface EmptySavedTextParts {
 	bottomLines: string[];

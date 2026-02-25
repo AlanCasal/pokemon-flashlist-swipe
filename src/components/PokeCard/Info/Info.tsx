@@ -1,8 +1,7 @@
 import PokemonTypeChip from '@components/common/PokemonTypeChip';
 import PokeBall from '@components/PokeBall';
+import type { PokemonType } from '@constants/index';
 import { Text, View } from 'react-native';
-
-import { PokemonType } from '@/src/types/pokemonTypes';
 
 import styles from './styles';
 import type { InfoProps } from './types';

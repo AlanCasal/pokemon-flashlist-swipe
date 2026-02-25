@@ -1,6 +1,5 @@
 import { typeBgColors, typeColors } from '@constants/colors';
 import texts from '@utils/texts.json';
-import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityIndicator, Text, View } from 'react-native';
 import {
 	Extrapolation,
@@ -9,24 +8,28 @@ import {
 	useSharedValue,
 } from 'react-native-reanimated';
 
-import EvolutionChain from './components/EvolutionChain';
 import PokemonBody from './components/PokemonBody';
 import PokemonHeader from './components/PokemonHeader';
 import { useEvolutionChartController } from './hooks/useEvolutionChartController';
 import { useStyles } from './styles';
+import About from './tabs/About';
+import Evolution from './tabs/Evolution';
 import type { EvolutionTab } from './types';
 
 const COLLAPSED_HERO_EXIT_OFFSET = -60;
 
-const EvolutionChart = () => {
+const Pokemon = () => {
 	const styles = useStyles();
 	const {
 		activeTab,
+		aboutData,
+		aboutError,
 		displayName,
 		evolutionData,
 		evolutionError,
 		formattedId,
 		hasPokemonId,
+		isAboutLoading,
 		heroImageUrl,
 		isEvolutionLoading,
 		isPokemonLoading,
@@ -66,18 +69,29 @@ const EvolutionChart = () => {
 	}));
 
 	const renderTabContent = (tab: EvolutionTab) => {
-		if (tab !== 'evolution') {
-			return (
-				<View style={styles.placeholderContainer}>
-					<Text style={styles.placeholderText}>{texts.evolution.wipMessage}</Text>
-				</View>
-			);
-		}
-
 		if (!hasPokemonId) {
 			return (
 				<View style={styles.placeholderContainer}>
 					<Text style={styles.feedbackText}>{texts.evolution.missingDetailsMessage}</Text>
+				</View>
+			);
+		}
+
+		if (tab === 'about') {
+			return (
+				<About
+					data={aboutData}
+					error={aboutError}
+					isLoading={isAboutLoading}
+					primaryType={primaryType}
+				/>
+			);
+		}
+
+		if (tab === 'stats') {
+			return (
+				<View style={styles.placeholderContainer}>
+					<Text style={styles.placeholderText}>{texts.evolution.wipMessage}</Text>
 				</View>
 			);
 		}
@@ -103,7 +117,7 @@ const EvolutionChart = () => {
 
 		return (
 			<View style={styles.evolutionContainer}>
-				<EvolutionChain
+				<Evolution
 					evolution={evolutionData}
 					savedPokemons={savedPokemons}
 					selectedPokemonName={selectedPokemonName}
@@ -117,12 +131,7 @@ const EvolutionChart = () => {
 	};
 
 	return (
-		<LinearGradient
-			colors={[typeBgColors[primaryType], typeColors[primaryType]]}
-			start={{ x: 0, y: 0 }}
-			end={{ x: 2, y: 1 }}
-			style={styles.container}
-		>
+		<View style={[styles.container, { backgroundColor: typeBgColors[primaryType] }]}>
 			<PokemonHeader
 				compactTitleStyle={compactTitleStyle}
 				displayName={displayName}
@@ -143,8 +152,8 @@ const EvolutionChart = () => {
 			>
 				{renderTabContent(activeTab)}
 			</PokemonBody>
-		</LinearGradient>
+		</View>
 	);
 };
 
-export default EvolutionChart;
+export default Pokemon;
