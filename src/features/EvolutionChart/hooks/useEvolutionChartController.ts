@@ -1,13 +1,12 @@
 import { API_URL } from '@constants/api';
 import { typeColors } from '@constants/colors';
+import type { PokemonType } from '@constants/index';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useIsPokemonSaved, useSavedPokemons } from '@store/savedStore';
 import texts from '@utils/texts.json';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
-
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 import {
 	formatPokemonName,

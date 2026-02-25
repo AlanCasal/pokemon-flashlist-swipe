@@ -1,11 +1,11 @@
 import { POKE_API_BASE_URL, POKEMON_SPECIES_URL } from '@constants/api';
+import type { PokemonType } from '@constants/index';
 import { POKEMON_TYPES } from '@constants/index';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
 import type { PokemonDetails } from '@/src/types/pokemon';
 import type { PokemonSpecies } from '@/src/types/pokemonSpecies';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 import { fetchJson } from '@/src/utils/helpers';
 
 import {

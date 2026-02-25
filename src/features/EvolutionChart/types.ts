@@ -1,8 +1,8 @@
 import { typeColors } from '@constants/colors';
+import type { PokemonType } from '@constants/index';
 
 import type { PokemonId } from '@/src/types';
 import { CustomEvolutionChain } from '@/src/types/evolutionChain';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 export type EvolutionTab = 'about' | 'stats' | 'evolution';
 

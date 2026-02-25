@@ -1,6 +1,4 @@
-import type { PokemonType } from '@/src/types/pokemonTypes';
-
-export const POKEMON_TYPES: readonly PokemonType[] = [
+export const POKEMON_TYPES = [
 	'normal',
 	'fire',
 	'water',
@@ -19,4 +17,6 @@ export const POKEMON_TYPES: readonly PokemonType[] = [
 	'dark',
 	'steel',
 	'fairy',
-];
+] as const;
+
+export type PokemonType = (typeof POKEMON_TYPES)[number];

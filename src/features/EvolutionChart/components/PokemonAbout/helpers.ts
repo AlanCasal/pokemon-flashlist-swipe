@@ -1,8 +1,8 @@
 import { typeColors } from '@constants/colors';
+import type { PokemonType } from '@constants/index';
 
 import type { PokemonDetails } from '@/src/types/pokemon';
 import type { PokemonSpecies } from '@/src/types/pokemonSpecies';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 import type { PokemonAboutData, PokemonAboutRow, PokemonWeaknessBadge } from '../../types';
 

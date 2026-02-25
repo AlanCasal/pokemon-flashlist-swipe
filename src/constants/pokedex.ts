@@ -1,4 +1,5 @@
 import { pokedexFilterColors } from '@constants/colors';
+import type { PokemonType } from '@constants/index';
 
 import {
 	type PokedexGenerationOption,
@@ -6,7 +7,6 @@ import {
 	type PokedexSortOption,
 	type PokedexWeightOption,
 } from '@/src/types';
-import { type PokemonType } from '@/src/types/pokemonTypes';
 
 export const POKEMON_ID_FROM_URL_REGEX = /\/pokemon\/(\d+)\/?$/;
 

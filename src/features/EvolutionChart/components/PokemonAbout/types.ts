@@ -1,6 +1,5 @@
 import { typeColors } from '@constants/colors';
-
-import type { PokemonType } from '@/src/types/pokemonTypes';
+import type { PokemonType } from '@constants/index';
 
 import type { PokemonAboutData } from '../../types';
 

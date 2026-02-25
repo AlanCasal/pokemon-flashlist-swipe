@@ -1,5 +1,6 @@
+import type { PokemonType } from '@constants/index';
+
 import type { PokedexHeightOption, PokedexWeightOption } from '@/src/types';
-import type { PokemonType } from '@/src/types/pokemonTypes';
 
 import type { PokedexFilterNumberRange, PokedexFilterState } from '../../types';
 

@@ -1,5 +1,6 @@
+import type { PokemonType } from '@constants/index';
+
 import { backgroundColors } from '@/src/constants/colors';
-import { PokemonType } from '@/src/types/pokemonTypes';
 import { PokemonIconType, typeIcons } from '@/src/utils/icons';
 
 type PokemonTypeIconProps = {
