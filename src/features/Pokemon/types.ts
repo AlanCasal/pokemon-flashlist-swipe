@@ -40,6 +40,35 @@ export interface PokemonAboutData {
 	sections: PokemonAboutSection[];
 }
 
+export type PokemonBaseStatKey =
+	| 'hp'
+	| 'attack'
+	| 'defense'
+	| 'special-attack'
+	| 'special-defense'
+	| 'speed';
+
+export interface PokemonBaseStatRow {
+	barFillRatio: number;
+	key: PokemonBaseStatKey;
+	label: string;
+	max: number | null;
+	min: number | null;
+	value: number | null;
+}
+
+export interface PokemonTypeDefense {
+	multiplier: number;
+	multiplierLabel: string;
+	type: PokemonType;
+}
+
+export interface PokemonStatsData {
+	baseStats: PokemonBaseStatRow[];
+	totalBaseStat: number | null;
+	typeDefenses: PokemonTypeDefense[];
+}
+
 export interface PokemonController {
 	activeTab: EvolutionTab;
 	aboutData?: PokemonAboutData;
@@ -51,6 +80,7 @@ export interface PokemonController {
 	isEvolutionLoading: boolean;
 	isPokemonLoading: boolean;
 	isSaved: boolean;
+	isStatsLoading: boolean;
 	primaryType: keyof typeof typeColors;
 	savedPokemons: PokemonId[];
 	tabConfig: PokemonTabConfig[];
@@ -59,6 +89,8 @@ export interface PokemonController {
 	evolutionError: unknown;
 	hasPokemonId: boolean;
 	selectedPokemonName: string | null;
+	statsData?: PokemonStatsData;
+	statsError: unknown;
 	onEvolutionPokemonPress: (pokemonName: string) => void;
 	onTabPress: (tab: EvolutionTab) => void;
 }

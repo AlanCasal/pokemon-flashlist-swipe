@@ -16,6 +16,7 @@ import {
 	getSelectedPokemonName,
 	handleEvolutionPokemonPress,
 } from '../helpers';
+import { buildPokemonStatsData } from '../tabs/Stats/helpers';
 import type { EvolutionTab, PokemonController, PokemonTabConfig } from '../types';
 import { usePokemonAboutData } from './usePokemonAboutData';
 
@@ -30,7 +31,11 @@ export const usePokemonController = (): PokemonController => {
 	const hasPokemonId = pokemonId.length > 0;
 	const fallbackType = getPrimaryTypeFromParam(type);
 	const pokemonUrl = hasPokemonId ? `${API_URL}/${pokemonId}` : '';
-	const { data: pokemonDetails, isLoading: isPokemonLoading } = usePokemonDetails(pokemonUrl);
+	const {
+		data: pokemonDetails,
+		error: pokemonDetailsError,
+		isLoading: isPokemonLoading,
+	} = usePokemonDetails(pokemonUrl);
 	const savedPokemons = useSavedPokemons();
 	const isSaved = useIsPokemonSaved(pokemonDetails?.name);
 	const {
@@ -38,7 +43,14 @@ export const usePokemonController = (): PokemonController => {
 		isLoading: isEvolutionLoading,
 		error: evolutionError,
 	} = useGetPokemonEvolutions(hasPokemonId ? pokemonId : '');
-	const { aboutData, isAboutLoading, aboutError } = usePokemonAboutData({
+	const {
+		aboutData,
+		aboutError,
+		damageRelationsByType,
+		isAboutLoading,
+		isTypeRelationsLoading,
+		typeRelationsError,
+	} = usePokemonAboutData({
 		pokemonDetails,
 		pokemonId,
 	});
@@ -62,6 +74,17 @@ export const usePokemonController = (): PokemonController => {
 
 		return Array.from(uniqueTypes);
 	}, [fallbackType, pokemonDetails]);
+	const statsTypes = useMemo<PokemonType[]>(() => {
+		if (!pokemonDetails?.types) return [];
+
+		return Array.from(
+			new Set(
+				pokemonDetails.types
+					.map(({ type: pokemonType }) => pokemonType.name.toLowerCase())
+					.filter(isPokemonType),
+			),
+		);
+	}, [pokemonDetails?.types]);
 
 	const pokemonNumericId = useMemo(() => {
 		if (pokemonDetails?.id) return pokemonDetails.id;
@@ -87,6 +110,24 @@ export const usePokemonController = (): PokemonController => {
 		],
 		[],
 	);
+	const statsError = pokemonDetailsError || typeRelationsError;
+	const isStatsLoading = isPokemonLoading || isTypeRelationsLoading;
+	const hasCompleteTypeRelations = useMemo(
+		() =>
+			statsTypes.length > 0 &&
+			statsTypes.every(defendingType => damageRelationsByType[defendingType]),
+		[damageRelationsByType, statsTypes],
+	);
+	const statsData = useMemo(() => {
+		if (!pokemonDetails || isStatsLoading || statsError || !hasCompleteTypeRelations) {
+			return undefined;
+		}
+
+		return buildPokemonStatsData({
+			damageRelationsByType,
+			pokemonDetails,
+		});
+	}, [damageRelationsByType, hasCompleteTypeRelations, isStatsLoading, pokemonDetails, statsError]);
 
 	const onTabPress = useCallback((tab: EvolutionTab) => {
 		setActiveTab(tab);
@@ -117,11 +158,14 @@ export const usePokemonController = (): PokemonController => {
 		isEvolutionLoading,
 		isPokemonLoading,
 		isSaved,
+		isStatsLoading,
 		onEvolutionPokemonPress,
 		onTabPress,
 		primaryType,
 		savedPokemons,
 		selectedPokemonName,
+		statsData,
+		statsError,
 		tabConfig,
 		typeChips,
 	};

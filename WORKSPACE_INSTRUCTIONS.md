@@ -31,6 +31,7 @@
 
 - Follow `expo-router` conventions (including grouped routes like `(tabs)`).
 - Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
+- Run tests with `bun run test` (watchman is disabled in the script); prefer JSX content assertions with `@testing-library/react-native` for component UI behavior.
 - Install deps with `bun install` (preferred).
 - Run formatting/linting with `bun run format:fix`.
 - Start app with `bun run start` (or `expo start`).
