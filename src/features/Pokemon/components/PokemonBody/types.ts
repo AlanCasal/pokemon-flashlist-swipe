@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { SharedValue } from 'react-native-reanimated';
 
-import type { EvolutionChartTabConfig, EvolutionTab } from '../../types';
+import type { EvolutionTab, PokemonTabConfig } from '../../types';
 
 export interface PokemonBodyProps {
 	activeTab: EvolutionTab;
@@ -9,5 +9,5 @@ export interface PokemonBodyProps {
 	animatedSheetPosition: SharedValue<number>;
 	children: ReactNode;
 	onTabPress: (tab: EvolutionTab) => void;
-	tabConfig: EvolutionChartTabConfig[];
+	tabConfig: PokemonTabConfig[];
 }
