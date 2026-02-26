@@ -2,12 +2,6 @@ import { backgroundColors, textColor } from '@constants/colors';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const BASE_STAT_TRACK_WIDTH = 159;
-const CONTENT_HORIZONTAL_PADDING = 40;
-const SECTION_SPACING = 40;
-const TOP_PADDING = 40;
-const BOTTOM_PADDING = 32;
-
 export const useStyles = () => {
 	const { bottom } = useSafeAreaInsets();
 
@@ -27,7 +21,7 @@ export const useStyles = () => {
 			flexGrow: 1,
 			flexShrink: 1,
 			height: 4,
-			maxWidth: BASE_STAT_TRACK_WIDTH,
+			maxWidth: 159,
 			minWidth: 0,
 			overflow: 'hidden',
 		},
@@ -102,9 +96,9 @@ export const useStyles = () => {
 			lineHeight: 16,
 		},
 		root: {
-			paddingBottom: bottom + BOTTOM_PADDING,
-			paddingHorizontal: CONTENT_HORIZONTAL_PADDING,
-			paddingTop: TOP_PADDING,
+			paddingBottom: bottom + 32,
+			paddingHorizontal: 40,
+			paddingTop: 40,
 		},
 		rowLabel: {
 			color: textColor.dark,
@@ -112,14 +106,14 @@ export const useStyles = () => {
 			fontSize: 12,
 			fontWeight: '500',
 			lineHeight: 16,
-			minWidth: 44,
+			width: 44,
 		},
 		section: {
 			rowGap: 20,
 			width: '100%',
 		},
 		sectionList: {
-			rowGap: SECTION_SPACING,
+			rowGap: 40,
 			width: '100%',
 		},
 		sectionTitleText: {

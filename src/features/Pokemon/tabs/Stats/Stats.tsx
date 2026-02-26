@@ -77,7 +77,13 @@ const Stats = ({ data, displayName, error, isLoading, primaryType }: PokemonStat
 								key={row.key}
 								style={styles.baseStatRow}
 							>
-								<Text style={styles.rowLabel}>{row.label}</Text>
+								<Text
+									style={styles.rowLabel}
+									numberOfLines={1}
+									adjustsFontSizeToFit
+								>
+									{row.label}
+								</Text>
 								<Text style={styles.baseStatValue}>{formatStatValue(row.value)}</Text>
 
 								<View style={styles.baseStatTrack}>
