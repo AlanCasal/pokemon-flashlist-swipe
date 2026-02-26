@@ -6,7 +6,6 @@ import {
 	buildPokemonStatsData,
 	buildTypeDefenses,
 	formatDefenseMultiplier,
-	getTotalBaseStatTrackStyle,
 } from './helpers';
 
 type PokemonDetailsForStats = Pick<PokemonDetails, 'stats' | 'types'>;
@@ -150,14 +149,5 @@ describe('Pokemon Stats helpers', () => {
 		expect(formatDefenseMultiplier(0.25)).toBe('¼');
 		expect(formatDefenseMultiplier(2)).toBe('2');
 		expect(formatDefenseMultiplier(0)).toBe('0');
-	});
-
-	it('composes total base stat track styles in order', () => {
-		expect(
-			getTotalBaseStatTrackStyle({
-				baseStatTrack: 'base-stat-track',
-				totalStatTrack: 'total-stat-track',
-			}),
-		).toEqual(['base-stat-track', 'total-stat-track']);
 	});
 });

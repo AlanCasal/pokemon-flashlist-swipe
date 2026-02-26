@@ -73,11 +73,6 @@ const getNonHpRange = (baseStat: number | null) => {
 	};
 };
 
-export const getTotalBaseStatTrackStyle = <T>(styles: { baseStatTrack: T; totalStatTrack: T }) => [
-	styles.baseStatTrack,
-	styles.totalStatTrack,
-];
-
 export const formatDefenseMultiplier = (multiplier: number) => {
 	const normalizedMultiplier = normalizeMultiplier(multiplier);
 	const mappedLabel = DAMAGE_MULTIPLIER_LABELS.get(normalizedMultiplier);
