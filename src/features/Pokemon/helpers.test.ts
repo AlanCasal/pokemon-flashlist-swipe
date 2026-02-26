@@ -6,7 +6,7 @@ import {
 	getRouteParamValue,
 } from './helpers';
 
-describe('EvolutionChart helpers', () => {
+describe('Pokemon helpers', () => {
 	it('returns normalized route params for string values', () => {
 		expect(getRouteParamValue(' 25 ')).toBe('25');
 	});

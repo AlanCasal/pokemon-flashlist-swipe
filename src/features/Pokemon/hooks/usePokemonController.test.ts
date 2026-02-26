@@ -5,7 +5,7 @@ import {
 	handleEvolutionPokemonPress,
 } from '../helpers';
 
-describe('useEvolutionChartController selection helpers', () => {
+describe('usePokemonController selection helpers', () => {
 	it('prefers pokemon details name when deriving selected pokemon', () => {
 		expect(
 			getSelectedPokemonName({

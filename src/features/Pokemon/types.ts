@@ -6,7 +6,7 @@ import { CustomEvolutionChain } from '@/src/types/evolutionChain';
 
 export type EvolutionTab = 'about' | 'stats' | 'evolution';
 
-export interface EvolutionChartTabConfig {
+export interface PokemonTabConfig {
 	id: EvolutionTab;
 	label: string;
 }
@@ -40,7 +40,7 @@ export interface PokemonAboutData {
 	sections: PokemonAboutSection[];
 }
 
-export interface EvolutionChartController {
+export interface PokemonController {
 	activeTab: EvolutionTab;
 	aboutData?: PokemonAboutData;
 	aboutError: unknown;
@@ -53,7 +53,7 @@ export interface EvolutionChartController {
 	isSaved: boolean;
 	primaryType: keyof typeof typeColors;
 	savedPokemons: PokemonId[];
-	tabConfig: EvolutionChartTabConfig[];
+	tabConfig: PokemonTabConfig[];
 	typeChips: PokemonType[];
 	evolutionData?: CustomEvolutionChain;
 	evolutionError: unknown;
