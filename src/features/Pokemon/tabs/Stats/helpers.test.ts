@@ -1,10 +1,15 @@
 // @ts-nocheck
+import type { PokemonDetails } from '@/src/types/pokemon';
+
 import {
 	buildBaseStatRows,
 	buildPokemonStatsData,
 	buildTypeDefenses,
 	formatDefenseMultiplier,
+	getTotalBaseStatTrackStyle,
 } from './helpers';
+
+type PokemonDetailsForStats = Pick<PokemonDetails, 'stats' | 'types'>;
 
 const createDamageRelations = () => ({
 	damage_relations: {
@@ -14,18 +19,19 @@ const createDamageRelations = () => ({
 	},
 });
 
-const createPokemonDetails = ({ types = ['fire'] }: { types?: string[] } = {}) =>
-	({
-		stats: [
-			{ base_stat: 39, stat: { name: 'hp' } },
-			{ base_stat: 52, stat: { name: 'attack' } },
-			{ base_stat: 43, stat: { name: 'defense' } },
-			{ base_stat: 60, stat: { name: 'special-attack' } },
-			{ base_stat: 50, stat: { name: 'special-defense' } },
-			{ base_stat: 65, stat: { name: 'speed' } },
-		],
-		types: types.map((name, index) => ({ slot: index + 1, type: { name } })),
-	}) as any;
+const createPokemonDetails = ({
+	types = ['fire'],
+}: { types?: string[] } = {}): PokemonDetailsForStats => ({
+	stats: [
+		{ base_stat: 39, stat: { name: 'hp' } },
+		{ base_stat: 52, stat: { name: 'attack' } },
+		{ base_stat: 43, stat: { name: 'defense' } },
+		{ base_stat: 60, stat: { name: 'special-attack' } },
+		{ base_stat: 50, stat: { name: 'special-defense' } },
+		{ base_stat: 65, stat: { name: 'speed' } },
+	],
+	types: types.map((name, index) => ({ slot: index + 1, type: { name } })),
+});
 
 describe('Pokemon Stats helpers', () => {
 	it('maps base stats in expected order and computes total for Charmander', () => {
@@ -144,5 +150,14 @@ describe('Pokemon Stats helpers', () => {
 		expect(formatDefenseMultiplier(0.25)).toBe('¼');
 		expect(formatDefenseMultiplier(2)).toBe('2');
 		expect(formatDefenseMultiplier(0)).toBe('0');
+	});
+
+	it('composes total base stat track styles in order', () => {
+		expect(
+			getTotalBaseStatTrackStyle({
+				baseStatTrack: 'base-stat-track',
+				totalStatTrack: 'total-stat-track',
+			}),
+		).toEqual(['base-stat-track', 'total-stat-track']);
 	});
 });

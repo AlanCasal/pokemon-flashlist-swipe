@@ -135,6 +135,9 @@ export const useStyles = () => {
 			textAlign: 'right',
 			width: 30,
 		},
+		totalStatTrack: {
+			backgroundColor: 'transparent',
+		},
 		totalValue: {
 			color: textColor.grey,
 			fontSize: 16,

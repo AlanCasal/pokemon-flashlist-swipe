@@ -2,6 +2,7 @@ import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { textColor, typeColors } from '@constants/colors';
 import { Text, View } from 'react-native';
 
+import { getTotalBaseStatTrackStyle } from './helpers';
 import { useStyles } from './styles';
 import type { PokemonStatsProps } from './types';
 
@@ -108,7 +109,7 @@ const Stats = ({ data, displayName, error, isLoading, primaryType }: PokemonStat
 							>
 								{formatStatValue(data.totalBaseStat)}
 							</Text>
-							<View style={styles.baseStatTrack} />
+							<View style={getTotalBaseStatTrackStyle(styles)} />
 							<Text style={styles.totalLabel}>{MIN_LABEL}</Text>
 							<Text style={styles.totalLabel}>{MAX_LABEL}</Text>
 						</View>
