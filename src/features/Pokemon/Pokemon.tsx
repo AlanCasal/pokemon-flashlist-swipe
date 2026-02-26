@@ -10,7 +10,7 @@ import {
 
 import PokemonBody from './components/PokemonBody';
 import PokemonHeader from './components/PokemonHeader';
-import { useEvolutionChartController } from './hooks/useEvolutionChartController';
+import { usePokemonController } from './hooks/usePokemonController';
 import { useStyles } from './styles';
 import About from './tabs/About';
 import Evolution from './tabs/Evolution';
@@ -45,7 +45,7 @@ const Pokemon = () => {
 		tabConfig,
 		typeChips,
 		isStatsLoading,
-	} = useEvolutionChartController();
+	} = usePokemonController();
 	const animatedSheetIndex = useSharedValue(0);
 	const animatedSheetPosition = useSharedValue(0);
 

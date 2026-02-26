@@ -17,13 +17,13 @@ import {
 	handleEvolutionPokemonPress,
 } from '../helpers';
 import { buildPokemonStatsData } from '../tabs/Stats/helpers';
-import type { EvolutionChartController, EvolutionChartTabConfig, EvolutionTab } from '../types';
+import type { EvolutionTab, PokemonController, PokemonTabConfig } from '../types';
 import { usePokemonAboutData } from './usePokemonAboutData';
 
 const isPokemonType = (value: string): value is PokemonType => value in typeColors;
 
-export const useEvolutionChartController = (): EvolutionChartController => {
-	const [activeTab, setActiveTab] = useState<EvolutionTab>('stats');
+export const usePokemonController = (): PokemonController => {
+	const [activeTab, setActiveTab] = useState<EvolutionTab>('about');
 	const router = useRouter();
 	const { id, type } = useLocalSearchParams<{ id?: string | string[]; type?: string | string[] }>();
 
@@ -102,7 +102,7 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		[pokemonDetails?.name, pokemonId],
 	);
 
-	const tabConfig = useMemo<EvolutionChartTabConfig[]>(
+	const tabConfig = useMemo<PokemonTabConfig[]>(
 		() => [
 			{ id: 'about', label: texts.evolution.aboutTabLabel },
 			{ id: 'stats', label: texts.evolution.statsTabLabel },
