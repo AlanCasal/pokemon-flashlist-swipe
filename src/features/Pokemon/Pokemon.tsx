@@ -14,6 +14,7 @@ import { useEvolutionChartController } from './hooks/useEvolutionChartController
 import { useStyles } from './styles';
 import About from './tabs/About';
 import Evolution from './tabs/Evolution';
+import Stats from './tabs/Stats';
 import type { EvolutionTab } from './types';
 
 const COLLAPSED_HERO_EXIT_OFFSET = -60;
@@ -39,8 +40,11 @@ const Pokemon = () => {
 		primaryType,
 		savedPokemons,
 		selectedPokemonName,
+		statsData,
+		statsError,
 		tabConfig,
 		typeChips,
+		isStatsLoading,
 	} = useEvolutionChartController();
 	const animatedSheetIndex = useSharedValue(0);
 	const animatedSheetPosition = useSharedValue(0);
@@ -90,9 +94,13 @@ const Pokemon = () => {
 
 		if (tab === 'stats') {
 			return (
-				<View style={styles.placeholderContainer}>
-					<Text style={styles.placeholderText}>{texts.evolution.wipMessage}</Text>
-				</View>
+				<Stats
+					data={statsData}
+					displayName={displayName}
+					error={statsError}
+					isLoading={isStatsLoading}
+					primaryType={primaryType}
+				/>
 			);
 		}
 

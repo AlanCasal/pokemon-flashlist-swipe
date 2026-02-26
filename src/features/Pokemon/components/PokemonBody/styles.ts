@@ -21,7 +21,7 @@ export const useStyles = () => {
 			zIndex: 30,
 		},
 		sheetBackground: {
-			backgroundColor: backgroundColors.inactive,
+			backgroundColor: backgroundColors.light,
 			borderTopLeftRadius: 30,
 			borderTopRightRadius: 30,
 		},

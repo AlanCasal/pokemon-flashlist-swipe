@@ -16,13 +16,14 @@ import {
 	getSelectedPokemonName,
 	handleEvolutionPokemonPress,
 } from '../helpers';
+import { buildPokemonStatsData } from '../tabs/Stats/helpers';
 import type { EvolutionChartController, EvolutionChartTabConfig, EvolutionTab } from '../types';
 import { usePokemonAboutData } from './usePokemonAboutData';
 
 const isPokemonType = (value: string): value is PokemonType => value in typeColors;
 
 export const useEvolutionChartController = (): EvolutionChartController => {
-	const [activeTab, setActiveTab] = useState<EvolutionTab>('about');
+	const [activeTab, setActiveTab] = useState<EvolutionTab>('stats');
 	const router = useRouter();
 	const { id, type } = useLocalSearchParams<{ id?: string | string[]; type?: string | string[] }>();
 
@@ -30,7 +31,11 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 	const hasPokemonId = pokemonId.length > 0;
 	const fallbackType = getPrimaryTypeFromParam(type);
 	const pokemonUrl = hasPokemonId ? `${API_URL}/${pokemonId}` : '';
-	const { data: pokemonDetails, isLoading: isPokemonLoading } = usePokemonDetails(pokemonUrl);
+	const {
+		data: pokemonDetails,
+		error: pokemonDetailsError,
+		isLoading: isPokemonLoading,
+	} = usePokemonDetails(pokemonUrl);
 	const savedPokemons = useSavedPokemons();
 	const isSaved = useIsPokemonSaved(pokemonDetails?.name);
 	const {
@@ -38,7 +43,14 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		isLoading: isEvolutionLoading,
 		error: evolutionError,
 	} = useGetPokemonEvolutions(hasPokemonId ? pokemonId : '');
-	const { aboutData, isAboutLoading, aboutError } = usePokemonAboutData({
+	const {
+		aboutData,
+		aboutError,
+		damageRelationsByType,
+		isAboutLoading,
+		isTypeRelationsLoading,
+		typeRelationsError,
+	} = usePokemonAboutData({
 		pokemonDetails,
 		pokemonId,
 	});
@@ -87,6 +99,16 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		],
 		[],
 	);
+	const statsData = useMemo(
+		() =>
+			buildPokemonStatsData({
+				damageRelationsByType,
+				pokemonDetails,
+			}),
+		[damageRelationsByType, pokemonDetails],
+	);
+	const statsError = pokemonDetailsError || typeRelationsError;
+	const isStatsLoading = isPokemonLoading || isTypeRelationsLoading;
 
 	const onTabPress = useCallback((tab: EvolutionTab) => {
 		setActiveTab(tab);
@@ -117,11 +139,14 @@ export const useEvolutionChartController = (): EvolutionChartController => {
 		isEvolutionLoading,
 		isPokemonLoading,
 		isSaved,
+		isStatsLoading,
 		onEvolutionPokemonPress,
 		onTabPress,
 		primaryType,
 		savedPokemons,
 		selectedPokemonName,
+		statsData,
+		statsError,
 		tabConfig,
 		typeChips,
 	};

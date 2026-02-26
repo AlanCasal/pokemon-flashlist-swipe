@@ -75,12 +75,17 @@ export const usePokemonAboutData = ({ pokemonDetails, pokemonId }: UsePokemonAbo
 		[damageRelationsByType, pokemonDetails, speciesQuery.data],
 	);
 
-	const aboutError = speciesQuery.error || typeQueries.find(query => query.error)?.error || null;
-	const isAboutLoading = speciesQuery.isLoading || typeQueries.some(query => query.isLoading);
+	const typeRelationsError = typeQueries.find(query => query.error)?.error || null;
+	const isTypeRelationsLoading = typeQueries.some(query => query.isLoading);
+	const aboutError = speciesQuery.error || typeRelationsError;
+	const isAboutLoading = speciesQuery.isLoading || isTypeRelationsLoading;
 
 	return {
 		aboutData,
 		aboutError,
+		damageRelationsByType,
 		isAboutLoading,
+		isTypeRelationsLoading,
+		typeRelationsError,
 	};
 };
