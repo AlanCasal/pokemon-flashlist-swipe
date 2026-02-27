@@ -83,3 +83,8 @@ export const backgroundColors = {
 };
 
 export const backdropOverlay = 'rgba(23, 23, 27, 0.5)';
+
+export const sliderColors = {
+	all: 'rgba(186, 171, 130, 0.4)',
+	some: 'rgba(111, 110, 120, 0.4)',
+};

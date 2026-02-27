@@ -1,4 +1,4 @@
-import { customColor, textColor, typeBgColors, typeColors } from '@constants/colors';
+import { customColor, sliderColors, textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
@@ -8,7 +8,7 @@ const {
 } = sharedStyles;
 
 export const useStyles = ({ isRangeMaxedOut }: { isRangeMaxedOut: boolean }) => {
-	const sliderColor = isRangeMaxedOut ? typeColors.rock : typeBgColors.dark;
+	const sliderColor = isRangeMaxedOut ? sliderColors.all : sliderColors.some;
 
 	return useMemo(
 		() =>
