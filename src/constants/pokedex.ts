@@ -96,6 +96,13 @@ export const POKEDEX_GENERATION_OPTIONS: {
 		generationNumber: 8,
 		starterIds: [810, 813, 816],
 	},
+	{
+		id: 'generation_9',
+		label: 'Generation IX',
+		testID: 'pokedex-generation-option-9',
+		generationNumber: 9,
+		starterIds: [906, 909, 912],
+	},
 ];
 
 export const POKEDEX_FILTER_TYPE_OPTIONS: {

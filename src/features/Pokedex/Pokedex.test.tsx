@@ -254,8 +254,8 @@ describe('Pokedex search helpers', () => {
 		).toBe(false);
 	});
 
-	it('contains 8 generation options with expected ids and labels', () => {
-		expect(POKEDEX_GENERATION_OPTIONS).toHaveLength(8);
+	it('contains 9 generation options with expected ids and labels', () => {
+		expect(POKEDEX_GENERATION_OPTIONS).toHaveLength(9);
 		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.id)).toEqual([
 			'generation_1',
 			'generation_2',
@@ -265,6 +265,7 @@ describe('Pokedex search helpers', () => {
 			'generation_6',
 			'generation_7',
 			'generation_8',
+			'generation_9',
 		]);
 		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.label)).toEqual([
 			'Generation I',
@@ -275,6 +276,7 @@ describe('Pokedex search helpers', () => {
 			'Generation VI',
 			'Generation VII',
 			'Generation VIII',
+			'Generation IX',
 		]);
 		expect(POKEDEX_GENERATION_OPTIONS.map(option => option.starterIds)).toEqual([
 			[1, 4, 7],
@@ -285,6 +287,7 @@ describe('Pokedex search helpers', () => {
 			[650, 653, 656],
 			[722, 725, 728],
 			[810, 813, 816],
+			[906, 909, 912],
 		]);
 	});
 

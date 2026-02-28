@@ -23,6 +23,7 @@ describe('usePokemonGeneration helpers', () => {
 	it('maps generation option ids to generation numbers', () => {
 		expect(getGenerationNumberFromOption('generation_1')).toBe(1);
 		expect(getGenerationNumberFromOption('generation_8')).toBe(8);
+		expect(getGenerationNumberFromOption('generation_9')).toBe(9);
 		expect(getGenerationNumberFromOption(null)).toBeNull();
 	});
 
