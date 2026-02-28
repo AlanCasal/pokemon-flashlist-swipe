@@ -11,7 +11,8 @@ import type {
 	PokedexSortOption,
 	PokedexWeightOption,
 } from '@/src/types';
-import { Pokemon } from '@/src/types/pokemonList';
+import type { PokemonDetails } from '@/src/types/pokemon';
+import type { Pokemon } from '@/src/types/pokemonList';
 
 export interface EmptySavedTextParts {
 	bottomLines: string[];
@@ -151,6 +152,25 @@ export interface PokedexFilterState {
 	selectedTypes: PokemonType[];
 	selectedWeaknesses: PokemonType[];
 	selectedWeights: PokedexWeightOption[];
+}
+
+export interface PokemonTypeDamageRelationsResponse {
+	damage_relations: {
+		double_damage_from: Array<{ name: string; url: string }>;
+		half_damage_from: Array<{ name: string; url: string }>;
+		no_damage_from: Array<{ name: string; url: string }>;
+	};
+}
+
+export type PokemonTypeDamageRelationsByType = Partial<
+	Record<PokemonType, PokemonTypeDamageRelationsResponse>
+>;
+
+export interface GetDoesPokemonMatchAppliedFiltersParams {
+	damageRelationsByType: PokemonTypeDamageRelationsByType;
+	filterState: PokedexFilterState;
+	pokemon: Pokemon;
+	pokemonDetails: PokemonDetails;
 }
 
 export type PokedexFiltersByMode = Record<PokedexMode, PokedexFilterState>;

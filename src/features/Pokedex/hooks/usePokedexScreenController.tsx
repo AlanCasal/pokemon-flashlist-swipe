@@ -1,6 +1,7 @@
 import PokeCard from '@components/PokeCard';
 import { API_URL } from '@constants/api';
 import { POKEDEX_NUMBER_RANGE_DEFAULTS } from '@constants/pokedex';
+import { usePokemonCatalog } from '@hooks/usePokemonCatalog';
 import { usePokemonGeneration } from '@hooks/usePokemonGeneration';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { useSearchPokemon } from '@hooks/useSearchPokemon';
@@ -14,7 +15,7 @@ import { ActivityIndicator, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { type PokedexMode } from '@/src/types';
-import { Pokemon } from '@/src/types/pokemonList';
+import type { Pokemon } from '@/src/types/pokemonList';
 
 import {
 	getDisplayedPokemonList,
@@ -31,6 +32,7 @@ import {
 	shouldShowScrollToTop,
 } from '../helpers';
 import { type PokedexRenderItemParams, type PokedexScreenController } from '../types';
+import { usePokedexAppliedFilters } from './usePokedexAppliedFilters';
 import { usePokedexBottomSheetState } from './usePokedexBottomSheetState';
 import { usePokedexFilterState } from './usePokedexFilterState';
 import { usePokedexSearchState } from './usePokedexSearchState';
@@ -47,17 +49,6 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 
 	const savedPokemons = useSavedPokemons();
 	const showToast = useShowToast();
-	const {
-		data,
-		fetchNextPage,
-		hasNextPage,
-		isLoading,
-		isFetchingNextPage,
-		isError,
-		error,
-		isRefetching,
-		refetch,
-	} = usePokemonList(!isSavedMode && isCurrentScreen);
 
 	const [showScrollToTopButton, setShowScrollToTopButton] = useState(false);
 	const [isEmptySavedPokeBallSaved, setIsEmptySavedPokeBallSaved] = useState(false);
@@ -72,9 +63,11 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	} = usePokedexSearchState({ isSavedMode });
 
 	const bottomSheetState = usePokedexBottomSheetState({ isSavedMode });
+	const isGenerationActive = Boolean(bottomSheetState.selectedGenerationOption);
 
 	const {
 		draftFilterState,
+		appliedFilterState,
 		activeFilterCount,
 		hasActiveFilter,
 		handleFilterPress,
@@ -90,6 +83,39 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		onOpenFilterSheet: bottomSheetState.handleOpenFilterSheet,
 		onCloseFilterSheet: bottomSheetState.handleCloseFilterSheet,
 	});
+
+	const shouldUseGenerationBaseList =
+		isCurrentScreen && !isSavedMode && !isSearchActive && isGenerationActive;
+
+	const shouldUseCatalogForAllMode =
+		isCurrentScreen &&
+		!isSavedMode &&
+		!isSearchActive &&
+		!shouldUseGenerationBaseList &&
+		hasActiveFilter;
+
+	const shouldUsePaginatedList =
+		!isSavedMode && isCurrentScreen && !shouldUseCatalogForAllMode && !shouldUseGenerationBaseList;
+
+	const {
+		data,
+		fetchNextPage,
+		hasNextPage,
+		isLoading,
+		isFetchingNextPage,
+		isError,
+		error,
+		isRefetching,
+		refetch,
+	} = usePokemonList(shouldUsePaginatedList);
+
+	const {
+		data: pokemonCatalogList,
+		isLoading: isPokemonCatalogLoading,
+		error: pokemonCatalogError,
+		isError: isPokemonCatalogError,
+		refetch: refetchPokemonCatalog,
+	} = usePokemonCatalog(shouldUseCatalogForAllMode);
 
 	const backgroundSource = isSavedMode
 		? require('@assets/images/wallpaper-misc.jpg')
@@ -109,23 +135,29 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		!isSavedMode && isSearchActive && isCurrentScreen,
 	);
 
-	const isGenerationActive = Boolean(bottomSheetState.selectedGenerationOption);
 	const {
 		data: generationData,
 		isLoading: isGenerationLoading,
 		isError: isGenerationError,
 		error: generationError,
+		refetch: refetchGeneration,
 	} = usePokemonGeneration(
 		bottomSheetState.selectedGenerationOption,
 		isCurrentScreen && isGenerationActive,
 	);
+
 	const isSearchNotFoundError = getIsSearchNotFoundError(searchError);
 
-	const pokemonList = useMemo(
+	const paginatedPokemonList = useMemo(
 		() =>
 			data?.pages.reduce<Pokemon[]>((accumulator, page) => accumulator.concat(page.results), []) ??
 			[],
 		[data],
+	);
+
+	const allModeBasePokemonList = useMemo(
+		() => (shouldUseCatalogForAllMode ? (pokemonCatalogList ?? []) : paginatedPokemonList),
+		[paginatedPokemonList, pokemonCatalogList, shouldUseCatalogForAllMode],
 	);
 
 	const savedPokemonList = useMemo(
@@ -156,7 +188,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 				isSearchActive,
 				isSavedMode,
 				savedPokemonList,
-				pokemonList,
+				pokemonList: allModeBasePokemonList,
 				filteredSavedPokemonList,
 				searchedPokemonList,
 			}),
@@ -164,7 +196,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			isSearchActive,
 			isSavedMode,
 			savedPokemonList,
-			pokemonList,
+			allModeBasePokemonList,
 			filteredSavedPokemonList,
 			searchedPokemonList,
 		],
@@ -192,22 +224,29 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isSearchActive,
 	]);
 
+	const { filteredPokemonList, isFilteringPokemonList, isFilterError, filterError } =
+		usePokedexAppliedFilters({
+			candidatePokemonList: generationScopedPokemonList,
+			appliedFilterState,
+			enabled: isCurrentScreen,
+		});
+
 	const sortedPokemonList = useMemo(
 		() =>
 			isSavedMode
-				? getSortedPokemonList(generationScopedPokemonList, bottomSheetState.savedSortOption)
-				: generationScopedPokemonList,
-		[generationScopedPokemonList, isSavedMode, bottomSheetState.savedSortOption],
+				? getSortedPokemonList(filteredPokemonList, bottomSheetState.savedSortOption)
+				: filteredPokemonList,
+		[filteredPokemonList, isSavedMode, bottomSheetState.savedSortOption],
 	);
 
-	const isGenerationFilterPending =
-		isGenerationActive && !isSavedMode && !isGenerationError && !generationData;
+	const isGenerationFilterPending = isGenerationActive && !isGenerationError && !generationData;
 
 	const shouldShowSearchNotFound =
 		!isGenerationFilterPending &&
+		!isFilteringPokemonList &&
 		getShouldShowSearchNotFound({
 			isSearchActive,
-			displayedPokemonCount: generationScopedPokemonList.length,
+			displayedPokemonCount: sortedPokemonList.length,
 			isSavedMode,
 			isSearchingPokemon,
 			isSearchError,
@@ -217,8 +256,8 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const shouldShowSearchLoadingSpinner =
 		isSearchActive &&
 		!isSavedMode &&
-		(isSearchingPokemon || isGenerationFilterPending) &&
-		generationScopedPokemonList.length === 0;
+		(isSearchingPokemon || isGenerationFilterPending || isFilteringPokemonList) &&
+		sortedPokemonList.length === 0;
 
 	const shouldDarkenBackgroundForEmptySavedState = getShouldDarkenBackgroundForEmptySavedState({
 		isSavedMode,
@@ -227,13 +266,32 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	});
 
 	const handleRefresh = useCallback(() => {
+		if (!isSavedMode && isGenerationActive) {
+			void refetchGeneration();
+			if (!isSearchActive) return;
+		}
+
+		if (shouldUseCatalogForAllMode) {
+			void refetchPokemonCatalog();
+			return;
+		}
+
 		if (!isSavedMode && isSearchActive) {
 			void refetchSearch();
 			return;
 		}
 
 		void refetch();
-	}, [isSavedMode, isSearchActive, refetch, refetchSearch]);
+	}, [
+		isSavedMode,
+		isGenerationActive,
+		isSearchActive,
+		refetch,
+		refetchGeneration,
+		refetchPokemonCatalog,
+		refetchSearch,
+		shouldUseCatalogForAllMode,
+	]);
 
 	const handleRenderItem = useCallback(
 		({ item }: PokedexRenderItemParams) => (
@@ -270,7 +328,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	);
 
 	const handleEndReached = useCallback(() => {
-		if (isGenerationActive && !isSavedMode && !isSearchActive) return;
+		if (shouldUseCatalogForAllMode || shouldUseGenerationBaseList) return;
 
 		const shouldFetchNextPage = getShouldFetchNextPage({
 			isSavedMode,
@@ -285,9 +343,10 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		fetchNextPage,
 		hasNextPage,
 		isFetchingNextPage,
-		isGenerationActive,
 		isSavedMode,
 		isSearchActive,
+		shouldUseCatalogForAllMode,
+		shouldUseGenerationBaseList,
 	]);
 
 	useEffect(() => {
@@ -303,6 +362,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			cancelAnimationFrame(frameId);
 		};
 	}, [
+		activeFilterCount,
 		isCurrentScreen,
 		isSavedMode,
 		normalizedActiveSearchValue,
@@ -342,14 +402,24 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		Alert.alert(texts.alerts.errorFetchingPokemonTitle, generationError.message);
 	}, [isCurrentScreen, isGenerationActive, isGenerationError, generationError]);
 
-	const shouldShowGenerationListLoading =
-		isCurrentScreen &&
-		!isSavedMode &&
-		!isSearchActive &&
-		isGenerationActive &&
-		!isGenerationError &&
-		!generationData &&
-		isGenerationLoading;
+	useEffect(() => {
+		if (
+			!isCurrentScreen ||
+			!shouldUseCatalogForAllMode ||
+			!isPokemonCatalogError ||
+			!pokemonCatalogError
+		) {
+			return;
+		}
+
+		Alert.alert(texts.alerts.errorFetchingPokemonTitle, pokemonCatalogError.message);
+	}, [isCurrentScreen, shouldUseCatalogForAllMode, isPokemonCatalogError, pokemonCatalogError]);
+
+	useEffect(() => {
+		if (!isCurrentScreen || !hasActiveFilter || !isFilterError || !filterError) return;
+
+		Alert.alert(texts.alerts.errorFetchingPokemonTitle, filterError.message);
+	}, [isCurrentScreen, hasActiveFilter, isFilterError, filterError]);
 
 	const headerProps = useMemo(
 		() => ({
@@ -389,7 +459,12 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			onScroll: handleFlashListScroll,
 			onEndReached: handleEndReached,
 			listFooterComponent:
-				isFetchingNextPage && !isSavedMode && !isSearchActive && !isGenerationActive ? (
+				(isFetchingNextPage &&
+					!isSavedMode &&
+					!isSearchActive &&
+					!shouldUseCatalogForAllMode &&
+					!shouldUseGenerationBaseList) ||
+				(isFilteringPokemonList && !isSearchActive && sortedPokemonList.length > 0) ? (
 					<ActivityIndicator />
 				) : null,
 		}),
@@ -401,9 +476,11 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			handleFlashListScroll,
 			handleEndReached,
 			isFetchingNextPage,
-			isGenerationActive,
 			isSavedMode,
 			isSearchActive,
+			isFilteringPokemonList,
+			shouldUseCatalogForAllMode,
+			shouldUseGenerationBaseList,
 		],
 	);
 
@@ -474,6 +551,23 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		[showScrollToTopButton, handleScrollToTop],
 	);
 
+	const isLoadingDefaultModeData = shouldUsePaginatedList && isLoading && !data;
+
+	const isLoadingAllModeCatalog =
+		shouldUseCatalogForAllMode && isPokemonCatalogLoading && !pokemonCatalogList;
+
+	const shouldShowGenerationListLoading =
+		shouldUseGenerationBaseList && !isGenerationError && !generationData && isGenerationLoading;
+
+	const isFilteringWithNoResults =
+		!isSearchActive && hasActiveFilter && isFilteringPokemonList && sortedPokemonList.length === 0;
+
+	const isInitialLoading =
+		isLoadingDefaultModeData ||
+		isLoadingAllModeCatalog ||
+		shouldShowGenerationListLoading ||
+		isFilteringWithNoResults;
+
 	return {
 		topInset: top,
 		bottomInset: bottom,
@@ -485,7 +579,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		filterSheetProps,
 		scrollToTopProps,
 		listRef,
-		isInitialLoading: (isLoading && !data) || shouldShowGenerationListLoading,
+		isInitialLoading,
 		isSavedMode,
 		isAnyBottomSheetOpen: bottomSheetState.isAnyBottomSheetOpen,
 		isSearchActive,
