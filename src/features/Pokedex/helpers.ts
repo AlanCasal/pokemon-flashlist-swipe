@@ -64,6 +64,15 @@ export const getFilteredSavedPokemonList = (
 	normalizedSearchValue: string,
 ) => savedPokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(normalizedSearchValue));
 
+export const getFilteredPokemonListByNameSet = (
+	pokemonList: Pokemon[],
+	allowedNames: Set<string> | null,
+) => {
+	if (!allowedNames) return pokemonList;
+
+	return pokemonList.filter(pokemon => allowedNames.has(pokemon.name.trim().toLowerCase()));
+};
+
 export const getActiveSearchValues = ({
 	isSavedMode,
 	allSearchValue,
