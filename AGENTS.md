@@ -41,6 +41,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 - Diff behavior between baseline and changes when relevant.
 - Run tests/checks and demonstrate correctness with evidence.
 - Make sure imports are sorted (rule `eslintsimple-import-sort/imports`)
+- Fix any lint or ts warnings and errors
 
 ### 5. Demand Elegance (Balanced)
 
