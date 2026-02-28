@@ -1,5 +1,12 @@
 import { API_URL, HTTP_NOT_FOUND_STATUS } from '@constants/api';
-import { POKEMON_ID_FROM_URL_REGEX } from '@constants/pokedex';
+import { POKEMON_TYPES, type PokemonType } from '@constants/index';
+import {
+	POKEDEX_HEIGHT_MEDIUM_MAX_DECIMETERS,
+	POKEDEX_HEIGHT_SHORT_MAX_DECIMETERS,
+	POKEDEX_WEIGHT_LIGHT_MAX_HECTOGRAMS,
+	POKEDEX_WEIGHT_NORMAL_MAX_HECTOGRAMS,
+	POKEMON_ID_FROM_URL_REGEX,
+} from '@constants/pokedex';
 import texts from '@utils/texts.json';
 
 import {
@@ -7,13 +14,15 @@ import {
 	EmptySavedTextParts,
 	GetActiveSearchValuesParams,
 	GetDisplayedPokemonListParams,
+	GetDoesPokemonMatchAppliedFiltersParams,
 	PokedexFilterNumberRange,
 	PokedexFilterState,
+	PokemonTypeDamageRelationsByType,
 	ShouldDarkenBackgroundForEmptySavedStateParams,
 	ShouldFetchNextPageParams,
 	ShouldShowSearchNotFoundParams,
 } from '@/src/features/Pokedex/types';
-import { PokedexSortOption } from '@/src/types';
+import { PokedexHeightOption, PokedexSortOption, PokedexWeightOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
@@ -119,6 +128,197 @@ export const getPokemonNumberFromUrl = (url: string): number | null => {
 
 	const parsed = Number.parseInt(matches[1], 10);
 	return Number.isNaN(parsed) ? null : parsed;
+};
+
+const isPokemonType = (value: string): value is PokemonType =>
+	POKEMON_TYPES.includes(value as PokemonType);
+
+const getPokemonTypesFromDetails = (pokemonDetails: PokemonDetails): PokemonType[] =>
+	Array.from(
+		new Set(
+			pokemonDetails.types
+				.map(typeEntry => typeEntry.type.name.trim().toLowerCase())
+				.filter(isPokemonType),
+		),
+	);
+
+const getWeaknessMultiplierByType = ({
+	damageRelationsByType,
+	pokemonTypes,
+}: {
+	damageRelationsByType: PokemonTypeDamageRelationsByType;
+	pokemonTypes: PokemonType[];
+}) => {
+	const multiplierByType = new Map<PokemonType, number>();
+
+	POKEMON_TYPES.forEach(type => {
+		multiplierByType.set(type, 1);
+	});
+
+	pokemonTypes.forEach(defendingType => {
+		const relations = damageRelationsByType[defendingType]?.damage_relations;
+		if (!relations) return;
+
+		relations.double_damage_from.forEach(attackingType => {
+			if (!isPokemonType(attackingType.name)) return;
+			multiplierByType.set(attackingType.name, (multiplierByType.get(attackingType.name) ?? 1) * 2);
+		});
+
+		relations.half_damage_from.forEach(attackingType => {
+			if (!isPokemonType(attackingType.name)) return;
+			multiplierByType.set(
+				attackingType.name,
+				(multiplierByType.get(attackingType.name) ?? 1) * 0.5,
+			);
+		});
+
+		relations.no_damage_from.forEach(attackingType => {
+			if (!isPokemonType(attackingType.name)) return;
+			multiplierByType.set(attackingType.name, 0);
+		});
+	});
+
+	return multiplierByType;
+};
+
+export const getHeightOptionFromDecimeters = (heightDecimeters: number): PokedexHeightOption => {
+	if (heightDecimeters <= POKEDEX_HEIGHT_SHORT_MAX_DECIMETERS) return 'short';
+	if (heightDecimeters <= POKEDEX_HEIGHT_MEDIUM_MAX_DECIMETERS) return 'medium';
+
+	return 'tall';
+};
+
+export const getWeightOptionFromHectograms = (weightHectograms: number): PokedexWeightOption => {
+	if (weightHectograms <= POKEDEX_WEIGHT_LIGHT_MAX_HECTOGRAMS) return 'light';
+	if (weightHectograms <= POKEDEX_WEIGHT_NORMAL_MAX_HECTOGRAMS) return 'normal';
+
+	return 'heavy';
+};
+
+const getPokemonNumberForFilter = ({
+	pokemon,
+	pokemonDetails,
+}: {
+	pokemon: Pokemon;
+	pokemonDetails: PokemonDetails;
+}) => {
+	const numberFromUrl = getPokemonNumberFromUrl(pokemon.url);
+	if (numberFromUrl !== null) return numberFromUrl;
+
+	const numberFromDetails = pokemonDetails.id;
+	if (Number.isNaN(numberFromDetails)) return null;
+
+	return numberFromDetails;
+};
+
+export const getDoesPokemonMatchNumberRangeFromListItem = ({
+	pokemon,
+	range,
+}: {
+	pokemon: Pokemon;
+	range: PokedexFilterNumberRange;
+}) => {
+	const numberFromUrl = getPokemonNumberFromUrl(pokemon.url);
+	if (numberFromUrl === null) return true;
+
+	return numberFromUrl >= range.min && numberFromUrl <= range.max;
+};
+
+const getDoesPokemonMatchTypeFilters = ({
+	pokemonDetails,
+	selectedTypes,
+}: {
+	pokemonDetails: PokemonDetails;
+	selectedTypes: PokemonType[];
+}) => {
+	if (selectedTypes.length === 0) return true;
+
+	const pokemonTypes = getPokemonTypesFromDetails(pokemonDetails);
+	return selectedTypes.some(type => pokemonTypes.includes(type));
+};
+
+const getDoesPokemonMatchWeaknessFilters = ({
+	damageRelationsByType,
+	pokemonDetails,
+	selectedWeaknesses,
+}: {
+	damageRelationsByType: PokemonTypeDamageRelationsByType;
+	pokemonDetails: PokemonDetails;
+	selectedWeaknesses: PokemonType[];
+}) => {
+	if (selectedWeaknesses.length === 0) return true;
+
+	const pokemonTypes = getPokemonTypesFromDetails(pokemonDetails);
+	if (pokemonTypes.length === 0) return false;
+
+	const multiplierByType = getWeaknessMultiplierByType({
+		damageRelationsByType,
+		pokemonTypes,
+	});
+
+	return selectedWeaknesses.some(weaknessType => (multiplierByType.get(weaknessType) ?? 1) > 1);
+};
+
+const getDoesPokemonMatchHeightFilters = ({
+	pokemonDetails,
+	selectedHeights,
+}: {
+	pokemonDetails: PokemonDetails;
+	selectedHeights: PokedexHeightOption[];
+}) => {
+	if (selectedHeights.length === 0) return true;
+
+	return selectedHeights.includes(getHeightOptionFromDecimeters(pokemonDetails.height));
+};
+
+const getDoesPokemonMatchWeightFilters = ({
+	pokemonDetails,
+	selectedWeights,
+}: {
+	pokemonDetails: PokemonDetails;
+	selectedWeights: PokedexWeightOption[];
+}) => {
+	if (selectedWeights.length === 0) return true;
+
+	return selectedWeights.includes(getWeightOptionFromHectograms(pokemonDetails.weight));
+};
+
+export const getDoesPokemonMatchAppliedFilters = ({
+	damageRelationsByType,
+	filterState,
+	pokemon,
+	pokemonDetails,
+}: GetDoesPokemonMatchAppliedFiltersParams) => {
+	const pokemonNumber = getPokemonNumberForFilter({ pokemon, pokemonDetails });
+	if (pokemonNumber === null) return false;
+
+	const isInNumberRange =
+		pokemonNumber >= filterState.numberRange.min && pokemonNumber <= filterState.numberRange.max;
+	if (!isInNumberRange) return false;
+
+	const matchesTypeFilters = getDoesPokemonMatchTypeFilters({
+		pokemonDetails,
+		selectedTypes: filterState.selectedTypes,
+	});
+	if (!matchesTypeFilters) return false;
+
+	const matchesWeaknessFilters = getDoesPokemonMatchWeaknessFilters({
+		damageRelationsByType,
+		pokemonDetails,
+		selectedWeaknesses: filterState.selectedWeaknesses,
+	});
+	if (!matchesWeaknessFilters) return false;
+
+	const matchesHeightFilters = getDoesPokemonMatchHeightFilters({
+		pokemonDetails,
+		selectedHeights: filterState.selectedHeights,
+	});
+	if (!matchesHeightFilters) return false;
+
+	return getDoesPokemonMatchWeightFilters({
+		pokemonDetails,
+		selectedWeights: filterState.selectedWeights,
+	});
 };
 
 const sortByNumberAscending = (left: Pokemon, right: Pokemon) => {

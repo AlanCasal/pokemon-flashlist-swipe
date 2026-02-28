@@ -8,9 +8,12 @@ import {
 	getActiveSearchValues,
 	getAppliedFilterCount,
 	getDisplayedPokemonList,
+	getDoesPokemonMatchAppliedFilters,
+	getDoesPokemonMatchNumberRangeFromListItem,
 	getEmptySavedTextParts,
 	getEmptySavedToastConfig,
 	getFilteredSavedPokemonList,
+	getHeightOptionFromDecimeters,
 	getIsNumberRangeChanged,
 	getIsRangeMaxedOut,
 	getIsSearchNotFoundError,
@@ -22,6 +25,7 @@ import {
 	getShouldFetchNextPage,
 	getShouldShowSearchNotFound,
 	getSortedPokemonList,
+	getWeightOptionFromHectograms,
 	normalizeSavedPokemonName,
 } from './helpers';
 
@@ -260,6 +264,149 @@ describe('Pokedex search helpers', () => {
 			[722, 725, 728],
 			[810, 813, 816],
 		]);
+	});
+
+	it('maps height buckets at expected boundaries', () => {
+		expect(getHeightOptionFromDecimeters(9)).toBe('short');
+		expect(getHeightOptionFromDecimeters(10)).toBe('medium');
+		expect(getHeightOptionFromDecimeters(20)).toBe('medium');
+		expect(getHeightOptionFromDecimeters(21)).toBe('tall');
+	});
+
+	it('maps weight buckets at expected boundaries', () => {
+		expect(getWeightOptionFromHectograms(99)).toBe('light');
+		expect(getWeightOptionFromHectograms(100)).toBe('normal');
+		expect(getWeightOptionFromHectograms(1000)).toBe('normal');
+		expect(getWeightOptionFromHectograms(1001)).toBe('heavy');
+	});
+
+	it('matches list-item number range when url has numeric id', () => {
+		expect(
+			getDoesPokemonMatchNumberRangeFromListItem({
+				pokemon: { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
+				range: { min: 20, max: 30 },
+			}),
+		).toBe(true);
+		expect(
+			getDoesPokemonMatchNumberRangeFromListItem({
+				pokemon: { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
+				range: { min: 26, max: 30 },
+			}),
+		).toBe(false);
+	});
+
+	it('keeps list-item number range as unknown when url has no numeric id', () => {
+		expect(
+			getDoesPokemonMatchNumberRangeFromListItem({
+				pokemon: { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/pikachu' },
+				range: { min: 1, max: 10 },
+			}),
+		).toBe(true);
+	});
+
+	it('applies filters with OR semantics inside each category', () => {
+		const pokemon = { name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' };
+		const pokemonDetails = {
+			id: 6,
+			height: 17,
+			weight: 905,
+			types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }],
+		} as PokemonDetails;
+		const damageRelationsByType = {
+			fire: {
+				damage_relations: {
+					double_damage_from: [{ name: 'rock' }],
+					half_damage_from: [],
+					no_damage_from: [],
+				},
+			},
+			flying: {
+				damage_relations: {
+					double_damage_from: [{ name: 'rock' }, { name: 'electric' }],
+					half_damage_from: [],
+					no_damage_from: [],
+				},
+			},
+		};
+
+		expect(
+			getDoesPokemonMatchAppliedFilters({
+				pokemon,
+				pokemonDetails,
+				damageRelationsByType,
+				filterState: {
+					numberRange: { min: 1, max: 100 },
+					selectedTypes: ['water', 'fire'],
+					selectedWeaknesses: ['water', 'rock'],
+					selectedHeights: ['short', 'medium'],
+					selectedWeights: ['light', 'normal'],
+				},
+			}),
+		).toBe(true);
+	});
+
+	it('requires AND semantics across categories', () => {
+		const pokemon = { name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' };
+		const pokemonDetails = {
+			id: 6,
+			height: 17,
+			weight: 905,
+			types: [{ type: { name: 'fire' } }, { type: { name: 'flying' } }],
+		} as PokemonDetails;
+
+		expect(
+			getDoesPokemonMatchAppliedFilters({
+				pokemon,
+				pokemonDetails,
+				damageRelationsByType: {},
+				filterState: {
+					numberRange: { min: 7, max: 100 },
+					selectedTypes: ['water', 'fire'],
+					selectedWeaknesses: [],
+					selectedHeights: ['medium'],
+					selectedWeights: ['normal'],
+				},
+			}),
+		).toBe(false);
+	});
+
+	it('falls back to pokemon details id for number filtering', () => {
+		const pokemon = { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/pikachu' };
+		const pokemonDetails = {
+			id: 25,
+			height: 4,
+			weight: 60,
+			types: [{ type: { name: 'electric' } }],
+		} as PokemonDetails;
+
+		expect(
+			getDoesPokemonMatchAppliedFilters({
+				pokemon,
+				pokemonDetails,
+				damageRelationsByType: {},
+				filterState: {
+					numberRange: { min: 20, max: 30 },
+					selectedTypes: [],
+					selectedWeaknesses: [],
+					selectedHeights: [],
+					selectedWeights: [],
+				},
+			}),
+		).toBe(true);
+		expect(
+			getDoesPokemonMatchAppliedFilters({
+				pokemon,
+				pokemonDetails,
+				damageRelationsByType: {},
+				filterState: {
+					numberRange: { min: 26, max: 30 },
+					selectedTypes: [],
+					selectedWeaknesses: [],
+					selectedHeights: [],
+					selectedWeights: [],
+				},
+			}),
+		).toBe(false);
 	});
 });
 

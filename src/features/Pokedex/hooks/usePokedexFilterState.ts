@@ -137,6 +137,7 @@ export const usePokedexFilterState = ({
 
 	return {
 		draftFilterState,
+		appliedFilterState,
 		activeFilterCount,
 		hasActiveFilter,
 		handleFilterPress,
