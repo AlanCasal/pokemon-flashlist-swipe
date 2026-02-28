@@ -83,11 +83,15 @@ export const usePokedexBottomSheetState = ({ isSavedMode }: UsePokedexBottomShee
 		setSavedSortOption(previousSortOption => getNextSingleSelectOption(previousSortOption, option));
 	}, []);
 
-	const handleGenerationOptionPress = useCallback((option: PokedexGenerationOption) => {
-		setSelectedGenerationOption(previousOption =>
-			getNextSingleSelectOption(previousOption, option),
-		);
-	}, []);
+	const handleGenerationOptionPress = useCallback(
+		(option: PokedexGenerationOption) => {
+			setSelectedGenerationOption(previousOption =>
+				getNextSingleSelectOption(previousOption, option),
+			);
+			setSheetOpenState('generation', false);
+		},
+		[setSheetOpenState],
+	);
 
 	const isAnyBottomSheetOpen = useMemo(
 		() => visibilityState.sort || visibilityState.generation || visibilityState.filter,

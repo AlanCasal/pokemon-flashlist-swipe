@@ -1,6 +1,7 @@
 import PokeCard from '@components/PokeCard';
 import { API_URL } from '@constants/api';
 import { POKEDEX_NUMBER_RANGE_DEFAULTS } from '@constants/pokedex';
+import { usePokemonGeneration } from '@hooks/usePokemonGeneration';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { useSearchPokemon } from '@hooks/useSearchPokemon';
 import { FlashListRef } from '@shopify/flash-list';
@@ -18,6 +19,7 @@ import { Pokemon } from '@/src/types/pokemonList';
 import {
 	getDisplayedPokemonList,
 	getEmptySavedToastConfig,
+	getFilteredPokemonListByNameSet,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
 	getSearchedPokemonList,
@@ -107,6 +109,16 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		!isSavedMode && isSearchActive && isCurrentScreen,
 	);
 
+	const isGenerationActive = Boolean(bottomSheetState.selectedGenerationOption);
+	const {
+		data: generationData,
+		isLoading: isGenerationLoading,
+		isError: isGenerationError,
+		error: generationError,
+	} = usePokemonGeneration(
+		bottomSheetState.selectedGenerationOption,
+		isCurrentScreen && isGenerationActive,
+	);
 	const isSearchNotFoundError = getIsSearchNotFoundError(searchError);
 
 	const pokemonList = useMemo(
@@ -158,25 +170,55 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		],
 	);
 
+	const generationScopedPokemonList = useMemo(() => {
+		if (!isGenerationActive) return displayedPokemonList;
+		if (isGenerationError) return displayedPokemonList;
+
+		if (!generationData) {
+			return isSavedMode ? displayedPokemonList : [];
+		}
+
+		if (!isSavedMode && !isSearchActive) {
+			return generationData.pokemonList;
+		}
+
+		return getFilteredPokemonListByNameSet(displayedPokemonList, generationData.speciesNameSet);
+	}, [
+		displayedPokemonList,
+		generationData,
+		isGenerationActive,
+		isGenerationError,
+		isSavedMode,
+		isSearchActive,
+	]);
+
 	const sortedPokemonList = useMemo(
 		() =>
 			isSavedMode
-				? getSortedPokemonList(displayedPokemonList, bottomSheetState.savedSortOption)
-				: displayedPokemonList,
-		[displayedPokemonList, isSavedMode, bottomSheetState.savedSortOption],
+				? getSortedPokemonList(generationScopedPokemonList, bottomSheetState.savedSortOption)
+				: generationScopedPokemonList,
+		[generationScopedPokemonList, isSavedMode, bottomSheetState.savedSortOption],
 	);
 
-	const shouldShowSearchNotFound = getShouldShowSearchNotFound({
-		isSearchActive,
-		displayedPokemonCount: displayedPokemonList.length,
-		isSavedMode,
-		isSearchingPokemon,
-		isSearchError,
-		isSearchNotFoundError,
-	});
+	const isGenerationFilterPending =
+		isGenerationActive && !isSavedMode && !isGenerationError && !generationData;
+
+	const shouldShowSearchNotFound =
+		!isGenerationFilterPending &&
+		getShouldShowSearchNotFound({
+			isSearchActive,
+			displayedPokemonCount: generationScopedPokemonList.length,
+			isSavedMode,
+			isSearchingPokemon,
+			isSearchError,
+			isSearchNotFoundError,
+		});
 
 	const shouldShowSearchLoadingSpinner =
-		isSearchActive && !isSavedMode && isSearchingPokemon && displayedPokemonList.length === 0;
+		isSearchActive &&
+		!isSavedMode &&
+		(isSearchingPokemon || isGenerationFilterPending) &&
+		generationScopedPokemonList.length === 0;
 
 	const shouldDarkenBackgroundForEmptySavedState = getShouldDarkenBackgroundForEmptySavedState({
 		isSavedMode,
@@ -228,6 +270,8 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	);
 
 	const handleEndReached = useCallback(() => {
+		if (isGenerationActive && !isSavedMode && !isSearchActive) return;
+
 		const shouldFetchNextPage = getShouldFetchNextPage({
 			isSavedMode,
 			isSearchActive,
@@ -237,7 +281,14 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 
 		if (!shouldFetchNextPage) return;
 		void fetchNextPage();
-	}, [fetchNextPage, hasNextPage, isFetchingNextPage, isSavedMode, isSearchActive]);
+	}, [
+		fetchNextPage,
+		hasNextPage,
+		isFetchingNextPage,
+		isGenerationActive,
+		isSavedMode,
+		isSearchActive,
+	]);
 
 	useEffect(() => {
 		if (!isCurrentScreen) return;
@@ -251,7 +302,12 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		return () => {
 			cancelAnimationFrame(frameId);
 		};
-	}, [isCurrentScreen, isSavedMode, normalizedActiveSearchValue]);
+	}, [
+		isCurrentScreen,
+		isSavedMode,
+		normalizedActiveSearchValue,
+		bottomSheetState.selectedGenerationOption,
+	]);
 
 	useEffect(() => {
 		if (!isCurrentScreen || isSavedMode) return;
@@ -279,6 +335,21 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isSearchNotFoundError,
 		searchError,
 	]);
+
+	useEffect(() => {
+		if (!isCurrentScreen || !isGenerationActive || !isGenerationError || !generationError) return;
+
+		Alert.alert(texts.alerts.errorFetchingPokemonTitle, generationError.message);
+	}, [isCurrentScreen, isGenerationActive, isGenerationError, generationError]);
+
+	const shouldShowGenerationListLoading =
+		isCurrentScreen &&
+		!isSavedMode &&
+		!isSearchActive &&
+		isGenerationActive &&
+		!isGenerationError &&
+		!generationData &&
+		isGenerationLoading;
 
 	const headerProps = useMemo(
 		() => ({
@@ -318,7 +389,9 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			onScroll: handleFlashListScroll,
 			onEndReached: handleEndReached,
 			listFooterComponent:
-				isFetchingNextPage && !isSavedMode && !isSearchActive ? <ActivityIndicator /> : null,
+				isFetchingNextPage && !isSavedMode && !isSearchActive && !isGenerationActive ? (
+					<ActivityIndicator />
+				) : null,
 		}),
 		[
 			sortedPokemonList,
@@ -328,6 +401,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			handleFlashListScroll,
 			handleEndReached,
 			isFetchingNextPage,
+			isGenerationActive,
 			isSavedMode,
 			isSearchActive,
 		],
@@ -411,7 +485,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		filterSheetProps,
 		scrollToTopProps,
 		listRef,
-		isInitialLoading: isLoading && !data,
+		isInitialLoading: (isLoading && !data) || shouldShowGenerationListLoading,
 		isSavedMode,
 		isAnyBottomSheetOpen: bottomSheetState.isAnyBottomSheetOpen,
 		isSearchActive,

@@ -1,6 +1,8 @@
 module.exports = {
 	preset: 'jest-expo',
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+	modulePathIgnorePatterns: ['<rootDir>/.worktrees/'],
+	testPathIgnorePatterns: ['<rootDir>/.worktrees/'],
 	moduleNameMapper: {
 		'^@/(.*)$': '<rootDir>/$1',
 		'^@features/(.*)$': '<rootDir>/src/features/$1',

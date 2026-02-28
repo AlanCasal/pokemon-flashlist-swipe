@@ -10,6 +10,7 @@ import {
 	getDisplayedPokemonList,
 	getEmptySavedTextParts,
 	getEmptySavedToastConfig,
+	getFilteredPokemonListByNameSet,
 	getFilteredSavedPokemonList,
 	getIsNumberRangeChanged,
 	getIsRangeMaxedOut,
@@ -48,6 +49,27 @@ describe('Pokedex search helpers', () => {
 			{ name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/charmander' },
 			{ name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/charizard' },
 		]);
+	});
+
+	it('filters pokemon list by allowed species set', () => {
+		const pokemonList: Pokemon[] = [
+			{ name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/charmander' },
+			{ name: 'chikorita', url: 'https://pokeapi.co/api/v2/pokemon/chikorita' },
+			{ name: 'totodile', url: 'https://pokeapi.co/api/v2/pokemon/totodile' },
+		];
+
+		expect(getFilteredPokemonListByNameSet(pokemonList, new Set(['chikorita']))).toEqual([
+			{ name: 'chikorita', url: 'https://pokeapi.co/api/v2/pokemon/chikorita' },
+		]);
+	});
+
+	it('returns original pokemon list when allowed species set is null', () => {
+		const pokemonList: Pokemon[] = [
+			{ name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon/bulbasaur' },
+			{ name: 'squirtle', url: 'https://pokeapi.co/api/v2/pokemon/squirtle' },
+		];
+
+		expect(getFilteredPokemonListByNameSet(pokemonList, null)).toEqual(pokemonList);
 	});
 
 	it('returns not-found visibility when search is active and no results', () => {
@@ -343,6 +365,44 @@ describe('Pokedex controller helpers', () => {
 				searchedPokemonList,
 			}),
 		).toEqual(searchedPokemonList);
+	});
+
+	it('applies generation species set as an AND filter on searched all-mode results', () => {
+		const searchedPokemonList: Pokemon[] = [
+			{ name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' },
+		];
+		const displayedPokemonList = getDisplayedPokemonList({
+			isSearchActive: true,
+			isSavedMode: false,
+			pokemonList: [],
+			savedPokemonList: [],
+			filteredSavedPokemonList: [],
+			searchedPokemonList,
+		});
+
+		expect(getFilteredPokemonListByNameSet(displayedPokemonList, new Set(['chikorita']))).toEqual(
+			[],
+		);
+	});
+
+	it('applies generation species set to saved search results', () => {
+		const savedPokemonList: Pokemon[] = [
+			{ name: 'charizard', url: 'https://pokeapi.co/api/v2/pokemon/6/' },
+			{ name: 'chikorita', url: 'https://pokeapi.co/api/v2/pokemon/152/' },
+		];
+		const filteredSavedPokemonList = getFilteredSavedPokemonList(savedPokemonList, 'chi');
+		const displayedPokemonList = getDisplayedPokemonList({
+			isSearchActive: true,
+			isSavedMode: true,
+			pokemonList: [],
+			savedPokemonList,
+			filteredSavedPokemonList,
+			searchedPokemonList: [],
+		});
+
+		expect(getFilteredPokemonListByNameSet(displayedPokemonList, new Set(['chikorita']))).toEqual([
+			{ name: 'chikorita', url: 'https://pokeapi.co/api/v2/pokemon/152/' },
+		]);
 	});
 
 	it('fetches next page only when all pagination guards pass', () => {
