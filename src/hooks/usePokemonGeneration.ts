@@ -56,10 +56,14 @@ export const sortGenerationSpeciesById = (speciesList: PokemonGenerationSpecies[
 export const mapGenerationSpeciesToPokemonList = (
 	speciesList: PokemonGenerationSpecies[],
 ): Pokemon[] =>
-	sortGenerationSpeciesById(speciesList).map(species => ({
-		name: species.name,
-		url: `${API_URL}/${species.name}`,
-	}));
+	sortGenerationSpeciesById(speciesList).map(species => {
+		const speciesId = getPokemonSpeciesIdFromUrl(species.url);
+
+		return {
+			name: species.name,
+			url: speciesId !== null ? `${API_URL}/${speciesId}` : `${API_URL}/${species.name}`,
+		};
+	});
 
 export const buildGenerationSpeciesNameSet = (speciesList: PokemonGenerationSpecies[]) =>
 	new Set(speciesList.map(species => species.name.trim().toLowerCase()).filter(Boolean));

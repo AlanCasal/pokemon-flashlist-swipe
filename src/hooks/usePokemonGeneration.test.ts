@@ -55,15 +55,25 @@ describe('usePokemonGeneration helpers', () => {
 		]);
 	});
 
-	it('maps species entries into pokemon list entries using pokemon endpoint urls', () => {
+	it('maps species entries into pokemon list entries using species id urls when available', () => {
 		const speciesList: PokemonGenerationSpecies[] = [
 			{ name: 'chikorita', url: 'https://pokeapi.co/api/v2/pokemon-species/152/' },
 			{ name: 'bulbasaur', url: 'https://pokeapi.co/api/v2/pokemon-species/1/' },
 		];
 
 		expect(mapGenerationSpeciesToPokemonList(speciesList)).toEqual([
-			{ name: 'bulbasaur', url: `${API_URL}/bulbasaur` },
-			{ name: 'chikorita', url: `${API_URL}/chikorita` },
+			{ name: 'bulbasaur', url: `${API_URL}/1` },
+			{ name: 'chikorita', url: `${API_URL}/152` },
+		]);
+	});
+
+	it('falls back to species name url when species id is unavailable', () => {
+		const speciesList: PokemonGenerationSpecies[] = [
+			{ name: 'unknown-a', url: 'https://pokeapi.co/api/v2/pokemon-species/unknown-a/' },
+		];
+
+		expect(mapGenerationSpeciesToPokemonList(speciesList)).toEqual([
+			{ name: 'unknown-a', url: `${API_URL}/unknown-a` },
 		]);
 	});
 

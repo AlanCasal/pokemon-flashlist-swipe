@@ -9,7 +9,7 @@ import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
 import { memo, useCallback, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 import Info from './Info';
 import { useStyles } from './styles';
@@ -21,7 +21,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 	const [isExiting, setIsExiting] = useState(false);
 	const toggleSavedPokemon = useToggleSavedPokemon();
 	const showToast = useShowToast();
-	const { data: pokemon, isLoading } = usePokemonDetails(url);
+	const { data: pokemon, isLoading, isError, error } = usePokemonDetails(url);
 
 	const isSaved = useIsPokemonSaved(pokemon?.name);
 	const type = (pokemon?.types[0]?.type.name ?? 'dark') as keyof typeof typeBgColors;
@@ -54,8 +54,26 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 		}
 	}, [isSaved, isSavedMode, pokemon, showToast, toggleSavedPokemon, type]);
 
+	if (isError) {
+		return (
+			<View
+				style={styles.fallbackCardContainer}
+				testID='poke-card-error'
+			>
+				<Text style={styles.fallbackErrorText}>{error?.message ?? 'Failed to load pokemon'}</Text>
+			</View>
+		);
+	}
+
 	if (isLoading || !pokemon) {
-		return <View style={styles.loadingPlaceholder} />;
+		return (
+			<View
+				style={styles.fallbackCardContainer}
+				testID='poke-card-loading'
+			>
+				<ActivityIndicator />
+			</View>
+		);
 	}
 
 	return (
