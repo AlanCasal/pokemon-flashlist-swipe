@@ -1,4 +1,4 @@
-import { customColor, textColor, typeColors } from '@constants/colors';
+import { customColor, textColor, typeBgColors, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -26,7 +26,7 @@ export const useStyles = () => {
 		},
 		fabButton: {
 			alignItems: 'center',
-			backgroundColor: typeColors.dragon,
+			backgroundColor: typeBgColors.ghost,
 			borderRadius: 28,
 			height: 56,
 			justifyContent: 'center',

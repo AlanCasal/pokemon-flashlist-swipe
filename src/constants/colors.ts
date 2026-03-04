@@ -16,7 +16,7 @@ export const typeColors = {
 	psychic: '#EA5D60',
 	rock: '#BAAB82',
 	steel: '#417D9A',
-	water: '#417D9A',
+	water: '#3f99e7',
 };
 
 export const typeBgColors = {
