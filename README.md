@@ -1,6 +1,6 @@
 # Pokédex App
 
-> A high-performance, mobile-first Pokedex built with Expo + React Native, designed to showcase polished UI/UX and thoughtful architecture.
+> A high-performance, mobile-first Pokedex built with Expo + React Native, designed to showcase polished UI/UX, thoughtful architecture, and multilingual support (`en`, `es`, `de`, `ja`).
 
 > [!WARNING]
 > This project is currently **WIP (Work in Progress)**. More features and refinements are actively being added.
@@ -60,6 +60,7 @@ Future dynamic coverage badge templates:
 - 🔎 Search + filter + generation + sort workflows in the Pokedex screen.
 - 📊 Pokémon detail screen with **About**, **Stats**, and **Evolution** tabs.
 - ⭐ Save/unsave Pokémon with local persistence.
+- 🌍 Internationalization with in-app language switching: English (`en`), Español (`es`), Deutsch (`de`), 日本語 (`ja`).
 - 🎬 Rich motion via Reanimated and polished bottom-sheet interactions.
 
 ## WIP: In Progress / Next
@@ -68,7 +69,7 @@ Future dynamic coverage badge templates:
 - 🧪 Continued test coverage expansion.
 - 🧬 Evolution-chain data quality fixes.
 - 🪟 UI refinements for tab/bar behavior across iOS and Android.
-- 🌍 Potential translations and language options.
+- 🌍 Additional locale expansion beyond current `en` / `es` / `de` / `ja` support.
 
 ## Figma UI Guide
 
@@ -106,6 +107,15 @@ GIF recordings of the app will be added here.
 - `react-native-mmkv`
 - `expo-image`
 - `expo-linear-gradient`
+- `i18next`
+- `react-i18next`
+- `expo-localization`
+
+### Internationalization
+
+- Device language is resolved with `expo-localization` and mapped to supported app locales.
+- Translation resources are managed with `i18next` + `react-i18next`.
+- The language preference is persisted locally, with English (`en`) as fallback.
 
 ### AI Tools Used
 
