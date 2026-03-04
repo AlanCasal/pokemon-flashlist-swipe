@@ -1,6 +1,7 @@
 import { typeColors } from '@constants/colors';
 import type { PokemonType } from '@constants/index';
 
+import type { SupportedLanguage } from '@/src/i18n/language';
 import type { PokemonDetails } from '@/src/types/pokemon';
 import type { PokemonSpecies } from '@/src/types/pokemonSpecies';
 
@@ -22,6 +23,8 @@ export interface BuildPokemonAboutDataArgs {
 	damageRelationsByType: Partial<Record<PokemonType, PokemonTypeDamageRelationsResponse>>;
 	pokemonDetails?: PokemonDetails;
 	speciesData?: PokemonSpecies;
+	language: SupportedLanguage;
+	translate: (key: string) => string;
 }
 
 interface GroupedGameIndex {
@@ -63,7 +66,7 @@ export const normalizeFlavorText = (value: string | undefined) => {
 		.trim();
 };
 
-export const formatHeight = (heightDecimeters: number | undefined) => {
+export const formatHeight = (heightDecimeters: number | undefined, metersUnit = 'm') => {
 	if (typeof heightDecimeters !== 'number' || Number.isNaN(heightDecimeters)) {
 		return { primary: '--' };
 	}
@@ -74,12 +77,16 @@ export const formatHeight = (heightDecimeters: number | undefined) => {
 	const inches = totalInches % FEET_IN_INCHES;
 
 	return {
-		primary: `${formatWithSingleDecimal(meters)}m`,
+		primary: `${formatWithSingleDecimal(meters)}${metersUnit}`,
 		secondary: `(${feet}'${inches.toString().padStart(2, '0')}")`,
 	};
 };
 
-export const formatWeight = (weightHectograms: number | undefined) => {
+export const formatWeight = (
+	weightHectograms: number | undefined,
+	kgUnit = 'kg',
+	lbsUnit = 'lbs',
+) => {
 	if (typeof weightHectograms !== 'number' || Number.isNaN(weightHectograms)) {
 		return { primary: '--' };
 	}
@@ -88,8 +95,8 @@ export const formatWeight = (weightHectograms: number | undefined) => {
 	const pounds = kilograms * LBS_PER_KG;
 
 	return {
-		primary: `${formatWithSingleDecimal(kilograms)}kg`,
-		secondary: `(${formatWithSingleDecimal(pounds)} lbs)`,
+		primary: `${formatWithSingleDecimal(kilograms)}${kgUnit}`,
+		secondary: `(${formatWithSingleDecimal(pounds)} ${lbsUnit})`,
 	};
 };
 
@@ -136,16 +143,49 @@ export const formatGenderRatio = (genderRate: number | undefined) => {
 	};
 };
 
-export const getEnglishFlavorText = (speciesData: PokemonSpecies | undefined) => {
+const getLanguageCodes = (language: SupportedLanguage) => {
+	if (language === 'ja') return ['ja-Hrkt', 'ja'];
+	return [language];
+};
+
+const matchesLanguageCode = (candidate: string, expected: string) => {
+	const normalizedCandidate = candidate.toLowerCase();
+	const normalizedExpected = expected.toLowerCase();
+
+	return (
+		normalizedCandidate === normalizedExpected ||
+		normalizedCandidate.startsWith(`${normalizedExpected}-`)
+	);
+};
+
+export const getLocalizedFlavorText = (
+	speciesData: PokemonSpecies | undefined,
+	language: SupportedLanguage,
+) => {
 	if (!speciesData) return '--';
+
+	const preferredCodes = getLanguageCodes(language);
+	const localizedEntry = speciesData.flavor_text_entries.find(entry =>
+		preferredCodes.some(code => matchesLanguageCode(entry.language.name, code)),
+	);
+	if (localizedEntry?.flavor_text) return localizedEntry.flavor_text;
 
 	return (
 		speciesData.flavor_text_entries.find(entry => entry.language.name === 'en')?.flavor_text ?? '--'
 	);
 };
 
-export const getEnglishGenus = (speciesData: PokemonSpecies | undefined) => {
+export const getLocalizedGenus = (
+	speciesData: PokemonSpecies | undefined,
+	language: SupportedLanguage,
+) => {
 	if (!speciesData) return '--';
+
+	const preferredCodes = getLanguageCodes(language);
+	const localizedEntry = speciesData.genera.find(entry =>
+		preferredCodes.some(code => matchesLanguageCode(entry.language.name, code)),
+	);
+	if (localizedEntry?.genus) return localizedEntry.genus;
 
 	return speciesData.genera.find(entry => entry.language.name === 'en')?.genus ?? '--';
 };
@@ -238,7 +278,10 @@ export const getTypeWeaknesses = ({
 		}));
 };
 
-const formatAbilities = (abilities: PokemonDetails['abilities'] | undefined) => {
+const formatAbilities = (
+	abilities: PokemonDetails['abilities'] | undefined,
+	hiddenAbilitySuffix: string,
+) => {
 	if (!abilities || abilities.length === 0) {
 		return {
 			primary: '--',
@@ -259,18 +302,29 @@ const formatAbilities = (abilities: PokemonDetails['abilities'] | undefined) => 
 	return {
 		primary: normalAbilities.join(', ') || '--',
 		secondary:
-			hiddenAbilities.length > 0 ? `${hiddenAbilities.join(', ')} (hidden ability)` : undefined,
+			hiddenAbilities.length > 0
+				? `${hiddenAbilities.join(', ')}${hiddenAbilitySuffix}`
+				: undefined,
 	};
 };
 
 const buildPokedexSectionRows = ({
 	damageRelationsByType,
+	language,
 	pokemonDetails,
 	speciesData,
+	translate,
 }: BuildPokemonAboutDataArgs): PokemonAboutRow[] => {
-	const height = formatHeight(pokemonDetails?.height);
-	const weight = formatWeight(pokemonDetails?.weight);
-	const abilities = formatAbilities(pokemonDetails?.abilities);
+	const height = formatHeight(pokemonDetails?.height, translate('about.metersUnit'));
+	const weight = formatWeight(
+		pokemonDetails?.weight,
+		translate('about.kgUnit'),
+		translate('about.lbsUnit'),
+	);
+	const abilities = formatAbilities(
+		pokemonDetails?.abilities,
+		translate('about.hiddenAbilitySuffix'),
+	);
 
 	const pokemonTypes = (pokemonDetails?.types ?? [])
 		.map(typeEntry => typeEntry.type.name.toLowerCase())
@@ -279,33 +333,33 @@ const buildPokedexSectionRows = ({
 	return [
 		{
 			kind: 'text',
-			label: 'Species',
-			value: getEnglishGenus(speciesData),
+			label: translate('about.labels.species'),
+			value: getLocalizedGenus(speciesData, language),
 		},
 		{
 			kind: 'textWithSecondary',
-			label: 'Height',
+			label: translate('about.labels.height'),
 			secondaryMode: 'inline',
 			value: height.primary,
 			secondaryValue: height.secondary,
 		},
 		{
 			kind: 'textWithSecondary',
-			label: 'Weight',
+			label: translate('about.labels.weight'),
 			secondaryMode: 'inline',
 			value: weight.primary,
 			secondaryValue: weight.secondary,
 		},
 		{
 			kind: 'textWithSecondary',
-			label: 'Abilities',
+			label: translate('about.labels.abilities'),
 			secondaryMode: 'block',
 			value: abilities.primary,
 			secondaryValue: abilities.secondary,
 		},
 		{
 			kind: 'weaknessBadges',
-			label: 'Weaknesses',
+			label: translate('about.labels.weaknesses'),
 			weaknesses: getTypeWeaknesses({
 				damageRelationsByType,
 				pokemonTypes,
@@ -317,36 +371,38 @@ const buildPokedexSectionRows = ({
 const buildTrainingSectionRows = ({
 	pokemonDetails,
 	speciesData,
+	translate,
 }: BuildPokemonAboutDataArgs): PokemonAboutRow[] => [
 	{
 		kind: 'text',
-		label: 'EV Yield',
+		label: translate('about.labels.evYield'),
 		value: formatEvYield(pokemonDetails?.stats),
 	},
 	{
 		kind: 'text',
-		label: 'Catch Rate',
+		label: translate('about.labels.catchRate'),
 		value: speciesData?.capture_rate?.toString() ?? '--',
 	},
 	{
 		kind: 'text',
-		label: 'Base Friendship',
+		label: translate('about.labels.baseFriendship'),
 		value: speciesData?.base_happiness?.toString() ?? '--',
 	},
 	{
 		kind: 'text',
-		label: 'Base Exp',
+		label: translate('about.labels.baseExp'),
 		value: pokemonDetails?.base_experience?.toString() ?? '--',
 	},
 	{
 		kind: 'text',
-		label: 'Growth Rate',
+		label: translate('about.labels.growthRate'),
 		value: humanizePokemonName(speciesData?.growth_rate?.name),
 	},
 ];
 
 const buildBreedingSectionRows = ({
 	speciesData,
+	translate,
 }: BuildPokemonAboutDataArgs): PokemonAboutRow[] => {
 	const genderRatio = formatGenderRatio(speciesData?.gender_rate);
 
@@ -354,24 +410,24 @@ const buildBreedingSectionRows = ({
 		genderRatio
 			? {
 					kind: 'genderSplit',
-					label: 'Gender',
+					label: translate('about.labels.gender'),
 					femaleValue: genderRatio.female,
 					maleValue: genderRatio.male,
 				}
 			: {
 					kind: 'text',
-					label: 'Gender',
+					label: translate('about.labels.gender'),
 					value: '--',
 				},
 		{
 			kind: 'text',
-			label: 'Egg Groups',
+			label: translate('about.labels.eggGroups'),
 			value:
 				speciesData?.egg_groups?.map(group => humanizePokemonName(group.name)).join(', ') || '--',
 		},
 		{
 			kind: 'text',
-			label: 'Egg Cycles',
+			label: translate('about.labels.eggCycles'),
 			value: speciesData?.hatch_counter?.toString() ?? '--',
 		},
 	];
@@ -379,38 +435,46 @@ const buildBreedingSectionRows = ({
 
 export const buildPokemonAboutData = ({
 	damageRelationsByType,
+	language,
 	pokemonDetails,
 	speciesData,
+	translate,
 }: BuildPokemonAboutDataArgs): PokemonAboutData => ({
-	description: normalizeFlavorText(getEnglishFlavorText(speciesData)),
+	description: normalizeFlavorText(getLocalizedFlavorText(speciesData, language)),
 	sections: [
 		{
 			rows: buildPokedexSectionRows({
 				damageRelationsByType,
+				language,
 				pokemonDetails,
 				speciesData,
+				translate,
 			}),
-			title: 'Pokédex Data',
+			title: translate('about.sections.pokedexData'),
 		},
 		{
 			rows: buildTrainingSectionRows({
 				damageRelationsByType,
+				language,
 				pokemonDetails,
 				speciesData,
+				translate,
 			}),
-			title: 'Training',
+			title: translate('about.sections.training'),
 		},
 		{
 			rows: buildBreedingSectionRows({
 				damageRelationsByType,
+				language,
 				pokemonDetails,
 				speciesData,
+				translate,
 			}),
-			title: 'Breeding',
+			title: translate('about.sections.breeding'),
 		},
 		{
 			rows: formatLocationRows(pokemonDetails?.game_indices),
-			title: 'Location',
+			title: translate('about.sections.location'),
 		},
 	],
 });

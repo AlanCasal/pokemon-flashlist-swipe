@@ -1,5 +1,5 @@
 import { typeColors } from '@constants/colors';
-import texts from '@utils/texts.json';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { PokemonAboutRow } from './components';
@@ -7,12 +7,13 @@ import { useStyles } from './styles';
 import type { PokemonAboutProps } from './types';
 
 const About = ({ data, error, isLoading, primaryType }: PokemonAboutProps) => {
+	const { t } = useTranslation();
 	const styles = useStyles();
 
 	if (isLoading) {
 		return (
 			<View style={styles.root}>
-				<Text style={styles.fallbackText}>{texts.evolution.aboutLoadingMessage}</Text>
+				<Text style={styles.fallbackText}>{t('evolution.aboutLoadingMessage')}</Text>
 			</View>
 		);
 	}
@@ -20,7 +21,7 @@ const About = ({ data, error, isLoading, primaryType }: PokemonAboutProps) => {
 	if (error || !data) {
 		return (
 			<View style={styles.root}>
-				<Text style={styles.fallbackText}>{texts.evolution.aboutLoadErrorMessage}</Text>
+				<Text style={styles.fallbackText}>{t('evolution.aboutLoadErrorMessage')}</Text>
 			</View>
 		);
 	}

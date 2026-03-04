@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 
 type PokedexActionBadgeProps = {
 	containerTestID: string;
@@ -14,18 +14,22 @@ const PokedexActionBadge = ({
 	containerTestID,
 	labelTestID,
 	label = DEFAULT_BADGE_TEXT,
-}: PokedexActionBadgeProps) => (
-	<View
-		testID={containerTestID}
-		style={styles.badge}
-	>
-		<Text
-			testID={labelTestID}
-			style={styles.badgeLabel}
+}: PokedexActionBadgeProps) => {
+	const styles = useStyles();
+
+	return (
+		<View
+			testID={containerTestID}
+			style={styles.badge}
 		>
-			{label}
-		</Text>
-	</View>
-);
+			<Text
+				testID={labelTestID}
+				style={styles.badgeLabel}
+			>
+				{label}
+			</Text>
+		</View>
+	);
+};
 
 export default PokedexActionBadge;

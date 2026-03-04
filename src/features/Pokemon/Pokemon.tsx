@@ -1,5 +1,5 @@
 import { typeBgColors, typeColors } from '@constants/colors';
-import texts from '@utils/texts.json';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, View } from 'react-native';
 import {
 	Extrapolation,
@@ -20,6 +20,7 @@ import type { EvolutionTab } from './types';
 const COLLAPSED_HERO_EXIT_OFFSET = -60;
 
 const Pokemon = () => {
+	const { t } = useTranslation();
 	const styles = useStyles();
 	const {
 		activeTab,
@@ -76,7 +77,7 @@ const Pokemon = () => {
 		if (!hasPokemonId) {
 			return (
 				<View style={styles.placeholderContainer}>
-					<Text style={styles.feedbackText}>{texts.evolution.missingDetailsMessage}</Text>
+					<Text style={styles.feedbackText}>{t('evolution.missingDetailsMessage')}</Text>
 				</View>
 			);
 		}
@@ -118,7 +119,7 @@ const Pokemon = () => {
 		if (evolutionError || !evolutionData) {
 			return (
 				<View style={styles.placeholderContainer}>
-					<Text style={styles.feedbackText}>{texts.evolution.loadErrorMessage}</Text>
+					<Text style={styles.feedbackText}>{t('evolution.loadErrorMessage')}</Text>
 				</View>
 			);
 		}

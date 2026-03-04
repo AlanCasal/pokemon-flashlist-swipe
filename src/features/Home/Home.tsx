@@ -4,12 +4,12 @@ import { pokeballColors, typeColors } from '@constants/colors';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
 import { chunkArray, toTransparent } from '@utils/helpers';
-import texts from '@utils/texts.json';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
@@ -22,6 +22,7 @@ const ITEM_SIZE = Dimensions.get('window').width * 0.45;
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const Home = () => {
+	const { t } = useTranslation();
 	const { data, isLoading, hasError } = usePokemonSprites();
 	const router = useRouter();
 	const queryClient = useQueryClient();
@@ -33,8 +34,8 @@ const Home = () => {
 
 	useEffect(() => {
 		if (!hasError) return;
-		Alert.alert(texts.alerts.errorTitle, texts.alerts.errorFetchingPokemonMessage);
-	}, [hasError]);
+		Alert.alert(t('alerts.errorTitle'), t('alerts.errorFetchingPokemonMessage'));
+	}, [hasError, t]);
 
 	const handleStart = useCallback(() => {
 		queryClient.removeQueries({ queryKey: ['pokemon'] });
@@ -52,7 +53,7 @@ const Home = () => {
 	if (hasError) {
 		return (
 			<View>
-				<Text>{texts.home.fallbackErrorText}</Text>
+				<Text>{t('home.fallbackErrorText')}</Text>
 			</View>
 		);
 	}
@@ -121,7 +122,7 @@ const Home = () => {
 					contentFit='contain'
 					style={styles.logo}
 				/>
-				<Text style={styles.subtitle}>{texts.home.heroSubtitle}</Text>
+				<Text style={styles.subtitle}>{t('home.heroSubtitle')}</Text>
 
 				<AnimatedTouchableOpacity
 					onPress={handleStart}
@@ -130,7 +131,7 @@ const Home = () => {
 					activeOpacity={0.8}
 				>
 					<View style={styles.startButton}>
-						<Text style={styles.startButtonLabel}>{texts.home.startButton}</Text>
+						<Text style={styles.startButtonLabel}>{t('home.startButton')}</Text>
 					</View>
 				</AnimatedTouchableOpacity>
 			</View>

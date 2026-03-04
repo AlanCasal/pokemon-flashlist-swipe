@@ -5,12 +5,12 @@ import {
 	BottomSheetModal,
 	BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
-import texts from '@utils/texts.json';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import GenerationOptionCard from './GenerationOptionCard';
-import styles from './styles';
+import { useStyles } from './styles';
 import { type GenerationBottomSheetProps } from './types';
 
 const GENERATION_SHEET_SNAP_POINT = '80%';
@@ -21,6 +21,8 @@ const GenerationBottomSheet = ({
 	onClose,
 	onOptionPress,
 }: GenerationBottomSheetProps) => {
+	const styles = useStyles();
+	const { t } = useTranslation();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 	const snapPoints = useMemo(() => [GENERATION_SHEET_SNAP_POINT], []);
 
@@ -36,7 +38,7 @@ const GenerationBottomSheet = ({
 				<View style={styles.backdropFill} />
 			</BottomSheetBackdrop>
 		),
-		[onClose],
+		[onClose, styles.backdropFill],
 	);
 
 	useEffect(() => {
@@ -63,9 +65,9 @@ const GenerationBottomSheet = ({
 				style={styles.scrollView}
 				contentContainerStyle={styles.contentContainer}
 			>
-				<Text style={styles.title}>{texts.pokedex.generationSheetTitle}</Text>
+				<Text style={styles.title}>{t('pokedex.generationSheetTitle')}</Text>
 
-				<Text style={styles.description}>{texts.pokedex.generationSheetDescription}</Text>
+				<Text style={styles.description}>{t('pokedex.generationSheetDescription')}</Text>
 
 				<View style={styles.optionsContainer}>
 					{POKEDEX_GENERATION_OPTIONS.map(option => {

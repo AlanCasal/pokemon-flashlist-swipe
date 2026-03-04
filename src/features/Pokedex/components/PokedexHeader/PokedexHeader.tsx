@@ -6,7 +6,7 @@ import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import texts from '@utils/texts.json';
+import { useTranslation } from 'react-i18next';
 import { TextInput, TouchableOpacity, View } from 'react-native';
 
 import { shouldShowClearSearchButton } from '../../helpers';
@@ -31,20 +31,21 @@ const PokedexHeader = ({
 	isSortEnabled,
 }: PokedexHeaderProps) => {
 	const styles = useStyles();
+	const { t } = useTranslation();
 
 	const actions: HeaderAction[] = [
 		{
 			id: PokedexHeaderActionId.Generation,
 			Icon: GenerationIcon,
 			onPress: onGenerationPress,
-			accessibilityLabel: texts.pokedex.generationButtonA11y,
+			accessibilityLabel: t('pokedex.generationButtonA11y'),
 			testID: 'pokedex-generation-button',
 		},
 		{
 			id: PokedexHeaderActionId.Sort,
 			Icon: SortIcon,
 			onPress: onSortPress,
-			accessibilityLabel: texts.pokedex.sortButtonA11y,
+			accessibilityLabel: t('pokedex.sortButtonA11y'),
 			testID: 'pokedex-sort-button',
 			disabled: !isSortEnabled,
 		},
@@ -52,7 +53,7 @@ const PokedexHeader = ({
 			id: PokedexHeaderActionId.Filter,
 			Icon: FilterIcon,
 			onPress: onFilterPress,
-			accessibilityLabel: texts.pokedex.filterButtonA11y,
+			accessibilityLabel: t('pokedex.filterButtonA11y'),
 			testID: 'pokedex-filter-button',
 		},
 	];
@@ -75,7 +76,7 @@ const PokedexHeader = ({
 						testID='pokedex-search-input'
 						value={searchValue}
 						onChangeText={onSearchChange}
-						placeholder={texts.pokedex.searchPlaceholder}
+						placeholder={t('pokedex.searchPlaceholder')}
 						placeholderTextColor={textColor.grey}
 						textAlignVertical='center'
 						style={styles.searchInput}
@@ -84,7 +85,7 @@ const PokedexHeader = ({
 						<TouchableOpacity
 							testID='pokedex-clear-search-button'
 							accessibilityRole='button'
-							accessibilityLabel={texts.pokedex.clearSearchButtonA11y}
+							accessibilityLabel={t('pokedex.clearSearchButtonA11y')}
 							activeOpacity={sharedStyles.opacity.active}
 							onPress={onClearSearch}
 							style={styles.clearSearchButton}

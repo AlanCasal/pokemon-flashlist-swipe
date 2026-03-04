@@ -5,10 +5,10 @@ import { sharedStyles } from '@constants/sharedStyles';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useIsPokemonSaved, useToggleSavedPokemon } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
-import texts from '@utils/texts.json';
 import { Link } from 'expo-router';
 import { MotiView } from 'moti';
 import { memo, useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 import Info from './Info';
@@ -18,6 +18,7 @@ import type { PokemonCardProps } from './types';
 const CARD_FADE_DURATION_MS = 300;
 
 const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
+	const { t } = useTranslation();
 	const [isExiting, setIsExiting] = useState(false);
 	const toggleSavedPokemon = useToggleSavedPokemon();
 	const showToast = useShowToast();
@@ -34,8 +35,10 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 		const toastData = {
 			text: (
 				<Text>
-					<Text style={{ fontWeight: 'bold' }}>{pokemon.name || 'Pokémon'}</Text>
-					{shouldRemove ? texts.pokemonCard.toastRemovedSuffix : texts.pokemonCard.toastSavedSuffix}
+					<Text style={{ fontWeight: 'bold' }}>
+						{pokemon.name || t('pokemonCard.fallbackName')}
+					</Text>
+					{shouldRemove ? t('pokemonCard.toastRemovedSuffix') : t('pokemonCard.toastSavedSuffix')}
 				</Text>
 			),
 			backgroundColor: shouldRemove ? typeBgColors.dark : typeBgColors[type],
@@ -52,7 +55,7 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 			toggleSavedPokemon(pokemon.name);
 			showToast(toastData);
 		}
-	}, [isSaved, isSavedMode, pokemon, showToast, toggleSavedPokemon, type]);
+	}, [isSaved, isSavedMode, pokemon, showToast, t, toggleSavedPokemon, type]);
 
 	if (isError) {
 		return (
@@ -60,7 +63,9 @@ const PokeCardComponent = ({ url, isSavedMode = false }: PokemonCardProps) => {
 				style={styles.fallbackCardContainer}
 				testID='poke-card-error'
 			>
-				<Text style={styles.fallbackErrorText}>{error?.message ?? 'Failed to load pokemon'}</Text>
+				<Text style={styles.fallbackErrorText}>
+					{error?.message ?? t('alerts.errorFetchingPokemonMessage')}
+				</Text>
 			</View>
 		);
 	}

@@ -1,14 +1,11 @@
 import { customColor, sliderColors, textColor } from '@constants/colors';
-import { sharedStyles } from '@constants/sharedStyles';
+import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 
-const {
-	typography: { primaryFont },
-} = sharedStyles;
-
 export const useStyles = ({ isRangeMaxedOut }: { isRangeMaxedOut: boolean }) => {
 	const sliderColor = isRangeMaxedOut ? sliderColors.all : sliderColors.some;
+	const primaryFont = usePrimaryFontFamily();
 
 	return useMemo(
 		() =>
@@ -55,6 +52,6 @@ export const useStyles = ({ isRangeMaxedOut }: { isRangeMaxedOut: boolean }) => 
 					paddingHorizontal: 12,
 				},
 			}),
-		[sliderColor],
+		[primaryFont, sliderColor],
 	);
 };

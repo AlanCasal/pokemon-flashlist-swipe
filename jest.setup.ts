@@ -1,5 +1,6 @@
 // @ts-nocheck
 import '@testing-library/jest-native/extend-expect';
+import '@/src/i18n';
 
 jest.mock('react-native-safe-area-context', () => {
 	const actual = jest.requireActual('react-native-safe-area-context');

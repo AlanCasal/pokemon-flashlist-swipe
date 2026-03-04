@@ -18,8 +18,8 @@ import {
 	BottomSheetScrollView,
 	BottomSheetTextInput,
 } from '@gorhom/bottom-sheet';
-import texts from '@utils/texts.json';
 import { type ComponentType, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
@@ -27,7 +27,7 @@ import { type PokedexHeightOption, type PokedexWeightOption } from '@/src/types'
 import { isAndroid } from '@/src/utils/helpers';
 
 import NumberRangeSlider from './components/NumberRangeSlider';
-import styles from './styles';
+import { useStyles } from './styles';
 import { type FilterBottomSheetProps } from './types';
 import { useFilterBottomSheetController } from './useFilterBottomSheetController';
 
@@ -58,6 +58,8 @@ const FilterBottomSheet = ({
 	onWeaknessOptionPress,
 	onWeightOptionPress,
 }: FilterBottomSheetProps) => {
+	const { t } = useTranslation();
+	const styles = useStyles();
 	const {
 		bottomSheetRef,
 		scrollViewRef,
@@ -111,7 +113,7 @@ const FilterBottomSheet = ({
 					</TouchableOpacity>
 				);
 			}),
-		[onTypeOptionPress, selectedTypeIds],
+		[onTypeOptionPress, selectedTypeIds, styles.optionButton, styles.optionButtonUnselected],
 	);
 
 	const weaknessOptions = useMemo(
@@ -140,7 +142,12 @@ const FilterBottomSheet = ({
 					</TouchableOpacity>
 				);
 			}),
-		[onWeaknessOptionPress, selectedWeaknessIds],
+		[
+			onWeaknessOptionPress,
+			selectedWeaknessIds,
+			styles.optionButton,
+			styles.optionButtonUnselected,
+		],
 	);
 
 	const heightOptions = useMemo(
@@ -170,7 +177,7 @@ const FilterBottomSheet = ({
 					</TouchableOpacity>
 				);
 			}),
-		[onHeightOptionPress, selectedHeightIds],
+		[onHeightOptionPress, selectedHeightIds, styles.optionButton, styles.optionButtonUnselected],
 	);
 
 	const weightOptions = useMemo(
@@ -200,7 +207,7 @@ const FilterBottomSheet = ({
 					</TouchableOpacity>
 				);
 			}),
-		[onWeightOptionPress, selectedWeightIds],
+		[onWeightOptionPress, selectedWeightIds, styles.optionButton, styles.optionButtonUnselected],
 	);
 
 	return (
@@ -223,12 +230,12 @@ const FilterBottomSheet = ({
 				keyboardShouldPersistTaps='handled'
 			>
 				<View style={styles.sheetSection}>
-					<Text style={styles.title}>{texts.pokedex.filterSheetTitle}</Text>
-					<Text style={styles.description}>{texts.pokedex.filterSheetDescription}</Text>
+					<Text style={styles.title}>{t('pokedex.filterSheetTitle')}</Text>
+					<Text style={styles.description}>{t('pokedex.filterSheetDescription')}</Text>
 				</View>
 
 				<View style={styles.sheetSection}>
-					<Text style={styles.sectionTitle}>{texts.pokedex.filterTypesTitle}</Text>
+					<Text style={styles.sectionTitle}>{t('pokedex.filterTypesTitle')}</Text>
 					<ScrollView
 						horizontal
 						showsHorizontalScrollIndicator={false}
@@ -239,7 +246,7 @@ const FilterBottomSheet = ({
 				</View>
 
 				<View style={styles.sheetSection}>
-					<Text style={styles.sectionTitle}>{texts.pokedex.filterWeaknessesTitle}</Text>
+					<Text style={styles.sectionTitle}>{t('pokedex.filterWeaknessesTitle')}</Text>
 					<ScrollView
 						horizontal
 						showsHorizontalScrollIndicator={false}
@@ -250,17 +257,17 @@ const FilterBottomSheet = ({
 				</View>
 
 				<View style={styles.sheetSection}>
-					<Text style={styles.sectionTitle}>{texts.pokedex.filterHeightsTitle}</Text>
+					<Text style={styles.sectionTitle}>{t('pokedex.filterHeightsTitle')}</Text>
 					<View style={styles.optionGroupRow}>{heightOptions}</View>
 				</View>
 
 				<View style={styles.sheetSection}>
-					<Text style={styles.sectionTitle}>{texts.pokedex.filterWeightsTitle}</Text>
+					<Text style={styles.sectionTitle}>{t('pokedex.filterWeightsTitle')}</Text>
 					<View style={styles.optionGroupRow}>{weightOptions}</View>
 				</View>
 
 				<View style={styles.numberRangeContainer}>
-					<Text style={styles.sectionTitle}>{texts.pokedex.filterNumberRangeTitle}</Text>
+					<Text style={styles.sectionTitle}>{t('pokedex.filterNumberRangeTitle')}</Text>
 					<View style={styles.numberRangeInputsRow}>
 						<BottomSheetTextInput
 							testID='pokedex-filter-min-input'
@@ -273,7 +280,7 @@ const FilterBottomSheet = ({
 							maxLength={4}
 							selectTextOnFocus
 							submitBehavior='blurAndSubmit'
-							placeholder='Min'
+							placeholder={t('pokedex.filterMinPlaceholder')}
 							placeholderTextColor={textColor.grey}
 							style={styles.numberRangeInput}
 						/>
@@ -289,7 +296,7 @@ const FilterBottomSheet = ({
 							maxLength={4}
 							selectTextOnFocus
 							submitBehavior='blurAndSubmit'
-							placeholder='Max'
+							placeholder={t('pokedex.filterMaxPlaceholder')}
 							placeholderTextColor={textColor.grey}
 							style={styles.numberRangeInput}
 						/>
@@ -310,7 +317,7 @@ const FilterBottomSheet = ({
 									isRangeMaxedOut && styles.numberRangeMaxButtonLabelDisabled,
 								]}
 							>
-								{texts.pokedex.filterMaxRangeButton}
+								{t('pokedex.filterMaxRangeButton')}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -331,7 +338,7 @@ const FilterBottomSheet = ({
 						style={[sharedStyles.actionButton, styles.actionButtonReset]}
 					>
 						<Text style={[styles.actionButtonLabel, styles.actionButtonResetLabel]}>
-							{texts.pokedex.filterResetButton}
+							{t('pokedex.filterResetButton')}
 						</Text>
 					</TouchableOpacity>
 
@@ -342,7 +349,7 @@ const FilterBottomSheet = ({
 						style={[sharedStyles.actionButton, styles.actionButtonApply]}
 					>
 						<Text style={[styles.actionButtonLabel, styles.actionButtonApplyLabel]}>
-							{texts.pokedex.filterApplyButton}
+							{t('pokedex.filterApplyButton')}
 						</Text>
 					</TouchableOpacity>
 				</View>

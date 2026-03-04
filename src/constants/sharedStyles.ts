@@ -1,3 +1,7 @@
+import { StyleSheet } from 'react-native';
+
+import { backdropOverlay } from './colors';
+
 export const sharedStyles = {
 	actionButton: {
 		alignItems: 'center',
@@ -42,5 +46,11 @@ export const sharedStyles = {
 		shadowRadius: 4.65,
 
 		elevation: 7,
+	},
+	overlay: {
+		backdropFill: {
+			...StyleSheet.absoluteFillObject,
+			backgroundColor: backdropOverlay,
+		},
 	},
 } as const;

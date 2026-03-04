@@ -3,7 +3,9 @@ import type { PokemonType } from '@constants/index';
 import { POKEMON_TYPES } from '@constants/index';
 import { useQueries, useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 
+import { useResolvedLanguage } from '@/src/store/languageStore';
 import type { PokemonDetails } from '@/src/types/pokemon';
 import type { PokemonSpecies } from '@/src/types/pokemonSpecies';
 import { fetchJson } from '@/src/utils/helpers';
@@ -22,6 +24,8 @@ interface UsePokemonAboutDataArgs {
 }
 
 export const usePokemonAboutData = ({ pokemonDetails, pokemonId }: UsePokemonAboutDataArgs) => {
+	const { t } = useTranslation();
+	const resolvedLanguage = useResolvedLanguage();
 	const normalizedPokemonId = pokemonId.trim();
 	const hasPokemonId = normalizedPokemonId.length > 0;
 
@@ -69,10 +73,12 @@ export const usePokemonAboutData = ({ pokemonDetails, pokemonId }: UsePokemonAbo
 		() =>
 			buildPokemonAboutData({
 				damageRelationsByType,
+				language: resolvedLanguage,
 				pokemonDetails,
 				speciesData: speciesQuery.data,
+				translate: t,
 			}),
-		[damageRelationsByType, pokemonDetails, speciesQuery.data],
+		[damageRelationsByType, pokemonDetails, resolvedLanguage, speciesQuery.data, t],
 	);
 
 	const typeRelationsError = typeQueries.find(query => query.error)?.error || null;

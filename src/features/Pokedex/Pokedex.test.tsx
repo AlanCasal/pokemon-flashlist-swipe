@@ -165,7 +165,7 @@ describe('Pokedex search helpers', () => {
 
 	it('returns saved toast config when empty saved pokeball is active', () => {
 		expect(getEmptySavedToastConfig(true)).toEqual({
-			text: 'Pokémon saved !',
+			text: 'Pokémon saved!',
 			isPokeballColored: true,
 		});
 	});

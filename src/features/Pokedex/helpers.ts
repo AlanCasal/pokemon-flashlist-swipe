@@ -7,7 +7,6 @@ import {
 	POKEDEX_WEIGHT_NORMAL_MAX_HECTOGRAMS,
 	POKEMON_ID_FROM_URL_REGEX,
 } from '@constants/pokedex';
-import texts from '@utils/texts.json';
 
 import {
 	ActiveSearchValues,
@@ -22,6 +21,7 @@ import {
 	ShouldFetchNextPageParams,
 	ShouldShowSearchNotFoundParams,
 } from '@/src/features/Pokedex/types';
+import i18n from '@/src/i18n';
 import { PokedexHeightOption, PokedexSortOption, PokedexWeightOption } from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
@@ -430,8 +430,8 @@ export const getEmptySavedTextParts = (text: string): EmptySavedTextParts => {
 };
 
 export const getEmptySavedToastConfig = (isSaved: boolean) => ({
-	text: `Pokémon${
-		isSaved ? texts.pokemonCard.toastSavedSuffix : texts.pokemonCard.toastRemovedSuffix
+	text: `${i18n.t('pokemonCard.fallbackName')}${
+		isSaved ? i18n.t('pokemonCard.toastSavedSuffix') : i18n.t('pokemonCard.toastRemovedSuffix')
 	}`,
 	isPokeballColored: isSaved,
 });

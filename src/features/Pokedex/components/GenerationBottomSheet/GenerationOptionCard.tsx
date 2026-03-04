@@ -4,14 +4,17 @@ import { SPRITE_URL } from '@constants/api';
 import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
+import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 import { type GenerationOptionCardProps } from './types';
 
 const GENERATION_SHEET_POKEBALL_SIZE = 100;
 
 const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationOptionCardProps) => {
+	const { t } = useTranslation();
+	const styles = useStyles();
 	const optionCardStateStyle = isSelected ? styles.optionCardSelected : styles.optionCardUnselected;
 	const optionLabelStateStyle = isSelected
 		? styles.optionLabelSelected
@@ -56,7 +59,7 @@ const GenerationOptionCard = ({ option, isSelected, onOptionPress }: GenerationO
 				minimumFontScale={0.9}
 				style={[styles.optionLabel, optionLabelStateStyle]}
 			>
-				{option.label}
+				{t(`pokedex.generationOptions.${option.id}`)}
 			</Text>
 		</TouchableOpacity>
 	);

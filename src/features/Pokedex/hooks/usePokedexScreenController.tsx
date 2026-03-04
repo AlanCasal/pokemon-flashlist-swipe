@@ -8,9 +8,9 @@ import { useSearchPokemon } from '@hooks/useSearchPokemon';
 import { FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
-import texts from '@utils/texts.json';
 import { useLocalSearchParams, useSegments } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -38,6 +38,7 @@ import { usePokedexFilterState } from './usePokedexFilterState';
 import { usePokedexSearchState } from './usePokedexSearchState';
 
 export const usePokedexScreenController = (): PokedexScreenController => {
+	const { t } = useTranslation();
 	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
 	const { top, bottom } = useSafeAreaInsets();
 
@@ -373,8 +374,8 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		if (!isCurrentScreen || isSavedMode) return;
 		if (!isError) return;
 
-		Alert.alert(texts.alerts.errorFetchingPokemonTitle, error.message);
-	}, [isCurrentScreen, isSavedMode, isError, error]);
+		Alert.alert(t('alerts.errorFetchingPokemonTitle'), error.message);
+	}, [isCurrentScreen, isSavedMode, isError, error, t]);
 
 	useEffect(() => {
 		if (
@@ -385,7 +386,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			!isSearchNotFoundError &&
 			searchError
 		) {
-			Alert.alert(texts.alerts.errorFetchingPokemonTitle, searchError.message);
+			Alert.alert(t('alerts.errorFetchingPokemonTitle'), searchError.message);
 		}
 	}, [
 		isCurrentScreen,
@@ -394,13 +395,14 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isSearchError,
 		isSearchNotFoundError,
 		searchError,
+		t,
 	]);
 
 	useEffect(() => {
 		if (!isCurrentScreen || !isGenerationActive || !isGenerationError || !generationError) return;
 
-		Alert.alert(texts.alerts.errorFetchingPokemonTitle, generationError.message);
-	}, [isCurrentScreen, isGenerationActive, isGenerationError, generationError]);
+		Alert.alert(t('alerts.errorFetchingPokemonTitle'), generationError.message);
+	}, [isCurrentScreen, isGenerationActive, isGenerationError, generationError, t]);
 
 	useEffect(() => {
 		if (
@@ -412,14 +414,14 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			return;
 		}
 
-		Alert.alert(texts.alerts.errorFetchingPokemonTitle, pokemonCatalogError.message);
-	}, [isCurrentScreen, shouldUseCatalogForAllMode, isPokemonCatalogError, pokemonCatalogError]);
+		Alert.alert(t('alerts.errorFetchingPokemonTitle'), pokemonCatalogError.message);
+	}, [isCurrentScreen, shouldUseCatalogForAllMode, isPokemonCatalogError, pokemonCatalogError, t]);
 
 	useEffect(() => {
 		if (!isCurrentScreen || !hasActiveFilter || !isFilterError || !filterError) return;
 
-		Alert.alert(texts.alerts.errorFetchingPokemonTitle, filterError.message);
-	}, [isCurrentScreen, hasActiveFilter, isFilterError, filterError]);
+		Alert.alert(t('alerts.errorFetchingPokemonTitle'), filterError.message);
+	}, [isCurrentScreen, hasActiveFilter, isFilterError, filterError, t]);
 
 	const headerProps = useMemo(
 		() => ({

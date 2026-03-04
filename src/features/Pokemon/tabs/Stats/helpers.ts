@@ -19,13 +19,13 @@ const MIN_EV = 0;
 const BENEFICIAL_NATURE = 1.1;
 const HINDERING_NATURE = 0.9;
 
-const BASE_STAT_CONFIG: Array<{ key: PokemonBaseStatKey; label: string }> = [
-	{ key: 'hp', label: 'HP' },
-	{ key: 'attack', label: 'Attack' },
-	{ key: 'defense', label: 'Defense' },
-	{ key: 'special-attack', label: 'Sp. Atk' },
-	{ key: 'special-defense', label: 'Sp. Def' },
-	{ key: 'speed', label: 'Speed' },
+const BASE_STAT_CONFIG: Array<{ key: PokemonBaseStatKey; labelKey: string }> = [
+	{ key: 'hp', labelKey: 'stats.baseStatLabels.hp' },
+	{ key: 'attack', labelKey: 'stats.baseStatLabels.attack' },
+	{ key: 'defense', labelKey: 'stats.baseStatLabels.defense' },
+	{ key: 'special-attack', labelKey: 'stats.baseStatLabels.special_attack' },
+	{ key: 'special-defense', labelKey: 'stats.baseStatLabels.special_defense' },
+	{ key: 'speed', labelKey: 'stats.baseStatLabels.speed' },
 ];
 
 const DAMAGE_MULTIPLIER_LABELS = new Map<number, string>([
@@ -85,10 +85,11 @@ export const formatDefenseMultiplier = (multiplier: number) => {
 
 export const buildBaseStatRows = (
 	stats: PokemonDetails['stats'] | undefined,
+	translate: (key: string) => string,
 ): PokemonBaseStatRow[] => {
 	const statMap = buildBaseStatsMap(stats);
 
-	return BASE_STAT_CONFIG.map(({ key, label }) => {
+	return BASE_STAT_CONFIG.map(({ key, labelKey }) => {
 		const value = statMap[key] ?? null;
 		const { min, max } = key === 'hp' ? getHpRange(value) : getNonHpRange(value);
 		const barFillRatio = value === null ? 0 : Math.min(value / BASE_STAT_SCALE_MAX, 1);
@@ -96,7 +97,7 @@ export const buildBaseStatRows = (
 		return {
 			barFillRatio,
 			key,
-			label,
+			label: translate(labelKey),
 			max,
 			min,
 			value,
@@ -154,11 +155,13 @@ export const buildTypeDefenses = ({
 export const buildPokemonStatsData = ({
 	damageRelationsByType,
 	pokemonDetails,
+	translate,
 }: {
 	damageRelationsByType: Partial<Record<PokemonType, PokemonTypeDamageRelationsResponse>>;
 	pokemonDetails?: PokemonDetails;
+	translate: (key: string) => string;
 }): PokemonStatsData => {
-	const baseStats = buildBaseStatRows(pokemonDetails?.stats);
+	const baseStats = buildBaseStatRows(pokemonDetails?.stats, translate);
 	const totalBaseStat = baseStats.some(row => row.value === null)
 		? null
 		: baseStats.reduce((total, row) => total + (row.value ?? 0), 0);

@@ -4,9 +4,9 @@ import type { PokemonType } from '@constants/index';
 import { useGetPokemonEvolutions } from '@hooks/useGetPokemonEvolution';
 import usePokemonDetails from '@hooks/usePokemonDetails';
 import { useIsPokemonSaved, useSavedPokemons } from '@store/savedStore';
-import texts from '@utils/texts.json';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
 	formatPokemonName,
@@ -23,6 +23,7 @@ import { usePokemonAboutData } from './usePokemonAboutData';
 const isPokemonType = (value: string): value is PokemonType => value in typeColors;
 
 export const usePokemonController = (): PokemonController => {
+	const { t } = useTranslation();
 	const [activeTab, setActiveTab] = useState<EvolutionTab>('about');
 	const router = useRouter();
 	const { id, type } = useLocalSearchParams<{ id?: string | string[]; type?: string | string[] }>();
@@ -104,11 +105,11 @@ export const usePokemonController = (): PokemonController => {
 
 	const tabConfig = useMemo<PokemonTabConfig[]>(
 		() => [
-			{ id: 'about', label: texts.evolution.aboutTabLabel },
-			{ id: 'stats', label: texts.evolution.statsTabLabel },
-			{ id: 'evolution', label: texts.evolution.evolutionTabLabel },
+			{ id: 'about', label: t('evolution.aboutTabLabel') },
+			{ id: 'stats', label: t('evolution.statsTabLabel') },
+			{ id: 'evolution', label: t('evolution.evolutionTabLabel') },
 		],
-		[],
+		[t],
 	);
 	const statsError = pokemonDetailsError || typeRelationsError;
 	const isStatsLoading = isPokemonLoading || isTypeRelationsLoading;
@@ -126,8 +127,16 @@ export const usePokemonController = (): PokemonController => {
 		return buildPokemonStatsData({
 			damageRelationsByType,
 			pokemonDetails,
+			translate: t,
 		});
-	}, [damageRelationsByType, hasCompleteTypeRelations, isStatsLoading, pokemonDetails, statsError]);
+	}, [
+		damageRelationsByType,
+		hasCompleteTypeRelations,
+		isStatsLoading,
+		pokemonDetails,
+		statsError,
+		t,
+	]);
 
 	const onTabPress = useCallback((tab: EvolutionTab) => {
 		setActiveTab(tab);

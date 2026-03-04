@@ -1,4 +1,5 @@
 import { MAX_POKEMON_NUMBER, MIN_POKEMON_NUMBER } from '@constants/pokedex';
+import { sharedStyles } from '@constants/sharedStyles';
 import {
 	BottomSheetBackdrop,
 	type BottomSheetBackdropProps,
@@ -6,7 +7,7 @@ import {
 	type BottomSheetScrollViewMethods,
 } from '@gorhom/bottom-sheet';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { isAndroid } from '@/src/utils/helpers';
 
@@ -16,7 +17,6 @@ import {
 	getNextRangeFromMinInput,
 	sanitizeNumericValue,
 } from './helpers';
-import styles from './styles';
 import { type FilterBottomSheetProps } from './types';
 
 const FILTER_SHEET_SNAP_POINT = '92%';
@@ -68,7 +68,7 @@ export const useFilterBottomSheetController = ({
 				pressBehavior='close'
 				onPress={onClose}
 			>
-				<View style={styles.backdropFill} />
+				<View style={[StyleSheet.absoluteFillObject, sharedStyles.overlay.backdropFill]} />
 			</BottomSheetBackdrop>
 		),
 		[onClose],

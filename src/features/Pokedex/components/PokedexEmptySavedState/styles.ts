@@ -1,30 +1,28 @@
 import { textColor } from '@constants/colors';
-import { sharedStyles } from '@constants/sharedStyles';
+import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
 
-const {
-	typography: { primaryFont },
-} = sharedStyles;
+export const useStyles = () => {
+	const primaryFont = usePrimaryFontFamily();
 
-const styles = StyleSheet.create({
-	inlineRow: {
-		alignItems: 'center',
-		flexDirection: 'row',
-		justifyContent: 'center',
-		marginTop: 4,
-	},
-	spacer: {
-		height: 16,
-	},
-	text: {
-		color: textColor.grey,
-		fontFamily: primaryFont,
-		fontSize: 16,
-		textAlign: 'center',
-	},
-	textWithTopSpacing: {
-		marginTop: 4,
-	},
-});
-
-export default styles;
+	return StyleSheet.create({
+		inlineRow: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			justifyContent: 'center',
+			marginTop: 4,
+		},
+		spacer: {
+			height: 16,
+		},
+		text: {
+			color: textColor.grey,
+			fontFamily: primaryFont,
+			fontSize: 16,
+			textAlign: 'center',
+		},
+		textWithTopSpacing: {
+			marginTop: 4,
+		},
+	});
+};

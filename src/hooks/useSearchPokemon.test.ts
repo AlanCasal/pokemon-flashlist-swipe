@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { API_URL } from '@constants/api';
 import { useQuery } from '@tanstack/react-query';
+import { renderHook } from '@testing-library/react-native';
 import { fetchJson } from '@utils/helpers';
 
 import { normalizeSearchTerm, useSearchPokemon } from './useSearchPokemon';
@@ -25,7 +26,7 @@ describe('useSearchPokemon', () => {
 	it('does not run query when hook is disabled', () => {
 		(useQuery as jest.Mock).mockReturnValue({});
 
-		useSearchPokemon('ditto', false);
+		renderHook(() => useSearchPokemon('ditto', false));
 
 		expect(useQuery).toHaveBeenCalledWith(
 			expect.objectContaining({
@@ -43,7 +44,7 @@ describe('useSearchPokemon', () => {
 			return {};
 		});
 
-		useSearchPokemon('  Ditto ', true);
+		renderHook(() => useSearchPokemon('  Ditto ', true));
 
 		expect(fetchJson).toHaveBeenCalledWith(`${API_URL}/ditto`);
 	});

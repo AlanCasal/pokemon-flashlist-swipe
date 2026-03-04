@@ -3,10 +3,11 @@ import PokeBall from '@components/PokeBall';
 import type { PokemonType } from '@constants/index';
 import { Text, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 import type { InfoProps } from './types';
 
 const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
+	const styles = useStyles();
 	const formattedId = `#${id.toString().padStart(3, '0')}`;
 
 	return (

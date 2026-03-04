@@ -32,11 +32,24 @@ const createPokemonDetails = ({
 	types: types.map((name, index) => ({ slot: index + 1, type: { name } })),
 });
 
+const translate = (key: string) =>
+	(
+		({
+			'stats.baseStatLabels.hp': 'HP',
+			'stats.baseStatLabels.attack': 'Attack',
+			'stats.baseStatLabels.defense': 'Defense',
+			'stats.baseStatLabels.special_attack': 'Sp. Atk',
+			'stats.baseStatLabels.special_defense': 'Sp. Def',
+			'stats.baseStatLabels.speed': 'Speed',
+		}) as const
+	)[key] ?? key;
+
 describe('Pokemon Stats helpers', () => {
 	it('maps base stats in expected order and computes total for Charmander', () => {
 		const data = buildPokemonStatsData({
 			damageRelationsByType: {},
 			pokemonDetails: createPokemonDetails(),
+			translate,
 		});
 
 		expect(data.baseStats.map(row => row.label)).toEqual([
@@ -52,7 +65,7 @@ describe('Pokemon Stats helpers', () => {
 	});
 
 	it('uses level 100 formulas for min/max ranges', () => {
-		const rows = buildBaseStatRows(createPokemonDetails().stats);
+		const rows = buildBaseStatRows(createPokemonDetails().stats, translate);
 		const hpRow = rows.find(row => row.key === 'hp');
 		const attackRow = rows.find(row => row.key === 'attack');
 

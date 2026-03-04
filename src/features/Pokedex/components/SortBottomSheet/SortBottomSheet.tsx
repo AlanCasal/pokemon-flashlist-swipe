@@ -6,11 +6,11 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import texts from '@utils/texts.json';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import styles from './styles';
+import { useStyles } from './styles';
 import { type SortBottomSheetProps } from './types';
 
 const SORT_SHEET_SNAP_POINT = '58%';
@@ -21,6 +21,8 @@ const SortBottomSheet = ({
 	onClose,
 	onOptionPress,
 }: SortBottomSheetProps) => {
+	const styles = useStyles();
+	const { t } = useTranslation();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 	const snapPoints = useMemo(() => [SORT_SHEET_SNAP_POINT], []);
 
@@ -33,10 +35,10 @@ const SortBottomSheet = ({
 				pressBehavior='close'
 				onPress={onClose}
 			>
-				<View style={[styles.backdropFill, styles.backdropOverlay]} />
+				<View style={styles.backdropFill} />
 			</BottomSheetBackdrop>
 		),
-		[onClose],
+		[onClose, styles.backdropFill],
 	);
 
 	useEffect(() => {
@@ -60,9 +62,9 @@ const SortBottomSheet = ({
 			backgroundStyle={styles.background}
 		>
 			<BottomSheetView style={styles.contentContainer}>
-				<Text style={styles.title}>{texts.pokedex.sortSheetTitle}</Text>
+				<Text style={styles.title}>{t('pokedex.sortSheetTitle')}</Text>
 
-				<Text style={styles.description}>{texts.pokedex.sortSheetDescription}</Text>
+				<Text style={styles.description}>{t('pokedex.sortSheetDescription')}</Text>
 
 				<View style={styles.optionsContainer}>
 					{POKEDEX_SORT_OPTIONS.map(option => {
@@ -88,7 +90,7 @@ const SortBottomSheet = ({
 									minimumFontScale={0.8}
 									style={[styles.optionLabel, optionLabelStateStyle]}
 								>
-									{option.label}
+									{t(`pokedex.sortOptions.${option.id}`)}
 								</Text>
 							</TouchableOpacity>
 						);

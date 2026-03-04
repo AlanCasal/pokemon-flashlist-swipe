@@ -1,5 +1,5 @@
 import { pokeballColors, textColor, typeBgColors, typeColors } from '@constants/colors';
-import { sharedStyles } from '@constants/sharedStyles';
+import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -11,10 +11,6 @@ type CreateSpriteTileStylesProps = {
 	type: keyof typeof typeColors;
 };
 
-const {
-	typography: { primaryFont },
-} = sharedStyles;
-
 export const createSpriteTileStyles = ({ type }: CreateSpriteTileStylesProps) => ({
 	spriteTileBackground: {
 		backgroundColor: typeBgColors[type],
@@ -23,6 +19,7 @@ export const createSpriteTileStyles = ({ type }: CreateSpriteTileStylesProps) =>
 
 export const useStyles = ({ itemSize }: UseStylesProps) => {
 	const { bottom } = useSafeAreaInsets();
+	const primaryFont = usePrimaryFontFamily();
 
 	return StyleSheet.create({
 		bottomGradient: {

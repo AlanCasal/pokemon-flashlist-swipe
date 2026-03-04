@@ -1,15 +1,16 @@
 import { customColor, textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
+import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const {
 	spacing: { screenHorizontalPadding },
-	typography: { primaryFont },
 } = sharedStyles;
 
 export const useStyles = () => {
 	const { top } = useSafeAreaInsets();
+	const primaryFont = usePrimaryFontFamily();
 
 	return StyleSheet.create({
 		actionButton: {

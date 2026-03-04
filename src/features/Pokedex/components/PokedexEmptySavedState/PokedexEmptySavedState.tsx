@@ -1,23 +1,27 @@
 import PokeBall from '@components/PokeBall';
-import texts from '@utils/texts.json';
 import { memo, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { getEmptySavedTextParts } from '../../helpers';
-import styles from './styles';
+import { useStyles } from './styles';
 import { type PokedexEmptySavedStateProps } from './types';
 
 const PokedexEmptySavedState = ({
 	isPokeBallSaved,
 	onPokeBallPress,
 }: PokedexEmptySavedStateProps) => {
+	const styles = useStyles();
+	const { t } = useTranslation();
+	const emptySavedText = t('pokedex.emptySavedText');
+
 	const emptySavedTextParts = useMemo(
-		() => getEmptySavedTextParts(texts.pokedex.emptySavedText),
-		[],
+		() => getEmptySavedTextParts(emptySavedText),
+		[emptySavedText],
 	);
 
 	if (!emptySavedTextParts.shouldRenderIcon) {
-		return <Text style={styles.text}>{texts.pokedex.emptySavedText}</Text>;
+		return <Text style={styles.text}>{emptySavedText}</Text>;
 	}
 
 	return (

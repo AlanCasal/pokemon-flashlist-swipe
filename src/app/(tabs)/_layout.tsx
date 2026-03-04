@@ -2,11 +2,13 @@ import CustomTabBar from '@components/Tabs';
 import { typeColors } from '@constants/colors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import texts from '@utils/texts.json';
 import { Tabs } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useTranslation } from 'react-i18next';
 
 const TabsLayout = () => {
+	const { t } = useTranslation();
+
 	return (
 		<>
 			<StatusBar
@@ -24,7 +26,7 @@ const TabsLayout = () => {
 				<Tabs.Screen
 					name='pokedex'
 					options={{
-						title: texts.tabs.pokedexTitle,
+						title: t('tabs.pokedexTitle'),
 						tabBarIcon: ({ color, size, focused }) => (
 							<MaterialCommunityIcons
 								name={focused ? 'credit-card-chip' : 'credit-card-chip-outline'}
@@ -38,7 +40,7 @@ const TabsLayout = () => {
 					name='saved'
 					initialParams={{ mode: 'saved' }}
 					options={{
-						title: texts.tabs.savedTitle,
+						title: t('tabs.savedTitle'),
 						tabBarIcon: ({ color, size, focused }) => (
 							<MaterialCommunityIcons
 								name={focused ? 'star' : 'star-outline'}

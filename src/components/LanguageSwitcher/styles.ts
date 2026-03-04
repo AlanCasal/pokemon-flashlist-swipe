@@ -1,18 +1,15 @@
 import { customColor, textColor, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
-import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const {
 	overlay: { backdropFill },
 	spacing: { screenHorizontalPadding },
-	sheetButtons: {
-		option: { borderRadius, height, paddingHorizontal },
-	},
 } = sharedStyles;
 
 export const useStyles = () => {
-	const primaryFont = usePrimaryFontFamily();
+	const { bottom } = useSafeAreaInsets();
 
 	return StyleSheet.create({
 		backdropFill,
@@ -27,11 +24,19 @@ export const useStyles = () => {
 			paddingTop: 6,
 			rowGap: 12,
 		},
-		description: {
-			color: textColor.grey,
-			fontFamily: primaryFont,
-			fontSize: 14,
-			lineHeight: 20,
+		fabButton: {
+			alignItems: 'center',
+			backgroundColor: typeColors.dragon,
+			borderRadius: 28,
+			height: 56,
+			justifyContent: 'center',
+			width: 56,
+		},
+		fabContainer: {
+			bottom: bottom + 10,
+			left: screenHorizontalPadding,
+			position: 'absolute',
+			zIndex: 9999,
 		},
 		handleIndicator: {
 			backgroundColor: textColor.light,
@@ -40,10 +45,10 @@ export const useStyles = () => {
 		},
 		optionButton: {
 			alignItems: 'center',
-			borderRadius: borderRadius,
-			height: height,
+			borderRadius: 12,
+			height: 40,
 			justifyContent: 'center',
-			paddingHorizontal: paddingHorizontal,
+			paddingHorizontal: 16,
 		},
 		optionButtonSelected: {
 			backgroundColor: typeColors.dragon,
@@ -52,7 +57,6 @@ export const useStyles = () => {
 			backgroundColor: customColor.input,
 		},
 		optionLabel: {
-			fontFamily: primaryFont,
 			fontSize: 16,
 			textAlign: 'center',
 			width: '100%',
@@ -68,7 +72,6 @@ export const useStyles = () => {
 		},
 		title: {
 			color: textColor.dark,
-			fontFamily: primaryFont,
 			fontSize: 28,
 			fontWeight: '700',
 			textAlign: 'center',

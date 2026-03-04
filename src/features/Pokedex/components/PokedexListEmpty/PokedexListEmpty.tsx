@@ -1,11 +1,11 @@
 import Spinner from '@assets/animated/spinner.svg';
-import texts from '@utils/texts.json';
+import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { type PokedexListEmptyProps } from '../../types';
 import PokedexEmptySavedState from '../PokedexEmptySavedState';
-import styles from './styles';
+import { useStyles } from './styles';
 
 const SEARCH_LOADING_SPINNER_SIZE = 72;
 
@@ -18,12 +18,15 @@ const PokedexListEmpty = ({
 	isEmptySavedPokeBallSaved,
 	onEmptySavedPokeBallPress,
 }: PokedexListEmptyProps) => {
+	const styles = useStyles();
+	const { t } = useTranslation();
+
 	if (shouldShowSearchNotFound) {
 		return (
 			<View
 				style={[styles.content, styles.contentWithMarginTop, styles.contentWithPaddingHorizontal]}
 			>
-				<Text style={styles.message}>{texts.pokedex.searchNotFoundText}</Text>
+				<Text style={styles.message}>{t('pokedex.searchNotFoundText')}</Text>
 			</View>
 		);
 	}

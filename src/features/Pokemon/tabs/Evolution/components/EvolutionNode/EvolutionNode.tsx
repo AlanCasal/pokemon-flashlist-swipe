@@ -1,6 +1,7 @@
 import PokemonAvatar from '@components/common/PokemonAvatar';
 import { sharedStyles } from '@constants/sharedStyles';
 import { fadeInAnim } from '@utils/animations';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -8,8 +9,6 @@ import { DEFAULT_NODE_FONT_SIZE, DEFAULT_NODE_SIZE } from '../../constants';
 import { formatTriggerLabel } from '../../helpers';
 import styles from '../../styles';
 import type { EvolutionNodeProps } from '../../types';
-
-const CURRENT_POKEMON = '(current)';
 
 const EvolutionNode = ({
 	delay,
@@ -23,6 +22,7 @@ const EvolutionNode = ({
 	size = DEFAULT_NODE_SIZE,
 	trigger,
 }: EvolutionNodeProps) => {
+	const { t } = useTranslation();
 	const triggerText = formatTriggerLabel(trigger);
 	const activeOpacity = onPress ? sharedStyles.opacity.active : 1;
 
@@ -74,7 +74,7 @@ const EvolutionNode = ({
 							isSelected && selectedTextColor ? { color: selectedTextColor } : {},
 						]}
 					>
-						{CURRENT_POKEMON}
+						{t('evolution.current')}
 					</Animated.Text>
 				) : null}
 			</View>

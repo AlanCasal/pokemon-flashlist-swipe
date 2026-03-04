@@ -3,9 +3,14 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+
+import LanguageSwitcher from '@/src/components/LanguageSwitcher';
+import i18n from '@/src/i18n';
+import { useResolvedLanguage } from '@/src/store/languageStore';
 
 import Toast from '../components/Toast/Toast';
 import styles from './styles';
@@ -14,6 +19,11 @@ const queryClient = new QueryClient();
 
 const RootLayout = () => {
 	const [fontsLoaded, fontError] = useFonts({ FingerPaint_400Regular });
+	const resolvedLanguage = useResolvedLanguage();
+
+	useEffect(() => {
+		void i18n.changeLanguage(resolvedLanguage);
+	}, [resolvedLanguage]);
 
 	const isAppReady = fontsLoaded || Boolean(fontError);
 	if (!isAppReady) {
@@ -41,6 +51,7 @@ const RootLayout = () => {
 							options={{ animation: 'fade' }}
 						/>
 					</Stack>
+					<LanguageSwitcher />
 				</BottomSheetModalProvider>
 			</GestureHandlerRootView>
 		</QueryClientProvider>

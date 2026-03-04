@@ -2,7 +2,7 @@ import { textColor } from '@constants/colors';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { evolveAnim } from '@utils/animations';
-import texts from '@utils/texts.json';
+import { useTranslation } from 'react-i18next';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -10,6 +10,7 @@ import { useStyles } from './styles';
 import type { EvolveConditionProps } from './types';
 
 const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionProps) => {
+	const { t } = useTranslation();
 	const styles = useStyles({ minLevel, type });
 
 	return (
@@ -23,7 +24,7 @@ const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionPr
 				adjustsFontSizeToFit
 				minimumFontScale={0.5}
 			>
-				{minLevel ? texts.evolution.evolvesAt : texts.evolution.evolvesInto}
+				{minLevel ? t('evolution.evolvesAt') : t('evolution.evolvesInto')}
 			</Text>
 
 			<MaterialCommunityIcons
@@ -37,7 +38,7 @@ const EvolveCondition = ({ type, minLevel, direction, delay }: EvolveConditionPr
 				numberOfLines={1}
 				adjustsFontSizeToFit
 			>
-				{minLevel && `(${texts.evolution.levelPrefix} ${minLevel})`}
+				{minLevel && `(${t('evolution.levelPrefix')} ${minLevel})`}
 			</Text>
 		</Animated.View>
 	);
