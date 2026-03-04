@@ -1,3 +1,4 @@
+import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import { POKEDEX_GENERATION_OPTIONS } from '@constants/pokedex';
 import {
 	BottomSheetBackdrop,
@@ -58,7 +59,7 @@ const GenerationBottomSheet = ({
 			enablePanDownToClose
 			backdropComponent={renderBackdrop}
 			onDismiss={onClose}
-			handleIndicatorStyle={styles.handleIndicator}
+			handleComponent={BottomSheetGradientHandle}
 			backgroundStyle={styles.background}
 		>
 			<BottomSheetScrollView

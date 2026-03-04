@@ -78,6 +78,7 @@ export const backgroundColors = {
 	light: '#F5F5F5',
 	dark: '#17171B',
 	inactive: '#E0E0E0',
+	inactive2: '#c9c9c9',
 	grey: typeBgColors.normal,
 	statTrack: '#ececec',
 };

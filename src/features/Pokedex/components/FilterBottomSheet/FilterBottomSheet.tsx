@@ -4,6 +4,7 @@ import HeightTallIcon from '@assets/icons/filter/height-tall.svg';
 import WeightHeavyIcon from '@assets/icons/filter/weight-heavy.svg';
 import WeightLightIcon from '@assets/icons/filter/weight-light.svg';
 import WeightNormalIcon from '@assets/icons/filter/weight-normal.svg';
+import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import PokemonTypeIcon from '@components/PokemonTypeIcon';
 import { textColor, typeColors } from '@constants/colors';
 import {
@@ -218,7 +219,7 @@ const FilterBottomSheet = ({
 			enablePanDownToClose
 			backdropComponent={renderBackdrop}
 			onDismiss={onClose}
-			handleIndicatorStyle={styles.handleIndicator}
+			handleComponent={BottomSheetGradientHandle}
 			backgroundStyle={styles.background}
 			keyboardBehavior={isAndroid ? 'fillParent' : 'interactive'}
 			keyboardBlurBehavior='restore'

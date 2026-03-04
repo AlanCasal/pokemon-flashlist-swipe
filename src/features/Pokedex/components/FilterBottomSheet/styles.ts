@@ -52,11 +52,6 @@ export const useStyles = () => {
 			lineHeight: 20,
 			marginTop: 12,
 		},
-		handleIndicator: {
-			backgroundColor: textColor.light,
-			height: 6,
-			width: 80,
-		},
 		numberRangeContainer: {
 			rowGap: 10,
 		},

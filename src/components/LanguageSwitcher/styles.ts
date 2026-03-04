@@ -38,11 +38,6 @@ export const useStyles = () => {
 			position: 'absolute',
 			zIndex: 9999,
 		},
-		handleIndicator: {
-			backgroundColor: textColor.light,
-			height: 6,
-			width: 80,
-		},
 		optionButton: {
 			alignItems: 'center',
 			borderRadius: 12,

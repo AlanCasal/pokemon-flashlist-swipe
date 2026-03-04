@@ -6,11 +6,6 @@ export const useStyles = () => {
 	const { top } = useSafeAreaInsets();
 
 	return StyleSheet.create({
-		handleIndicator: {
-			backgroundColor: backgroundColors.grey,
-			height: 5,
-			width: 70,
-		},
 		movingTopLayer: {
 			bottom: 0,
 			elevation: 30,

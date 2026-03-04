@@ -33,11 +33,6 @@ export const useStyles = () => {
 			fontSize: 14,
 			lineHeight: 20,
 		},
-		handleIndicator: {
-			backgroundColor: textColor.light,
-			height: 6,
-			width: 80,
-		},
 		optionButton: {
 			alignItems: 'center',
 			borderRadius: borderRadius,

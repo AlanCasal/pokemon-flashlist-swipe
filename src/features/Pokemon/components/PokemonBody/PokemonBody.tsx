@@ -1,3 +1,4 @@
+import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import { sharedStyles } from '@constants/sharedStyles';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
@@ -40,7 +41,7 @@ const PokemonBody = ({
 				enableDynamicSizing={false}
 				overDragResistanceFactor={8}
 				containerStyle={styles.sheetContainer}
-				handleIndicatorStyle={styles.handleIndicator}
+				handleComponent={BottomSheetGradientHandle}
 				backgroundStyle={styles.sheetBackground}
 			>
 				<BottomSheetScrollView

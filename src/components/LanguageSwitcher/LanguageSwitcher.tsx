@@ -1,3 +1,4 @@
+import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -93,7 +94,7 @@ const LanguageSwitcher = () => {
 				index={0}
 				snapPoints={snapPoints}
 				enablePanDownToClose
-				handleIndicatorStyle={styles.handleIndicator}
+				handleComponent={BottomSheetGradientHandle}
 				backgroundStyle={styles.background}
 				backdropComponent={renderBackdrop}
 				onChange={index => setIsSheetOpen(index >= 0)}

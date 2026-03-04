@@ -1,3 +1,4 @@
+import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import { POKEDEX_SORT_OPTIONS } from '@constants/pokedex';
 import { sharedStyles } from '@constants/sharedStyles';
 import {
@@ -58,7 +59,7 @@ const SortBottomSheet = ({
 			enablePanDownToClose
 			backdropComponent={renderBackdrop}
 			onDismiss={onClose}
-			handleIndicatorStyle={styles.handleIndicator}
+			handleComponent={BottomSheetGradientHandle}
 			backgroundStyle={styles.background}
 		>
 			<BottomSheetView style={styles.contentContainer}>
