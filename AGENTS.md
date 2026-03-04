@@ -5,6 +5,7 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ## Session Bootstrap
 
+- Always reply in english, unless user explicitly asks for replies in some other language.
 - For every new chat session, before performing task work that involves editing or creating files in the repo, load and apply `WORKSPACE_INSTRUCTIONS.md`. If the file doesn't exist, alert the developer before continuing.
 - Treat `WORKSPACE_INSTRUCTIONS.md` as **non mandatory** (improvement suggestions are always welcome) current workspace preferences.
 - Update `WORKSPACE_INSTRUCTIONS.md` in the same PR when architecture, conventions, patterns change and alert the developer.
