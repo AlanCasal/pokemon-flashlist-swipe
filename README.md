@@ -7,6 +7,8 @@
 
 <p align="center">
   <img src="./assets/demo/demo-list.gif" width=30%>
+  <img src="./assets/demo/demo-filters.gif" width=30%>
+  <img src="./assets/demo/demo-star.gif" width=30%>
 </p>
 
 [![Status: WIP](https://img.shields.io/badge/status-WIP-orange?style=for-the-badge)](https://github.com/AlanCasal/pokemon-flashlist-swipe)
