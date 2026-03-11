@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type UseStylesParams = {
-	shouldShowSearchLoadingSpinner: boolean;
+	shouldShowLoadingFeedback: boolean;
 };
 
 const POKEDEX_FILTERS_BAR_HEIGHT = 56;
@@ -12,7 +12,7 @@ const {
 	zIndex: { cards, header, wallpaper },
 } = sharedStyles;
 
-export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) => {
+export const useStyles = ({ shouldShowLoadingFeedback }: UseStylesParams) => {
 	const { top, bottom } = useSafeAreaInsets();
 
 	return StyleSheet.create({
@@ -25,15 +25,17 @@ export const useStyles = ({ shouldShowSearchLoadingSpinner }: UseStylesParams) =
 			zIndex: header + 1,
 		},
 		container: {
+			backgroundColor: shouldShowLoadingFeedback ? 'white' : 'transparent',
 			flex: 1,
 		},
 		contentContainer: {
 			paddingBottom: bottom + 80,
 			paddingHorizontal: screenHorizontalPadding,
-			paddingTop: shouldShowSearchLoadingSpinner ? 0 : top + POKEDEX_FILTERS_BAR_HEIGHT,
-			...(shouldShowSearchLoadingSpinner ? { flexGrow: 1, justifyContent: 'center' } : {}),
+			paddingTop: shouldShowLoadingFeedback ? 0 : top + POKEDEX_FILTERS_BAR_HEIGHT,
+			...(shouldShowLoadingFeedback ? { flexGrow: 1, justifyContent: 'center' } : {}),
 		},
 		flashList: {
+			backgroundColor: shouldShowLoadingFeedback ? 'white' : 'transparent',
 			flex: 1,
 			zIndex: cards,
 		},

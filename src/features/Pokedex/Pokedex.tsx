@@ -3,7 +3,7 @@ import WallpaperBackground from '@components/WallpaperBackground';
 import { FlashList } from '@shopify/flash-list';
 import { BlurView } from 'expo-blur';
 import { useMemo } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { isIos } from '@/src/utils/helpers';
 
@@ -14,7 +14,6 @@ import PokedexHeader from './components/PokedexHeader';
 import PokedexListEmpty from './components/PokedexListEmpty';
 import SortBottomSheet from './components/SortBottomSheet';
 import { usePokedexScreenController } from './hooks/usePokedexScreenController';
-import { useSearchLoadingSpinner } from './hooks/useSearchLoadingSpinner';
 import { useStyles } from './styles';
 import { type PokedexListEmptyProps } from './types';
 
@@ -32,49 +31,39 @@ const Pokedex = () => {
 		headerProps,
 		isAnyBottomSheetOpen,
 		isEmptySavedPokeBallSaved,
-		isInitialLoading,
 		isSavedMode,
-		isSearchActive,
-		isSearchingPokemon,
 		listRef,
 		onEmptySavedPokeBallPress,
 		scrollToTopProps,
 		shouldDarkenBackgroundForEmptySavedState,
-		shouldShowSearchLoadingSpinner,
+		shouldShowLoadingFeedback,
 		shouldShowSearchNotFound,
 		sortSheetProps,
 		topInset,
 	} = usePokedexScreenController();
 
-	const spinnerAnimatedStyle = useSearchLoadingSpinner(shouldShowSearchLoadingSpinner);
-	const styles = useStyles({ shouldShowSearchLoadingSpinner });
+	const styles = useStyles({ shouldShowLoadingFeedback });
 
 	const listEmptyProps = useMemo<PokedexListEmptyProps>(
 		() => ({
 			shouldShowSearchNotFound,
-			isSearchActive,
 			isSavedMode,
-			isSearchingPokemon,
-			spinnerAnimatedStyle,
+			shouldShowLoadingFeedback,
 			isEmptySavedPokeBallSaved,
 			onEmptySavedPokeBallPress,
 		}),
 		[
 			shouldShowSearchNotFound,
-			isSearchActive,
 			isSavedMode,
-			isSearchingPokemon,
+			shouldShowLoadingFeedback,
 			isEmptySavedPokeBallSaved,
 			onEmptySavedPokeBallPress,
-			spinnerAnimatedStyle,
 		],
 	);
 
-	if (isInitialLoading) return <ActivityIndicator size='large' />;
-
 	return (
 		<View style={styles.container}>
-			<WallpaperBackground source={backgroundSource} />
+			{!shouldShowLoadingFeedback && <WallpaperBackground source={backgroundSource} />}
 
 			{shouldDarkenBackgroundForEmptySavedState && (
 				<View

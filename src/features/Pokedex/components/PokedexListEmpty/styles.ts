@@ -21,6 +21,15 @@ export const useStyles = () => {
 		contentWithPaddingHorizontal: {
 			paddingHorizontal: screenHorizontalPadding,
 		},
+		loadingContent: {
+			backgroundColor: 'white',
+			flex: 1,
+			width: '100%',
+		},
+		loadingImage: {
+			height: 200,
+			width: 200,
+		},
 		message: {
 			color: textColor.grey,
 			fontFamily: primaryFont,

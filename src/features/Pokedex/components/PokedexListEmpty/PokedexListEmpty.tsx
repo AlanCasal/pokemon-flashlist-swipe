@@ -1,20 +1,16 @@
-import Spinner from '@assets/animated/spinner.svg';
+import charmanderAnimated from '@assets/animated/charmander-animated.gif';
+import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
-import Animated from 'react-native-reanimated';
 
 import { type PokedexListEmptyProps } from '../../types';
 import PokedexEmptySavedState from '../PokedexEmptySavedState';
 import { useStyles } from './styles';
 
-const SEARCH_LOADING_SPINNER_SIZE = 72;
-
 const PokedexListEmpty = ({
 	shouldShowSearchNotFound,
-	isSearchActive,
 	isSavedMode,
-	isSearchingPokemon,
-	spinnerAnimatedStyle,
+	shouldShowLoadingFeedback,
 	isEmptySavedPokeBallSaved,
 	onEmptySavedPokeBallPress,
 }: PokedexListEmptyProps) => {
@@ -31,15 +27,14 @@ const PokedexListEmpty = ({
 		);
 	}
 
-	if (isSearchActive && !isSavedMode && isSearchingPokemon) {
+	if (shouldShowLoadingFeedback && !isSavedMode) {
 		return (
-			<View style={styles.content}>
-				<Animated.View style={spinnerAnimatedStyle}>
-					<Spinner
-						width={SEARCH_LOADING_SPINNER_SIZE}
-						height={SEARCH_LOADING_SPINNER_SIZE}
-					/>
-				</Animated.View>
+			<View style={[styles.content, styles.loadingContent]}>
+				<Image
+					source={charmanderAnimated}
+					style={styles.loadingImage}
+					contentFit='contain'
+				/>
 			</View>
 		);
 	}

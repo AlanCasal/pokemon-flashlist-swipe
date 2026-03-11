@@ -1,7 +1,6 @@
 import type { PokemonType } from '@constants/index';
 import type { FlashListRef } from '@shopify/flash-list';
 import type { ComponentType, ReactElement, RefObject } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
 import type { SvgProps } from 'react-native-svg';
 
 import type {
@@ -110,11 +109,9 @@ export interface PokedexHeaderProps {
 export interface PokedexListEmptyProps {
 	isEmptySavedPokeBallSaved: boolean;
 	isSavedMode: boolean;
-	isSearchActive: boolean;
-	isSearchingPokemon: boolean;
 	onEmptySavedPokeBallPress: () => void;
+	shouldShowLoadingFeedback: boolean;
 	shouldShowSearchNotFound: boolean;
-	spinnerAnimatedStyle: StyleProp<ViewStyle>;
 }
 
 export interface PokedexFlashListProps {
@@ -203,7 +200,6 @@ export interface PokedexScreenController {
 	headerProps: PokedexHeaderProps;
 	isAnyBottomSheetOpen: boolean;
 	isEmptySavedPokeBallSaved: boolean;
-	isInitialLoading: boolean;
 	isSavedMode: boolean;
 	isSearchActive: boolean;
 	isSearchingPokemon: boolean;
@@ -211,7 +207,7 @@ export interface PokedexScreenController {
 	onEmptySavedPokeBallPress: () => void;
 	scrollToTopProps: PokedexScrollToTopProps;
 	shouldDarkenBackgroundForEmptySavedState: boolean;
-	shouldShowSearchLoadingSpinner: boolean;
+	shouldShowLoadingFeedback: boolean;
 	shouldShowSearchNotFound: boolean;
 	sortSheetProps: PokedexSortSheetControllerProps;
 	topInset: number;

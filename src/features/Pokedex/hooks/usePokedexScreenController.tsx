@@ -254,7 +254,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 			isSearchNotFoundError,
 		});
 
-	const shouldShowSearchLoadingSpinner =
+	const shouldShowSearchLoadingFeedback =
 		isSearchActive &&
 		!isSavedMode &&
 		(isSearchingPokemon || isGenerationFilterPending || isFilteringPokemonList) &&
@@ -564,11 +564,12 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const isFilteringWithNoResults =
 		!isSearchActive && hasActiveFilter && isFilteringPokemonList && sortedPokemonList.length === 0;
 
-	const isInitialLoading =
+	const shouldShowLoadingFeedback =
 		isLoadingDefaultModeData ||
 		isLoadingAllModeCatalog ||
 		shouldShowGenerationListLoading ||
-		isFilteringWithNoResults;
+		isFilteringWithNoResults ||
+		shouldShowSearchLoadingFeedback;
 
 	return {
 		topInset: top,
@@ -581,14 +582,13 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		filterSheetProps,
 		scrollToTopProps,
 		listRef,
-		isInitialLoading,
 		isSavedMode,
 		isAnyBottomSheetOpen: bottomSheetState.isAnyBottomSheetOpen,
 		isSearchActive,
 		isSearchingPokemon,
 		isEmptySavedPokeBallSaved,
 		onEmptySavedPokeBallPress: handleEmptySavedPokeBallPress,
-		shouldShowSearchLoadingSpinner,
+		shouldShowLoadingFeedback,
 		shouldShowSearchNotFound,
 		shouldDarkenBackgroundForEmptySavedState,
 	};
