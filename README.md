@@ -5,6 +5,10 @@
 > [!WARNING]
 > This project is currently **WIP (Work in Progress)**. More features and refinements are actively being added.
 
+<p align="center">
+  <img src="./assets/demo/demo-list.gif" width=30%>
+</p>
+
 [![Status: WIP](https://img.shields.io/badge/status-WIP-orange?style=for-the-badge)](https://github.com/AlanCasal/pokemon-flashlist-swipe)
 [![Last Commit](https://img.shields.io/github/last-commit/AlanCasal/pokemon-flashlist-swipe?style=for-the-badge&logo=github)](https://github.com/AlanCasal/pokemon-flashlist-swipe/commits/main)
 
