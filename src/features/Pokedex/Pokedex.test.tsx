@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { POKEDEX_GENERATION_OPTIONS } from '@constants/pokedex';
+import { render } from '@testing-library/react-native';
 
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
@@ -29,6 +30,167 @@ import {
 	getWeightOptionFromHectograms,
 	normalizeSavedPokemonName,
 } from './helpers';
+import { usePokedexScreenController } from './hooks/usePokedexScreenController';
+import Pokedex from './Pokedex';
+
+jest.mock('@components/ScrollToTop', () => ({
+	__esModule: true,
+	default: 'ScrollToTop',
+}));
+jest.mock('@components/WallpaperBackground', () => ({
+	__esModule: true,
+	default: 'WallpaperBackground',
+}));
+jest.mock('@shopify/flash-list', () => {
+	const React = jest.requireActual('react');
+
+	return {
+		FlashList: ({ ListEmptyComponent, ListFooterComponent, ...props }: any) =>
+			React.createElement('FlashList', props, ListEmptyComponent, ListFooterComponent),
+	};
+});
+jest.mock('expo-blur', () => ({
+	BlurView: 'BlurView',
+}));
+jest.mock('@/src/components/LanguageSwitcher', () => ({
+	__esModule: true,
+	default: 'LanguageSwitcher',
+}));
+jest.mock('./components/FilterBottomSheet', () => ({
+	__esModule: true,
+	default: 'FilterBottomSheet',
+}));
+jest.mock('./components/GenerationBottomSheet', () => ({
+	__esModule: true,
+	default: 'GenerationBottomSheet',
+}));
+jest.mock('./components/PokedexEdgeGradient', () => ({
+	__esModule: true,
+	default: 'PokedexEdgeGradient',
+}));
+jest.mock('./components/PokedexHeader', () => ({
+	__esModule: true,
+	default: 'PokedexHeader',
+}));
+jest.mock('./components/PokedexListEmpty', () => ({
+	__esModule: true,
+	default: 'PokedexListEmpty',
+}));
+jest.mock('./components/SortBottomSheet', () => ({
+	__esModule: true,
+	default: 'SortBottomSheet',
+}));
+jest.mock('./hooks/usePokedexScreenController', () => ({
+	usePokedexScreenController: jest.fn(),
+}));
+jest.mock('./styles', () => ({
+	useStyles: () => ({
+		blurOverlay: {},
+		container: {},
+		contentContainer: {},
+		flashList: {},
+		headerContainer: {},
+		savedWallpaperOverlay: {},
+	}),
+}));
+
+const mockUsePokedexScreenController = usePokedexScreenController as jest.MockedFunction<
+	typeof usePokedexScreenController
+>;
+
+const createPokedexScreenControllerMock = (overrides = {}) => ({
+	backgroundSource: 1,
+	bottomInset: 0,
+	flashListProps: {
+		data: [],
+		listFooterComponent: null,
+		onEndReached: jest.fn(),
+		onRefresh: jest.fn(),
+		onScroll: jest.fn(),
+		refreshing: false,
+		renderItem: jest.fn(() => null),
+	},
+	filterSheetProps: {
+		draftState: {
+			numberRange: { min: 1, max: 1118 },
+			selectedHeights: [],
+			selectedTypes: [],
+			selectedWeaknesses: [],
+			selectedWeights: [],
+		},
+		isOpen: false,
+		numberRangeDefaults: { min: 1, max: 1118 },
+		onApply: jest.fn(),
+		onClose: jest.fn(),
+		onHeightOptionPress: jest.fn(),
+		onNumberRangeChange: jest.fn(),
+		onReset: jest.fn(),
+		onTypeOptionPress: jest.fn(),
+		onWeaknessOptionPress: jest.fn(),
+		onWeightOptionPress: jest.fn(),
+	},
+	generationSheetProps: {
+		isOpen: false,
+		onClose: jest.fn(),
+		onOptionPress: jest.fn(),
+		selectedOption: null,
+	},
+	headerProps: {
+		activeFilterCount: 0,
+		hasActiveFilter: false,
+		hasActiveGeneration: false,
+		hasActiveSort: false,
+		isSortEnabled: false,
+		onClearSearch: jest.fn(),
+		onFilterPress: jest.fn(),
+		onGenerationPress: jest.fn(),
+		onSearchChange: jest.fn(),
+		onSortPress: jest.fn(),
+		searchValue: '',
+	},
+	isAnyBottomSheetOpen: false,
+	isEmptySavedPokeBallSaved: false,
+	isSavedMode: false,
+	listRef: { current: null },
+	onEmptySavedPokeBallPress: jest.fn(),
+	scrollToTopProps: {
+		onPress: jest.fn(),
+		visible: false,
+	},
+	shouldDarkenBackgroundForEmptySavedState: false,
+	shouldShowLoadingFeedback: false,
+	shouldShowSearchNotFound: false,
+	sortSheetProps: {
+		isOpen: false,
+		onClose: jest.fn(),
+		onOptionPress: jest.fn(),
+		selectedOption: null,
+	},
+	topInset: 0,
+	...overrides,
+});
+
+describe('Pokedex screen', () => {
+	beforeEach(() => {
+		mockUsePokedexScreenController.mockReturnValue(createPokedexScreenControllerMock());
+	});
+
+	it('shows the language switcher in all mode', () => {
+		const { UNSAFE_getByType: unsafeGetByType } = render(<Pokedex />);
+
+		expect(unsafeGetByType('LanguageSwitcher')).toBeTruthy();
+	});
+
+	it('hides the language switcher in saved mode', () => {
+		mockUsePokedexScreenController.mockReturnValue(
+			createPokedexScreenControllerMock({ isSavedMode: true }),
+		);
+
+		const { UNSAFE_queryByType: unsafeQueryByType } = render(<Pokedex />);
+
+		expect(unsafeQueryByType('LanguageSwitcher')).toBeNull();
+	});
+});
 
 describe('Pokedex search helpers', () => {
 	it('maps searched pokemon into one card item', () => {

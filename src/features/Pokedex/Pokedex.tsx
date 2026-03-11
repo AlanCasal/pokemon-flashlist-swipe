@@ -5,6 +5,7 @@ import { BlurView } from 'expo-blur';
 import { useMemo } from 'react';
 import { View } from 'react-native';
 
+import LanguageSwitcher from '@/src/components/LanguageSwitcher';
 import { isIos } from '@/src/utils/helpers';
 
 import FilterBottomSheet from './components/FilterBottomSheet';
@@ -115,6 +116,8 @@ const Pokedex = () => {
 				onPress={scrollToTopProps.onPress}
 				bottomInset={bottomInset}
 			/>
+
+			{!isSavedMode && <LanguageSwitcher />}
 
 			{isSavedMode && <SortBottomSheet {...sortSheetProps} />}
 

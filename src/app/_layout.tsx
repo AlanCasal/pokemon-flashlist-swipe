@@ -8,7 +8,6 @@ import { ActivityIndicator, View } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import LanguageSwitcher from '@/src/components/LanguageSwitcher';
 import i18n from '@/src/i18n';
 import { useResolvedLanguage } from '@/src/store/languageStore';
 
@@ -51,7 +50,6 @@ const RootLayout = () => {
 							options={{ animation: 'fade' }}
 						/>
 					</Stack>
-					<LanguageSwitcher />
 				</BottomSheetModalProvider>
 			</GestureHandlerRootView>
 		</QueryClientProvider>
