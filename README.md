@@ -77,20 +77,6 @@ Future dynamic coverage badge templates:
 - 🪟 UI refinements for tab/bar behavior across iOS and Android.
 - 🌍 Additional locale expansion beyond current `en` / `es` / `de` / `ja` support.
 
-## Figma UI Guide
-
-Design source used during implementation and iteration:
-
-- [Figma UI Guide](https://www.figma.com/design/dmZL7AGoSOpu8Lh2RXAXi2/Pok%C3%A9dex--Fox-%F0%9F%A6%8A-?node-id=18241-2789&t=zehKinBHAs9D14pk-1)
-
-## Demo Gallery (Coming Soon)
-
-GIF recordings of the app will be added here.
-
-- 🎥 `Home flow` (coming soon)
-- 🎥 `Pokedex search/filter flow` (coming soon)
-- 🎥 `Pokemon details + evolution flow` (coming soon)
-
 ## Tech & AI Stack
 
 ### Languages & Runtime
@@ -126,7 +112,7 @@ GIF recordings of the app will be added here.
 ### AI Tools Used
 
 - Codex App
-- GPT-5.3-Codex
+- GPT-5.3-Codex, GPT-4
 
 ## Quick Start
 
@@ -148,7 +134,16 @@ Format + lint:
 bun run format:fix
 ```
 
+## Sources
+
+- [Figma UI Guide](https://www.figma.com/design/dmZL7AGoSOpu8Lh2RXAXi2/Pok%C3%A9dex--Fox-%F0%9F%A6%8A-?node-id=18241-2789&t=zehKinBHAs9D14pk-1)
+- [Charmander](https://imgur.com/charmander-chasing-his-tail-f21JG84) chasing his tail
+
 ## Contact
 
 - LinkedIn: [linkedin.com/in/alancasal](https://www.linkedin.com/in/alancasal/)
 - Email: [alan.casal.dev@gmail.com](mailto:alan.casal.dev@gmail.com)
+
+<p align="center">
+  <img src="./assets/animated/charmander-animated.gif" width=20%>
+</p>
