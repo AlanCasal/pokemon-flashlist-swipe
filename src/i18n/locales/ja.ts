@@ -21,6 +21,7 @@ const ja = {
 	pokedex: {
 		emptySavedText:
 			'まだ保存されたポケモンがいません\n\nカードの [pokeballIcon] モンスターボール\nアイコンをタップして保存できます',
+		emptyFilteredText: 'そのフィルターに一致するポケモンは見つかりませんでした',
 		searchNotFoundText: 'だれだ、このポケモン？\n見つかりませんでした！',
 		searchPlaceholder: 'ポケモンを検索',
 		clearSearchButtonA11y: '検索をクリア',

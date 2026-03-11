@@ -37,6 +37,7 @@ const Pokedex = () => {
 		onEmptySavedPokeBallPress,
 		scrollToTopProps,
 		shouldDarkenBackgroundForEmptySavedState,
+		shouldShowFilteredEmptyState,
 		shouldShowLoadingFeedback,
 		shouldShowSearchNotFound,
 		sortSheetProps,
@@ -48,6 +49,7 @@ const Pokedex = () => {
 	const listEmptyProps = useMemo<PokedexListEmptyProps>(
 		() => ({
 			shouldShowSearchNotFound,
+			shouldShowFilteredEmptyState,
 			isSavedMode,
 			shouldShowLoadingFeedback,
 			isEmptySavedPokeBallSaved,
@@ -55,6 +57,7 @@ const Pokedex = () => {
 		}),
 		[
 			shouldShowSearchNotFound,
+			shouldShowFilteredEmptyState,
 			isSavedMode,
 			shouldShowLoadingFeedback,
 			isEmptySavedPokeBallSaved,

@@ -21,6 +21,7 @@ const en = {
 	pokedex: {
 		emptySavedText:
 			'No saved Pokemon yet\n\nTap the Pokeball icon [pokeballIcon]\non any card to save it',
+		emptyFilteredText: 'No Pokémon found with those filters',
 		searchNotFoundText: "Who's that Pokémon?\nWe couldn't find it!",
 		searchPlaceholder: 'Search Pokémon',
 		clearSearchButtonA11y: 'Clear search',

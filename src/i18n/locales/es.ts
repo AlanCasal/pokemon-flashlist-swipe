@@ -21,6 +21,7 @@ const es = {
 	pokedex: {
 		emptySavedText:
 			'Aún no hay Pokémon guardados\n\nToca el icono de Pokébola [pokeballIcon]\nen cualquier tarjeta para guardarlo',
+		emptyFilteredText: 'No se encontraron Pokémon con esos filtros',
 		searchNotFoundText: '¿Quién es ese Pokémon?\n¡No pudimos encontrarlo!',
 		searchPlaceholder: 'Buscar Pokémon',
 		clearSearchButtonA11y: 'Limpiar búsqueda',

@@ -1,7 +1,8 @@
-import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
+
+import { createEmptyStateTextStyle } from '../PokedexEmptySavedState/styles';
 
 const {
 	spacing: { screenHorizontalPadding },
@@ -30,11 +31,6 @@ export const useStyles = () => {
 			height: 200,
 			width: 200,
 		},
-		message: {
-			color: textColor.grey,
-			fontFamily: primaryFont,
-			fontSize: 16,
-			textAlign: 'center',
-		},
+		message: createEmptyStateTextStyle(primaryFont),
 	});
 };

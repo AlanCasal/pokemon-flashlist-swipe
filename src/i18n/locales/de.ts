@@ -21,6 +21,7 @@ const de = {
 	pokedex: {
 		emptySavedText:
 			'Noch keine gespeicherten Pokémon\n\nTippe auf das Pokéball-Symbol [pokeballIcon]\nauf einer Karte, um es zu speichern',
+		emptyFilteredText: 'Keine Pokémon mit diesen Filtern gefunden',
 		searchNotFoundText: 'Wer ist dieses Pokémon?\nWir konnten es nicht finden!',
 		searchPlaceholder: 'Pokémon suchen',
 		clearSearchButtonA11y: 'Suche löschen',

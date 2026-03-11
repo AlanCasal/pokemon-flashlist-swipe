@@ -2,6 +2,10 @@
 import { POKEDEX_GENERATION_OPTIONS } from '@constants/pokedex';
 import { render } from '@testing-library/react-native';
 
+import de from '@/src/i18n/locales/de';
+import en from '@/src/i18n/locales/en';
+import es from '@/src/i18n/locales/es';
+import ja from '@/src/i18n/locales/ja';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
@@ -25,6 +29,7 @@ import {
 	getSearchedPokemonList,
 	getShouldDarkenBackgroundForEmptySavedState,
 	getShouldFetchNextPage,
+	getShouldShowFilteredEmptyState,
 	getShouldShowSearchNotFound,
 	getSortedPokemonList,
 	getWeightOptionFromHectograms,
@@ -45,7 +50,7 @@ jest.mock('@shopify/flash-list', () => {
 	const React = jest.requireActual('react');
 
 	return {
-		FlashList: ({ ListEmptyComponent, ListFooterComponent, ...props }: any) =>
+		FlashList: ({ ListEmptyComponent, ListFooterComponent, ...props }) =>
 			React.createElement('FlashList', props, ListEmptyComponent, ListFooterComponent),
 	};
 });
@@ -151,6 +156,8 @@ const createPokedexScreenControllerMock = (overrides = {}) => ({
 	isAnyBottomSheetOpen: false,
 	isEmptySavedPokeBallSaved: false,
 	isSavedMode: false,
+	isSearchActive: false,
+	isSearchingPokemon: false,
 	listRef: { current: null },
 	onEmptySavedPokeBallPress: jest.fn(),
 	scrollToTopProps: {
@@ -158,6 +165,7 @@ const createPokedexScreenControllerMock = (overrides = {}) => ({
 		visible: false,
 	},
 	shouldDarkenBackgroundForEmptySavedState: false,
+	shouldShowFilteredEmptyState: false,
 	shouldShowLoadingFeedback: false,
 	shouldShowSearchNotFound: false,
 	sortSheetProps: {
@@ -272,6 +280,78 @@ describe('Pokedex search helpers', () => {
 	it('does not treat other search errors as not found', () => {
 		expect(getIsSearchNotFoundError(new Error('Request failed with status 500'))).toBe(false);
 		expect(getIsSearchNotFoundError(new Error('Network request failed'))).toBe(false);
+	});
+
+	it('shows filtered empty state when generation or filters finish with zero results', () => {
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: false,
+				isGenerationActive: true,
+				hasActiveFilter: false,
+				isGenerationFilterPending: false,
+				isFilteringPokemonList: false,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(true);
+
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: false,
+				isGenerationActive: false,
+				hasActiveFilter: true,
+				isGenerationFilterPending: false,
+				isFilteringPokemonList: false,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(true);
+	});
+
+	it('does not show filtered empty state while generation or filters are still loading', () => {
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: false,
+				isGenerationActive: true,
+				hasActiveFilter: false,
+				isGenerationFilterPending: true,
+				isFilteringPokemonList: false,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: false,
+				isGenerationActive: false,
+				hasActiveFilter: true,
+				isGenerationFilterPending: false,
+				isFilteringPokemonList: true,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(false);
+	});
+
+	it('does not show filtered empty state during search or without active narrowing', () => {
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: true,
+				isGenerationActive: true,
+				hasActiveFilter: true,
+				isGenerationFilterPending: false,
+				isFilteringPokemonList: false,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(false);
+
+		expect(
+			getShouldShowFilteredEmptyState({
+				isSearchActive: false,
+				isGenerationActive: false,
+				hasActiveFilter: false,
+				isGenerationFilterPending: false,
+				isFilteringPokemonList: false,
+				filteredPokemonCount: 0,
+			}),
+		).toBe(false);
 	});
 
 	it('normalizes saved pokemon names from legacy URL values', () => {
@@ -594,6 +674,13 @@ describe('Pokedex search helpers', () => {
 				},
 			}),
 		).toBe(false);
+	});
+
+	it('defines filtered empty copy in every supported locale', () => {
+		expect(en.pokedex.emptyFilteredText).toBeTruthy();
+		expect(es.pokedex.emptyFilteredText).toBeTruthy();
+		expect(de.pokedex.emptyFilteredText).toBeTruthy();
+		expect(ja.pokedex.emptyFilteredText).toBeTruthy();
 	});
 });
 

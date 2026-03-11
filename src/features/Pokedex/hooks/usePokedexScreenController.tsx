@@ -26,6 +26,7 @@ import {
 	getSearchedPokemonList,
 	getShouldDarkenBackgroundForEmptySavedState,
 	getShouldFetchNextPage,
+	getShouldShowFilteredEmptyState,
 	getShouldShowSearchNotFound,
 	getSortedPokemonList,
 	normalizeSavedPokemonName,
@@ -561,14 +562,22 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 	const shouldShowGenerationListLoading =
 		shouldUseGenerationBaseList && !isGenerationError && !generationData && isGenerationLoading;
 
-	const isFilteringWithNoResults =
-		!isSearchActive && hasActiveFilter && isFilteringPokemonList && sortedPokemonList.length === 0;
+	const shouldShowFilteredEmptyState = getShouldShowFilteredEmptyState({
+		isSearchActive,
+		isGenerationActive,
+		hasActiveFilter,
+		isGenerationFilterPending,
+		isFilteringPokemonList,
+		filteredPokemonCount: sortedPokemonList.length,
+	});
 
 	const shouldShowLoadingFeedback =
 		isLoadingDefaultModeData ||
 		isLoadingAllModeCatalog ||
 		shouldShowGenerationListLoading ||
-		isFilteringWithNoResults ||
+		(!isSearchActive &&
+			(isGenerationFilterPending || isFilteringPokemonList) &&
+			sortedPokemonList.length === 0) ||
 		shouldShowSearchLoadingFeedback;
 
 	return {
@@ -589,6 +598,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isEmptySavedPokeBallSaved,
 		onEmptySavedPokeBallPress: handleEmptySavedPokeBallPress,
 		shouldShowLoadingFeedback,
+		shouldShowFilteredEmptyState,
 		shouldShowSearchNotFound,
 		shouldDarkenBackgroundForEmptySavedState,
 	};

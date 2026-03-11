@@ -30,6 +30,15 @@ export interface ShouldShowSearchNotFoundParams {
 	isSearchNotFoundError: boolean;
 }
 
+export interface ShouldShowFilteredEmptyStateParams {
+	filteredPokemonCount: number;
+	hasActiveFilter: boolean;
+	isFilteringPokemonList: boolean;
+	isGenerationActive: boolean;
+	isGenerationFilterPending: boolean;
+	isSearchActive: boolean;
+}
+
 export interface GetActiveSearchValuesParams {
 	allSearchValue: string;
 	debouncedAllSearchValue: string;
@@ -110,6 +119,7 @@ export interface PokedexListEmptyProps {
 	isEmptySavedPokeBallSaved: boolean;
 	isSavedMode: boolean;
 	onEmptySavedPokeBallPress: () => void;
+	shouldShowFilteredEmptyState: boolean;
 	shouldShowLoadingFeedback: boolean;
 	shouldShowSearchNotFound: boolean;
 }
@@ -207,6 +217,7 @@ export interface PokedexScreenController {
 	onEmptySavedPokeBallPress: () => void;
 	scrollToTopProps: PokedexScrollToTopProps;
 	shouldDarkenBackgroundForEmptySavedState: boolean;
+	shouldShowFilteredEmptyState: boolean;
 	shouldShowLoadingFeedback: boolean;
 	shouldShowSearchNotFound: boolean;
 	sortSheetProps: PokedexSortSheetControllerProps;

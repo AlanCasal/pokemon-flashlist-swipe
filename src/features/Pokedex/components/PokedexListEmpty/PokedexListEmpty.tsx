@@ -9,6 +9,7 @@ import { useStyles } from './styles';
 
 const PokedexListEmpty = ({
 	shouldShowSearchNotFound,
+	shouldShowFilteredEmptyState,
 	isSavedMode,
 	shouldShowLoadingFeedback,
 	isEmptySavedPokeBallSaved,
@@ -27,6 +28,16 @@ const PokedexListEmpty = ({
 		);
 	}
 
+	if (shouldShowFilteredEmptyState) {
+		return (
+			<View
+				style={[styles.content, styles.contentWithMarginTop, styles.contentWithPaddingHorizontal]}
+			>
+				<Text style={styles.message}>{t('pokedex.emptyFilteredText')}</Text>
+			</View>
+		);
+	}
+
 	if (shouldShowLoadingFeedback && !isSavedMode) {
 		return (
 			<View style={[styles.content, styles.loadingContent]}>
@@ -39,6 +50,7 @@ const PokedexListEmpty = ({
 		);
 	}
 
+	if (shouldShowLoadingFeedback) return null;
 	if (!isSavedMode) return null;
 
 	return (

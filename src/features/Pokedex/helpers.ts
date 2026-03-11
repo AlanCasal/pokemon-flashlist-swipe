@@ -19,6 +19,7 @@ import {
 	PokemonTypeDamageRelationsByType,
 	ShouldDarkenBackgroundForEmptySavedStateParams,
 	ShouldFetchNextPageParams,
+	ShouldShowFilteredEmptyStateParams,
 	ShouldShowSearchNotFoundParams,
 } from '@/src/features/Pokedex/types';
 import i18n from '@/src/i18n';
@@ -112,6 +113,20 @@ export const getShouldShowSearchNotFound = ({
 	isSearchActive &&
 	displayedPokemonCount === 0 &&
 	(isSavedMode || (!isSearchingPokemon && (!isSearchError || isSearchNotFoundError)));
+
+export const getShouldShowFilteredEmptyState = ({
+	filteredPokemonCount,
+	hasActiveFilter,
+	isFilteringPokemonList,
+	isGenerationActive,
+	isGenerationFilterPending,
+	isSearchActive,
+}: ShouldShowFilteredEmptyStateParams) =>
+	!isSearchActive &&
+	(isGenerationActive || hasActiveFilter) &&
+	!isGenerationFilterPending &&
+	!isFilteringPokemonList &&
+	filteredPokemonCount === 0;
 
 export const getShouldFetchNextPage = ({
 	isSavedMode,
