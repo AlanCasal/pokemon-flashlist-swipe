@@ -38,6 +38,7 @@
   - For any future Redux-backed tests, use a consistent `mockUseAppSelector` pattern for selector access.
   - Keep all `jest.mock()` declarations at the top of the file before any `describe` block.
 - Run tests with `bun run test` (watchman is disabled in the script); prefer JSX content assertions with `@testing-library/react-native` for component UI behavior.
+- Run coverage with `bun run test:coverage`; treat `coverage/` as a local generated artifact and use `coverage/lcov-report/index.html` for visual inspection.
 - Install deps with `bun install` (preferred).
 - Run formatting/linting with `bun run format:fix`.
 - Start app with `bun run start` (or `expo start`).

@@ -9,6 +9,7 @@
 		"web": "expo start --web",
 		"prepare": "husky",
 		"test": "jest --watchman=false",
+		"test:coverage": "jest --watchman=false --coverage --watch=false",
 		"lint": "eslint . --ext .ts,.tsx",
 		"lint:fix": "eslint . --ext .ts,.tsx --fix",
 		"lint:staged:fix": "bun run scripts/fix-staged-lint.mjs",

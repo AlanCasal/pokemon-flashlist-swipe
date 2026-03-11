@@ -46,7 +46,8 @@
 ## Project Health
 
 [![Tests In Progress](https://img.shields.io/badge/tests-in%20progress-yellow?style=for-the-badge)](#project-health)
-[![Coverage Not Configured](https://img.shields.io/badge/coverage-not%20configured-lightgrey?style=for-the-badge)](#project-health)
+
+<!-- [![Coverage](https://img.shields.io/badge/coverage-38%25-orange?style=for-the-badge)](#project-health) -->
 
 <!--
 Future dynamic test badge template (GitHub Actions):
@@ -139,6 +140,14 @@ Format + lint:
 ```bash
 bun run format:fix
 ```
+
+Test coverage:
+
+```bash
+bun run test:coverage
+```
+
+Open the local HTML coverage report at `coverage/lcov-report/index.html`.
 
 ## Sources
 

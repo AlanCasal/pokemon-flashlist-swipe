@@ -1,6 +1,17 @@
 module.exports = {
 	preset: 'jest-expo',
 	setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+	collectCoverageFrom: [
+		'src/**/*.{ts,tsx}',
+		'!src/**/*.test.{ts,tsx}',
+		'!src/**/index.ts',
+		'!src/**/styles.ts',
+		'!src/**/types.ts',
+		'!src/i18n/locales/**',
+		'!src/test/**',
+	],
+	coverageDirectory: '<rootDir>/coverage',
+	coverageReporters: ['text-summary', 'json-summary', 'lcov'],
 	modulePathIgnorePatterns: ['<rootDir>/.worktrees/'],
 	testPathIgnorePatterns: ['<rootDir>/.worktrees/'],
 	moduleNameMapper: {
