@@ -6,9 +6,15 @@
 > This project is currently **WIP (Work in Progress)**. More features and refinements are actively being added.
 
 <p align="center">
+  <img src="./assets/demo/demo-intro.gif" width=30%>
   <img src="./assets/demo/demo-list.gif" width=30%>
   <img src="./assets/demo/demo-filters.gif" width=30%>
+</p>
+
+<p align="center">
   <img src="./assets/demo/demo-star.gif" width=30%>
+  <img src="./assets/demo/demo-pokemon.gif" width=30%>
+  <img src="./assets/demo/demo-languages.gif" width=30%>
 </p>
 
 [![Status: WIP](https://img.shields.io/badge/status-WIP-orange?style=for-the-badge)](https://github.com/AlanCasal/pokemon-flashlist-swipe)
