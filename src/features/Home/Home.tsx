@@ -1,5 +1,6 @@
 import { Marquee } from '@animatereactnative/marquee';
 import Pokeball from '@assets/images/pokeball-full.svg';
+import { useAuth } from '@clerk/clerk-expo';
 import { pokeballColors, typeColors } from '@constants/colors';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
@@ -24,6 +25,7 @@ const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpaci
 const Home = () => {
 	const { t } = useTranslation();
 	const { data, isLoading, hasError } = usePokemonSprites();
+	const { isLoaded, isSignedIn } = useAuth();
 	const router = useRouter();
 	const queryClient = useQueryClient();
 	const styles = useStyles({ itemSize: ITEM_SIZE });
@@ -38,9 +40,14 @@ const Home = () => {
 	}, [hasError, t]);
 
 	const handleStart = useCallback(() => {
+		if (!isSignedIn) {
+			router.push('/sign-in');
+			return;
+		}
+
 		queryClient.removeQueries({ queryKey: ['pokemon'] });
 		router.push('/pokedex');
-	}, [queryClient, router]);
+	}, [isSignedIn, queryClient, router]);
 
 	if (isLoading || data.length === 0) {
 		return (
@@ -126,6 +133,7 @@ const Home = () => {
 
 				<AnimatedTouchableOpacity
 					onPress={handleStart}
+					disabled={!isLoaded}
 					entering={FadeInDown.springify().damping(30).delay(300)}
 					style={styles.startButtonWrapper}
 					activeOpacity={0.8}

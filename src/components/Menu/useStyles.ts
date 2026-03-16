@@ -1,4 +1,10 @@
-import { customColor, textColor, typeBgColors, typeColors } from '@constants/colors';
+import {
+	customColor,
+	pokeballColors,
+	textColor,
+	typeBgColors,
+	typeColors,
+} from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
@@ -80,6 +86,9 @@ export const useStyles = () => {
 			color: textColor.dark,
 			fontSize: 16,
 		},
+		menuButtonLabelDestructive: {
+			color: pokeballColors.red,
+		},
 		optionButton: {
 			alignItems: 'center',
 			borderRadius: borderRadius,
@@ -106,6 +115,9 @@ export const useStyles = () => {
 		},
 		optionsContainer: {
 			rowGap: 10,
+		},
+		signOutButtonDisabled: {
+			opacity: 0.6,
 		},
 		title: {
 			color: textColor.dark,

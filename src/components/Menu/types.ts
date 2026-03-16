@@ -7,6 +7,13 @@ export interface LanguageMenuProps {
 }
 
 export interface RootMenuProps {
+	isSigningOut: boolean;
 	onClose: () => void;
 	onOpenLanguagesMenu: () => void;
+	onSignOut: () => void;
+}
+
+export interface SignOutButtonProps {
+	disabled: boolean;
+	onPress: () => void;
 }

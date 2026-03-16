@@ -1,8 +1,10 @@
 // @ts-nocheck
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent, render, waitFor } from '@testing-library/react-native';
 
 import Menu from './Menu';
 
+const mockSignOut = jest.fn();
+const mockReplace = jest.fn();
 const mockUseLanguagePreference = jest.fn();
 const mockUseResolvedLanguage = jest.fn();
 const mockUseSetLanguagePreference = jest.fn();
@@ -12,6 +14,18 @@ jest.mock('@/src/store/languageStore', () => ({
 	useLanguagePreference: () => mockUseLanguagePreference(),
 	useResolvedLanguage: () => mockUseResolvedLanguage(),
 	useSetLanguagePreference: () => mockUseSetLanguagePreference(),
+}));
+
+jest.mock('@clerk/clerk-expo', () => ({
+	useClerk: () => ({
+		signOut: mockSignOut,
+	}),
+}));
+
+jest.mock('expo-router', () => ({
+	useRouter: () => ({
+		replace: mockReplace,
+	}),
 }));
 
 jest.mock('@components/common/BottomSheetGradientHandle', () => ({
@@ -60,6 +74,7 @@ jest.mock('@gorhom/bottom-sheet', () => {
 describe('Menu', () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
+		mockSignOut.mockResolvedValue(undefined);
 		mockUseLanguagePreference.mockReturnValue('system');
 		mockUseResolvedLanguage.mockReturnValue('en');
 		mockUseSetLanguagePreference.mockReturnValue(mockSetLanguagePreference);
@@ -72,7 +87,9 @@ describe('Menu', () => {
 
 		expect(getByText('Menu')).toBeTruthy();
 		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
+		expect(getByTestId('language-switcher-menu-sign-out')).toBeTruthy();
 		expect(getByText('Languages')).toBeTruthy();
+		expect(getByText('Sign out')).toBeTruthy();
 		expect(queryByTestId('language-switcher-back-button')).toBeNull();
 		expect(queryByTestId('language-switcher-close-button')).toBeTruthy();
 		expect(queryByTestId('language-switcher-option-en')).toBeNull();
@@ -107,6 +124,37 @@ describe('Menu', () => {
 		expect(queryByTestId('language-switcher-menu-languages')).toBeNull();
 	});
 
+	it('signs out, redirects to public home, and makes the action non-repeatable', async () => {
+		let resolveSignOut: (() => void) | undefined;
+		mockSignOut.mockImplementation(
+			() =>
+				new Promise<void>(resolve => {
+					resolveSignOut = resolve;
+				}),
+		);
+
+		const { getByTestId, queryByTestId } = render(<Menu />);
+
+		fireEvent.press(getByTestId('language-switcher-fab'));
+		fireEvent.press(getByTestId('language-switcher-menu-sign-out'));
+
+		expect(mockSignOut).toHaveBeenCalledWith();
+		expect(mockSignOut).toHaveBeenCalledTimes(1);
+		expect(queryByTestId('language-switcher-menu-sign-out')).toBeNull();
+
+		fireEvent.press(getByTestId('language-switcher-fab'));
+		expect(getByTestId('language-switcher-menu-sign-out')).toBeDisabled();
+
+		fireEvent.press(getByTestId('language-switcher-menu-sign-out'));
+		expect(mockSignOut).toHaveBeenCalledTimes(1);
+
+		resolveSignOut?.();
+		await waitFor(() => {
+			expect(mockReplace).toHaveBeenCalledWith('/');
+			expect(getByTestId('language-switcher-menu-sign-out')).not.toBeDisabled();
+		});
+	});
+
 	it('resets to the root menu after dismissing and reopening the sheet', () => {
 		const { getByTestId, queryByTestId } = render(<Menu />);
 
@@ -119,6 +167,7 @@ describe('Menu', () => {
 		fireEvent.press(getByTestId('language-switcher-fab'));
 
 		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
+		expect(getByTestId('language-switcher-menu-sign-out')).toBeTruthy();
 		expect(queryByTestId('language-switcher-option-en')).toBeNull();
 		expect(queryByTestId('language-switcher-back-button')).toBeNull();
 		expect(getByTestId('language-switcher-close-button')).toBeTruthy();

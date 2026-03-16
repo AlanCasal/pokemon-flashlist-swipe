@@ -5,12 +5,15 @@ const en = {
 		errorFetchingPokemonMessage: 'Failed to fetch some Pokemon data.',
 	},
 	language: {
+		system: 'System',
+	},
+	menu: {
 		backButton: 'Back',
 		closeButton: 'Close',
-		fabA11y: 'Open language menu',
-		menuTitle: 'Menu',
-		sheetTitle: 'Languages',
-		system: 'System',
+		fabA11y: 'Open menu',
+		languages: 'Languages',
+		signOut: 'Sign out',
+		title: 'Menu',
 	},
 	tabs: {
 		pokedexTitle: 'Pokedex',

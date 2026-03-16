@@ -7,8 +7,8 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { getLanguageFlagEmoji, getLanguageLabel, SUPPORTED_LANGUAGES } from '@/src/i18n/language';
 import { useLanguagePreference, useResolvedLanguage } from '@/src/store/languageStore';
 
-import { useStyles } from '../useStyles';
 import type { LanguageMenuProps } from '../types';
+import { useStyles } from '../useStyles';
 
 const LanguageMenu = ({ onBack, onClose, onLanguagePress }: LanguageMenuProps) => {
 	const styles = useStyles();
@@ -21,7 +21,7 @@ const LanguageMenu = ({ onBack, onClose, onLanguagePress }: LanguageMenuProps) =
 			<View style={styles.headerRow}>
 				<BackButton
 					testID='language-switcher-back-button'
-					accessibilityLabel={t('language.backButton')}
+					accessibilityLabel={t('menu.backButton')}
 					onPress={onBack}
 					containerStyle={styles.headerLeftButton}
 					iconColor={styles.title.color}
@@ -29,11 +29,11 @@ const LanguageMenu = ({ onBack, onClose, onLanguagePress }: LanguageMenuProps) =
 					variant='inline'
 				/>
 
-				<Text style={styles.title}>{t('language.sheetTitle')}</Text>
+				<Text style={styles.title}>{t('menu.languages')}</Text>
 
 				<CloseButton
 					testID='language-switcher-close-button'
-					accessibilityLabel={t('language.closeButton')}
+					accessibilityLabel={t('menu.closeButton')}
 					onPress={onClose}
 					containerStyle={styles.headerRightButton}
 				/>

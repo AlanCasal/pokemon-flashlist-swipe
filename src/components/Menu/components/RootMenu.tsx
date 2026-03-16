@@ -6,12 +6,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useStyles } from '../useStyles';
 import type { RootMenuProps } from '../types';
+import { useStyles } from '../useStyles';
+import SignOutButton from './SignOutButton';
 
 const MENU_ICON_SIZE = 24;
 
-const RootMenu = ({ onClose, onOpenLanguagesMenu }: RootMenuProps) => {
+const RootMenu = ({ isSigningOut, onClose, onOpenLanguagesMenu, onSignOut }: RootMenuProps) => {
 	const styles = useStyles();
 	const { t } = useTranslation();
 
@@ -20,11 +21,11 @@ const RootMenu = ({ onClose, onOpenLanguagesMenu }: RootMenuProps) => {
 			<View style={styles.headerRow}>
 				<View style={styles.headerSpacer} />
 
-				<Text style={styles.title}>{t('language.menuTitle')}</Text>
+				<Text style={styles.title}>{t('menu.title')}</Text>
 
 				<CloseButton
 					testID='language-switcher-close-button'
-					accessibilityLabel={t('language.closeButton')}
+					accessibilityLabel={t('menu.closeButton')}
 					onPress={onClose}
 					containerStyle={styles.headerRightButton}
 				/>
@@ -44,7 +45,7 @@ const RootMenu = ({ onClose, onOpenLanguagesMenu }: RootMenuProps) => {
 						color={textColor.dark}
 					/>
 
-					<Text style={styles.menuButtonLabel}>{t('language.sheetTitle')}</Text>
+					<Text style={styles.menuButtonLabel}>{t('menu.languages')}</Text>
 				</View>
 
 				<MaterialCommunityIcons
@@ -53,6 +54,11 @@ const RootMenu = ({ onClose, onOpenLanguagesMenu }: RootMenuProps) => {
 					color={textColor.dark}
 				/>
 			</TouchableOpacity>
+
+			<SignOutButton
+				disabled={isSigningOut}
+				onPress={onSignOut}
+			/>
 		</>
 	);
 };

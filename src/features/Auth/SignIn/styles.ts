@@ -1,14 +1,15 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-	gestureRoot: {
-		flex: 1,
-	},
-	loadingContainer: {
+	container: {
 		alignItems: 'center',
-		backgroundColor: 'white',
 		flex: 1,
 		justifyContent: 'center',
+	},
+	title: {
+		fontSize: 24,
+		fontWeight: 'bold',
+		textAlign: 'center',
 	},
 });
 

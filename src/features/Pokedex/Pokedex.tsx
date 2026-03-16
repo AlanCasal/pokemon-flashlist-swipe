@@ -15,8 +15,8 @@ import PokedexHeader from './components/PokedexHeader';
 import PokedexListEmpty from './components/PokedexListEmpty';
 import SortBottomSheet from './components/SortBottomSheet';
 import { usePokedexScreenController } from './hooks/usePokedexScreenController';
-import { useStyles } from './useStyles';
 import { type PokedexListEmptyProps } from './types';
+import { useStyles } from './useStyles';
 
 // Render farther ahead to reduce blank space during high-velocity flings.
 const POKEDEX_FLASHLIST_DRAW_DISTANCE = 1200; // px

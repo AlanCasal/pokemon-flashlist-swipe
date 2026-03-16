@@ -1,3 +1,4 @@
+import { useClerk } from '@clerk/clerk-expo';
 import BottomSheetGradientHandle from '@components/common/BottomSheetGradientHandle';
 import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
@@ -9,6 +10,7 @@ import {
 	BottomSheetModal,
 	BottomSheetView,
 } from '@gorhom/bottom-sheet';
+import { useRouter } from 'expo-router';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity, View } from 'react-native';
@@ -28,7 +30,10 @@ type MenuView = 'root' | 'languages';
 const Menu = () => {
 	const styles = useStyles();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
+	const { signOut } = useClerk();
+	const router = useRouter();
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
+	const [isSigningOut, setIsSigningOut] = useState(false);
 	const [activeView, setActiveView] = useState<MenuView>('root');
 	const snapPoints = useMemo(() => [SHEET_SNAP_POINT], []);
 	const { t } = useTranslation();
@@ -77,6 +82,23 @@ const Menu = () => {
 		[setLanguagePreference],
 	);
 
+	const handleSignOut = useCallback(async () => {
+		if (isSigningOut) return;
+
+		setIsSigningOut(true);
+		bottomSheetRef.current?.dismiss();
+
+		try {
+			await signOut();
+			router.replace('/');
+		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error('Sign out error:', error);
+		} finally {
+			setIsSigningOut(false);
+		}
+	}, [isSigningOut, router, signOut]);
+
 	const isLanguagesView = activeView === 'languages';
 
 	return (
@@ -88,7 +110,7 @@ const Menu = () => {
 				<TouchableOpacity
 					testID='language-switcher-fab'
 					accessibilityRole='button'
-					accessibilityLabel={t('language.fabA11y')}
+					accessibilityLabel={t('menu.fabA11y')}
 					activeOpacity={sharedStyles.opacity.active}
 					onPress={toggleSheet}
 					style={styles.fabButton}
@@ -124,8 +146,10 @@ const Menu = () => {
 						/>
 					) : (
 						<RootMenu
+							isSigningOut={isSigningOut}
 							onClose={handleDismissSheet}
 							onOpenLanguagesMenu={handleOpenLanguagesMenu}
+							onSignOut={handleSignOut}
 						/>
 					)}
 				</BottomSheetView>

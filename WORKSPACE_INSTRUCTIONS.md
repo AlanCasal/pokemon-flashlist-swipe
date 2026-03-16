@@ -30,6 +30,7 @@
 ## Routing, Testing & Tooling
 
 - Follow `expo-router` conventions (including grouped routes like `(tabs)`).
+- For custom sign-out flows in Expo/native UI, prefer `useClerk().signOut()` and then navigate with `expo-router` explicitly; do not reuse the Clerk form button component as a shared sign-out helper for menu flows.
 - Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
 - Install and upgrade Expo-owned packages with `expo install` so all Expo modules stay on the same SDK line; avoid mixing Expo package majors manually in `package.json`.
 - Testing core principles:
