@@ -3,7 +3,7 @@ import CustomButton from '@components/common/CustomButton';
 import { textColor, typeColors } from '@constants/colors';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import ErrorText from '../components/ErrorText';
 import InitialAuthShell from '../components/InitialAuthShell';
@@ -59,15 +59,18 @@ function InitialSignUpForm({ onContinue, scheme = 'catalyst://', signInUrl = '/(
 			title={t('auth.signUpTitle')}
 			subtitle={t('auth.signUpSubtitle')}
 			footer={
-				<TouchableOpacity
-					onPress={() => router.replace(signInUrl)}
-					style={styles.switchModeButton}
-				>
+				<View style={styles.switchModeButton}>
 					<Text style={styles.switchModeText}>
 						{t('auth.signUpSwitchPrefix')}
-						<Text style={styles.switchModeActionText}>{t('auth.signUpSwitchAction')}</Text>
+						<Text
+							accessibilityRole='button'
+							onPress={() => router.replace(signInUrl)}
+							style={styles.switchModeActionText}
+						>
+							{t('auth.signUpSwitchAction')}
+						</Text>
 					</Text>
-				</TouchableOpacity>
+				</View>
 			}
 		>
 			<OAuthButtonRow

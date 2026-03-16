@@ -5,7 +5,10 @@ import { usePokemonCatalog } from '@hooks/usePokemonCatalog';
 import { usePokemonGeneration } from '@hooks/usePokemonGeneration';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { useSearchPokemon } from '@hooks/useSearchPokemon';
-import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type {
+	BottomTabNavigationOptions,
+	BottomTabNavigationProp,
+} from '@react-navigation/bottom-tabs';
 import type { ParamListBase } from '@react-navigation/native';
 import { FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
@@ -46,6 +49,10 @@ import { usePokedexAppliedFilters } from './usePokedexAppliedFilters';
 import { usePokedexBottomSheetState } from './usePokedexBottomSheetState';
 import { usePokedexFilterState } from './usePokedexFilterState';
 import { usePokedexSearchState } from './usePokedexSearchState';
+
+type BottomTabVisibilityOptions = Partial<BottomTabNavigationOptions> & {
+	tabBarVisibility?: TabBarVisibility;
+};
 
 export const usePokedexScreenController = ({
 	mode = 'all',
@@ -334,7 +341,9 @@ export const usePokedexScreenController = ({
 			if (tabBarVisibilityRef.current === nextVisibility) return;
 
 			tabBarVisibilityRef.current = nextVisibility;
-			navigation.setOptions({ tabBarVisibility: nextVisibility });
+			navigation.setOptions({
+				tabBarVisibility: nextVisibility,
+			} as BottomTabVisibilityOptions);
 		},
 		[navigation],
 	);
@@ -415,7 +424,9 @@ export const usePokedexScreenController = ({
 	useEffect(
 		() => () => {
 			tabBarVisibilityRef.current = 'visible';
-			navigation.setOptions({ tabBarVisibility: 'visible' });
+			navigation.setOptions({
+				tabBarVisibility: 'visible',
+			} as BottomTabVisibilityOptions);
 		},
 		[navigation],
 	);

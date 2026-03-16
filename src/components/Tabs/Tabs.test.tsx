@@ -17,7 +17,8 @@ jest.mock('./CustomTab', () => ({
 }));
 jest.mock('./useStyles', () => ({
 	useStyles: () => ({
-		container: { paddingBottom: 10 },
+		container: { bottom: 0, left: 0, right: 0 },
+		tabsRow: { paddingBottom: 10 },
 	}),
 }));
 
@@ -54,7 +55,7 @@ describe('Tabs', () => {
 
 		const tabBar = unsafeGetByProps({ testID: 'custom-tab-bar' });
 
-		expect(tabBar.props.pointerEvents).toBe('auto');
+		expect(tabBar.props.pointerEvents).toBe('box-none');
 		expect(tabBar.props.animate).toEqual({
 			opacity: 1,
 			translateY: 0,

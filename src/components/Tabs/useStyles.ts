@@ -6,15 +6,17 @@ export const useStyles = () => {
 
 	return StyleSheet.create({
 		container: {
-			alignItems: 'center',
 			bottom: 0,
+			left: 0,
+			position: 'absolute',
+			right: 0,
+		},
+		tabsRow: {
+			alignItems: 'center',
 			columnGap: 4,
 			flexDirection: 'row',
 			justifyContent: 'center',
-			left: 0,
 			paddingBottom: bottom + 10,
-			position: 'absolute',
-			right: 0,
 		},
 	});
 };

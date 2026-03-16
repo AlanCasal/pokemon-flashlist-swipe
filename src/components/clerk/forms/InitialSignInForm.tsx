@@ -4,7 +4,7 @@ import CustomButton from '@components/common/CustomButton';
 import { textColor, typeColors } from '@constants/colors';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import ErrorText from '../components/ErrorText';
 import InitialAuthShell from '../components/InitialAuthShell';
@@ -127,15 +127,18 @@ export function InitialSignInForm({
 			title={t('auth.signInTitle')}
 			subtitle={t('auth.signInSubtitle')}
 			footer={
-				<TouchableOpacity
-					onPress={() => router.replace(signUpUrl)}
-					style={styles.switchModeButton}
-				>
+				<View style={styles.switchModeButton}>
 					<Text style={styles.switchModeText}>
 						{t('auth.signInSwitchPrefix')}
-						<Text style={styles.switchModeActionText}>{t('auth.signInSwitchAction')}</Text>
+						<Text
+							accessibilityRole='button'
+							onPress={() => router.replace(signUpUrl)}
+							style={styles.switchModeActionText}
+						>
+							{t('auth.signInSwitchAction')}
+						</Text>
 					</Text>
-				</TouchableOpacity>
+				</View>
 			}
 		>
 			<OAuthButtonRow
