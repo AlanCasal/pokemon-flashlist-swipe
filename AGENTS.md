@@ -6,10 +6,11 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 ## Session Bootstrap
 
 - Always reply in english, unless user explicitly asks for replies in some other language.
-- For every new chat session, before performing task work that involves editing or creating files in the repo, load and apply `WORKSPACE_INSTRUCTIONS.md`. If the file doesn't exist, alert the developer before continuing.
-- Treat `WORKSPACE_INSTRUCTIONS.md` as **non mandatory** (improvement suggestions are always welcome) current workspace preferences.
-- Update `WORKSPACE_INSTRUCTIONS.md` in the same PR when architecture, conventions, patterns change and alert the developer.
-- Apply this file's standards in every chat/task that changes.
+- For every new chat session, before performing task work that involves editing or creating files in the repo, load and apply `docs/WORKSPACE_INSTRUCTIONS.md`. If the file doesn't exist, alert the developer before continuing.
+- After reading `docs/WORKSPACE_INSTRUCTIONS.md`, load only the relevant topic files it points to under `docs/workspace-instructions/`; do not read every topic file by default.
+- Treat `docs/WORKSPACE_INSTRUCTIONS.md` and the topic files under `docs/workspace-instructions/` as **non mandatory** current workspace preferences (improvement suggestions are always welcome).
+- Update the affected file(s) in the same PR when architecture, conventions, or patterns change and alert the developer.
+- Apply the loaded workspace-instruction files in every chat/task that changes code.
 
 ## File Purpose
 
@@ -32,9 +33,9 @@ applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts'
 
 ### 3. Self-Improvement Loop
 
-- After any correction from the user, record/add the lesson in `WORKSPACE_INSTRUCTIONS.md`.
+- After any correction from the user, record/add the lesson in the relevant file under `docs/workspace-instructions/`. Update `docs/WORKSPACE_INSTRUCTIONS.md` too if the loading workflow itself needs to change.
 - Convert corrections into explicit rules that prevent common mistakes and confusion points for agents as they work in this project.
-- If you ever encounter something in the project that surprises you, please alert the developer working with you and indicate that this is the case in the `WORKSPACE_INSTRUCTIONS.md` file to help prevent future agents from having the same issue.
+- If you ever encounter something in the project that surprises you, please alert the developer working with you and indicate that this is the case in the relevant file under `docs/workspace-instructions/`. Update `docs/WORKSPACE_INSTRUCTIONS.md` too if future agents need different loading guidance because of it.
 
 ### 4. Verification Before Done
 
