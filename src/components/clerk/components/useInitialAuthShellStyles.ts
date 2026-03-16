@@ -8,6 +8,14 @@ export const useStyles = () => {
 	const { bottom, top } = useSafeAreaInsets();
 
 	return StyleSheet.create({
+		bottomDots: {
+			bottom: bottom + 36,
+			left: -36,
+		},
+		topDots: {
+			right: -28,
+			top: top + 34,
+		},
 		content: {
 			alignSelf: 'center',
 			gap: 24,
@@ -49,9 +57,12 @@ export const useStyles = () => {
 		title: {
 			color: textColor.light,
 			fontFamily: primaryFont,
-			fontSize: 32,
-			lineHeight: 38,
+			fontSize: 28,
+			lineHeight: 34,
+			maxWidth: '100%',
+			paddingHorizontal: 16,
 			textAlign: 'center',
+			width: '100%',
 		},
 	});
 };

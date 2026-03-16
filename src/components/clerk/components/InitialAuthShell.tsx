@@ -1,3 +1,5 @@
+import Dots from '@components/common/Dots';
+import { textColor } from '@constants/colors';
 import { StatusBar } from 'expo-status-bar';
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native';
 
@@ -16,6 +18,18 @@ const InitialAuthShell = ({ children, footer, subtitle, title }: InitialAuthShel
 	return (
 		<View style={styles.root}>
 			<StatusBar style='light' />
+			<Dots
+				color={textColor.light}
+				opacity={0.16}
+				position={styles.topDots}
+				size={220}
+			/>
+			<Dots
+				color={textColor.light}
+				opacity={0.12}
+				position={styles.bottomDots}
+				size={200}
+			/>
 			<KeyboardAvoidingView
 				behavior={Platform.OS === 'ios' ? 'padding' : undefined}
 				style={styles.keyboardRoot}
@@ -29,8 +43,6 @@ const InitialAuthShell = ({ children, footer, subtitle, title }: InitialAuthShel
 					<View style={styles.content}>
 						<View style={styles.header}>
 							<Text
-								adjustsFontSizeToFit
-								minimumFontScale={0.72}
 								numberOfLines={1}
 								style={styles.title}
 							>

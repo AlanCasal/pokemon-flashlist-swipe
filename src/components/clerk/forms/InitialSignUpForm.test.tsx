@@ -25,6 +25,11 @@ jest.mock('@hooks/usePrimaryFontFamily', () => ({
 	usePrimaryFontFamily: () => 'FingerPaint_400Regular',
 }));
 
+jest.mock('@components/common/Dots', () => ({
+	__esModule: true,
+	default: () => null,
+}));
+
 jest.mock('../components/OAuthButtonRow', () => ({
 	__esModule: true,
 	default: ({ dividerTitle, variant }: { dividerTitle: string; variant: string }) => {
