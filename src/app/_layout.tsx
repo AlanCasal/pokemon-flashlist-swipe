@@ -38,17 +38,11 @@ const RootLayoutWithAuth = () => {
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Protected guard={isSignedIn}>
-				<Stack.Screen
-					name='details'
-					options={{ animation: 'fade' }}
-				/>
+				<Stack.Screen name='(protected)' />
 			</Stack.Protected>
 
 			<Stack.Protected guard={!isSignedIn}>
-				<Stack.Screen
-					name='home'
-					options={{ animation: 'fade' }}
-				/>
+				<Stack.Screen name='(public)' />
 			</Stack.Protected>
 		</Stack>
 	);
