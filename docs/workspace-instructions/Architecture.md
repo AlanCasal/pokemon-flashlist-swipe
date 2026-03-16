@@ -10,6 +10,7 @@
   - keep styles in the single root `styles.ts`; avoid nested `styles.ts` files inside child `components/` subfolders.
   - keep props/types in the single root `types.ts`; avoid nested `types.ts` files inside child `components/` subfolders.
 - Prefer reusing existing shared UI components from `src/components/common/` before introducing new local UI primitives with similar behavior or visuals.
+- When multiple features share the same large interaction shell (for example a hero area plus tabbed bottom sheet), extract that shell into a shared component instead of copying the structure into each feature.
 - When a feature component grows with non-trivial UI subparts, extract those subparts into a sibling `components/` folder instead of keeping them inline in the parent component file.
 - For tab-driven feature screens, colocate tab content components under a lowercase `tabs/` folder at the feature root (for example `src/features/Pokemon/tabs/`).
 - Feature folder contract (`src/features/<Feature>/`):

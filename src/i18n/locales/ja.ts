@@ -19,6 +19,31 @@ const ja = {
 		pokedexTitle: 'ポケデックス',
 		savedTitle: '保存済み',
 	},
+	profile: {
+		title: 'プロフィール',
+		fallbackName: 'トレーナー',
+		tabs: {
+			about: '基本情報',
+			collection: 'コレクション',
+			badges: 'バッジ',
+		},
+		wipMessage: '開発中',
+		about: {
+			loadingMessage: 'プロフィール詳細を読み込み中...',
+			sections: {
+				profile: 'プロフィール',
+				account: 'アカウント',
+			},
+			labels: {
+				savedPokemon: '保存済みポケモン',
+				username: 'ユーザー名',
+				email: 'メールアドレス',
+				memberSince: '登録日',
+				lastSignIn: '最終サインイン',
+				connectedAccounts: '連携アカウント',
+			},
+		},
+	},
 	home: {
 		fallbackErrorText: 'エラーが発生しました。',
 		heroSubtitle: 'この惑星に存在する\nあらゆるポケモンを検索しよう！',

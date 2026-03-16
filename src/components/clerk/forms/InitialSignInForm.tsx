@@ -4,7 +4,7 @@ import CustomButton from '@components/common/CustomButton';
 import { textColor, typeColors } from '@constants/colors';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import ErrorText from '../components/ErrorText';
 import InitialAuthShell from '../components/InitialAuthShell';
@@ -128,16 +128,16 @@ export function InitialSignInForm({
 			subtitle={t('auth.signInSubtitle')}
 			footer={
 				<View style={styles.switchModeButton}>
-					<Text style={styles.switchModeText}>
-						{t('auth.signInSwitchPrefix')}
-						<Text
+					<View style={styles.switchModeRow}>
+						<Text style={styles.switchModeText}>{t('auth.signInSwitchPrefix').trim()}</Text>
+						<Pressable
 							accessibilityRole='button'
 							onPress={() => router.replace(signUpUrl)}
-							style={styles.switchModeActionText}
+							style={({ pressed }) => [styles.switchModeActionButton, pressed && styles.pressedButton]}
 						>
-							{t('auth.signInSwitchAction')}
-						</Text>
-					</Text>
+							<Text style={styles.switchModeActionText}>{t('auth.signInSwitchAction')}</Text>
+						</Pressable>
+					</View>
 				</View>
 			}
 		>
@@ -187,9 +187,22 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		textAlign: 'center',
 	},
+	switchModeRow: {
+		alignItems: 'center',
+		columnGap: 4,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
+	},
+	switchModeActionButton: {
+		backgroundColor: 'transparent',
+	},
 	switchModeActionText: {
 		color: typeColors.electric,
 		fontSize: 16,
 		fontWeight: '700',
+	},
+	pressedButton: {
+		opacity: 0.7,
 	},
 });

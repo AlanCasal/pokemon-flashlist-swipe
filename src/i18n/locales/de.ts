@@ -19,6 +19,31 @@ const de = {
 		pokedexTitle: 'Pokédex',
 		savedTitle: 'Gespeichert',
 	},
+	profile: {
+		title: 'Profil',
+		fallbackName: 'Trainer',
+		tabs: {
+			about: 'Info',
+			collection: 'Sammlung',
+			badges: 'Abzeichen',
+		},
+		wipMessage: 'WIP',
+		about: {
+			loadingMessage: 'Profildetails werden geladen...',
+			sections: {
+				profile: 'Profil',
+				account: 'Konto',
+			},
+			labels: {
+				savedPokemon: 'Gespeicherte Pokémon',
+				username: 'Benutzername',
+				email: 'E-Mail',
+				memberSince: 'Mitglied seit',
+				lastSignIn: 'Letzte Anmeldung',
+				connectedAccounts: 'Verknüpfte Konten',
+			},
+		},
+	},
 	home: {
 		fallbackErrorText: 'Ein Fehler ist aufgetreten.',
 		heroSubtitle: 'Suche nach jedem Pokémon,\ndas auf diesem Planeten existiert!',

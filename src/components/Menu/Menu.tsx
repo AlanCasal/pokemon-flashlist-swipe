@@ -74,6 +74,11 @@ const Menu = ({ showSignOut = true }: MenuProps) => {
 		setActiveView('languages');
 	}, []);
 
+	const handleOpenProfile = useCallback(() => {
+		bottomSheetRef.current?.dismiss();
+		router.push('/profile');
+	}, [router]);
+
 	const handleDismissSheet = useCallback(() => {
 		bottomSheetRef.current?.dismiss();
 	}, []);
@@ -152,6 +157,7 @@ const Menu = ({ showSignOut = true }: MenuProps) => {
 						<RootMenu
 							isSigningOut={isSigningOut}
 							onClose={handleDismissSheet}
+							onOpenProfile={handleOpenProfile}
 							onOpenLanguagesMenu={handleOpenLanguagesMenu}
 							onSignOut={handleSignOut}
 							showSignOut={showSignOut}

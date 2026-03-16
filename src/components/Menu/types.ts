@@ -9,6 +9,7 @@ export interface LanguageMenuProps {
 export interface RootMenuProps {
 	isSigningOut: boolean;
 	onClose: () => void;
+	onOpenProfile: () => void;
 	onOpenLanguagesMenu: () => void;
 	onSignOut: () => void;
 	showSignOut?: boolean;

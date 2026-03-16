@@ -10,6 +10,10 @@ const ProtectedLayout = () => (
 			name='details'
 			options={{ animation: 'fade' }}
 		/>
+		<Stack.Screen
+			name='profile'
+			options={{ animation: 'fade' }}
+		/>
 	</Stack>
 );
 

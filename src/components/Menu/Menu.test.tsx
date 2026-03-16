@@ -4,6 +4,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import Menu from './Menu';
 
 const mockSignOut = jest.fn();
+const mockPush = jest.fn();
 const mockReplace = jest.fn();
 const mockUseLanguagePreference = jest.fn();
 const mockUseResolvedLanguage = jest.fn();
@@ -24,6 +25,7 @@ jest.mock('@clerk/clerk-expo', () => ({
 
 jest.mock('expo-router', () => ({
 	useRouter: () => ({
+		push: mockPush,
 		replace: mockReplace,
 	}),
 }));
@@ -86,8 +88,10 @@ describe('Menu', () => {
 		fireEvent.press(getByTestId('language-switcher-fab'));
 
 		expect(getByText('Menu')).toBeTruthy();
+		expect(getByTestId('language-switcher-menu-profile')).toBeTruthy();
 		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
 		expect(getByTestId('language-switcher-menu-sign-out')).toBeTruthy();
+		expect(getByText('Profile')).toBeTruthy();
 		expect(getByText('Languages')).toBeTruthy();
 		expect(getByText('Sign out')).toBeTruthy();
 		expect(queryByTestId('language-switcher-back-button')).toBeNull();
@@ -104,10 +108,22 @@ describe('Menu', () => {
 		fireEvent.press(getByTestId('language-switcher-fab'));
 
 		expect(getByText('Menu')).toBeTruthy();
+		expect(getByTestId('language-switcher-menu-profile')).toBeTruthy();
 		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
+		expect(getByText('Profile')).toBeTruthy();
 		expect(getByText('Languages')).toBeTruthy();
 		expect(queryByTestId('language-switcher-menu-sign-out')).toBeNull();
 		expect(queryByText('Sign out')).toBeNull();
+	});
+
+	it('opens the protected profile route from the root menu', () => {
+		const { getByTestId, queryByTestId } = render(<Menu />);
+
+		fireEvent.press(getByTestId('language-switcher-fab'));
+		fireEvent.press(getByTestId('language-switcher-menu-profile'));
+
+		expect(mockPush).toHaveBeenCalledWith('/profile');
+		expect(queryByTestId('language-switcher-menu-profile')).toBeNull();
 	});
 
 	it('navigates into and out of the languages submenu inside the sheet', () => {

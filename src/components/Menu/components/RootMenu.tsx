@@ -15,6 +15,7 @@ const MENU_ICON_SIZE = 24;
 const RootMenu = ({
 	isSigningOut,
 	onClose,
+	onOpenProfile,
 	onOpenLanguagesMenu,
 	onSignOut,
 	showSignOut = true,
@@ -36,6 +37,30 @@ const RootMenu = ({
 					containerStyle={styles.headerRightButton}
 				/>
 			</View>
+
+			<TouchableOpacity
+				testID='language-switcher-menu-profile'
+				accessibilityRole='button'
+				activeOpacity={sharedStyles.opacity.active}
+				onPress={onOpenProfile}
+				style={styles.menuButton}
+			>
+				<View style={styles.menuButtonContent}>
+					<MaterialCommunityIcons
+						name='account-circle-outline'
+						size={MENU_ICON_SIZE}
+						color={textColor.dark}
+					/>
+
+					<Text style={styles.menuButtonLabel}>{t('profile.title')}</Text>
+				</View>
+
+				<MaterialCommunityIcons
+					name='chevron-right'
+					size={MENU_ICON_SIZE}
+					color={textColor.dark}
+				/>
+			</TouchableOpacity>
 
 			<TouchableOpacity
 				testID='language-switcher-menu-languages'
