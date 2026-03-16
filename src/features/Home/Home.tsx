@@ -54,7 +54,10 @@ const Home = () => {
 		return (
 			<View style={styles.root}>
 				<StatusBar style='light' />
-				<Menu showSignOut={shouldShowSignOut} />
+				<Menu
+					showProfile={shouldShowSignOut}
+					showSignOut={shouldShowSignOut}
+				/>
 				<View style={styles.loadingContainer}>
 					<ActivityIndicator size='large' />
 				</View>
@@ -66,7 +69,10 @@ const Home = () => {
 		return (
 			<View style={styles.root}>
 				<StatusBar style='light' />
-				<Menu showSignOut={shouldShowSignOut} />
+				<Menu
+					showProfile={shouldShowSignOut}
+					showSignOut={shouldShowSignOut}
+				/>
 				<View style={styles.loadingContainer}>
 					<Text>{t('home.fallbackErrorText')}</Text>
 				</View>
@@ -77,7 +83,10 @@ const Home = () => {
 	return (
 		<View style={styles.root}>
 			<StatusBar style='light' />
-			<Menu showSignOut={shouldShowSignOut} />
+			<Menu
+				showProfile={shouldShowSignOut}
+				showSignOut={shouldShowSignOut}
+			/>
 
 			<View style={styles.root}>
 				<Animated.View

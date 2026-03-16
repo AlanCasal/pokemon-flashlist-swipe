@@ -17,6 +17,7 @@ const RootMenu = ({
 	onClose,
 	onOpenProfile,
 	onOpenLanguagesMenu,
+	showProfile = true,
 	onSignOut,
 	showSignOut = true,
 }: RootMenuProps) => {
@@ -38,29 +39,31 @@ const RootMenu = ({
 				/>
 			</View>
 
-			<TouchableOpacity
-				testID='language-switcher-menu-profile'
-				accessibilityRole='button'
-				activeOpacity={sharedStyles.opacity.active}
-				onPress={onOpenProfile}
-				style={styles.menuButton}
-			>
-				<View style={styles.menuButtonContent}>
+			{showProfile ? (
+				<TouchableOpacity
+					testID='language-switcher-menu-profile'
+					accessibilityRole='button'
+					activeOpacity={sharedStyles.opacity.active}
+					onPress={onOpenProfile}
+					style={styles.menuButton}
+				>
+					<View style={styles.menuButtonContent}>
+						<MaterialCommunityIcons
+							name='account-circle-outline'
+							size={MENU_ICON_SIZE}
+							color={textColor.dark}
+						/>
+
+						<Text style={styles.menuButtonLabel}>{t('profile.title')}</Text>
+					</View>
+
 					<MaterialCommunityIcons
-						name='account-circle-outline'
+						name='chevron-right'
 						size={MENU_ICON_SIZE}
 						color={textColor.dark}
 					/>
-
-					<Text style={styles.menuButtonLabel}>{t('profile.title')}</Text>
-				</View>
-
-				<MaterialCommunityIcons
-					name='chevron-right'
-					size={MENU_ICON_SIZE}
-					color={textColor.dark}
-				/>
-			</TouchableOpacity>
+				</TouchableOpacity>
+			) : null}
 
 			<TouchableOpacity
 				testID='language-switcher-menu-languages'

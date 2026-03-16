@@ -116,6 +116,23 @@ describe('Menu', () => {
 		expect(queryByText('Sign out')).toBeNull();
 	});
 
+	it('hides profile when requested and keeps the rest of the menu available', () => {
+		const { getByTestId, getByText, queryByTestId, queryByText } = render(
+			<Menu
+				showProfile={false}
+				showSignOut={false}
+			/>,
+		);
+
+		fireEvent.press(getByTestId('language-switcher-fab'));
+
+		expect(getByText('Menu')).toBeTruthy();
+		expect(queryByTestId('language-switcher-menu-profile')).toBeNull();
+		expect(queryByText('Profile')).toBeNull();
+		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
+		expect(getByText('Languages')).toBeTruthy();
+	});
+
 	it('opens the protected profile route from the root menu', () => {
 		const { getByTestId, queryByTestId } = render(<Menu />);
 

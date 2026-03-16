@@ -11,6 +11,7 @@ export interface RootMenuProps {
 	onClose: () => void;
 	onOpenProfile: () => void;
 	onOpenLanguagesMenu: () => void;
+	showProfile?: boolean;
 	onSignOut: () => void;
 	showSignOut?: boolean;
 }
