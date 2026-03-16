@@ -10,6 +10,7 @@ import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
 import {
+	getActivePokedexTab,
 	getActiveSearchValues,
 	getAppliedFilterCount,
 	getDisplayedPokemonList,
@@ -25,6 +26,8 @@ import {
 	getIsSearchNotFoundError,
 	getNextMultiSelectOptions,
 	getNextSingleSelectOption,
+	getNextTabBarVisibility,
+	getPokedexTabNameFromMode,
 	getPokemonNumberFromUrl,
 	getSearchedPokemonList,
 	getShouldDarkenBackgroundForEmptySavedState,
@@ -88,7 +91,7 @@ jest.mock('./components/SortBottomSheet', () => ({
 jest.mock('./hooks/usePokedexScreenController', () => ({
 	usePokedexScreenController: jest.fn(),
 }));
-jest.mock('./styles', () => ({
+jest.mock('./useStyles', () => ({
 	useStyles: () => ({
 		blurOverlay: {},
 		container: {},
@@ -201,6 +204,22 @@ describe('Pokedex screen', () => {
 });
 
 describe('Pokedex search helpers', () => {
+	it('derives the active all-mode tab from route segments', () => {
+		expect(getActivePokedexTab(['(protected)', '(tabs)', 'pokedex'])).toBe('pokedex');
+	});
+
+	it('derives the active saved-mode tab from route segments', () => {
+		expect(getActivePokedexTab(['(protected)', '(tabs)', 'saved'])).toBe('saved');
+	});
+
+	it('maps saved mode to the saved tab name', () => {
+		expect(getPokedexTabNameFromMode('saved')).toBe('saved');
+	});
+
+	it('maps all mode to the pokedex tab name', () => {
+		expect(getPokedexTabNameFromMode('all')).toBe('pokedex');
+	});
+
 	it('maps searched pokemon into one card item', () => {
 		const searchedPokemon = { name: 'ditto' } as PokemonDetails;
 
@@ -883,5 +902,45 @@ describe('Pokedex controller helpers', () => {
 				savedPokemonCount: 0,
 			}),
 		).toBe(false);
+	});
+
+	it('keeps the tab bar visible when the list is at the top', () => {
+		expect(
+			getNextTabBarVisibility({
+				currentOffsetY: 0,
+				currentVisibility: 'hidden',
+				previousOffsetY: 32,
+			}),
+		).toBe('visible');
+	});
+
+	it('hides the tab bar after a meaningful downward scroll', () => {
+		expect(
+			getNextTabBarVisibility({
+				currentOffsetY: 48,
+				currentVisibility: 'visible',
+				previousOffsetY: 20,
+			}),
+		).toBe('hidden');
+	});
+
+	it('shows the tab bar after a meaningful upward scroll', () => {
+		expect(
+			getNextTabBarVisibility({
+				currentOffsetY: 22,
+				currentVisibility: 'hidden',
+				previousOffsetY: 40,
+			}),
+		).toBe('visible');
+	});
+
+	it('keeps the current tab bar visibility when the scroll delta is below the threshold', () => {
+		expect(
+			getNextTabBarVisibility({
+				currentOffsetY: 28,
+				currentVisibility: 'hidden',
+				previousOffsetY: 22,
+			}),
+		).toBe('hidden');
 	});
 });

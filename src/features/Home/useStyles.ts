@@ -104,6 +104,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 		},
 		startButtonWrapper: {
 			marginTop: 16,
+			width: 200,
 		},
 		subtitle: {
 			color: textColor.light,

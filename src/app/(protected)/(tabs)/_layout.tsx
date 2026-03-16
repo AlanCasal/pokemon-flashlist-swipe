@@ -38,7 +38,6 @@ const TabsLayout = () => {
 				/>
 				<Tabs.Screen
 					name='saved'
-					initialParams={{ mode: 'saved' }}
 					options={{
 						title: t('tabs.savedTitle'),
 						tabBarIcon: ({ color, size, focused }) => (

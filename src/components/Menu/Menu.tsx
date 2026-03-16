@@ -27,7 +27,11 @@ const SHEET_SNAP_POINT = '45%';
 
 type MenuView = 'root' | 'languages';
 
-const Menu = () => {
+interface MenuProps {
+	showSignOut?: boolean;
+}
+
+const Menu = ({ showSignOut = true }: MenuProps) => {
 	const styles = useStyles();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 	const { signOut } = useClerk();
@@ -150,6 +154,7 @@ const Menu = () => {
 							onClose={handleDismissSheet}
 							onOpenLanguagesMenu={handleOpenLanguagesMenu}
 							onSignOut={handleSignOut}
+							showSignOut={showSignOut}
 						/>
 					)}
 				</BottomSheetView>

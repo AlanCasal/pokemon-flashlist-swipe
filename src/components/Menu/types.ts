@@ -11,6 +11,7 @@ export interface RootMenuProps {
 	onClose: () => void;
 	onOpenLanguagesMenu: () => void;
 	onSignOut: () => void;
+	showSignOut?: boolean;
 }
 
 export interface SignOutButtonProps {

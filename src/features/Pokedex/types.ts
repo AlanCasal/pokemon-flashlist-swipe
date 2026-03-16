@@ -9,6 +9,7 @@ import type {
 	PokedexMode,
 	PokedexSortOption,
 	PokedexWeightOption,
+	TabBarVisibility,
 } from '@/src/types';
 import type { PokemonDetails } from '@/src/types/pokemon';
 import type { Pokemon } from '@/src/types/pokemonList';
@@ -72,6 +73,12 @@ export interface ShouldDarkenBackgroundForEmptySavedStateParams {
 	isSavedMode: boolean;
 	isSearchActive: boolean;
 	savedPokemonCount: number;
+}
+
+export interface GetNextTabBarVisibilityParams {
+	currentOffsetY: number;
+	currentVisibility: TabBarVisibility;
+	previousOffsetY: number;
 }
 
 export interface PokedexRenderItemParams {
@@ -199,6 +206,10 @@ export interface PokedexFilterSheetControllerProps {
 export interface PokedexScrollToTopProps {
 	onPress: () => void;
 	visible: boolean;
+}
+
+export interface PokedexProps {
+	mode?: PokedexMode;
 }
 
 export interface PokedexScreenController {

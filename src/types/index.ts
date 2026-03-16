@@ -1,4 +1,5 @@
 export type PokedexMode = 'all' | 'saved';
+export type TabBarVisibility = 'visible' | 'hidden';
 
 export type PokemonId = string;
 

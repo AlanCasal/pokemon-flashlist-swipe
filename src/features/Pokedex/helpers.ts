@@ -14,6 +14,7 @@ import {
 	GetActiveSearchValuesParams,
 	GetDisplayedPokemonListParams,
 	GetDoesPokemonMatchAppliedFiltersParams,
+	GetNextTabBarVisibilityParams,
 	PokedexFilterNumberRange,
 	PokedexFilterState,
 	PokemonTypeDamageRelationsByType,
@@ -23,13 +24,20 @@ import {
 	ShouldShowSearchNotFoundParams,
 } from '@/src/features/Pokedex/types';
 import i18n from '@/src/i18n';
-import { PokedexHeightOption, PokedexSortOption, PokedexWeightOption } from '@/src/types';
+import {
+	PokedexHeightOption,
+	type PokedexMode,
+	PokedexSortOption,
+	PokedexWeightOption,
+	type TabBarVisibility,
+} from '@/src/types';
 import { PokemonDetails } from '@/src/types/pokemon';
 import { Pokemon } from '@/src/types/pokemonList';
 
 const EMPTY_SAVED_TEXT_ICON_PLACEHOLDER = '[pokeballIcon]';
 const HTTP_BAD_REQUEST_STATUS = 400;
 const SCROLL_TO_TOP_THRESHOLD = 20;
+const TAB_BAR_VISIBILITY_SCROLL_THRESHOLD = 12;
 const SEARCH_NOT_FOUND_STATUSES = new Set([HTTP_BAD_REQUEST_STATUS, HTTP_NOT_FOUND_STATUS]);
 
 const getHttpStatusFromErrorMessage = (errorMessage?: string) => {
@@ -45,6 +53,25 @@ const getHttpStatusFromErrorMessage = (errorMessage?: string) => {
 export const shouldShowClearSearchButton = (searchValue: string) => searchValue.length > 0;
 
 export const shouldShowScrollToTop = (scrollY: number) => scrollY > SCROLL_TO_TOP_THRESHOLD;
+
+export const getNextTabBarVisibility = ({
+	currentOffsetY,
+	currentVisibility,
+	previousOffsetY,
+}: GetNextTabBarVisibilityParams): TabBarVisibility => {
+	if (currentOffsetY <= 0) return 'visible';
+
+	const scrollDelta = currentOffsetY - previousOffsetY;
+	if (scrollDelta >= TAB_BAR_VISIBILITY_SCROLL_THRESHOLD) return 'hidden';
+	if (scrollDelta <= -TAB_BAR_VISIBILITY_SCROLL_THRESHOLD) return 'visible';
+
+	return currentVisibility;
+};
+
+export const getActivePokedexTab = (segments: string[]) => segments[segments.length - 1] ?? null;
+
+export const getPokedexTabNameFromMode = (mode: PokedexMode) =>
+	mode === 'saved' ? 'saved' : 'pokedex';
 
 export const normalizeSavedPokemonName = (value: string) => {
 	const normalizedValue = value.trim().toLowerCase();

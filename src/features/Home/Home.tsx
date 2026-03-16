@@ -1,6 +1,8 @@
 import { Marquee } from '@animatereactnative/marquee';
 import Pokeball from '@assets/images/pokeball-full.svg';
 import { useAuth } from '@clerk/clerk-expo';
+import CustomButton from '@components/common/CustomButton';
+import Menu from '@components/Menu';
 import { pokeballColors, typeColors } from '@constants/colors';
 import usePokemonSprites from '@hooks/usePokemonSprites';
 import { useQueryClient } from '@tanstack/react-query';
@@ -11,8 +13,8 @@ import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
-import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
+import { ActivityIndicator, Alert, Dimensions, Text, View } from 'react-native';
+import Animated, { FadeIn } from 'react-native-reanimated';
 
 import { createSpriteTileStyles, useStyles } from './useStyles';
 
@@ -20,8 +22,6 @@ const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;
 const SPACING = 8;
 const ITEM_SIZE = Dimensions.get('window').width * 0.45;
-const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
-
 const Home = () => {
 	const { t } = useTranslation();
 	const { data, isLoading, hasError } = usePokemonSprites();
@@ -29,6 +29,7 @@ const Home = () => {
 	const router = useRouter();
 	const queryClient = useQueryClient();
 	const styles = useStyles({ itemSize: ITEM_SIZE });
+	const shouldShowSignOut = isSignedIn === true;
 	const formattedArray = useMemo(() => {
 		const chunkSize = Math.max(1, Math.ceil(data.length / 3));
 		return chunkArray(data, chunkSize);
@@ -51,16 +52,24 @@ const Home = () => {
 
 	if (isLoading || data.length === 0) {
 		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size='large' />
+			<View style={styles.root}>
+				<StatusBar style='light' />
+				<Menu showSignOut={shouldShowSignOut} />
+				<View style={styles.loadingContainer}>
+					<ActivityIndicator size='large' />
+				</View>
 			</View>
 		);
 	}
 
 	if (hasError) {
 		return (
-			<View>
-				<Text>{t('home.fallbackErrorText')}</Text>
+			<View style={styles.root}>
+				<StatusBar style='light' />
+				<Menu showSignOut={shouldShowSignOut} />
+				<View style={styles.loadingContainer}>
+					<Text>{t('home.fallbackErrorText')}</Text>
+				</View>
 			</View>
 		);
 	}
@@ -68,6 +77,7 @@ const Home = () => {
 	return (
 		<View style={styles.root}>
 			<StatusBar style='light' />
+			<Menu showSignOut={shouldShowSignOut} />
 
 			<View style={styles.root}>
 				<Animated.View
@@ -131,17 +141,14 @@ const Home = () => {
 				/>
 				<Text style={styles.subtitle}>{t('home.heroSubtitle')}</Text>
 
-				<AnimatedTouchableOpacity
-					onPress={handleStart}
-					disabled={!isLoaded}
-					entering={FadeInDown.springify().damping(30).delay(300)}
-					style={styles.startButtonWrapper}
-					activeOpacity={0.8}
-				>
-					<View style={styles.startButton}>
-						<Text style={styles.startButtonLabel}>{t('home.startButton')}</Text>
-					</View>
-				</AnimatedTouchableOpacity>
+				<Animated.View entering={FadeIn.springify().damping(30).delay(300)}>
+					<CustomButton
+						onPress={handleStart}
+						disabled={!isLoaded}
+						label={t('home.startButton')}
+						style={styles.startButtonWrapper}
+					/>
+				</Animated.View>
 			</View>
 		</View>
 	);

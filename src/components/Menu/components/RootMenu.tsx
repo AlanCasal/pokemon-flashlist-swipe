@@ -12,7 +12,13 @@ import SignOutButton from './SignOutButton';
 
 const MENU_ICON_SIZE = 24;
 
-const RootMenu = ({ isSigningOut, onClose, onOpenLanguagesMenu, onSignOut }: RootMenuProps) => {
+const RootMenu = ({
+	isSigningOut,
+	onClose,
+	onOpenLanguagesMenu,
+	onSignOut,
+	showSignOut = true,
+}: RootMenuProps) => {
 	const styles = useStyles();
 	const { t } = useTranslation();
 
@@ -55,10 +61,12 @@ const RootMenu = ({ isSigningOut, onClose, onOpenLanguagesMenu, onSignOut }: Roo
 				/>
 			</TouchableOpacity>
 
-			<SignOutButton
-				disabled={isSigningOut}
-				onPress={onSignOut}
-			/>
+			{showSignOut ? (
+				<SignOutButton
+					disabled={isSigningOut}
+					onPress={onSignOut}
+				/>
+			) : null}
 		</>
 	);
 };

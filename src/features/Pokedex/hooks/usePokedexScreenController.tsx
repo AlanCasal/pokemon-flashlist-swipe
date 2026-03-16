@@ -5,24 +5,29 @@ import { usePokemonCatalog } from '@hooks/usePokemonCatalog';
 import { usePokemonGeneration } from '@hooks/usePokemonGeneration';
 import { usePokemonList } from '@hooks/usePokemonList';
 import { useSearchPokemon } from '@hooks/useSearchPokemon';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { ParamListBase } from '@react-navigation/native';
 import { FlashListRef } from '@shopify/flash-list';
 import { useSavedPokemons } from '@store/savedStore';
 import { useShowToast } from '@store/toastStore';
-import { useLocalSearchParams, useSegments } from 'expo-router';
+import { useNavigation, useSegments } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { type PokedexMode } from '@/src/types';
+import { type PokedexMode, type TabBarVisibility } from '@/src/types';
 import type { Pokemon } from '@/src/types/pokemonList';
 
 import {
+	getActivePokedexTab,
 	getDisplayedPokemonList,
 	getEmptySavedToastConfig,
 	getFilteredPokemonListByNameSet,
 	getFilteredSavedPokemonList,
 	getIsSearchNotFoundError,
+	getNextTabBarVisibility,
+	getPokedexTabNameFromMode,
 	getSearchedPokemonList,
 	getShouldDarkenBackgroundForEmptySavedState,
 	getShouldFetchNextPage,
@@ -32,22 +37,28 @@ import {
 	normalizeSavedPokemonName,
 	shouldShowScrollToTop,
 } from '../helpers';
-import { type PokedexRenderItemParams, type PokedexScreenController } from '../types';
+import {
+	type PokedexProps,
+	type PokedexRenderItemParams,
+	type PokedexScreenController,
+} from '../types';
 import { usePokedexAppliedFilters } from './usePokedexAppliedFilters';
 import { usePokedexBottomSheetState } from './usePokedexBottomSheetState';
 import { usePokedexFilterState } from './usePokedexFilterState';
 import { usePokedexSearchState } from './usePokedexSearchState';
 
-export const usePokedexScreenController = (): PokedexScreenController => {
+export const usePokedexScreenController = ({
+	mode = 'all',
+}: PokedexProps = {}): PokedexScreenController => {
 	const { t } = useTranslation();
-	const { mode } = useLocalSearchParams<{ mode?: PokedexMode }>();
 	const { top, bottom } = useSafeAreaInsets();
+	const navigation = useNavigation<BottomTabNavigationProp<ParamListBase>>();
 
 	const segments = useSegments();
-	const activeTab = segments[segments.length - 1];
-	const isSavedMode = mode === 'saved';
-	const isCurrentScreen = activeTab === (isSavedMode ? 'saved' : 'pokedex');
-	const currentMode: PokedexMode = isSavedMode ? 'saved' : 'all';
+	const activeTab = getActivePokedexTab(segments);
+	const currentMode: PokedexMode = mode;
+	const isSavedMode = currentMode === 'saved';
+	const isCurrentScreen = activeTab === getPokedexTabNameFromMode(currentMode);
 
 	const savedPokemons = useSavedPokemons();
 	const showToast = useShowToast();
@@ -125,6 +136,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 
 	const listRef = useRef<FlashListRef<Pokemon>>(null);
 	const listScrollOffsetRef = useRef(0);
+	const tabBarVisibilityRef = useRef<TabBarVisibility>('visible');
 
 	const {
 		data: searchedPokemon,
@@ -317,10 +329,30 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		});
 	}, [showToast]);
 
-	const handleListScroll = useCallback((offsetY: number) => {
-		listScrollOffsetRef.current = offsetY;
-		setShowScrollToTopButton(shouldShowScrollToTop(offsetY));
-	}, []);
+	const updateTabBarVisibility = useCallback(
+		(nextVisibility: TabBarVisibility) => {
+			if (tabBarVisibilityRef.current === nextVisibility) return;
+
+			tabBarVisibilityRef.current = nextVisibility;
+			navigation.setOptions({ tabBarVisibility: nextVisibility });
+		},
+		[navigation],
+	);
+
+	const handleListScroll = useCallback(
+		(offsetY: number) => {
+			const nextTabBarVisibility = getNextTabBarVisibility({
+				currentOffsetY: offsetY,
+				currentVisibility: tabBarVisibilityRef.current,
+				previousOffsetY: listScrollOffsetRef.current,
+			});
+
+			listScrollOffsetRef.current = offsetY;
+			setShowScrollToTopButton(shouldShowScrollToTop(offsetY));
+			updateTabBarVisibility(nextTabBarVisibility);
+		},
+		[updateTabBarVisibility],
+	);
 
 	const handleFlashListScroll = useCallback(
 		({ nativeEvent }: { nativeEvent: { contentOffset: { y: number } } }) => {
@@ -358,6 +390,7 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		listScrollOffsetRef.current = 0;
 		const frameId = requestAnimationFrame(() => {
 			setShowScrollToTopButton(false);
+			updateTabBarVisibility('visible');
 		});
 
 		return () => {
@@ -369,7 +402,23 @@ export const usePokedexScreenController = (): PokedexScreenController => {
 		isSavedMode,
 		normalizedActiveSearchValue,
 		bottomSheetState.selectedGenerationOption,
+		updateTabBarVisibility,
 	]);
+
+	useEffect(() => {
+		if (isCurrentScreen) return;
+
+		listScrollOffsetRef.current = 0;
+		updateTabBarVisibility('visible');
+	}, [isCurrentScreen, updateTabBarVisibility]);
+
+	useEffect(
+		() => () => {
+			tabBarVisibilityRef.current = 'visible';
+			navigation.setOptions({ tabBarVisibility: 'visible' });
+		},
+		[navigation],
+	);
 
 	useEffect(() => {
 		if (!isCurrentScreen || isSavedMode) return;

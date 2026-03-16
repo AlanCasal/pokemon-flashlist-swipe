@@ -1,6 +1,7 @@
 import { useSignUp } from '@clerk/clerk-expo';
+import Menu from '@components/Menu';
 import { useState } from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import InitialSignUpForm from './forms/InitialSignUpForm';
 import VerifyEmailCodeSignUpForm from './forms/VerifyEmailCodeSignUpForm';
 
@@ -22,15 +23,20 @@ export function SignUp({ scheme = "catalystapp", signInUrl = "/(auth)", homeUrl 
 
   if (!isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
+      <>
+        <Menu showSignOut={false} />
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" />
+        </View>
+      </>
     )
   }
 
+  let content: React.ReactNode = null;
+
   switch(formState) {
     case FormState.SignIn:
-      return (
+      content = (
         <InitialSignUpForm 
           onContinue={(emailAddress: string) => {
             setEmailAddress(emailAddress);
@@ -40,8 +46,9 @@ export function SignUp({ scheme = "catalystapp", signInUrl = "/(auth)", homeUrl 
           signInUrl={signInUrl}
         />
       );
+      break;
     case FormState.VerifyEmailCode:
-      return (
+      content = (
         <VerifyEmailCodeSignUpForm 
           emailAddress={emailAddress}
           onEditEmailAddress={() => {
@@ -50,9 +57,17 @@ export function SignUp({ scheme = "catalystapp", signInUrl = "/(auth)", homeUrl 
           homeUrl={homeUrl}
         />
       );
+      break;
     default:
-      return null;
+      content = null;
   }
+
+  return (
+    <>
+      <Menu showSignOut={false} />
+      {content}
+    </>
+  );
 }
 
 export default SignUp;

@@ -96,6 +96,20 @@ describe('Menu', () => {
 		expect(queryByText('Back')).toBeNull();
 	});
 
+	it('hides sign out when requested but keeps language options available', () => {
+		const { getByTestId, getByText, queryByTestId, queryByText } = render(
+			<Menu showSignOut={false} />,
+		);
+
+		fireEvent.press(getByTestId('language-switcher-fab'));
+
+		expect(getByText('Menu')).toBeTruthy();
+		expect(getByTestId('language-switcher-menu-languages')).toBeTruthy();
+		expect(getByText('Languages')).toBeTruthy();
+		expect(queryByTestId('language-switcher-menu-sign-out')).toBeNull();
+		expect(queryByText('Sign out')).toBeNull();
+	});
+
 	it('navigates into and out of the languages submenu inside the sheet', () => {
 		const { getByTestId, queryByTestId } = render(<Menu />);
 

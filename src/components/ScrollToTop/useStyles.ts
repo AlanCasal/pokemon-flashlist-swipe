@@ -13,17 +13,19 @@ const {
 export const useStyles = ({ bottomInset }: UseStylesProps) => {
 	return StyleSheet.create({
 		button: {
+			bottom: bottomInset + 10,
+			position: 'absolute',
+			right: screenHorizontalPadding,
+			zIndex: 40,
+		},
+		touchable: {
 			alignItems: 'center',
 			backgroundColor: typeColors.fighting,
 			borderRadius: 28,
-			bottom: bottomInset + 10,
 			elevation: 40,
 			height: 56,
 			justifyContent: 'center',
-			position: 'absolute',
-			right: screenHorizontalPadding,
 			width: 56,
-			zIndex: 40,
 		},
 	});
 };

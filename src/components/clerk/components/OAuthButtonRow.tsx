@@ -8,9 +8,11 @@ import FormDivider from './FormDivider'
 interface Props {
     scheme?: string
     showDivider?: boolean
+    variant?: 'clerk' | 'app'
+    dividerTitle?: string
 }
 
-function OAuthButtonRow({ scheme, showDivider }: Props) {
+function OAuthButtonRow({ scheme, showDivider, variant = 'clerk', dividerTitle }: Props) {
   const clerk = useClerk()
 
   // @ts-ignore
@@ -26,11 +28,16 @@ function OAuthButtonRow({ scheme, showDivider }: Props) {
       <View style={styles.socialButtonsContainer}>
           {scheme && oauthStrategies.map((strategy: OAuthStrategy) => (
               <View key={strategy} style={styles.socialButtonWrapper}>
-                  <OAuthButton strategy={strategy} hideText={oauthStrategies.length > 3} scheme={scheme} />
+                  <OAuthButton
+                    strategy={strategy}
+                    hideText={oauthStrategies.length > 3}
+                    scheme={scheme}
+                    variant={variant}
+                  />
               </View>
           ))}
       </View>
-      {showDivider && <FormDivider />}
+      {showDivider && <FormDivider title={dividerTitle} variant={variant} />}
     </>
   )
 }

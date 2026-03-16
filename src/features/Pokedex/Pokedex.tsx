@@ -15,14 +15,14 @@ import PokedexHeader from './components/PokedexHeader';
 import PokedexListEmpty from './components/PokedexListEmpty';
 import SortBottomSheet from './components/SortBottomSheet';
 import { usePokedexScreenController } from './hooks/usePokedexScreenController';
-import { type PokedexListEmptyProps } from './types';
+import { type PokedexListEmptyProps, type PokedexProps } from './types';
 import { useStyles } from './useStyles';
 
 // Render farther ahead to reduce blank space during high-velocity flings.
 const POKEDEX_FLASHLIST_DRAW_DISTANCE = 1200; // px
 const GENERATION_SHEET_BLUR_INTENSITY = 18;
 
-const Pokedex = () => {
+const Pokedex = ({ mode = 'all' }: PokedexProps) => {
 	const {
 		backgroundSource,
 		bottomInset,
@@ -42,7 +42,7 @@ const Pokedex = () => {
 		shouldShowSearchNotFound,
 		sortSheetProps,
 		topInset,
-	} = usePokedexScreenController();
+	} = usePokedexScreenController({ mode });
 
 	const styles = useStyles({ shouldShowLoadingFeedback });
 

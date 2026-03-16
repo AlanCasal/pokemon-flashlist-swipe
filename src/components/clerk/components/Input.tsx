@@ -1,7 +1,4 @@
-// @ts-ignore - Ignoring missing type declarations for @expo/vector-icons
-import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
-import TextButton from './TextButton';
 
 interface AlternateAction {
   text: string;
@@ -12,16 +9,27 @@ interface Props extends TextInputProps {
   label?: string;
   error?: string;
   paramName?: string;
-  alternateAction?: AlternateAction
+  alternateAction?: AlternateAction;
+  variant?: 'clerk' | 'app';
 }
 
-export function Input({ label, error, paramName, alternateAction, ...props }: Props) {
+export function Input({ label, error, paramName, alternateAction, variant = 'clerk', ...props }: Props) {
   return (
     <View style={styles.container}>
       {(label || alternateAction) && (
         <View style={styles.labelContainer}>
-          {label && <Text style={styles.label}>{label}</Text>}
-          {alternateAction && <Text onPress={alternateAction.onPress} style={styles.alternateActionText}>{alternateAction.text}</Text>}
+          {label && <Text style={[styles.label, variant === 'app' ? styles.labelApp : null]}>{label}</Text>}
+          {alternateAction ? (
+            <Text
+              onPress={alternateAction.onPress}
+              style={[
+                styles.alternateActionText,
+                variant === 'app' ? styles.alternateActionTextApp : null,
+              ]}
+            >
+              {alternateAction.text}
+            </Text>
+          ) : null}
         </View>
       )}
       <TextInput 
@@ -47,6 +55,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
     color: '#333333',
+  },
+  labelApp: {
+    color: '#F5F5F5',
   },
   labelContainer: {
     flexDirection: 'row',
@@ -80,6 +91,9 @@ const styles = StyleSheet.create({
     color: '#5e41f7',
     fontWeight: '500',
     marginLeft: 4,
+  },
+  alternateActionTextApp: {
+    color: '#F5F5F5',
   },
 });
 

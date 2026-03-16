@@ -1,4 +1,5 @@
 import { useSignIn } from "@clerk/clerk-expo";
+import Menu from '@components/Menu';
 import { SignInFirstFactor } from "@clerk/types";
 import React, { useState } from "react";
 import InitialSignInForm from "./forms/InitialSignInForm";
@@ -45,9 +46,12 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
 
   if (!isLoaded) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
-      </View>
+      <>
+        <Menu showSignOut={false} />
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <ActivityIndicator size="large" />
+        </View>
+      </>
     )
   }
 
@@ -61,10 +65,12 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
     router.replace(homeUrl);
   }
 
+  let content: React.ReactNode = null;
+
   switch (formState) {
     case FormState.SignIn:
-      return (
-        <InitialSignInForm 
+      content = (
+        <InitialSignInForm
           onSetFirstFactor={(factor, identifier) => {
             setSelectedFirstFactor(factor);
             setFormState(FormState.VerifyFirstFactor);
@@ -78,10 +84,11 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
           }}
         />
       );
+      break;
     
     case FormState.VerifyFirstFactor:
       if(selectedFirstFactor?.strategy == "email_code" || selectedFirstFactor?.strategy == "reset_password_email_code") {
-        return (
+        content = (
           <VerifyEmailCodeForm 
             emailAddress={(selectedFirstFactor as any).safeIdentifier || ""}
             onSelectAlternateMethod={() => {
@@ -100,9 +107,10 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
             onSignInComplete={onSignInComplete}
           />
         )
+        break;
       } 
       if(selectedFirstFactor?.strategy == "password") {
-        return (
+        content = (
           <EnterPasswordForm 
             emailAddress={identifier}
             onSelectAlternateMethod={() => {
@@ -120,11 +128,13 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
             onSignInComplete={onSignInComplete}
           />
         )
+        break;
       } 
-      return null
+      content = null
+      break
     
     case FormState.ForgotPassword:
-      return (
+      content = (
         <ForgotPasswordForm scheme={scheme}
           selectedFactor={selectedFirstFactor}
           factors={supportedFirstFactors}
@@ -137,9 +147,10 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
             setSelectedFirstFactor(undefined);
           }} />
       )
+      break
 
     case FormState.NewPasswordNeeded:
-      return (
+      content = (
         <NewPasswordForm 
           onBackPressed={() => {
             setFormState(FormState.SignIn);
@@ -147,13 +158,15 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
           }}
           onSignInComplete={onSignInComplete} />
       )
+      break
     
     case FormState.AlternateFirstFactor:
       if (!supportedFirstFactors) {
-        return null;
+        content = null;
+        break;
       }
       
-      return (
+      content = (
         <AlternateFirstFactorsForm 
           factors={supportedFirstFactors}
           onSelectFactor={(factor) => {
@@ -166,10 +179,18 @@ export function SignIn({ scheme = "myapp://", signUpUrl = "/(auth)/sign-up", hom
           selectedFactor={selectedFirstFactor}
         />
       );
+      break;
     
     default:
-      return null;
+      content = null;
   }
+
+  return (
+    <>
+      <Menu showSignOut={false} />
+      {content}
+    </>
+  );
 }
 
 export default SignIn;

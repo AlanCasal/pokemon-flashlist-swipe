@@ -1,7 +1,9 @@
-import { useClerk, useOAuth } from "@clerk/clerk-expo";
+import { useClerk, useOAuth } from '@clerk/clerk-expo';
+import CustomButton from '@components/common/CustomButton';
+import { pokeballColors } from '@constants/colors';
 import type { EnvironmentResource, OAuthStrategy } from '@clerk/types';
-import React, { useMemo } from "react";
-import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useMemo } from 'react';
+import { Image, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Safely import expo modules
 let WebBrowser: any = { maybeCompleteAuthSession: () => {}, warmUpAsync: () => {}, coolDownAsync: () => {} };
@@ -33,13 +35,14 @@ try {
 }
 
 interface Props {
-  strategy: OAuthStrategy
-  children?: React.ReactNode
-  hideText?: boolean
-  scheme: string
+  strategy: OAuthStrategy;
+  children?: React.ReactNode;
+  hideText?: boolean;
+  scheme: string;
+  variant?: 'clerk' | 'app';
 }
 
-export function OAuthButton({ strategy, children, hideText, scheme }: Props) {
+export function OAuthButton({ strategy, children, hideText, scheme, variant = 'clerk' }: Props) {
   const clerk = useClerk();
   // @ts-ignore
   const environment = clerk.__unstable__environment as EnvironmentResource;
@@ -106,26 +109,47 @@ export function OAuthButton({ strategy, children, hideText, scheme }: Props) {
     return providerInfo.name;
   }
 
+  const providerLogo = providerInfo.logoUrl ? (
+    <Image
+      source={{ uri: providerInfo.logoUrl }}
+      style={styles.providerLogo}
+      resizeMode="contain"
+    />
+  ) : null;
+
+  if (children) {
+    return <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>;
+  }
+
+  if (variant === 'app') {
+    return (
+      <CustomButton
+        backgroundColor={pokeballColors.white}
+        label={hideText ? undefined : buttonText()}
+        leftAdornment={providerLogo}
+        onPress={onPress}
+        style={styles.appButton}
+        textColor={pokeballColors.black}
+      />
+    );
+  }
+
   return (
     <TouchableOpacity onPress={onPress}>
-      { children ? children :       
-        <View style={styles.socialButton}>
-          <View style={styles.socialButtonContent}>
-            {providerInfo.logoUrl && (
-              <Image 
-                source={{ uri: providerInfo.logoUrl }} 
-                style={styles.providerLogo} 
-                resizeMode="contain"
-              />
-            )}
-            {!hideText && <Text style={styles.buttonText}>{buttonText()}</Text>}
-          </View>
-        </View> }
+      <View style={styles.socialButton}>
+        <View style={styles.socialButtonContent}>
+          {providerLogo}
+          {!hideText && <Text style={styles.buttonText}>{buttonText()}</Text>}
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
+  appButton: {
+    width: '100%',
+  },
   socialButton: {
     backgroundColor: '#ffffff',
     borderRadius: 8,

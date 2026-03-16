@@ -2,14 +2,15 @@ import { StyleSheet, Text, View } from 'react-native'
 
 interface Props {
     title?: string
+    variant?: 'clerk' | 'app'
 }
 
-function FormDivider({ title = "or" }: Props) {
+function FormDivider({ title = "or", variant = 'clerk' }: Props) {
   return (
     <View style={styles.dividerContainer}>
-      <View style={styles.dividerLine} />
-      <Text style={styles.dividerText}>{title}</Text>
-      <View style={styles.dividerLine} />
+      <View style={[styles.dividerLine, variant === 'app' ? styles.dividerLineApp : null]} />
+      <Text style={[styles.dividerText, variant === 'app' ? styles.dividerTextApp : null]}>{title}</Text>
+      <View style={[styles.dividerLine, variant === 'app' ? styles.dividerLineApp : null]} />
     </View>
   )
 }
@@ -28,8 +29,14 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#E0E0E0",
   },
+  dividerLineApp: {
+    backgroundColor: 'rgba(255, 255, 255, 0.35)',
+  },
   dividerText: {
     textAlign: "center",
     color: "#757575",
+  },
+  dividerTextApp: {
+    color: '#F5F5F5',
   },
 });
