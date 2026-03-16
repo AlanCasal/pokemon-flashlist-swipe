@@ -1,5 +1,4 @@
-import charmanderAnimated from '@assets/animated/charmander-animated.gif';
-import { Image } from 'expo-image';
+import CharmanderLoading from '@components/common/CharmanderLoading';
 import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
@@ -39,15 +38,7 @@ const PokedexListEmpty = ({
 	}
 
 	if (shouldShowLoadingFeedback && !isSavedMode) {
-		return (
-			<View style={[styles.content, styles.loadingContent]}>
-				<Image
-					source={charmanderAnimated}
-					style={styles.loadingImage}
-					contentFit='contain'
-				/>
-			</View>
-		);
+		return <CharmanderLoading />;
 	}
 
 	if (shouldShowLoadingFeedback) return null;
