@@ -1,6 +1,6 @@
 # Pokédex App
 
-> A high-performance, mobile-first Pokedex built with Expo + React Native, designed to showcase polished UI/UX, thoughtful architecture, and multilingual support (`en`, `es`, `de`, `ja`).
+> A high-performance, mobile-first Pokédex built with Expo + React Native, designed to showcase polished UI/UX, thoughtful architecture, and multilingual support (`en`, `es`, `de`, `ja`).
 
 > [!WARNING]
 > This project is currently **WIP (Work in Progress)**. More features and refinements are actively being added.
@@ -69,8 +69,8 @@ Future dynamic coverage badge templates:
 ## Current Features
 
 - ✨ Animated home experience with marquee Pokémon sprites.
-- 📱 Tab-based navigation (Pokedex + Saved) powered by Expo Router.
-- 🔎 Search + filter + generation + sort workflows in the Pokedex screen.
+- 📱 Tab-based navigation (Pokédex + Saved) powered by Expo Router.
+- 🔎 Search + filter + generation + sort workflows in the Pokédex screen.
 - 📊 Pokémon detail screen with **About**, **Stats**, and **Evolution** tabs.
 - ⭐ Save/unsave Pokémon with local persistence.
 - 🌍 Internationalization with in-app language switching: English (`en`), Español (`es`), Deutsch (`de`), 日本語 (`ja`).

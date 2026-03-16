@@ -27,7 +27,7 @@ const createTabBarProps = (tabBarVisibility?: 'visible' | 'hidden'): BottomTabBa
 		descriptors: {
 			'pokedex-key': {
 				options: {
-					title: 'Pokedex',
+					title: 'Pokédex',
 					tabBarIcon: jest.fn(() => null),
 					...(tabBarVisibility ? { tabBarVisibility } : {}),
 				},
