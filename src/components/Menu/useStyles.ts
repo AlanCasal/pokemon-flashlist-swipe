@@ -57,7 +57,7 @@ export const useStyles = () => {
 		headerRightButton: {
 			alignItems: 'flex-end',
 			minWidth: 72,
-			paddingRight: 15,
+			paddingRight: 16,
 		},
 		headerRow: {
 			alignItems: 'center',

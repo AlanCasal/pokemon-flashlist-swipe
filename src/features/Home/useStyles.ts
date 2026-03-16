@@ -32,7 +32,7 @@ export const useStyles = ({ itemSize }: UseStylesProps) => {
 		footer: {
 			alignItems: 'center',
 			backgroundColor: 'transparent',
-			bottom: bottom + 20,
+			bottom: bottom + 15,
 			rowGap: 8,
 		},
 		loadingContainer: {
