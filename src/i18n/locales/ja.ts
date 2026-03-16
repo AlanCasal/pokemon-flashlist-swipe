@@ -5,7 +5,10 @@ const ja = {
 		errorFetchingPokemonMessage: '一部のポケモンデータを取得できませんでした。',
 	},
 	language: {
+		backButton: '戻る',
+		closeButton: '閉じる',
 		fabA11y: '言語メニューを開く',
+		menuTitle: 'メニュー',
 		sheetTitle: 'Languages',
 		system: 'システム',
 	},

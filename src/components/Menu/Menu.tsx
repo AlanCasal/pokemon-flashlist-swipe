@@ -11,27 +11,27 @@ import {
 } from '@gorhom/bottom-sheet';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
-import { getLanguageLabel, SUPPORTED_LANGUAGES } from '@/src/i18n/language';
-import {
-	useLanguagePreference,
-	useResolvedLanguage,
-	useSetLanguagePreference,
-} from '@/src/store/languageStore';
+import { type SupportedLanguage } from '@/src/i18n/language';
+import { useSetLanguagePreference } from '@/src/store/languageStore';
 
+import LanguageMenu from './components/LanguageMenu';
+import RootMenu from './components/RootMenu';
 import { useStyles } from './styles';
 
 const MENU_ICON_SIZE = 24;
+const SHEET_SNAP_POINT = '45%';
 
-const LanguageSwitcher = () => {
+type MenuView = 'root' | 'languages';
+
+const Menu = () => {
 	const styles = useStyles();
 	const bottomSheetRef = useRef<BottomSheetModal>(null);
 	const [isSheetOpen, setIsSheetOpen] = useState(false);
-	const snapPoints = useMemo(() => ['45%'], []);
+	const [activeView, setActiveView] = useState<MenuView>('root');
+	const snapPoints = useMemo(() => [SHEET_SNAP_POINT], []);
 	const { t } = useTranslation();
-	const languagePreference = useLanguagePreference();
-	const resolvedLanguage = useResolvedLanguage();
 	const setLanguagePreference = useSetLanguagePreference();
 
 	const renderBackdrop = useCallback(
@@ -57,15 +57,27 @@ const LanguageSwitcher = () => {
 		bottomSheetRef.current?.present();
 	}, [isSheetOpen]);
 
+	const handleGoBackToRootMenu = useCallback(() => {
+		setActiveView('root');
+	}, []);
+
+	const handleOpenLanguagesMenu = useCallback(() => {
+		setActiveView('languages');
+	}, []);
+
+	const handleDismissSheet = useCallback(() => {
+		bottomSheetRef.current?.dismiss();
+	}, []);
+
 	const handleLanguagePress = useCallback(
-		(nextLanguage: (typeof SUPPORTED_LANGUAGES)[number]) => {
+		(nextLanguage: SupportedLanguage) => {
 			setLanguagePreference(nextLanguage);
 			bottomSheetRef.current?.dismiss();
 		},
 		[setLanguagePreference],
 	);
 
-	const languageOptions = useMemo(() => [...SUPPORTED_LANGUAGES], []);
+	const isLanguagesView = activeView === 'languages';
 
 	return (
 		<>
@@ -98,45 +110,28 @@ const LanguageSwitcher = () => {
 				backgroundStyle={styles.background}
 				backdropComponent={renderBackdrop}
 				onChange={index => setIsSheetOpen(index >= 0)}
-				onDismiss={() => setIsSheetOpen(false)}
+				onDismiss={() => {
+					setIsSheetOpen(false);
+					setActiveView('root');
+				}}
 			>
 				<BottomSheetView style={styles.contentContainer}>
-					<Text style={styles.title}>{t('language.sheetTitle')}</Text>
-
-					<View style={styles.optionsContainer}>
-						{languageOptions.map(option => {
-							const isSelected =
-								languagePreference === option ||
-								(languagePreference === 'system' && resolvedLanguage === option);
-							const label = getLanguageLabel(option);
-
-							return (
-								<TouchableOpacity
-									key={option}
-									testID={`language-switcher-option-${option}`}
-									activeOpacity={sharedStyles.opacity.active}
-									onPress={() => handleLanguagePress(option)}
-									style={[
-										styles.optionButton,
-										isSelected ? styles.optionButtonSelected : styles.optionButtonUnselected,
-									]}
-								>
-									<Text
-										style={[
-											styles.optionLabel,
-											isSelected ? styles.optionLabelSelected : styles.optionLabelUnselected,
-										]}
-									>
-										{label}
-									</Text>
-								</TouchableOpacity>
-							);
-						})}
-					</View>
+					{isLanguagesView ? (
+						<LanguageMenu
+							onBack={handleGoBackToRootMenu}
+							onClose={handleDismissSheet}
+							onLanguagePress={handleLanguagePress}
+						/>
+					) : (
+						<RootMenu
+							onClose={handleDismissSheet}
+							onOpenLanguagesMenu={handleOpenLanguagesMenu}
+						/>
+					)}
 				</BottomSheetView>
 			</BottomSheetModal>
 		</>
 	);
 };
 
-export default LanguageSwitcher;
+export default Menu;

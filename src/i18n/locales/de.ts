@@ -5,7 +5,10 @@ const de = {
 		errorFetchingPokemonMessage: 'Einige Pokémon-Daten konnten nicht geladen werden.',
 	},
 	language: {
+		backButton: 'Zurück',
+		closeButton: 'Schließen',
 		fabA11y: 'Sprachmenü öffnen',
+		menuTitle: 'Menü',
 		sheetTitle: 'Languages',
 		system: 'System',
 	},

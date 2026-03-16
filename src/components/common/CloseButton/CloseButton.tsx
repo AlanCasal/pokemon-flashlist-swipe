@@ -2,51 +2,38 @@ import { textColor } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 
 import { useStyles } from './styles';
-import type { BackButtonProps } from './types';
+import type { CloseButtonProps } from './types';
 
 const {
 	opacity: { active: activeOpacity },
 } = sharedStyles;
 
-const DEFAULT_ICON_SIZE = 26;
+const DEFAULT_ICON_SIZE = 24;
 
-const BackButton = ({
+const CloseButton = ({
 	accessibilityLabel,
 	containerStyle,
-	iconColor = textColor.light,
+	iconColor = textColor.dark,
 	iconSize = DEFAULT_ICON_SIZE,
 	onPress,
 	testID,
-	variant = 'screen',
-}: BackButtonProps) => {
-	const router = useRouter();
+}: CloseButtonProps) => {
 	const styles = useStyles();
-
-	const onBackButtonPress = useCallback(() => {
-		if (onPress) {
-			onPress();
-			return;
-		}
-
-		router.back();
-	}, [onPress, router]);
 
 	return (
 		<TouchableOpacity
 			testID={testID}
 			accessibilityRole='button'
 			accessibilityLabel={accessibilityLabel}
-			onPress={onBackButtonPress}
-			style={variant === 'screen' ? [styles.backButton, containerStyle] : containerStyle}
+			onPress={onPress}
+			style={[styles.closeButton, containerStyle]}
 			activeOpacity={activeOpacity}
 		>
 			<MaterialCommunityIcons
-				name='arrow-left'
+				name='close'
 				size={iconSize}
 				color={iconColor}
 			/>
@@ -54,4 +41,4 @@ const BackButton = ({
 	);
 };
 
-export default BackButton;
+export default CloseButton;

@@ -5,7 +5,10 @@ const es = {
 		errorFetchingPokemonMessage: 'No se pudieron obtener algunos datos de Pokémon.',
 	},
 	language: {
+		backButton: 'Volver',
+		closeButton: 'Cerrar',
 		fabA11y: 'Abrir menú de idioma',
+		menuTitle: 'Menú',
 		sheetTitle: 'Languages',
 		system: 'Sistema',
 	},

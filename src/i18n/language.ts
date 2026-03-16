@@ -40,3 +40,14 @@ export const getLanguageLabel = (language: SupportedLanguage) => {
 
 	return labels[language];
 };
+
+export const getLanguageFlagEmoji = (language: SupportedLanguage) => {
+	const flags: Record<SupportedLanguage, string> = {
+		en: '🇬🇧',
+		es: '🇪🇸',
+		de: '🇩🇪',
+		ja: '🇯🇵',
+	};
+
+	return flags[language];
+};

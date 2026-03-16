@@ -5,7 +5,10 @@ const en = {
 		errorFetchingPokemonMessage: 'Failed to fetch some Pokemon data.',
 	},
 	language: {
+		backButton: 'Back',
+		closeButton: 'Close',
 		fabA11y: 'Open language menu',
+		menuTitle: 'Menu',
 		sheetTitle: 'Languages',
 		system: 'System',
 	},

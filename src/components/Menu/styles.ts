@@ -1,15 +1,20 @@
 import { customColor, textColor, typeBgColors, typeColors } from '@constants/colors';
 import { sharedStyles } from '@constants/sharedStyles';
+import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const {
 	overlay: { backdropFill },
 	spacing: { screenHorizontalPadding },
+	sheetButtons: {
+		option: { borderRadius, height, paddingHorizontal },
+	},
 } = sharedStyles;
 
 export const useStyles = () => {
 	const { bottom } = useSafeAreaInsets();
+	const primaryFont = usePrimaryFontFamily();
 
 	return StyleSheet.create({
 		backdropFill,
@@ -38,12 +43,49 @@ export const useStyles = () => {
 			position: 'absolute',
 			zIndex: 9999,
 		},
+		headerLeftButton: {
+			alignItems: 'flex-start',
+			minWidth: 72,
+			paddingVertical: 8,
+		},
+		headerRightButton: {
+			alignItems: 'flex-end',
+			minWidth: 72,
+			paddingRight: 15,
+		},
+		headerRow: {
+			alignItems: 'center',
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			minHeight: 40,
+		},
+		headerSpacer: {
+			minWidth: 72,
+		},
+		menuButton: {
+			alignItems: 'center',
+			backgroundColor: customColor.input,
+			borderRadius: borderRadius,
+			flexDirection: 'row',
+			height: height,
+			justifyContent: 'space-between',
+			paddingHorizontal: paddingHorizontal,
+		},
+		menuButtonContent: {
+			alignItems: 'center',
+			columnGap: 8,
+			flexDirection: 'row',
+		},
+		menuButtonLabel: {
+			color: textColor.dark,
+			fontSize: 16,
+		},
 		optionButton: {
 			alignItems: 'center',
-			borderRadius: 12,
-			height: 40,
+			borderRadius: borderRadius,
+			height: height,
 			justifyContent: 'center',
-			paddingHorizontal: 16,
+			paddingHorizontal: paddingHorizontal,
 		},
 		optionButtonSelected: {
 			backgroundColor: typeColors.dragon,
@@ -67,6 +109,8 @@ export const useStyles = () => {
 		},
 		title: {
 			color: textColor.dark,
+			flex: 1,
+			fontFamily: primaryFont,
 			fontSize: 28,
 			fontWeight: '700',
 			textAlign: 'center',

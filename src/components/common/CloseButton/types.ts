@@ -1,11 +1,10 @@
 import type { StyleProp, ViewStyle } from 'react-native';
 
-export interface BackButtonProps {
-	accessibilityLabel?: string;
+export interface CloseButtonProps {
+	accessibilityLabel: string;
 	containerStyle?: StyleProp<ViewStyle>;
 	iconColor?: string;
 	iconSize?: number;
-	onPress?: () => void;
+	onPress: () => void;
 	testID?: string;
-	variant?: 'screen' | 'inline';
 }

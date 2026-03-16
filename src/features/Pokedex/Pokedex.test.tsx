@@ -57,9 +57,9 @@ jest.mock('@shopify/flash-list', () => {
 jest.mock('expo-blur', () => ({
 	BlurView: 'BlurView',
 }));
-jest.mock('@/src/components/LanguageSwitcher', () => ({
+jest.mock('@/src/components/Menu', () => ({
 	__esModule: true,
-	default: 'LanguageSwitcher',
+	default: 'Menu',
 }));
 jest.mock('./components/FilterBottomSheet', () => ({
 	__esModule: true,
@@ -186,7 +186,7 @@ describe('Pokedex screen', () => {
 	it('shows the language switcher in all mode', () => {
 		const { UNSAFE_getByType: unsafeGetByType } = render(<Pokedex />);
 
-		expect(unsafeGetByType('LanguageSwitcher')).toBeTruthy();
+		expect(unsafeGetByType('Menu')).toBeTruthy();
 	});
 
 	it('hides the language switcher in saved mode', () => {
@@ -196,7 +196,7 @@ describe('Pokedex screen', () => {
 
 		const { UNSAFE_queryByType: unsafeQueryByType } = render(<Pokedex />);
 
-		expect(unsafeQueryByType('LanguageSwitcher')).toBeNull();
+		expect(unsafeQueryByType('Menu')).toBeNull();
 	});
 });
 
