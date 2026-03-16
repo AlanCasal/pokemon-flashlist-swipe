@@ -1,8 +1,8 @@
 const en = {
 	alerts: {
 		errorTitle: 'Error',
-		errorFetchingPokemonTitle: 'Error fetching Pokemon',
-		errorFetchingPokemonMessage: 'Failed to fetch some Pokemon data.',
+		errorFetchingPokemonTitle: 'Error fetching Pokémon',
+		errorFetchingPokemonMessage: 'Failed to fetch some Pokémon data.',
 	},
 	language: {
 		system: 'System',
@@ -16,8 +16,33 @@ const en = {
 		title: 'Menu',
 	},
 	tabs: {
-		pokedexTitle: 'Pokedex',
+		pokedexTitle: 'Pokédex',
 		savedTitle: 'Saved',
+	},
+	profile: {
+		title: 'Profile',
+		fallbackName: 'Trainer',
+		tabs: {
+			about: 'About',
+			collection: 'Collection',
+			badges: 'Badges',
+		},
+		wipMessage: 'WIP',
+		about: {
+			loadingMessage: 'Loading profile details...',
+			sections: {
+				profile: 'Profile',
+				account: 'Account',
+			},
+			labels: {
+				savedPokemon: 'Saved Pokémon',
+				username: 'Username',
+				email: 'Email',
+				memberSince: 'Member since',
+				lastSignIn: 'Last sign in',
+				connectedAccounts: 'Connected accounts',
+			},
+		},
 	},
 	home: {
 		fallbackErrorText: 'An error occurred.',
@@ -46,7 +71,7 @@ const en = {
 	},
 	pokedex: {
 		emptySavedText:
-			'No saved Pokemon yet\n\nTap the Pokeball icon [pokeballIcon]\non any card to save it',
+			'No saved Pokémon yet\n\nTap the Pokéball icon [pokeballIcon]\non any card to save it',
 		emptyFilteredText: 'No Pokémon found with those filters',
 		searchNotFoundText: "Who's that Pokémon?\nWe couldn't find it!",
 		searchPlaceholder: 'Search Pokémon',

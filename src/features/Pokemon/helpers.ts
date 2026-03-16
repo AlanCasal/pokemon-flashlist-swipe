@@ -38,7 +38,7 @@ export const formatPokemonNumber = (pokemonId: number | undefined) => {
 };
 
 export const formatPokemonName = (name: string | undefined) => {
-	if (!name) return 'Pokemon';
+	if (!name) return 'Pokémon';
 	return `${name.charAt(0).toUpperCase()}${name.slice(1)}`;
 };
 
