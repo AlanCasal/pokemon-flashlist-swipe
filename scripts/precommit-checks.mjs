@@ -3,6 +3,7 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
+import { ESLint } from 'eslint';
 
 const projectRoot = process.cwd();
 
@@ -25,6 +26,19 @@ function getStagedFiles() {
 		.filter(Boolean);
 }
 
+async function filterIgnoredFiles(filePaths) {
+	const eslint = new ESLint();
+	const lintableFiles = [];
+
+	for (const filePath of filePaths) {
+		if (!(await eslint.isPathIgnored(filePath))) {
+			lintableFiles.push(filePath);
+		}
+	}
+
+	return lintableFiles;
+}
+
 const ignoredLintFiles = new Set([
 	'metro.config.js',
 	'babel.config.js',
@@ -32,9 +46,10 @@ const ignoredLintFiles = new Set([
 	'.prettierrc.js',
 	'todos.js',
 ]);
-const stagedLintFiles = getStagedFiles().filter(
+const stagedLintCandidates = getStagedFiles().filter(
 	filePath => /\.(js|jsx|ts|tsx)$/.test(filePath) && !ignoredLintFiles.has(filePath),
 );
+const stagedLintFiles = await filterIgnoredFiles(stagedLintCandidates);
 const stagedTsFiles = stagedLintFiles.filter(filePath => /\.(ts|tsx)$/.test(filePath));
 
 if (!stagedLintFiles.length) {

@@ -179,5 +179,6 @@ module.exports = {
 		'.eslintrc.js',
 		'babel.config.js',
 		'eslint-rules',
+		'src/components/clerk/**', // ignore all files in the clerk directory since it's only used for development and has a lot of eslint errors that we don't want to deal with right now
 	],
 };

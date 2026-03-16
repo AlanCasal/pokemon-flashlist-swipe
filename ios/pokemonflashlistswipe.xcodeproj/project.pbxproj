@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		196797A5E9CC117135514733 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9813988BF81F52D03BF0BA /* ExpoModulesProvider.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		575CF412DE6E5783BE28AD18 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 817AE9CF06F079CB875F25A3 /* PrivacyInfo.xcprivacy */; };
+		69462FD864C148A03FAF0565 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A32550D5018F170B9A7440BD /* PrivacyInfo.xcprivacy */; };
+		AF4D0B65B6199507C5CFA9D5 /* libPods-pokemonflashlistswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D569E931D22E361D03650E /* libPods-pokemonflashlistswipe.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		BBED43959BEFC19685C6E61E /* libPods-pokemonflashlistswipe.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 971493D3BE281052A907EEA5 /* libPods-pokemonflashlistswipe.a */; };
+		E6DA795280DD9EAA1A8FEC0C /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A951C72DC680869C893C4749 /* ExpoModulesProvider.swift */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -20,13 +20,13 @@
 		13B07F961A680F5B00A75B9A /* pokemonflashlistswipe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pokemonflashlistswipe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = pokemonflashlistswipe/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = pokemonflashlistswipe/Info.plist; sourceTree = "<group>"; };
-		7A9813988BF81F52D03BF0BA /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-pokemonflashlistswipe/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		7B5A61F480FE4367E7DABE4A /* Pods-pokemonflashlistswipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pokemonflashlistswipe.release.xcconfig"; path = "Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe.release.xcconfig"; sourceTree = "<group>"; };
-		817AE9CF06F079CB875F25A3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = pokemonflashlistswipe/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		971493D3BE281052A907EEA5 /* libPods-pokemonflashlistswipe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pokemonflashlistswipe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C9968D6A4BCECA9BF439287 /* Pods-pokemonflashlistswipe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pokemonflashlistswipe.release.xcconfig"; path = "Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe.release.xcconfig"; sourceTree = "<group>"; };
+		3E14A84CC737D6EDD1735A42 /* Pods-pokemonflashlistswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pokemonflashlistswipe.debug.xcconfig"; path = "Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe.debug.xcconfig"; sourceTree = "<group>"; };
+		A32550D5018F170B9A7440BD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = pokemonflashlistswipe/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A951C72DC680869C893C4749 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-pokemonflashlistswipe/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = pokemonflashlistswipe/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E67DA081FF9F4ECC42DB199E /* Pods-pokemonflashlistswipe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-pokemonflashlistswipe.debug.xcconfig"; path = "Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe.debug.xcconfig"; sourceTree = "<group>"; };
+		C1D569E931D22E361D03650E /* libPods-pokemonflashlistswipe.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-pokemonflashlistswipe.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = pokemonflashlistswipe/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* pokemonflashlistswipe-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "pokemonflashlistswipe-Bridging-Header.h"; path = "pokemonflashlistswipe/pokemonflashlistswipe-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BBED43959BEFC19685C6E61E /* libPods-pokemonflashlistswipe.a in Frameworks */,
+				AF4D0B65B6199507C5CFA9D5 /* libPods-pokemonflashlistswipe.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				817AE9CF06F079CB875F25A3 /* PrivacyInfo.xcprivacy */,
+				A32550D5018F170B9A7440BD /* PrivacyInfo.xcprivacy */,
 			);
 			name = pokemonflashlistswipe;
 			sourceTree = "<group>";
@@ -62,9 +62,25 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				971493D3BE281052A907EEA5 /* libPods-pokemonflashlistswipe.a */,
+				C1D569E931D22E361D03650E /* libPods-pokemonflashlistswipe.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6471D1EC7D6EEF0F5FEEF90B /* ExpoModulesProviders */ = {
+			isa = PBXGroup;
+			children = (
+				78E203210711B88F998E6C7F /* pokemonflashlistswipe */,
+			);
+			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		78E203210711B88F998E6C7F /* pokemonflashlistswipe */ = {
+			isa = PBXGroup;
+			children = (
+				A951C72DC680869C893C4749 /* ExpoModulesProvider.swift */,
+			);
+			name = pokemonflashlistswipe;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -81,8 +97,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				C8C830371C48549906E4A947 /* Pods */,
-				A8D0D710E65858BBBC0053F5 /* ExpoModulesProviders */,
+				CE43ED23C6FCD30C0329C355 /* Pods */,
+				6471D1EC7D6EEF0F5FEEF90B /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -97,14 +113,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A8D0D710E65858BBBC0053F5 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				C3C727E0A577AEB419268D96 /* pokemonflashlistswipe */,
-			);
-			name = ExpoModulesProviders;
-			sourceTree = "<group>";
-		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,19 +122,11 @@
 			path = pokemonflashlistswipe/Supporting;
 			sourceTree = "<group>";
 		};
-		C3C727E0A577AEB419268D96 /* pokemonflashlistswipe */ = {
+		CE43ED23C6FCD30C0329C355 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7A9813988BF81F52D03BF0BA /* ExpoModulesProvider.swift */,
-			);
-			name = pokemonflashlistswipe;
-			sourceTree = "<group>";
-		};
-		C8C830371C48549906E4A947 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E67DA081FF9F4ECC42DB199E /* Pods-pokemonflashlistswipe.debug.xcconfig */,
-				7B5A61F480FE4367E7DABE4A /* Pods-pokemonflashlistswipe.release.xcconfig */,
+				3E14A84CC737D6EDD1735A42 /* Pods-pokemonflashlistswipe.debug.xcconfig */,
+				1C9968D6A4BCECA9BF439287 /* Pods-pokemonflashlistswipe.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -140,13 +140,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "pokemonflashlistswipe" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				F8A56233D6D6087CEC413C3D /* [Expo] Configure project */,
+				E3E9C35C56B56ED7766514D0 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				A6DBD3B8E613D6BC5D4CD7F4 /* [CP] Embed Pods Frameworks */,
+				04B66A05A311BE59507508ED /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +196,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				575CF412DE6E5783BE28AD18 /* PrivacyInfo.xcprivacy in Resources */,
+				69462FD864C148A03FAF0565 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +219,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [[ -f \"$PODS_ROOT/../.xcode.env\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env\"\nfi\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n# The project root by default is one level up from the ios directory\nexport PROJECT_ROOT=\"$PROJECT_DIR\"/..\n\nif [[ \"$CONFIGURATION\" = *Debug* ]]; then\n  export SKIP_BUNDLING=1\nfi\nif [[ -z \"$ENTRY_FILE\" ]]; then\n  # Set the entry JS file using the bundler's entry resolution.\n  export ENTRY_FILE=\"$(\"$NODE_BINARY\" -e \"require('expo/scripts/resolveAppEntry')\" \"$PROJECT_ROOT\" ios absolute | tail -n 1)\"\nfi\n\nif [[ -z \"$CLI_PATH\" ]]; then\n  # Use Expo CLI\n  export CLI_PATH=\"$(\"$NODE_BINARY\" --print \"require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })\")\"\nfi\nif [[ -z \"$BUNDLE_COMMAND\" ]]; then\n  # Default Expo CLI command for bundling\n  export BUNDLE_COMMAND=\"export:embed\"\nfi\n\n# Source .xcode.env.updates if it exists to allow\n# SKIP_BUNDLING to be unset if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.updates\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.updates\"\nfi\n# Source local changes to allow overrides\n# if needed\nif [[ -f \"$PODS_ROOT/../.xcode.env.local\" ]]; then\n  source \"$PODS_ROOT/../.xcode.env.local\"\nfi\n\n`\"$NODE_BINARY\" --print \"require('path').dirname(require.resolve('react-native/package.json')) + '/scripts/react-native-xcode.sh'\"`\n\n";
+		};
+		04B66A05A311BE59507508ED /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -249,6 +271,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/EXApplication/ExpoApplication_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
@@ -262,6 +285,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoApplication_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
@@ -278,29 +302,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		A6DBD3B8E613D6BC5D4CD7F4 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-pokemonflashlistswipe/Pods-pokemonflashlistswipe-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F8A56233D6D6087CEC413C3D /* [Expo] Configure project */ = {
+		E3E9C35C56B56ED7766514D0 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -332,7 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				196797A5E9CC117135514733 /* ExpoModulesProvider.swift in Sources */,
+				E6DA795280DD9EAA1A8FEC0C /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +343,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E67DA081FF9F4ECC42DB199E /* Pods-pokemonflashlistswipe.debug.xcconfig */;
+			baseConfigurationReference = 3E14A84CC737D6EDD1735A42 /* Pods-pokemonflashlistswipe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -366,7 +368,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alan.casal.dev.pokemonflashlistswipe;
-				PRODUCT_NAME = pokemonflashlistswipe;
+				PRODUCT_NAME = "pokemonflashlistswipe";
 				SWIFT_OBJC_BRIDGING_HEADER = "pokemonflashlistswipe/pokemonflashlistswipe-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -377,7 +379,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B5A61F480FE4367E7DABE4A /* Pods-pokemonflashlistswipe.release.xcconfig */;
+			baseConfigurationReference = 1C9968D6A4BCECA9BF439287 /* Pods-pokemonflashlistswipe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -397,7 +399,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.alan.casal.dev.pokemonflashlistswipe;
-				PRODUCT_NAME = pokemonflashlistswipe;
+				PRODUCT_NAME = "pokemonflashlistswipe";
 				SWIFT_OBJC_BRIDGING_HEADER = "pokemonflashlistswipe/pokemonflashlistswipe-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

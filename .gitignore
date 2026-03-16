@@ -39,3 +39,5 @@ yarn-error.*
 # misc
 TODOS.md
 pokemon-flashlist-swipe.code-workspace
+android/
+ios/
