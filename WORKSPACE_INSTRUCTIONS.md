@@ -31,6 +31,7 @@
 
 - Follow `expo-router` conventions (including grouped routes like `(tabs)`).
 - Add tests close to source files (`*.test.ts` / `*.test.tsx`) and test behavior over implementation.
+- Install and upgrade Expo-owned packages with `expo install` so all Expo modules stay on the same SDK line; avoid mixing Expo package majors manually in `package.json`.
 - Testing core principles:
   - Most important: keep tests behavior-first focused while mocking non-essential dependencies.
   - Mock all imported components in component tests to keep units isolated and outputs consistent.
