@@ -4,8 +4,8 @@ import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-import { useStyles } from './styles';
 import type { PokemonBodyProps } from './types';
+import { useStyles } from './useStyles';
 
 const {
 	opacity: { active: activeOpacity },

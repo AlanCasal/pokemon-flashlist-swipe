@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import { getEmptySavedTextParts } from '../../helpers';
-import { useStyles } from './styles';
 import { type PokedexEmptySavedStateProps } from './types';
+import { useStyles } from './useStyles';
 
 const PokedexEmptySavedState = ({
 	isPokeBallSaved,

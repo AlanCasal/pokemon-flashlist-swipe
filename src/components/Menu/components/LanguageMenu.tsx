@@ -7,7 +7,7 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { getLanguageFlagEmoji, getLanguageLabel, SUPPORTED_LANGUAGES } from '@/src/i18n/language';
 import { useLanguagePreference, useResolvedLanguage } from '@/src/store/languageStore';
 
-import { useStyles } from '../styles';
+import { useStyles } from '../useStyles';
 import type { LanguageMenuProps } from '../types';
 
 const LanguageMenu = ({ onBack, onClose, onLanguagePress }: LanguageMenuProps) => {

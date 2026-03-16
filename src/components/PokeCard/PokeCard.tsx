@@ -12,8 +12,8 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Text, TouchableOpacity, View } from 'react-native';
 
 import Info from './Info';
-import { useStyles } from './styles';
 import type { PokemonCardProps } from './types';
+import { useStyles } from './useStyles';
 
 const CARD_FADE_DURATION_MS = 300;
 

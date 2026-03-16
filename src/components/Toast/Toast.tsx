@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { Text } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 const POKEBALL_SIZE = 20;
 

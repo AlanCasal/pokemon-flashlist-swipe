@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { Text, View } from 'react-native';
 
 import GenerationOptionCard from './GenerationOptionCard';
-import { useStyles } from './styles';
 import { type GenerationBottomSheetProps } from './types';
+import { useStyles } from './useStyles';
 
 const GENERATION_SHEET_SNAP_POINT = '80%';
 

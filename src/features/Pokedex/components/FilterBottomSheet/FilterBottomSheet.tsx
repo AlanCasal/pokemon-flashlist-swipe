@@ -28,9 +28,9 @@ import { type PokedexHeightOption, type PokedexWeightOption } from '@/src/types'
 import { isAndroid } from '@/src/utils/helpers';
 
 import NumberRangeSlider from './components/NumberRangeSlider';
-import { useStyles } from './styles';
 import { type FilterBottomSheetProps } from './types';
 import { useFilterBottomSheetController } from './useFilterBottomSheetController';
+import { useStyles } from './useStyles';
 
 const GLYPH_SIZE = 25;
 

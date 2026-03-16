@@ -4,8 +4,8 @@ import { sharedStyles } from '@constants/sharedStyles';
 import { Image } from 'expo-image';
 import { View } from 'react-native';
 
-import { useStyles } from './styles';
 import type { PokemonAvatarProps } from './types';
+import { useStyles } from './useStyles';
 
 const DEFAULT_POKEBALL_SIZE = sharedStyles.dimensions.pokeCardHeight - 10;
 

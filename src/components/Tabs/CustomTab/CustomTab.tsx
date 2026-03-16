@@ -4,8 +4,8 @@ import { MotiView } from 'moti';
 import { TouchableOpacity } from 'react-native';
 import Animated, { FadeInRight, LinearTransition } from 'react-native-reanimated';
 
-import { useStyles } from './styles';
 import type { CustomTabProps } from './types';
+import { useStyles } from './useStyles';
 
 const CustomTab = ({
 	isFocused,

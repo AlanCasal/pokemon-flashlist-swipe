@@ -18,7 +18,7 @@ import { useSetLanguagePreference } from '@/src/store/languageStore';
 
 import LanguageMenu from './components/LanguageMenu';
 import RootMenu from './components/RootMenu';
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 const MENU_ICON_SIZE = 24;
 const SHEET_SNAP_POINT = '45%';

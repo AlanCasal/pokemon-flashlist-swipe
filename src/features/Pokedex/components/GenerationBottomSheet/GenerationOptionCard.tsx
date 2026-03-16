@@ -7,8 +7,8 @@ import { Image } from 'expo-image';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useStyles } from './styles';
 import { type GenerationOptionCardProps } from './types';
+import { useStyles } from './useStyles';
 
 const GENERATION_SHEET_POKEBALL_SIZE = 100;
 

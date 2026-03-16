@@ -3,8 +3,8 @@ import PokeBall from '@components/PokeBall';
 import type { PokemonType } from '@constants/index';
 import { Text, View } from 'react-native';
 
-import { useStyles } from './styles';
 import type { InfoProps } from './types';
+import { useStyles } from './useStyles';
 
 const Info = ({ name, types, id, handleToggleSaved, isSaved }: InfoProps) => {
 	const styles = useStyles();

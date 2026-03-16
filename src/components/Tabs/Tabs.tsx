@@ -3,7 +3,7 @@ import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { View } from 'react-native';
 
 import CustomTab from './CustomTab';
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 const CustomTabs = ({ state, descriptors, navigation }: BottomTabBarProps) => {
 	const styles = useStyles();

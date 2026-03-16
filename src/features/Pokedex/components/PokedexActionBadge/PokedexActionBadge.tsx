@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 type PokedexActionBadgeProps = {
 	containerTestID: string;

@@ -2,7 +2,7 @@ import { sharedStyles } from '@constants/sharedStyles';
 import { usePrimaryFontFamily } from '@hooks/usePrimaryFontFamily';
 import { StyleSheet } from 'react-native';
 
-import { createEmptyStateTextStyle } from '../PokedexEmptySavedState/styles';
+import { createEmptyStateTextStyle } from '../PokedexEmptySavedState/useStyles';
 
 const {
 	spacing: { screenHorizontalPadding },

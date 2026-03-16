@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Alert, Dimensions, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeIn, FadeInDown } from 'react-native-reanimated';
 
-import { createSpriteTileStyles, useStyles } from './styles';
+import { createSpriteTileStyles, useStyles } from './useStyles';
 
 const BG_COLOR = typeColors.dragon;
 const MARQUEE_SPEED = 0.5;

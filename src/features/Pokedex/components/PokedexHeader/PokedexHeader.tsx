@@ -13,7 +13,7 @@ import { shouldShowClearSearchButton } from '../../helpers';
 import { type HeaderAction, PokedexHeaderActionId, type PokedexHeaderProps } from '../../types';
 import PokedexActionBadge from '../PokedexActionBadge';
 import { getActionBadgeTestIds } from './helpers';
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 const HEADER_ICON_SIZE = 20;
 

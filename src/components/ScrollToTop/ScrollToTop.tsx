@@ -2,8 +2,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 
-import { useStyles } from './styles';
 import type { ScrollToTopProps } from './types';
+import { useStyles } from './useStyles';
 
 const ScrollToTop = ({ visible, onPress, bottomInset }: ScrollToTopProps) => {
 	const styles = useStyles({ bottomInset });

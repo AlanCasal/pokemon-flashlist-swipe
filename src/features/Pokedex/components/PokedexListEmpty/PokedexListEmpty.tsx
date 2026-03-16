@@ -4,7 +4,7 @@ import { Text, View } from 'react-native';
 
 import { type PokedexListEmptyProps } from '../../types';
 import PokedexEmptySavedState from '../PokedexEmptySavedState';
-import { useStyles } from './styles';
+import { useStyles } from './useStyles';
 
 const PokedexListEmpty = ({
 	shouldShowSearchNotFound,

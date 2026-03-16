@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useStyles } from '../styles';
+import { useStyles } from '../useStyles';
 import type { RootMenuProps } from '../types';
 
 const MENU_ICON_SIZE = 24;

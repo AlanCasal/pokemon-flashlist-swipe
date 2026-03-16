@@ -11,8 +11,8 @@ import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 
-import { useStyles } from './styles';
 import { type SortBottomSheetProps } from './types';
+import { useStyles } from './useStyles';
 
 const SORT_SHEET_SNAP_POINT = '58%';
 
