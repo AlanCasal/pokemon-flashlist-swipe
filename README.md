@@ -22,26 +22,28 @@
 
 ### Core Stack
 
-[![TypeScript](https://img.shields.io/badge/typescript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Expo](https://img.shields.io/badge/expo-54-000020?style=for-the-badge&logo=expo)](https://expo.dev/)
-[![React Native](https://img.shields.io/badge/react_native-0.81-20232A?style=for-the-badge&logo=react)](https://reactnative.dev/)
-[![React](https://img.shields.io/badge/react-19-149ECA?style=for-the-badge&logo=react)](https://react.dev/)
-[![Bun](https://img.shields.io/badge/bun-1.3-000000?style=for-the-badge&logo=bun)](https://bun.sh/)
+[![TypeScript](https://img.shields.io/badge/typescript-5.9.3-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Expo](https://img.shields.io/badge/expo-55.0.6-000020?style=for-the-badge&logo=expo)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/react_native-0.83.2-20232A?style=for-the-badge&logo=react)](https://reactnative.dev/)
+[![React](https://img.shields.io/badge/react-19.2.0-149ECA?style=for-the-badge&logo=react)](https://react.dev/)
+[![Bun](https://img.shields.io/badge/bun-1.3.4-000000?style=for-the-badge&logo=bun)](https://bun.sh/)
 
 ### Key Libraries
 
-[![Expo Router](https://img.shields.io/badge/expo_router-6.0-111111?style=for-the-badge)](https://docs.expo.dev/router/introduction/)
+[![Expo Router](https://img.shields.io/badge/expo_router-55.0.5-111111?style=for-the-badge)](https://docs.expo.dev/router/introduction/)
 [![FlashList](https://img.shields.io/badge/FlashList-2.0.2-00A86B?style=for-the-badge)](https://shopify.github.io/flash-list/)
-[![React Query](https://img.shields.io/badge/React_Query-v5-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)](https://tanstack.com/query/latest)
-[![Zustand](https://img.shields.io/badge/Zustand-5.0.8-4E342E?style=for-the-badge)](https://zustand.docs.pmnd.rs/)
-[![Reanimated](https://img.shields.io/badge/Reanimated-4.1.1-6C5CE7?style=for-the-badge)](https://docs.swmansion.com/react-native-reanimated/)
+[![React Query](https://img.shields.io/badge/React_Query-5.90.21-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)](https://tanstack.com/query/latest)
+[![Zustand](https://img.shields.io/badge/Zustand-5.0.12-4E342E?style=for-the-badge)](https://zustand.docs.pmnd.rs/)
+[![Clerk](https://img.shields.io/badge/Clerk-2.19.31-6C47FF?style=for-the-badge)](https://clerk.com/)
+[![Reanimated](https://img.shields.io/badge/Reanimated-4.2.1-6C5CE7?style=for-the-badge)](https://docs.swmansion.com/react-native-reanimated/)
 [![Bottom Sheet](https://img.shields.io/badge/Bottom_Sheet-5.2.8-0EA5E9?style=for-the-badge)](https://gorhom.dev/react-native-bottom-sheet/)
-[![MMKV](https://img.shields.io/badge/MMKV-4.1.2-16A34A?style=for-the-badge)](https://github.com/mrousavy/react-native-mmkv)
+[![MMKV](https://img.shields.io/badge/MMKV-4.2.0-16A34A?style=for-the-badge)](https://github.com/mrousavy/react-native-mmkv)
 
 ### AI Workflow
 
-[![Built with Codex App](https://img.shields.io/badge/Built%20with-Codex%20App-111111?style=for-the-badge)](https://openai.com/)
-[![AI Pairing: GPT-5.3-Codex](https://img.shields.io/badge/AI-GPT--5.3--Codex-0B5FFF?style=for-the-badge)](https://openai.com/)
+[![Built with Codex App](https://img.shields.io/badge/Built%20with-Codex%20App-111111?style=for-the-badge)](https://openai.com/codex/)
+[![AI Pairing: Codex 5.4](https://img.shields.io/badge/AI-Codex%205.4-111111?style=for-the-badge)](https://openai.com/codex/)
+[![Editor: VS Code](https://img.shields.io/badge/Editor-VS%20Code-007ACC?style=for-the-badge)](https://code.visualstudio.com/)
 
 ## Project Health
 
@@ -63,13 +65,15 @@ Future dynamic coverage badge templates:
 - ⚡ **Performance-first list rendering** with FlashList and smooth scrolling behavior.
 - 🎨 **Strong visual direction** inspired by a dedicated Figma UI guide.
 - 🧠 **Thoughtful state + data flow** using React Query, Zustand, and MMKV persistence.
+- 🔐 **Modern authentication flows** powered by Clerk with email and Google sign-in.
 - 🧩 **Scalable architecture** with feature-based structure, reusable components, and hooks.
-- 🤖 **AI-accelerated development** using Codex App + GPT-5.3-Codex as coding copilot.
+- 🤖 **AI-accelerated development** using Codex App + Codex 5.4 as coding copilot.
 
 ## Current Features
 
 - ✨ Animated home experience with marquee Pokémon sprites.
 - 📱 Tab-based navigation (Pokédex + Saved) powered by Expo Router.
+- 🔐 Clerk authentication with email flows and Google sign-in.
 - 🔎 Search + filter + generation + sort workflows in the Pokédex screen.
 - 📊 Pokémon detail screen with **About**, **Stats**, and **Evolution** tabs.
 - ⭐ Save/unsave Pokémon with local persistence.
@@ -90,16 +94,17 @@ Future dynamic coverage badge templates:
 
 - TypeScript
 - JavaScript
-- React 19
-- React Native 0.81
-- Expo 54
-- Bun
+- React 19.2.0
+- React Native 0.83.2
+- Expo 55.0.6
+- Bun 1.3.4
 
 ### Core Packages
 
 - `expo-router`
 - `@shopify/flash-list`
 - `@tanstack/react-query`
+- `@clerk/clerk-expo`
 - `zustand`
 - `react-native-reanimated`
 - `@gorhom/bottom-sheet`
@@ -116,10 +121,16 @@ Future dynamic coverage badge templates:
 - Translation resources are managed with `i18next` + `react-i18next`.
 - The language preference is persisted locally, with English (`en`) as fallback.
 
+### Authentication
+
+- Authentication is powered by Clerk.
+- Users can sign in with email-based flows or continue with Google OAuth.
+- Auth state is available across the app for protected and public route experiences.
+
 ### AI Tools Used
 
 - Codex App
-- GPT-5.3-Codex, GPT-4
+- Codex 5.4, GPT-4
 
 ## Quick Start
 
